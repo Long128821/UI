@@ -1,0 +1,24 @@
+{
+    "debugMode"     : true,
+    "frameRate"     : 60,
+    "id"            : "gameCanvas",
+    "renderMode"    : 1,
+    "jsList"        : [
+        "src/FrameWorks/Map.js",
+        "src/Game/data/GUI_Config.js",
+        "src/Game/data/GameConfig.js",
+        "src/Game/Mvc/engine/ModuleConfig.js",
+        "src/Base/BaseController.js",
+        "src/FrameWorks/Network/BinaryStream.js",
+        "src/FrameWorks/Network/Network.js",
+        "src/FrameWorks/NMBaseMessage.js",
+        "src/FrameWorks/Load.js",
+        "src/FrameWorks/CocoStudio.js",
+        "src/Game/Mvc/engine/MvcEngine.js",
+        "src/Game/Network/MessageTypeCommon.js",
+        "src/Globals.js",
+        "src/Common/Client2ServerCommon.js",
+        "src/Common/Server2ClientCommon.js",
+        "src/FrameWorks/utils/GamePub.js"
+    ]
+}
