@@ -1,91 +1,113 @@
-var g_LayerTag= {
-    Base_Layer:0,
-    Second_Layer:1,
-    Third_Layer:2,
-    Fourth_Layer:3,
-    Fifth_Layer:4,
-    Sixth_Layer:5,
-    Seventh_Layer:6,
-    Eighth_Layer:7,
-    Ninth_Layer:8
-};
+var ModuleTable = {};//UI界面列表
 
-//用户名
-var g_userLists= new Map();
-g_userLists.put("xxl", "123");
-g_userLists.put("小明", "世纪");
+ModuleTable["DeleteUser"] = {};
+ModuleTable["DeleteUser"]["jsLists"] = ["src/module/login/logic/DeleteUserLogic.js","src/module/login/controller/DeleteUserController.js"];
+ModuleTable["DeleteUser"]["Layer"] = g_LayerTag.Third_Layer;
+ModuleTable["DeleteUser"]["resLists"] = [
+    "res/bg_toumingditu1.png",
+    "res/btn_gerenziliao37.png",
+    "res/btn_orange.png",
+    "res/ui_quxiao.png",
+    "res/DeleteUser.json"];
 
-var g_ModuleTable= {};//UI界面列表
+ModuleTable["Hall"] = {};
+ModuleTable["Hall"]["jsLists"] = ["src/module/hall/logic/HallLogic.js","src/module/hall/controller/HallController.js"];
+ModuleTable["Hall"]["Layer"] = g_LayerTag.Base_Layer;
+ModuleTable["Hall"]["resLists"] = [
+    "res/ui_BG01.png",
+    "res/ui_nothing.png",
+    "res/btn_setting.png",
+    "res/pic_hongdian.png",
+    "res/btn_hall_youxiang_press.png",
+    "res/pic_hongdian.png",
+    "res/btn_rankinglist.png",
+    "res/pic_hongdian.png",
+    "res/btn_shop.png",
+    "res/pic_hongdian.png",
+    "res/btn_friend.png",
+    "res/pic_hongdian.png",
+    "res/D:cocosdiudiu1.6EditorDefaultResGUI/image.png",
+    "res/ui_icon_yuanbao.png",
+    "res/ui_icon_jinbi.png",
+    "res/ui_yueka0.png",
+    "res/ic_vip1.png",
+    "res/desk_playerhead_1.png",
+    "res/ui_touxiangkuang.png",
+    "res/ui_fujiatianxia_1.png",
+    "res/ui_chaozhiyueka.png",
+    "res/btn_hall_liaotian.png",
+    "res/pic_hongdian.png",
+    "res/ui_huoqujinbi.png",
+    "res/pic_hongdian.png",
+    "res/ui_libaodi.png",
+    "res/ui_huodong.png",
+    "res/btn_back.png",
+    "res/pic_gonggaolan.png",
+    "res/pic_pochan1.png",
+    "res/pic_hongdian.png",
+    "res/pic_jingdianchang.png",
+    "res/pic_qianwangchang.png",
+    "res/pic_xiaoyouxi.png",
+    "res/btn_lijiyouxi.png",
+    "res/ui_nothing.png",
+    "res/pic_chujichang.png",
+    "res/pic_zhongji500.png",
+    "res/pic_zhongjichang.png",
+    "res/pic_zhongji5000.png",
+    "res/pic_gaojichang.png",
+    "res/pic_gaoji100000.png",
+    "res/btn_guanbi.png",
+    "res/ui_nothing.png",
+    "res/pic_chujichang2.png",
+    "res/pic_gaoji100000.png",
+    "res/pic_gaojichang2.png",
+    "res/pic_qianwanggaoji200000.png",
+    "res/pic_chaojijichang2.png",
+    "res/pic_weikaiqi.png",
+    "res/btn_guanbi.png",
+    "res/Hall.json"];
 
-//登录页面
-g_ModuleTable[GUI_LOGIN]= {};
-g_ModuleTable[GUI_LOGIN]["jsLists"]= ["src/Game/login/Logic/LoginLogic.js","src/Game/login/Controller/LoginController.js"];//所需要的JS文件数组
-g_ModuleTable[GUI_LOGIN]["Layer"]= g_LayerTag.Base_Layer;//层级
-g_ModuleTable[GUI_LOGIN]["resLists"]= [
-    "res/Login.json"
-];//需要的资源
+ModuleTable["Loading"] = {};
+ModuleTable["Loading"]["jsLists"] = ["src/module/login/logic/LoadingLogic.js","src/module/login/controller/LoadingController.js"];
+ModuleTable["Loading"]["Layer"] = g_LayerTag.Base_Layer;
+ModuleTable["Loading"]["resLists"] = [
+    "res/bg1_hall.png",
+    "res/Loading.json"];
 
-//同意用户协议
-g_ModuleTable[GUI_USERAGREEMENT]= {};
-g_ModuleTable[GUI_USERAGREEMENT]["jsLists"]= ["src/Game/Login/Logic/UserAgreementLogic.js", "src/Game/Login/Controller/UserAgreementController.js"];//所需要的JS文件数组
-g_ModuleTable[GUI_USERAGREEMENT]["Layer"]= g_LayerTag.Second_Layer;//层级
-g_ModuleTable[GUI_USERAGREEMENT]["resLists"]= [//所需要的资源列表
-    "res/UserAgreement.json"
-];
+ModuleTable["Login"] = {};
+ModuleTable["Login"]["jsLists"] = ["src/module/login/logic/LoginLogic.js","src/module/login/controller/LoginController.js"];
+ModuleTable["Login"]["Layer"] = g_LayerTag.Base_Layer;
+ModuleTable["Login"]["resLists"] = [
+    "res/btn_denglu_weixinzhanghaodenglu_anniu.png",
+    "res/btn_denglu_yiyouzhanghaodenglu_anniu.png",
+    "res/btn_gerenziliao34.png",
+    "res/ui_login_agreement.png",
+    "res/bg_denglubeijing.png",
+    "res/input_login.png",
+    "res/btn_gerenziliao34.png",
+    "res/btn_gerenziliao34.png",
+    "res/ui_denglu_logo.png",
+    "res/ui_login_wangjimima.png",
+    "res/btn_zhankai.png",
+    "res/ui_mingchenhemimadi.png",
+    "res/ui_mingchenhemimadi.png",
+    "res/btn_denglu_yiyouzhanghaodenglu_anniu.png",
+    "res/btn_item_close.png",
+    "res/Login.json"];
 
-//账户下拉列表
-g_ModuleTable[GUI_MORE]= {};
-g_ModuleTable[GUI_MORE]["jsLists"]= ["src/Game/Login/Logic/MoreLogic.js", "src/Game/Login/Controller/MoreController.js"];//所需要的JS文件数组
-g_ModuleTable[GUI_MORE]["Layer"]= g_LayerTag.Second_Layer;//层级
-g_ModuleTable[GUI_MORE]["resLists"]= [//所需要的资源列表
-    "res/More.json"
-];
+ModuleTable["More"] = {};
+ModuleTable["More"]["jsLists"] = ["src/module/login/logic/MoreLogic.js","src/module/login/controller/MoreController.js"];
+ModuleTable["More"]["Layer"] = g_LayerTag.Third_Layer;
+ModuleTable["More"]["resLists"] = [
+    "res/bg_ui_xiugaizhanghaoxinxi_info.png",
+    "res/More.json"];
 
-//忘记密码
-g_ModuleTable[GUI_RESETPASSWORD]= {};
-g_ModuleTable[GUI_RESETPASSWORD]["jsLists"]= ["src/Game/Login/Logic/ResetPasswordLogic.js", "src/Game/Login/Controller/ResetPasswordController.js"];//所需要的JS文件数组
-g_ModuleTable[GUI_RESETPASSWORD]["Layer"]= g_LayerTag.Third_Layer;//层级
-g_ModuleTable[GUI_RESETPASSWORD]["resLists"]= [//所需要的资源列表
-    "res/ResetPassword.json"
-];
-
-//删除用户
-g_ModuleTable[GUI_DELETEUSER]= {};
-g_ModuleTable[GUI_DELETEUSER]["jsLists"]= ["src/Game/Login/Logic/DeleteUserLogic.js", "src/Game/Login/Controller/DeleteUserController.js"];//所需要的JS文件数组
-g_ModuleTable[GUI_DELETEUSER]["Layer"]= g_LayerTag.Fourth_Layer;//层级
-g_ModuleTable[GUI_DELETEUSER]["resLists"]= [//所需要的资源列表
-    "res/DeleteUser.json"
-];
-
-//加载页面
-g_ModuleTable[GUI_LOADING]= {};
-g_ModuleTable[GUI_LOADING]["jsLists"]= ["src/Game/Login/Logic/LoadingLogic.js", "src/Game/Login/Controller/LoadingController.js"];//所需要的JS文件数组
-g_ModuleTable[GUI_LOADING]["Layer"]= g_LayerTag.Base_Layer;//层级
-g_ModuleTable[GUI_LOADING]["resLists"]= [//所需要的资源列表
-    "res/Loading.json"
-];
-
-//大厅
-g_ModuleTable[GUI_HALL]= {};
-g_ModuleTable[GUI_HALL]["jsLists"]= ["src/Game/Hall/Logic/HallLogic.js", "src/Game/Hall/Controller/HallController.js"];//所需要的JS文件数组
-g_ModuleTable[GUI_HALL]["Layer"]= g_LayerTag.Base_Layer;//层级
-g_ModuleTable[GUI_HALL]["resLists"]= [//所需要的资源列表
-    "res/Animation/Animation_Hall_Quick.ExportJson",
-    "res/Animation/Animation_Hall_Quick0.plist",
-    "res/Animation/Animation_Hall_Quick0.png",
-    "res/Animation/Yaoqianshu_Action_Enter_Animation.ExportJson",
-    "res/Animation/Yaoqianshu_Action_Enter_Animation0.plist",
-    "res/Animation/Yaoqianshu_Action_Enter_Animation0.png",
-    "res/Animation/Animation_Newhall_ClassicRoom.ExportJson",
-    "res/Animation/Animation_Newhall_ClassicRoom0.plist",
-    "res/Animation/Animation_Newhall_ClassicRoom0.png",
-    "res/Animation/Animation_Newhall_CheatKingRoom.ExportJson",
-    "res/Animation/Animation_Newhall_CheatKingRoom0.plist",
-    "res/Animation/Animation_Newhall_CheatKingRoom0.png",
-    "res/Animation/Animation_Newhall_TounamentRoom.ExportJson",
-    "res/Animation/Animation_Newhall_TounamentRoom0.plist",
-    "res/Animation/Animation_Newhall_TounamentRoom0.png",
-    "res/Hall.json"
-];
-//不能根据res/+ Table名+ 资源名读取的原因是:有时候不同页面可能会使用相同的资源，浪费流量
-
+ModuleTable["ResetPassword"] = {};
+ModuleTable["ResetPassword"]["jsLists"] = ["src/module/login/logic/ResetPasswordLogic.js","src/module/login/controller/ResetPasswordController.js"];
+ModuleTable["ResetPassword"]["Layer"] = g_LayerTag.Second_Layer;
+ModuleTable["ResetPassword"]["resLists"] = [
+    "res/bg_tanchukuang_ui.png",
+    "res/btn_login_ui_nor.png",
+    "res/btn_login_ui_nor.png",
+    "res/btn_login_ui_input_press.png",
+    "res/ResetPassword.json"];

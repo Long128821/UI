@@ -10,7 +10,7 @@ var LoadingController = BaseController.extend({
 
     createView:function(){
         LoadingLogic.createView();
-//        framework.setOnKeypadEventListener(LoadingLogic.view, LoadingLogic.onKeypad);
+        //Frameworks.setOnKeypadEventListener(LoadingLogic.view, LoadingLogic.onKeypad);
     },
     
     requestMsg:function(){
@@ -42,31 +42,32 @@ var LoadingController = BaseController.extend({
 	},
     
     sleepModule:function(){
-		//framework.releaseOnKeypadEventListener(LoadingLogic.view);
+		//Frameworks.releaseOnKeypadEventListener(LoadingLogic.view);
 		LoadingLogic.view.setTouchEnabled(false);
-		//framework.emit(signal.common.Signal_SleepModule_Done);
+		Frameworks.emit(signal.common.Signal_SleepModule_Done);
     },
 
     wakeModule:function(){
-    	//framework.setOnKeypadEventListener(LoadingLogic.view, LoadingLogic.onKeypad);
+    	//Frameworks.setOnKeypadEventListener(LoadingLogic.view, LoadingLogic.onKeypad);
         LoadingLogic.view.setTouchEnabled(true);
+        this.addCallback();
     },
 
     destroyModule:function(){
-        //framework.releaseOnKeypadEventListener(LoadingLogic.view);
+        //Frameworks.releaseOnKeypadEventListener(LoadingLogic.view);
 		this.destroy();
 
-//		if(destroyType == DESTORY_TYPE_EFFECT){
-//			//不销毁数据
-//		}else if(destroyType == DESTORY_TYPE_CLEAN){
-//			//销毁数据
-//			framework.moduleCleanUp(LoadingLogic);
-//			LoadingLogic.releaseData();
-//		}
+		if(destroyType == DESTORY_TYPE_EFFECT){
+			//不销毁数据
+		}else if(destroyType == DESTORY_TYPE_CLEAN){
+			//销毁数据
+			Frameworks.moduleCleanUp(LoadingLogic);
+			LoadingLogic.releaseData();
+		}
 	
-		LoadingLogic.view.removeFromParentAndCleanup(true);
+		LoadingLogic.view.removeFromParent(true);
 		this.reset();
 	
-		//framework.emit(signal.common.Signal_DestroyModule_Done);
+		Frameworks.emit(signal.common.Signal_DestroyModule_Done);
     }
 });

@@ -24,7 +24,7 @@ var Network= {
     },
     //初始化网络配置
     initNetwork:function(){
-        console.log('Network initSocket...');
+        console.log('network initSocket...');
         //判断浏览器是否支持WebSocket
         if(window.WebSocket){
             this.initWebSocket();//初始化WebSocket
@@ -45,7 +45,7 @@ var Network= {
          */
         //连接成功之后，会自动打开onopen方法
         self.webSocket.onopen = function(evt){
-            console.log('Network onOpen...');
+            console.log('network onOpen...');
             self.unConnectTime= 0;//连接成功以后，上次断网时间置0
             self.isConnect = true;
         };
@@ -71,13 +71,13 @@ var Network= {
          */
 
         self.webSocket.onerror = function(evt){
-            console.log('Network onError...');
+            console.log('network onError...');
             self.clearData();//清空数据
         };
 
         //Socket关闭时，自动调用该函数
         self.webSocket.onclose = function(evt){
-            console.log('Network onClose...');
+            console.log('network onClose...');
             self.clearData();//清空数据
             //记录第一次断网的时间，从而计算已经断网的时间
             if(!self.unConnectTime){
@@ -152,7 +152,7 @@ var Network= {
      */
     send:function(data){
         if (!this.isConnect){
-            console.log('Network is not inited...');
+            console.log('network is not inited...');
         }else if(this.webSocket.readyState == WebSocket.OPEN){
             if(((Object.prototype.toString.call(data) == "[object ArrayBuffer]"))){
                 this.webSocket.send(data);
@@ -160,7 +160,7 @@ var Network= {
                 alert("Send失败:数据不是ArrayBuffer类型！");
             }
         }else{
-            console.log('Network WebSocket readState:'+this.webSocket.readyState);
+            console.log('network WebSocket readState:'+this.webSocket.readyState);
         }
     },
 
@@ -184,7 +184,7 @@ var Network= {
             if(self.webSocket.readyState== WebSocket.CLOSED){
                 self.webSocket = null;
                 self.isConnect= false;
-                console.log("Network close...");
+                console.log("network close...");
                 (self.closeTimer)&&(clearInterval(self.closeTimer));
                 self.closeTimer= null;
             }

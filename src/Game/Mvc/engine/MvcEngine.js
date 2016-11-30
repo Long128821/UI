@@ -51,7 +51,7 @@ var MvcEngine= {
             return;
         }
         //根据名字，在ModuleConfig.js配置文件中，查找配置信息
-        if(g_ModuleTable[this.m_needCreateModuleName]== undefined){
+        if(ModuleTable[this.m_needCreateModuleName]== undefined){
             console.error("要创建的新界面("+this.m_needCreateModuleName+")没有在ModuleConfig.js配置！");
             return;
         }
@@ -80,7 +80,7 @@ var MvcEngine= {
         var className= this.m_needCreateModuleName+"Logic";
         var classFunc= eval(className);//将字符串转换为类名
         //根据在ModuleConfig.js中的配置，设置类的层级
-        module.setModuleLayer(g_ModuleTable[this.m_needCreateModuleName]["Layer"]);
+        module.setModuleLayer(ModuleTable[this.m_needCreateModuleName]["Layer"]);
 
         this.m_rootNode.addChild(classFunc.view);//将新创建的Table,添加到根节点中，显示出来
 
@@ -178,7 +178,7 @@ var MvcEngine= {
             var classFunc= eval(className);//将字符串转换为类名
             var module= new classFunc();
             //根据在ModuleConfig.js中的配置，设置类的层级
-            module.setModuleLayer(g_ModuleTable[moduleName]["Layer"]);
+            module.setModuleLayer(ModuleTable[moduleName]["Layer"]);
 
             self.m_rootNode.addChild(module);//将新创建的Table,添加到根节点中，显示出来
             self.m_activeModuleTable.put(className, module);//添加到已显示的Map中

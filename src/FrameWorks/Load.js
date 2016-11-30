@@ -13,7 +13,7 @@ var Load= {
     //加载某一个页面的所需要的JS文件
     LoadJs:function(needCreateModuleName){
         //没有校验的原因是，有些场景可能已经加载过了
-        var jsLists= g_ModuleTable[needCreateModuleName]["jsLists"];
+        var jsLists= ModuleTable[needCreateModuleName]["jsLists"];
 
         var self= this;
         //所需要的文件，异步下载，所以只能等到加载完毕之后
@@ -24,7 +24,7 @@ var Load= {
     //加载UI工程
     LoadJson:function(needCreateModuleName){
         //没有校验的原因是，有些场景可能已经加载过了
-        var resLists= g_ModuleTable[needCreateModuleName]["resLists"];
+        var resLists= ModuleTable[needCreateModuleName]["resLists"];
         var self= this;
         cc.loader.load(resLists,
             function (result, count, loadedCount) {
