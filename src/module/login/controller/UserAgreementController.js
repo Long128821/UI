@@ -22,7 +22,7 @@ var UserAgreementController = BaseController.extend({
     },
 
 	removeSlot:function(){
-		UserAgreementLogic.removeSlot();
+		UserAgreementLogic.Slot();
 	},
     
     addCallback:function(){

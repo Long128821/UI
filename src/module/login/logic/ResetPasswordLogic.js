@@ -17,8 +17,8 @@ var ResetPasswordLogic= {
 	
     createView:function(){
     	this.initLayer();
-        
-        this.view.setTag(getDiffTag());
+
+        this.view.setTag(ModuleTable["ResetPassword"]["Layer"]);
         
         this.initView();
     },

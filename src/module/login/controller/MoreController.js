@@ -22,7 +22,7 @@ var MoreController = BaseController.extend({
     },
 
 	removeSlot:function(){
-		MoreLogic.removeSlot();
+		MoreLogic.Slot();
 	},
     
     addCallback:function(){

@@ -22,7 +22,7 @@ var ResetPasswordController = BaseController.extend({
     },
 
 	removeSlot:function(){
-		ResetPasswordLogic.removeSlot();
+		ResetPasswordLogic.Slot();
 	},
     
     addCallback:function(){

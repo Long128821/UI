@@ -14,7 +14,6 @@ const ContentTimeOut= 30000;//断网多长时间以后没有重连上，不再�
 var Network= {
     webSocket:null,//WebSocket连接单例
     isConnect:false,//是否连接
-    callback:null,//发送消息，客户端给了响应之后的回调
     heartBeat_timer:null,//心跳定时器
     preHeartBeatTime:-1,//上次心跳时间
     unConnectTime:0,//记录开始断网的时间
@@ -53,14 +52,7 @@ var Network= {
         //连接成功之后，前台获取后台的信息
         self.webSocket.onmessage = function(evt){
             var buffer= evt.data;
-            //回调读取消息体
-            if(self.callback!= null){
-                var nmBassMessage= new NMBaseMessage(buffer);
-                nmBassMessage.readStart();//开始读取-读取消息头
-                self.callback(nmBassMessage);
-                //清除数据
-                nmBassMessage.clear();
-            }
+            MessageRequire.requireMessage(buffer);//接收消息
         };
 
         //Socket连接失败时，会自动调用该函数
@@ -201,7 +193,6 @@ var Network= {
     //发送消息
     sendMessage:function(nmBassMessage, callback){
         if(typeof nmBassMessage!= "object") return;
-        this.callback= callback== undefined?null:callback;
         this.send(nmBassMessage.getArrayBuffer());
     }
 };

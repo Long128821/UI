@@ -22,7 +22,7 @@ var HallController = BaseController.extend({
     },
 
 	removeSlot:function(){
-		HallLogic.removeSlot();
+		HallLogic.Slot();
 	},
     
     addCallback:function(){

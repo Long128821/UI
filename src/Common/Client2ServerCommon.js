@@ -71,7 +71,7 @@ function sendBASEID_RESGISTER(IMEI, callback){
 //发送登录请求，获取AppID
 //@callback 登陆成功之后的回调函数
 //Todo:拿不到的数据有  IMEI 手机型号
-function sendWEBCHAT_LOGIN(nickName, password, callback){
+function sendBASEID_LOGIN(nickName, password){
     var nmBaseMessage= new NMBaseMessage();
     //现在仅仅只是测试，不需要设置消息ID
     nmBaseMessage.setMessageType(REQ + BASEID_LOGIN);
@@ -96,7 +96,7 @@ function sendWEBCHAT_LOGIN(nickName, password, callback){
     nmBaseMessage.writeOver();//写完
 
     //写结束，同时设置对应的回调函数(如果需要处理的话)
-    Network.getInstance().sendMessage(nmBaseMessage, callback);
+    Network.getInstance().sendMessage(nmBaseMessage);
 
     //清空数据
     delete nmBaseMessage;

@@ -187,6 +187,7 @@ if(typeof g_DataType== "undefined"){
             for (var i = 0; i < 4; i++) {
                 //使用toString(16)，会将(01或者0e)等值，直接转换为1、e，去除了0,
                 var value= this.pool[this.readPos].toString(16);
+                console.log(value);
                 value= (((value.length)== 1)?('0'+value):value);
                 end += value;
                 this.readPos++;

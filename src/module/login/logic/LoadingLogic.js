@@ -6,8 +6,8 @@ var LoadingLogic= {
 	
     createView:function(){
     	this.initLayer();
-        
-        this.view.setTag(getDiffTag());
+
+        this.view.setTag(ModuleTable["Loading"]["Layer"]);
         
         this.initView();
     },

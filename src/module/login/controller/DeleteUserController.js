@@ -22,7 +22,7 @@ var DeleteUserController = BaseController.extend({
     },
 
 	removeSlot:function(){
-		DeleteUserLogic.removeSlot();
+		DeleteUserLogic.Slot();
 	},
     
     addCallback:function(){

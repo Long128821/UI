@@ -55,7 +55,7 @@ function Map() {
     this.removeByKey = function(_key) {
         var bln = false;
         try {
-            for (i = 0; i < this.elements.length; i++) {
+            for (var i = 0; i < this.elements.length; i++) {
                 if (this.elements[i].key == _key) {
                     this.elements.splice(i, 1);
                     return true;

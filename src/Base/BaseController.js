@@ -1,6 +1,6 @@
 var BaseController = cc.Class.extend({
     /*****************Base类(继承CC.Layer的原因，有时候需要监听该Layer)******************/
-    m_ModuleLayer:g_LayerTag.Base_Layer,
+    m_ModuleLayer:Layer.Base_Layer,
     ctor: function() {
         this.init();
     },
@@ -8,6 +8,7 @@ var BaseController = cc.Class.extend({
     init:function(){
         //创建视图
         this.createView();
+        this.addSlot();
     },
 
     //添加监听事件
@@ -18,7 +19,7 @@ var BaseController = cc.Class.extend({
 
     //设置Module层级
     setModuleLayer:function(tag){
-        this.m_ModuleLayer= ((tag==undefined)?g_LayerTag.Base_Layer:tag);
+        this.m_ModuleLayer= ((tag==undefined)?Layer.Base_Layer:tag);
     },
 
     //设置Module层级
@@ -32,7 +33,12 @@ var BaseController = cc.Class.extend({
     destroy:function(){
         this.m_ModuleLayer= 0;
         this.removeCallback();
+        this.removeSlot();
     },
+    //添加信号
+    addSlot:function(){},
+    //移除信号
+    removeSlot:function(){},
 
     //创建View
     createView:function(){}

@@ -62,7 +62,6 @@ function NMBaseMessage(arraybuffer){
     this.readStart= function(){
         //清空数据
         this.clear();
-
         //**************二进制数组传递方式****************/
         this.m_binaryStream= BinaryStream(this.m_arrayBuffer);
         this.readImpl();//读取消息头

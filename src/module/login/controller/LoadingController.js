@@ -22,7 +22,7 @@ var LoadingController = BaseController.extend({
     },
 
 	removeSlot:function(){
-		LoadingLogic.removeSlot();
+		LoadingLogic.Slot();
 	},
     
     addCallback:function(){
@@ -64,7 +64,7 @@ var LoadingController = BaseController.extend({
 			Frameworks.moduleCleanUp(LoadingLogic);
 			LoadingLogic.releaseData();
 		}
-	
+
 		LoadingLogic.view.removeFromParent(true);
 		this.reset();
 	

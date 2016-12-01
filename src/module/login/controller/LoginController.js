@@ -62,7 +62,7 @@ var LoginController = BaseController.extend({
     sleepModule:function(){
 		//Frameworks.releaseOnKeypadEventListener(LoginLogic.view);
 		LoginLogic.view.setTouchEnabled(false);
-		Frameworks.emit(signal.common.Signal_SleepModule_Done);
+		Frameworks.emit(SignalCommon.Signal_SleepModule_Done);
     },
 
     wakeModule:function(){
@@ -75,6 +75,8 @@ var LoginController = BaseController.extend({
         //Frameworks.releaseOnKeypadEventListener(LoginLogic.view);
 		this.destroy();
 
+        console.log(this);
+
 //		if(destroyType == DESTORY_TYPE_EFFECT){
 //			//不销毁数据
 //		}else if(destroyType == DESTORY_TYPE_CLEAN){
@@ -82,10 +84,14 @@ var LoginController = BaseController.extend({
 //			Frameworks.moduleCleanUp(LoginLogic);
 //			LoginLogic.releaseData();
 //		}
+
+        //销毁数据
+        Frameworks.moduleCleanUp(LoginLogic);
+        LoginLogic.releaseData();
 	
 		LoginLogic.view.removeFromParent(true);
 		this.reset();
 	
-		//Frameworks.emit(signal.common.Signal_DestroyModule_Done);
+		Frameworks.emit(SignalCommon.Signal_DestroyModule_Done);
     }
 });

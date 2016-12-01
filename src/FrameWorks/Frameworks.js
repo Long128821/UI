@@ -1,8 +1,16 @@
 var Frameworks= {
     m_curButton:null,//当前
-    m_signalSlotTable:{},//存放信号
+    m_signalSlotTable:new Map(),//存放信号
     m_callbackEventTable:new Map(),//存放点击事件
     m_callBackOnKeypadEventTable:{},//存放返回键事件(android特有)
+    //清空除了function以外的所有数据
+    moduleCleanUp:function(moduleTable){
+        for(var key in moduleTable){
+            if(typeof moduleTable[key]== "object"){
+                moduleTable[key]= null;
+            }
+        }
+    },
     //释放
     releaseClick:function(){
         this.m_curButton= null;
@@ -89,9 +97,21 @@ var Frameworks= {
             //console.log("事件解绑成功！");
         }
     },
-    //注册消息信号
-    addSlot2Signal:function(){
-
+    /**
+     * Func:注册消息信号
+     * @param signal
+     * @param callbackFunction
+     */
+    addSlot2Signal:function(signal, callbackFunction){
+        //判断是否已经有该存在该信号
+        if(!this.m_signalSlotTable.containsKey(signal)){
+            this.m_signalSlotTable.put(signal, callbackFunction);
+        }else{
+            //如果已经存在,判断信号的回调是否一致
+            if(this.m_signalSlotTable.get(signal)!= callbackFunction){
+                this.m_signalSlotTable.put(signal, callbackFunction);
+            }
+        }
     },
     /**
      * Func:发送消息信号
@@ -99,7 +119,22 @@ var Frameworks= {
      * @param dataTable 回调数据(一般为null)
      */
     emit:function(signal, dataTable){
-        if(this.m_signalSlotTable[signal]== null) return;
+        if(this.m_signalSlotTable.get(signal)== null) return;
+        //发送信号，执行回调函数
+        this.m_signalSlotTable.get(signal)(dataTable);
+    },
+    /**
+     * Func:删除消息信号
+     * @param signal
+     * @param callbackFunction
+     */
+    removeSlotFromSignal:function(signal, callbackFunction){
+        if(this.m_signalSlotTable.get(signal)== null) return;
+
+        //监听信号的回调函数 是否匹配
+        if(this.m_signalSlotTable.get(signal)== callbackFunction){
+            this.m_signalSlotTable.removeByKey(signal);//从监听中移除
+        }
     }
 };
 
