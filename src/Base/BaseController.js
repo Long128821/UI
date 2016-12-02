@@ -8,6 +8,7 @@ var BaseController = cc.Class.extend({
     init:function(){
         //创建视图
         this.createView();
+        this.addCallback();
         this.addSlot();
     },
 

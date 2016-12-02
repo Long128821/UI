@@ -6,8 +6,9 @@ cc.game.onStart = function(){
     //初始化WbSocket
     Network.getInstance().initNetwork();
     //加载完毕之后
-    MvcEngine.getInstance().init();
-    MvcEngine.getInstance().setNeedCreateModuleName(GUI_LOGIN);//创建Table
+    MvcEngine.init();
+    console.log("Main");
+    MvcEngine.createModule(GUI_LOGIN);//创建Table
 };
 cc.game.run();
 

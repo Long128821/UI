@@ -10,7 +10,7 @@ var UserAgreementLogic= {
     createView:function(){
     	this.initLayer();
         
-        this.view.setTag(getDiffTag());
+        this.view.setTag(ModuleTable["UserAgreement"]["Layer"]);
         
         this.initView();
     },
@@ -41,7 +41,7 @@ var UserAgreementLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            MvcEngine.destroyModule(GUI_USERAGREEMENT);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 

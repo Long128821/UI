@@ -5,7 +5,6 @@ var HallLogic= {
 	panel_bg:null,
 	img_bgleft:null,
 	panel_down:null,
-	Button_lijiyouxi:null,
 	btn_setting:null,
 	Image_hongdian7:null,
 	btn_message:null,
@@ -16,36 +15,26 @@ var HallLogic= {
 	Image_hongdian5:null,
 	btn_friend:null,
 	Image_hongdian6:null,
-	Button_task:null,
-	Panel_chat:null,
-	btn_show_chat:null,
-	Image_hongdian2:null,
 	hall_black_cover:null,
 	Panel_16_0:null,
-	Label_NickName:null,
-	Panel_jinbi:null,
+	Button_YuanBao:null,
+	Label_yuanbao:null,
+	AtlasLabel_yuanbaoshu:null,
 	Label_Coin:null,
 	Button_Coin:null,
-	Panel_yuanbao:null,
-	Label_YuanBao:null,
-	Button_YuanBao:null,
+	AtlasLabel_jinbishu:null,
+	Label_NickName:null,
+	Image_yueka:null,
+	Label_shengyu:null,
 	btn_vip:null,
-	AtlasLabel_vip_level:null,
-	Image_vip_highsign:null,
-	Image_vip_lowsignbg:null,
-	AtlasLabel_lowsign:null,
 	Image_Portrait:null,
 	Image_touxiangkuang:null,
 	Image_chengwei:null,
-	Image_lucky_icon:null,
-	Image_touxiang_default:null,
 	Panel_top:null,
-	Button_yaoqianshu:null,
-	Button_arena:null,
+	btn_hall_huodong:null,
 	btn_yueka:null,
-	Panel_leftday:null,
-	AtlasLabel_leftday:null,
-	Image_tian:null,
+	btn_show_chat:null,
+	Image_hongdian2:null,
 	btn_chongzhi:null,
 	Image_hongdian1:null,
 	btn_libao:null,
@@ -53,24 +42,44 @@ var HallLogic= {
 	Button_Return:null,
 	ImageView_Notice:null,
 	panel_chat:null,
+	Image_pochan:null,
+	Image_hongdian8:null,
+	AtlasLabel_shijian:null,
 	panel_centernew:null,
 	panel_hall_center:null,
-	Button_match:null,
 	Button_jingdian:null,
 	Button_qianwang:null,
-	Panel_hall_center_down:null,
-	Image_minigame_bg:null,
-	Image_vipInfo:null,
-	Label_online:null,
-	Panel_MiniGame:null,
-	Panel_Commend:null,
-	Image_light:null,
-	Panel_miniChat:null,
+	Button_xiaoyouxi:null,
+	Button_lijiyouxi:null,
+	panel_jingdianchang:null,
+	panel_hall_jingdian:null,
+	Button_jingdian_chujichang:null,
+	Image_chuji2:null,
+	AtlasLabel_jingdian_chuji:null,
+	Button_jingdian_zhongjichang:null,
+	Image_zhongji2:null,
+	AtlasLabel_jingdian_zhongji:null,
+	Button_jingdian_gaojichang:null,
+	Image_gaoji2:null,
+	AtlasLabel_jingdian_gaoji:null,
+	Button_jingdian_fanhui:null,
+	panel_qianwangchang:null,
+	panel_hall_qianwang:null,
+	Button_qianwang_chujichang:null,
+	Image_qianwangchuji2:null,
+	AtlasLabel_qianwang_chuji:null,
+	Button_qianwang_gaojichang:null,
+	Image_qianwanggaoji2:null,
+	AtlasLabel_qianwang_gaoji:null,
+	Button_qianwang_chaojichang:null,
+	Image_qianwangchaogaoji2:null,
+	AtlasLabel_qianwang_chaogaoji:null,
+	Button_qianwang_fanhui:null,
 	
     createView:function(){
     	this.initLayer();
         
-        //this.view.setTag(getDiffTag());
+        this.view.setTag(ModuleTable["Hall"]["Layer"]);
         
         this.initView();
     },
@@ -79,7 +88,6 @@ var HallLogic= {
 		this.panel_bg = CocoStudio.getComponent(this.view, "panel_bg");//Panel
 		this.img_bgleft = CocoStudio.getComponent(this.view, "img_bgleft");//ImageView
 		this.panel_down = CocoStudio.getComponent(this.view, "panel_down");//Panel
-		this.Button_lijiyouxi = CocoStudio.getComponent(this.view, "Button_lijiyouxi");//Button
 		this.btn_setting = CocoStudio.getComponent(this.view, "btn_setting");//Button
 		this.Image_hongdian7 = CocoStudio.getComponent(this.view, "Image_hongdian7");//ImageView
 		this.btn_message = CocoStudio.getComponent(this.view, "btn_message");//Button
@@ -90,36 +98,26 @@ var HallLogic= {
 		this.Image_hongdian5 = CocoStudio.getComponent(this.view, "Image_hongdian5");//ImageView
 		this.btn_friend = CocoStudio.getComponent(this.view, "btn_friend");//Button
 		this.Image_hongdian6 = CocoStudio.getComponent(this.view, "Image_hongdian6");//ImageView
-		this.Button_task = CocoStudio.getComponent(this.view, "Button_task");//Button
-		this.Panel_chat = CocoStudio.getComponent(this.view, "Panel_chat");//Panel
-		this.btn_show_chat = CocoStudio.getComponent(this.view, "btn_show_chat");//Button
-		this.Image_hongdian2 = CocoStudio.getComponent(this.view, "Image_hongdian2");//ImageView
 		this.hall_black_cover = CocoStudio.getComponent(this.view, "hall_black_cover");//ImageView
 		this.Panel_16_0 = CocoStudio.getComponent(this.view, "Panel_16_0");//Panel
-		this.Label_NickName = CocoStudio.getComponent(this.view, "Label_NickName");//Label
-		this.Panel_jinbi = CocoStudio.getComponent(this.view, "Panel_jinbi");//Panel
+		this.Button_YuanBao = CocoStudio.getComponent(this.view, "Button_YuanBao");//Button
+		this.Label_yuanbao = CocoStudio.getComponent(this.view, "Label_yuanbao");//Label
+		this.AtlasLabel_yuanbaoshu = CocoStudio.getComponent(this.view, "AtlasLabel_yuanbaoshu");//LabelAtlas
 		this.Label_Coin = CocoStudio.getComponent(this.view, "Label_Coin");//Label
 		this.Button_Coin = CocoStudio.getComponent(this.view, "Button_Coin");//Button
-		this.Panel_yuanbao = CocoStudio.getComponent(this.view, "Panel_yuanbao");//Panel
-		this.Label_YuanBao = CocoStudio.getComponent(this.view, "Label_YuanBao");//Label
-		this.Button_YuanBao = CocoStudio.getComponent(this.view, "Button_YuanBao");//Button
+		this.AtlasLabel_jinbishu = CocoStudio.getComponent(this.view, "AtlasLabel_jinbishu");//LabelAtlas
+		this.Label_NickName = CocoStudio.getComponent(this.view, "Label_NickName");//Label
+		this.Image_yueka = CocoStudio.getComponent(this.view, "Image_yueka");//ImageView
+		this.Label_shengyu = CocoStudio.getComponent(this.view, "Label_shengyu");//Label
 		this.btn_vip = CocoStudio.getComponent(this.view, "btn_vip");//Button
-		this.AtlasLabel_vip_level = CocoStudio.getComponent(this.view, "AtlasLabel_vip_level");//LabelAtlas
-		this.Image_vip_highsign = CocoStudio.getComponent(this.view, "Image_vip_highsign");//ImageView
-		this.Image_vip_lowsignbg = CocoStudio.getComponent(this.view, "Image_vip_lowsignbg");//ImageView
-		this.AtlasLabel_lowsign = CocoStudio.getComponent(this.view, "AtlasLabel_lowsign");//LabelAtlas
 		this.Image_Portrait = CocoStudio.getComponent(this.view, "Image_Portrait");//ImageView
 		this.Image_touxiangkuang = CocoStudio.getComponent(this.view, "Image_touxiangkuang");//ImageView
 		this.Image_chengwei = CocoStudio.getComponent(this.view, "Image_chengwei");//ImageView
-		this.Image_lucky_icon = CocoStudio.getComponent(this.view, "Image_lucky_icon");//ImageView
-		this.Image_touxiang_default = CocoStudio.getComponent(this.view, "Image_touxiang_default");//ImageView
 		this.Panel_top = CocoStudio.getComponent(this.view, "Panel_top");//Panel
-		this.Button_yaoqianshu = CocoStudio.getComponent(this.view, "Button_yaoqianshu");//Button
-		this.Button_arena = CocoStudio.getComponent(this.view, "Button_arena");//Button
+		this.btn_hall_huodong = CocoStudio.getComponent(this.view, "btn_hall_huodong");//Button
 		this.btn_yueka = CocoStudio.getComponent(this.view, "btn_yueka");//Button
-		this.Panel_leftday = CocoStudio.getComponent(this.view, "Panel_leftday");//Panel
-		this.AtlasLabel_leftday = CocoStudio.getComponent(this.view, "AtlasLabel_leftday");//LabelAtlas
-		this.Image_tian = CocoStudio.getComponent(this.view, "Image_tian");//ImageView
+		this.btn_show_chat = CocoStudio.getComponent(this.view, "btn_show_chat");//Button
+		this.Image_hongdian2 = CocoStudio.getComponent(this.view, "Image_hongdian2");//ImageView
 		this.btn_chongzhi = CocoStudio.getComponent(this.view, "btn_chongzhi");//Button
 		this.Image_hongdian1 = CocoStudio.getComponent(this.view, "Image_hongdian1");//ImageView
 		this.btn_libao = CocoStudio.getComponent(this.view, "btn_libao");//Button
@@ -127,54 +125,58 @@ var HallLogic= {
 		this.Button_Return = CocoStudio.getComponent(this.view, "Button_Return");//Button
 		this.ImageView_Notice = CocoStudio.getComponent(this.view, "ImageView_Notice");//ImageView
 		this.panel_chat = CocoStudio.getComponent(this.view, "panel_chat");//Panel
+		this.Image_pochan = CocoStudio.getComponent(this.view, "Image_pochan");//ImageView
+		this.Image_hongdian8 = CocoStudio.getComponent(this.view, "Image_hongdian8");//ImageView
+		this.AtlasLabel_shijian = CocoStudio.getComponent(this.view, "AtlasLabel_shijian");//Label
 		this.panel_centernew = CocoStudio.getComponent(this.view, "panel_centernew");//Panel
 		this.panel_hall_center = CocoStudio.getComponent(this.view, "panel_hall_center");//Panel
-		this.Button_match = CocoStudio.getComponent(this.view, "Button_match");//Button
 		this.Button_jingdian = CocoStudio.getComponent(this.view, "Button_jingdian");//Button
 		this.Button_qianwang = CocoStudio.getComponent(this.view, "Button_qianwang");//Button
-		this.Panel_hall_center_down = CocoStudio.getComponent(this.view, "Panel_hall_center_down");//Panel
-		this.Image_minigame_bg = CocoStudio.getComponent(this.view, "Image_minigame_bg");//ImageView
-		this.Image_vipInfo = CocoStudio.getComponent(this.view, "Image_vipInfo");//ImageView
-		this.Label_online = CocoStudio.getComponent(this.view, "Label_online");//Label
-		this.Panel_MiniGame = CocoStudio.getComponent(this.view, "Panel_MiniGame");//Panel
-		this.Panel_Commend = CocoStudio.getComponent(this.view, "Panel_Commend");//Panel
-		this.Image_light = CocoStudio.getComponent(this.view, "Image_light");//ImageView
-		this.Panel_miniChat = CocoStudio.getComponent(this.view, "Panel_miniChat");//Panel
+		this.Button_xiaoyouxi = CocoStudio.getComponent(this.view, "Button_xiaoyouxi");//Button
+		this.Button_lijiyouxi = CocoStudio.getComponent(this.view, "Button_lijiyouxi");//Button
+		this.panel_jingdianchang = CocoStudio.getComponent(this.view, "panel_jingdianchang");//Panel
+		this.panel_hall_jingdian = CocoStudio.getComponent(this.view, "panel_hall_jingdian");//Panel
+		this.Button_jingdian_chujichang = CocoStudio.getComponent(this.view, "Button_jingdian_chujichang");//Button
+		this.Image_chuji2 = CocoStudio.getComponent(this.view, "Image_chuji2");//ImageView
+		this.AtlasLabel_jingdian_chuji = CocoStudio.getComponent(this.view, "AtlasLabel_jingdian_chuji");//LabelAtlas
+		this.Button_jingdian_zhongjichang = CocoStudio.getComponent(this.view, "Button_jingdian_zhongjichang");//Button
+		this.Image_zhongji2 = CocoStudio.getComponent(this.view, "Image_zhongji2");//ImageView
+		this.AtlasLabel_jingdian_zhongji = CocoStudio.getComponent(this.view, "AtlasLabel_jingdian_zhongji");//LabelAtlas
+		this.Button_jingdian_gaojichang = CocoStudio.getComponent(this.view, "Button_jingdian_gaojichang");//Button
+		this.Image_gaoji2 = CocoStudio.getComponent(this.view, "Image_gaoji2");//ImageView
+		this.AtlasLabel_jingdian_gaoji = CocoStudio.getComponent(this.view, "AtlasLabel_jingdian_gaoji");//LabelAtlas
+		this.Button_jingdian_fanhui = CocoStudio.getComponent(this.view, "Button_jingdian_fanhui");//Button
+		this.panel_qianwangchang = CocoStudio.getComponent(this.view, "panel_qianwangchang");//Panel
+		this.panel_hall_qianwang = CocoStudio.getComponent(this.view, "panel_hall_qianwang");//Panel
+		this.Button_qianwang_chujichang = CocoStudio.getComponent(this.view, "Button_qianwang_chujichang");//Button
+		this.Image_qianwangchuji2 = CocoStudio.getComponent(this.view, "Image_qianwangchuji2");//ImageView
+		this.AtlasLabel_qianwang_chuji = CocoStudio.getComponent(this.view, "AtlasLabel_qianwang_chuji");//LabelAtlas
+		this.Button_qianwang_gaojichang = CocoStudio.getComponent(this.view, "Button_qianwang_gaojichang");//Button
+		this.Image_qianwanggaoji2 = CocoStudio.getComponent(this.view, "Image_qianwanggaoji2");//ImageView
+		this.AtlasLabel_qianwang_gaoji = CocoStudio.getComponent(this.view, "AtlasLabel_qianwang_gaoji");//LabelAtlas
+		this.Button_qianwang_chaojichang = CocoStudio.getComponent(this.view, "Button_qianwang_chaojichang");//Button
+		this.Image_qianwangchaogaoji2 = CocoStudio.getComponent(this.view, "Image_qianwangchaogaoji2");//ImageView
+		this.AtlasLabel_qianwang_chaogaoji = CocoStudio.getComponent(this.view, "AtlasLabel_qianwang_chaogaoji");//LabelAtlas
+		this.Button_qianwang_fanhui = CocoStudio.getComponent(this.view, "Button_qianwang_fanhui");//Button
 	},
 
     initLayer:function(){
-		var gui = GUI_HALL;
-        //适配方案 Pad加黑边
-        this.view = CocoStudio.createView("res/Hall.json");
-        GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL);
-//		if(GameConfig.RealProportion >= GameConfig.SCREEN_PROPORTION_GREAT){
-//			//适配方案 1136x640
-//			this.view = CocoStudio.createView("res/Hall.json");
-//			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.EXACT_FIT);
-//		}else if(GameConfig.RealProportion <= GameConfig.SCREEN_PROPORTION_SMALL){
-//			//适配方案 Pad加黑边
-//			this.view = CocoStudio.createView("res/Hall.json");
-//			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL);
-//		}else if((GameConfig.RealProportion < GameConfig.SCREEN_PROPORTION_GREAT) && (GameConfig.RealProportion > GameConfig.SCREEN_PROPORTION_SMALL)){
-//			//适配方案 960x640
-//			this.view = CocoStudio.createView("res/Hall_960_640.json");
-//			GameConfig.setCurrentScreenResolution(this.view, gui, 960, 640, cc.ResolutionPolicy.EXACT_FIT);
-//		}
-	},
-    
-	callback_Button_lijiyouxi:function(pSender, event){
-		if(event == ccui.Widget.TOUCH_BEGAN){
-			//按下
-
-		}else if(event == ccui.Widget.TOUCH_ENDED){
-			//抬起
-
-		}else if(event == ccui.Widget.TOUCH_CANCELED){
-			//取消
-
+		var gui = GUI_HALL; 
+		if(GameConfig.RealProportion >= GameConfig.SCREEN_PROPORTION_GREAT){
+			//适配方案 1136x640  
+			this.view = CocoStudio.createView("res/Hall.json"); 
+			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.EXACT_FIT);
+		}else if(GameConfig.RealProportion <= GameConfig.SCREEN_PROPORTION_SMALL){
+			//适配方案 Pad加黑边  
+			this.view = CocoStudio.createView("res/Hall.json"); 
+			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL);
+		}else if((GameConfig.RealProportion < GameConfig.SCREEN_PROPORTION_GREAT) && (GameConfig.RealProportion > GameConfig.SCREEN_PROPORTION_SMALL)){
+			//适配方案 960x640  
+			this.view = CocoStudio.createView("res/Hall_960_640.json"); 
+			GameConfig.setCurrentScreenResolution(this.view, gui, 960, 640, cc.ResolutionPolicy.EXACT_FIT); 
 		}
 	},
-
+    
 	callback_btn_setting:function(pSender, event){
 		if(event == ccui.Widget.TOUCH_BEGAN){
 			//按下
@@ -240,20 +242,7 @@ var HallLogic= {
 		}
 	},
 
-	callback_Button_task:function(pSender, event){
-		if(event == ccui.Widget.TOUCH_BEGAN){
-			//按下
-
-		}else if(event == ccui.Widget.TOUCH_ENDED){
-			//抬起
-
-		}else if(event == ccui.Widget.TOUCH_CANCELED){
-			//取消
-
-		}
-	},
-
-	callback_btn_show_chat:function(pSender, event){
+	callback_Button_YuanBao:function(pSender, event){
 		if(event == ccui.Widget.TOUCH_BEGAN){
 			//按下
 
@@ -267,19 +256,6 @@ var HallLogic= {
 	},
 
 	callback_Button_Coin:function(pSender, event){
-		if(event == ccui.Widget.TOUCH_BEGAN){
-			//按下
-
-		}else if(event == ccui.Widget.TOUCH_ENDED){
-			//抬起
-
-		}else if(event == ccui.Widget.TOUCH_CANCELED){
-			//取消
-
-		}
-	},
-
-	callback_Button_YuanBao:function(pSender, event){
 		if(event == ccui.Widget.TOUCH_BEGAN){
 			//按下
 
@@ -318,20 +294,7 @@ var HallLogic= {
 		}
 	},
 
-	callback_Button_yaoqianshu:function(pSender, event){
-		if(event == ccui.Widget.TOUCH_BEGAN){
-			//按下
-
-		}else if(event == ccui.Widget.TOUCH_ENDED){
-			//抬起
-
-		}else if(event == ccui.Widget.TOUCH_CANCELED){
-			//取消
-
-		}
-	},
-
-	callback_Button_arena:function(pSender, event){
+	callback_btn_hall_huodong:function(pSender, event){
 		if(event == ccui.Widget.TOUCH_BEGAN){
 			//按下
 
@@ -345,6 +308,19 @@ var HallLogic= {
 	},
 
 	callback_btn_yueka:function(pSender, event){
+		if(event == ccui.Widget.TOUCH_BEGAN){
+			//按下
+
+		}else if(event == ccui.Widget.TOUCH_ENDED){
+			//抬起
+
+		}else if(event == ccui.Widget.TOUCH_CANCELED){
+			//取消
+
+		}
+	},
+
+	callback_btn_show_chat:function(pSender, event){
 		if(event == ccui.Widget.TOUCH_BEGAN){
 			//按下
 
@@ -409,7 +385,7 @@ var HallLogic= {
 		}
 	},
 
-	callback_Button_match:function(pSender, event){
+	callback_Image_pochan:function(pSender, event){
 		if(event == ccui.Widget.TOUCH_BEGAN){
 			//按下
 
@@ -448,7 +424,124 @@ var HallLogic= {
 		}
 	},
 
-	callback_Image_vipInfo:function(pSender, event){
+	callback_Button_xiaoyouxi:function(pSender, event){
+		if(event == ccui.Widget.TOUCH_BEGAN){
+			//按下
+
+		}else if(event == ccui.Widget.TOUCH_ENDED){
+			//抬起
+
+		}else if(event == ccui.Widget.TOUCH_CANCELED){
+			//取消
+
+		}
+	},
+
+	callback_Button_lijiyouxi:function(pSender, event){
+		if(event == ccui.Widget.TOUCH_BEGAN){
+			//按下
+
+		}else if(event == ccui.Widget.TOUCH_ENDED){
+			//抬起
+
+		}else if(event == ccui.Widget.TOUCH_CANCELED){
+			//取消
+
+		}
+	},
+
+	callback_Button_jingdian_chujichang:function(pSender, event){
+		if(event == ccui.Widget.TOUCH_BEGAN){
+			//按下
+
+		}else if(event == ccui.Widget.TOUCH_ENDED){
+			//抬起
+
+		}else if(event == ccui.Widget.TOUCH_CANCELED){
+			//取消
+
+		}
+	},
+
+	callback_Button_jingdian_zhongjichang:function(pSender, event){
+		if(event == ccui.Widget.TOUCH_BEGAN){
+			//按下
+
+		}else if(event == ccui.Widget.TOUCH_ENDED){
+			//抬起
+
+		}else if(event == ccui.Widget.TOUCH_CANCELED){
+			//取消
+
+		}
+	},
+
+	callback_Button_jingdian_gaojichang:function(pSender, event){
+		if(event == ccui.Widget.TOUCH_BEGAN){
+			//按下
+
+		}else if(event == ccui.Widget.TOUCH_ENDED){
+			//抬起
+
+		}else if(event == ccui.Widget.TOUCH_CANCELED){
+			//取消
+
+		}
+	},
+
+	callback_Button_jingdian_fanhui:function(pSender, event){
+		if(event == ccui.Widget.TOUCH_BEGAN){
+			//按下
+
+		}else if(event == ccui.Widget.TOUCH_ENDED){
+			//抬起
+
+		}else if(event == ccui.Widget.TOUCH_CANCELED){
+			//取消
+
+		}
+	},
+
+	callback_Button_qianwang_chujichang:function(pSender, event){
+		if(event == ccui.Widget.TOUCH_BEGAN){
+			//按下
+
+		}else if(event == ccui.Widget.TOUCH_ENDED){
+			//抬起
+
+		}else if(event == ccui.Widget.TOUCH_CANCELED){
+			//取消
+
+		}
+	},
+
+	callback_Button_qianwang_gaojichang:function(pSender, event){
+		if(event == ccui.Widget.TOUCH_BEGAN){
+			//按下
+
+		}else if(event == ccui.Widget.TOUCH_ENDED){
+			//抬起
+
+		}else if(event == ccui.Widget.TOUCH_CANCELED){
+			//取消
+
+		}
+	},
+
+	callback_Button_qianwang_chaojichang:function(pSender, event){
+		if(event == ccui.Widget.TOUCH_BEGAN){
+			//按下
+
+		}else if(event == ccui.Widget.TOUCH_ENDED){
+			//抬起
+
+		}else if(event == ccui.Widget.TOUCH_CANCELED){
+			//取消
+
+		}
+	},
+
+	callback_Button_qianwang_fanhui:function(pSender, event){
 		if(event == ccui.Widget.TOUCH_BEGAN){
 			//按下
 

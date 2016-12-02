@@ -2,60 +2,38 @@ var MoreLogic= {
     view:null,//视图
     
 	/******工具导出的控件名******/
-	Panel_main:null,
-	Panel:null,
-	ImageView_Bg:null,
-	Img_TopUser:null,
-	Img_DeleteTopUser:null,
-	Label_TopUserName:null,
-	Img_MiddleUser:null,
-	Img_DeleteMiddleUser:null,
-	Label_MiddleUserName:null,
-	Image_BottomUser:null,
-	Img_DeleteBottomUser:null,
-	Label_BottomUserName:null,
+	Panel_20:null,
+	Panel_23:null,
+	scroll_sexold:null,
 	
     createView:function(){
     	this.initLayer();
-
+        
         this.view.setTag(ModuleTable["More"]["Layer"]);
         
         this.initView();
     },
     
 	initView:function(){
-		this.Panel_main = CocoStudio.getComponent(this.view, "Panel_main");//Panel
-		this.Panel = CocoStudio.getComponent(this.view, "Panel");//Panel
-		this.ImageView_Bg = CocoStudio.getComponent(this.view, "ImageView_Bg");//ImageView
-		this.Img_TopUser = CocoStudio.getComponent(this.view, "Img_TopUser");//ImageView
-		this.Img_DeleteTopUser = CocoStudio.getComponent(this.view, "Img_DeleteTopUser");//ImageView
-		this.Label_TopUserName = CocoStudio.getComponent(this.view, "Label_TopUserName");//Label
-		this.Img_MiddleUser = CocoStudio.getComponent(this.view, "Img_MiddleUser");//ImageView
-		this.Img_DeleteMiddleUser = CocoStudio.getComponent(this.view, "Img_DeleteMiddleUser");//ImageView
-		this.Label_MiddleUserName = CocoStudio.getComponent(this.view, "Label_MiddleUserName");//Label
-		this.Image_BottomUser = CocoStudio.getComponent(this.view, "Image_BottomUser");//ImageView
-		this.Img_DeleteBottomUser = CocoStudio.getComponent(this.view, "Img_DeleteBottomUser");//ImageView
-		this.Label_BottomUserName = CocoStudio.getComponent(this.view, "Label_BottomUserName");//Label
+		this.Panel_20 = CocoStudio.getComponent(this.view, "Panel_20");//Panel
+		this.Panel_23 = CocoStudio.getComponent(this.view, "Panel_23");//Panel
+		this.scroll_sexold = CocoStudio.getComponent(this.view, "scroll_sexold");//ScrollView
 	},
 
     initLayer:function(){
 		var gui = GUI_MORE; 
-		if(GameConfig.RealProportion >= GameConfig.SCREEN_PROPORTION_GREAT){
+		if(GameConfig.RealProportion > GameConfig.SCREEN_PROPORTION_SMALL){
 			//适配方案 1136x640  
 			this.view = CocoStudio.createView("res/More.json"); 
-			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.EXACT_FIT);
+			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.EXACT_FIT); 
 		}else if(GameConfig.RealProportion <= GameConfig.SCREEN_PROPORTION_SMALL){
 			//适配方案 Pad加黑边  
 			this.view = CocoStudio.createView("res/More.json"); 
-			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL);
-		}else if((GameConfig.RealProportion < GameConfig.SCREEN_PROPORTION_GREAT) && (GameConfig.RealProportion > GameConfig.SCREEN_PROPORTION_SMALL)){
-			//适配方案 960x640  
-			this.view = CocoStudio.createView("res/More_960_640.json"); 
-			GameConfig.setCurrentScreenResolution(this.view, gui, 960, 640, cc.ResolutionPolicy.EXACT_FIT); 
+			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL); 
 		}
 	},
     
-	callback_Panel_main:function(pSender, event){
+	callback_Panel_20:function(pSender, event){
 		if(event == ccui.Widget.TOUCH_BEGAN){
 			//按下
 
@@ -68,72 +46,7 @@ var MoreLogic= {
 		}
 	},
 
-	callback_Img_TopUser:function(pSender, event){
-		if(event == ccui.Widget.TOUCH_BEGAN){
-			//按下
-
-		}else if(event == ccui.Widget.TOUCH_ENDED){
-			//抬起
-
-		}else if(event == ccui.Widget.TOUCH_CANCELED){
-			//取消
-
-		}
-	},
-
-	callback_Img_DeleteTopUser:function(pSender, event){
-		if(event == ccui.Widget.TOUCH_BEGAN){
-			//按下
-
-		}else if(event == ccui.Widget.TOUCH_ENDED){
-			//抬起
-
-		}else if(event == ccui.Widget.TOUCH_CANCELED){
-			//取消
-
-		}
-	},
-
-	callback_Img_MiddleUser:function(pSender, event){
-		if(event == ccui.Widget.TOUCH_BEGAN){
-			//按下
-
-		}else if(event == ccui.Widget.TOUCH_ENDED){
-			//抬起
-
-		}else if(event == ccui.Widget.TOUCH_CANCELED){
-			//取消
-
-		}
-	},
-
-	callback_Img_DeleteMiddleUser:function(pSender, event){
-		if(event == ccui.Widget.TOUCH_BEGAN){
-			//按下
-
-		}else if(event == ccui.Widget.TOUCH_ENDED){
-			//抬起
-
-		}else if(event == ccui.Widget.TOUCH_CANCELED){
-			//取消
-
-		}
-	},
-
-	callback_Image_BottomUser:function(pSender, event){
-		if(event == ccui.Widget.TOUCH_BEGAN){
-			//按下
-
-		}else if(event == ccui.Widget.TOUCH_ENDED){
-			//抬起
-
-		}else if(event == ccui.Widget.TOUCH_CANCELED){
-			//取消
-
-		}
-	},
-
-	callback_Img_DeleteBottomUser:function(pSender, event){
+	callback_Panel_23:function(pSender, event){
 		if(event == ccui.Widget.TOUCH_BEGAN){
 			//按下
 

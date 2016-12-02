@@ -4,9 +4,10 @@ var Frameworks= {
     m_callbackEventTable:new Map(),//存放点击事件
     m_callBackOnKeypadEventTable:{},//存放返回键事件(android特有)
     //清空除了function以外的所有数据
+    //同时view也不清空
     moduleCleanUp:function(moduleTable){
         for(var key in moduleTable){
-            if(typeof moduleTable[key]== "object"){
+            if(typeof moduleTable[key]== "object"&&key!= "view"){
                 moduleTable[key]= null;
             }
         }

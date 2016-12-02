@@ -1,5 +1,5 @@
-const DESTORY_TYPE_CLEAN = 0;
-const DESTORY_TYPE_EFFECT = 1;
+const DESTROY_TYPE_CLEAN = 0;
+const DESTROY_TYPE_EFFECT = 1;
 
 var Layer= {
     Base_Layer:0,

@@ -3,21 +3,18 @@ var ResetPasswordLogic= {
     
 	/******工具导出的控件名******/
 	Panel_20:null,
-	Panel:null,
-	Label_phonenum:null,
-	txt_phonenum:null,
-	ImageView_nickBg:null,
-	btn_more:null,
-	Image_more:null,
-	Image_moreup:null,
-	Label_username:null,
-	txt_username:null,
-	btn_commit:null,
+	Panel_66:null,
 	btn_cancel:null,
+	btn_commit:null,
+	btn_more:null,
+	label_username:null,
+	txt_username:null,
+	label_password:null,
+	txt_phonenum:null,
 	
     createView:function(){
     	this.initLayer();
-
+        
         this.view.setTag(ModuleTable["ResetPassword"]["Layer"]);
         
         this.initView();
@@ -25,17 +22,14 @@ var ResetPasswordLogic= {
     
 	initView:function(){
 		this.Panel_20 = CocoStudio.getComponent(this.view, "Panel_20");//Panel
-		this.Panel = CocoStudio.getComponent(this.view, "Panel");//Panel
-		this.Label_phonenum = CocoStudio.getComponent(this.view, "Label_phonenum");//Label
-		this.txt_phonenum = CocoStudio.getComponent(this.view, "txt_phonenum");//TextField
-		this.ImageView_nickBg = CocoStudio.getComponent(this.view, "ImageView_nickBg");//ImageView
-		this.btn_more = CocoStudio.getComponent(this.view, "btn_more");//Button
-		this.Image_more = CocoStudio.getComponent(this.view, "Image_more");//ImageView
-		this.Image_moreup = CocoStudio.getComponent(this.view, "Image_moreup");//ImageView
-		this.Label_username = CocoStudio.getComponent(this.view, "Label_username");//Label
-		this.txt_username = CocoStudio.getComponent(this.view, "txt_username");//TextField
-		this.btn_commit = CocoStudio.getComponent(this.view, "btn_commit");//Button
+		this.Panel_66 = CocoStudio.getComponent(this.view, "Panel_66");//Panel
 		this.btn_cancel = CocoStudio.getComponent(this.view, "btn_cancel");//Button
+		this.btn_commit = CocoStudio.getComponent(this.view, "btn_commit");//Button
+		this.btn_more = CocoStudio.getComponent(this.view, "btn_more");//Button
+		this.label_username = CocoStudio.getComponent(this.view, "label_username");//Label
+		this.txt_username = CocoStudio.getComponent(this.view, "txt_username");//TextField
+		this.label_password = CocoStudio.getComponent(this.view, "label_password");//Label
+		this.txt_phonenum = CocoStudio.getComponent(this.view, "txt_phonenum");//TextField
 	},
 
     initLayer:function(){
@@ -51,7 +45,7 @@ var ResetPasswordLogic= {
 		}
 	},
     
-	callback_btn_more:function(pSender, event){
+	callback_btn_cancel:function(pSender, event){
 		if(event == ccui.Widget.TOUCH_BEGAN){
 			//按下
 
@@ -77,7 +71,7 @@ var ResetPasswordLogic= {
 		}
 	},
 
-	callback_btn_cancel:function(pSender, event){
+	callback_btn_more:function(pSender, event){
 		if(event == ccui.Widget.TOUCH_BEGAN){
 			//按下
 

@@ -25,7 +25,7 @@ var LoginLogic= {
 	
     createView:function(){
     	this.initLayer();
-
+        
         this.view.setTag(ModuleTable["Login"]["Layer"]);
         
         this.initView();
@@ -55,38 +55,21 @@ var LoginLogic= {
 	},
 
     initLayer:function(){
-		var gui = GUI_LOGIN;
-        //适配方案 Pad加黑边
-        this.view = CocoStudio.createView("res/Login.json");
-        GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL);
-//		if(GameConfig.RealProportion >= GameConfig.SCREEN_PROPORTION_GREAT){
-//			//适配方案 1136x640
-//			this.view = CocoStudio.createView("res/Login.json");
-//			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.EXACT_FIT);
-//		}else if(GameConfig.RealProportion <= GameConfig.SCREEN_PROPORTION_SMALL){
-//			//适配方案 Pad加黑边
-//			this.view = CocoStudio.createView("res/Login.json");
-//			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL);
-//		}else if((GameConfig.RealProportion < GameConfig.SCREEN_PROPORTION_GREAT) && (GameConfig.RealProportion > GameConfig.SCREEN_PROPORTION_SMALL)){
-//			//适配方案 960x640
-//			this.view = CocoStudio.createView("res/Login_960_640.json");
-//			GameConfig.setCurrentScreenResolution(this.view, gui, 960, 640, cc.ResolutionPolicy.EXACT_FIT);
-//		}
+		var gui = GUI_LOGIN; 
+		if(GameConfig.RealProportion >= GameConfig.SCREEN_PROPORTION_GREAT){
+			//适配方案 1136x640  
+			this.view = CocoStudio.createView("res/Login.json"); 
+			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.EXACT_FIT);
+		}else if(GameConfig.RealProportion <= GameConfig.SCREEN_PROPORTION_SMALL){
+			//适配方案 Pad加黑边  
+			this.view = CocoStudio.createView("res/Login.json"); 
+			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL);
+		}else if((GameConfig.RealProportion < GameConfig.SCREEN_PROPORTION_GREAT) && (GameConfig.RealProportion > GameConfig.SCREEN_PROPORTION_SMALL)){
+			//适配方案 960x640  
+			this.view = CocoStudio.createView("res/Login_960_640.json"); 
+			GameConfig.setCurrentScreenResolution(this.view, gui, 960, 640, cc.ResolutionPolicy.EXACT_FIT); 
+		}
 	},
-
-    login:function(){
-        //获取当前CheckBox的状态
-        if(this.check_agree.getSelectedState()){
-            if(ProfileLogin.getLoginUserName()!= null&&ProfileLogin.getLoginPassword()!= null){
-                sendBASEID_LOGIN(ProfileLogin.getLoginUserName(), ProfileLogin.getLoginPassword());
-            }else{
-                //Todo:密码和用户不能为空
-                console.log("密码和用户不能为空");
-            }
-        }else{
-            console.log("请先同意同趣游戏用户协议");
-        }
-    },
     
 	callback_btn_weixin_login:function(pSender, event){
 		if(event == ccui.Widget.TOUCH_BEGAN){
@@ -94,7 +77,7 @@ var LoginLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            LoginLogic.login();
+            MvcEngine.createModule(GUI_USERAGREEMENT);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -120,9 +103,7 @@ var LoginLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            console.log("发送信号");
-            //抬起
-            sendBASEID_RESGISTER("", LoginLogic.Slot);
+
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -134,7 +115,7 @@ var LoginLogic= {
 			//按下
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
-            //抬起
+			//抬起
 
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
@@ -227,17 +208,13 @@ var LoginLogic= {
     	
     	}
     },
-
-    //添加信号
+    
     addSlot:function(){
-        Frameworks.addSlot2Signal(BASEID_LOGIN, ProfileLogin.loginManage);
-        Frameworks.addSlot2Signal(BASEID_REGISTER, ProfileLogin.loginManage);
+    	
     },
-
-    //删除信号
-    removeSlot:function(nmBaseMessage){
-        Frameworks.removeSlotFromSignal(BASEID_LOGIN, ProfileLogin.Slot);
-        Frameworks.removeSlotFromSignal(BASEID_REGISTER, ProfileLogin.Slot);
+    
+    removeSlot:function(){
+    	
     },
     
     //释放界面的私有数据

@@ -22,7 +22,7 @@ var DeleteUserController = BaseController.extend({
     },
 
 	removeSlot:function(){
-		DeleteUserLogic.Slot();
+		DeleteUserLogic.removeSlot();
 	},
     
     addCallback:function(){
@@ -46,7 +46,7 @@ var DeleteUserController = BaseController.extend({
     sleepModule:function(){
 		//Frameworks.releaseOnKeypadEventListener(DeleteUserLogic.view);
 		DeleteUserLogic.view.setTouchEnabled(false);
-		Frameworks.emit(signal.common.Signal_SleepModule_Done);
+		Frameworks.emit(SignalCommon.Signal_SleepModule_Done);
     },
 
     wakeModule:function(){
@@ -55,13 +55,13 @@ var DeleteUserController = BaseController.extend({
         this.addCallback();
     },
 
-    destroyModule:function(){
+    destroyModule:function(destroyType){
         //Frameworks.releaseOnKeypadEventListener(DeleteUserLogic.view);
 		this.destroy();
 
-		if(destroyType == DESTORY_TYPE_EFFECT){
+		if(destroyType == DESTROY_TYPE_EFFECT){
 			//不销毁数据
-		}else if(destroyType == DESTORY_TYPE_CLEAN){
+		}else if(destroyType == DESTROY_TYPE_CLEAN){
 			//销毁数据
 			Frameworks.moduleCleanUp(DeleteUserLogic);
 			DeleteUserLogic.releaseData();
@@ -70,6 +70,6 @@ var DeleteUserController = BaseController.extend({
 		DeleteUserLogic.view.removeFromParent(true);
 		this.reset();
 	
-		Frameworks.emit(signal.common.Signal_DestroyModule_Done);
+		Frameworks.emit(SignalCommon.Signal_DestroyModule_Done);
     }
 });

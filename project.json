@@ -22,6 +22,7 @@
         "src/game/mvc/engine/MvcEngine.js",
         "src/game/mvc/view/ButtonEffectEvent.js",
         "src/game/network/MessageTypeCommon.js",
+        "src/Common/CommonFunction.js",
         "src/Common/Client2ServerCommon.js",
         "src/Common/Server2ClientCommon.js",
         "src/FrameWorks/utils/GamePub.js"

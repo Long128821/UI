@@ -22,7 +22,7 @@ var UserAgreementController = BaseController.extend({
     },
 
 	removeSlot:function(){
-		UserAgreementLogic.Slot();
+		UserAgreementLogic.removeSlot();
 	},
     
     addCallback:function(){
@@ -44,7 +44,7 @@ var UserAgreementController = BaseController.extend({
     sleepModule:function(){
 		//Frameworks.releaseOnKeypadEventListener(UserAgreementLogic.view);
 		UserAgreementLogic.view.setTouchEnabled(false);
-		Frameworks.emit(signal.common.Signal_SleepModule_Done);
+		Frameworks.emit(SignalCommon.Signal_SleepModule_Done);
     },
 
     wakeModule:function(){
@@ -53,21 +53,22 @@ var UserAgreementController = BaseController.extend({
         this.addCallback();
     },
 
-    destroyModule:function(){
+    destroyModule:function(destroyType){
         //Frameworks.releaseOnKeypadEventListener(UserAgreementLogic.view);
 		this.destroy();
+        console.log(UserAgreementLogic.view);
 
-		if(destroyType == DESTORY_TYPE_EFFECT){
+		if(destroyType == DESTROY_TYPE_EFFECT){
 			//不销毁数据
-		}else if(destroyType == DESTORY_TYPE_CLEAN){
+		}else if(destroyType == DESTROY_TYPE_CLEAN){
 			//销毁数据
 			Frameworks.moduleCleanUp(UserAgreementLogic);
 			UserAgreementLogic.releaseData();
 		}
-	
+        console.log(UserAgreementLogic.view);
 		UserAgreementLogic.view.removeFromParent(true);
 		this.reset();
 	
-		Frameworks.emit(signal.common.Signal_DestroyModule_Done);
+		Frameworks.emit(SignalCommon.Signal_DestroyModule_Done);
     }
 });

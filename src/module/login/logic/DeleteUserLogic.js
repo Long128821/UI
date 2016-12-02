@@ -11,7 +11,7 @@ var DeleteUserLogic= {
 	
     createView:function(){
     	this.initLayer();
-
+        
         this.view.setTag(ModuleTable["DeleteUser"]["Layer"]);
         
         this.initView();
