@@ -74,17 +74,16 @@ var LoginLogic= {
 	callback_btn_weixin_login:function(pSender, event){
 		if(event == ccui.Widget.TOUCH_BEGAN){
 			//按下
-
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
             MvcEngine.createModule(GUI_USERAGREEMENT);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
-
 		}
 	},
 
 	callback_btn_olduser_login:function(pSender, event){
+        console.log("已有账户");
 		if(event == ccui.Widget.TOUCH_BEGAN){
 			//按下
 
@@ -208,13 +207,13 @@ var LoginLogic= {
     	
     	}
     },
-    
+    //添加信号
     addSlot:function(){
-    	
+    	Frameworks.addSlot2Signal(BASEID_LOGIN, ProfileLogin.loginManage);//登录信号
     },
     
     removeSlot:function(){
-    	
+    	Frameworks.removeSlotFromSignal(BASEID_LOGIN, ProfileLogin.loginManage);
     },
     
     //释放界面的私有数据
