@@ -58,7 +58,7 @@ var MoreLogic= {
 
 		}
 	},
-    
+    //安卓手机的返回键的监听事件
     onKeypad:function(event){
     	if(event == "backClicked"){//返回键
     		
@@ -66,11 +66,11 @@ var MoreLogic= {
     	
     	}
     },
-    
+    //添加信号
     addSlot:function(){
     	
     },
-    
+    //移除信号
     removeSlot:function(){
     	
     },
