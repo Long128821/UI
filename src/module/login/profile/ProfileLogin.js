@@ -35,8 +35,6 @@ var ProfileLogin= {
 
         if(UserID== 0|| username== null) return;
 
-        console.log(window.localStorage.getItem("userInfo"));
-
         if(window.localStorage){//支持本地存储
             if(window.localStorage.getItem("userInfo")!= null){//已有数据
                 var userInfo= window.localStorage.getItem("userInfo");//本地存储中，已经存在用户数据
@@ -92,8 +90,8 @@ var ProfileLogin= {
 
             //本地保存用户数据
             ProfileLogin.saveUserData();
-
-            MvcEngine.getInstance().setNeedCreateModuleName(GUI_HALL);
+            console.log(result+ " "+ resultText);
+            MvcEngine.createModule(GUI_HALL);
         }else{
             //Todo:登录失败提示
             alert(resultText);

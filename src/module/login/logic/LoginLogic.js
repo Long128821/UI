@@ -77,7 +77,8 @@ var LoginLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            MvcEngine.createModule(GUI_USERAGREEMENT);
+            //MvcEngine.createModule(GUI_USERAGREEMENT);
+            sendBASEID_LOGIN(ProfileLogin.getLoginUserName(), ProfileLogin.getLoginPassword());
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -210,11 +211,11 @@ var LoginLogic= {
     },
     //添加信号
     addSlot:function(){
-    	
+    	Frameworks.addSlot2Signal(BASEID_LOGIN, ProfileLogin.loginManage);
     },
     //移除信号
     removeSlot:function(){
-    	
+    	Frameworks.removeSlotFromSignal(BASEID_LOGIN, ProfileLogin.loginManage);
     },
     
     //释放界面的私有数据

@@ -133,10 +133,17 @@ var Frameworks= {
      * @param dataTable 回调数据(一般为null)
      */
     emit:function(signal, dataTable){
-        if(!this.m_signalSlotTable.hasOwnProperty(signal)) return;
-        if(!CommonFunction.judgeValueIsEffect(this.m_signalSlotTable[signal])) return;
+        if(!this.isContainsSignal(signal)) return;
         //发送信号，执行回调函数
         this.m_signalSlotTable[signal](dataTable);
+    },
+    /**
+     *Func:是否包含某一个信号
+     */
+    isContainsSignal:function(signal){
+        if(!this.m_signalSlotTable.hasOwnProperty(signal)) return false;
+        if(!CommonFunction.judgeValueIsEffect(this.m_signalSlotTable[signal])) return false;
+        return true;
     },
     /**
      * Func:删除消息信号

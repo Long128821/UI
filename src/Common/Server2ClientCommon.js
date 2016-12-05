@@ -7,6 +7,9 @@ function read80000000(nmBaseMessage){
     //存放消息类型和消息名
     dataMap.put("messageType", MSG_IDLE);
     dataMap.put("messageName", "MSG_IDLE");
+
+    NetworkMonitor.initLastRecvTime();
+
     return dataMap;
 }
 

@@ -25,8 +25,3 @@ var g_arrHonor= [
     "res/ui_yidiajujia_1.png",//一代巨贾
     "res/ui_yidiajujia_1.png"//富甲天下
 ];
-
-//用户名
-var g_userLists= new Map();
-g_userLists.put("xxl", "123");
-g_userLists.put("小明", "世纪");

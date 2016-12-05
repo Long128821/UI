@@ -67,6 +67,22 @@ function Map() {
         return bln;
     };
 
+    //设置指定Key的值，成功返回True，失败返回False
+    this.setValueByKey = function(_key, _value) {
+        var bln = false;
+        try {
+            for (var i = 0; i < this.elements.length; i++) {
+                if (this.elements[i].key == _key) {
+                    this.elements[i].value= _value;
+                    return true;
+                }
+            }
+        } catch (e) {
+            bln = false;
+        }
+        return bln;
+    };
+
     //删除指定Key的元素，成功返回True，失败返回False
     this.removeByValue = function(_value) {
         var bln = false;

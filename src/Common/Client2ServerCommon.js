@@ -5,8 +5,7 @@
 //心跳消息
 function sendIdleMsg(){
     var nmBaseMessage= new NMBaseMessage();
-    //Todo:心跳消息ID
-    nmBaseMessage.setMessageType(REQ);//消息ID
+    nmBaseMessage.setMessageType(0);//消息ID
     nmBaseMessage.setMsgVer(0);//设置消息版本
 
     nmBaseMessage.writeStart();
