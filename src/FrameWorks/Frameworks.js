@@ -1,7 +1,7 @@
 var Frameworks= {
     m_curButton:null,//当前
-    m_signalSlotTable:{},//存放信号
-    m_callbackEventTable:{},//存放点击事件
+    m_signalSlotTable:new Map(),//存放信号
+    m_callbackEventTable:new Map(),//存放点击事件
     m_callBackOnKeypadEventTable:{},//存放返回键事件(android特有)
     //清空除了function以外的所有数据
     //同时view也不清空
@@ -34,14 +34,12 @@ var Frameworks= {
         }
 
         //遍历Map
-        //首先判断Map是否存在
-        if(self.m_callbackEventTable.hasOwnProperty(component._name)){
-            var contain= self.m_callbackEventTable[component._name];
-            if(CommonFunction.judgeValueIsEffect(contain)){
-                if(contain.hasOwnProperty(event)){//判断控件是否一致
-                    //是否有会有回调方法
-                    contain[event](component, event);
-                }
+        var contain= self.m_callbackEventTable.get(component);
+        if(contain){//判断控件是否一致
+            //是否有会有回调方法
+            if(contain[event]!= null&&contain[event]!=undefined){
+                //回调
+                contain[event](component, event);
             }
         }
     },
@@ -53,15 +51,18 @@ var Frameworks= {
      * @param btnEffectEvent 特效(点击时，是否有特效，是否音效)
      */
     bindEventCallback:function(component, callback, event, btnEffectEvent){
-        console.log(component._name);
         var map= {};
-        if(!this.m_callbackEventTable.hasOwnProperty(component._name)){
-            this.m_callbackEventTable[component._name]= map;
+        if(!this.m_callbackEventTable.containsKey(component)){
+            this.m_callbackEventTable.put(component, map);
         }
 
         //Todo:其他事件的监听
-        map[event]= callback;//单击事件
-        map["btnEffectEvent"]= btnEffectEvent;
+        if(event== BUTTON_CLICK){//单击事件
+            map[event]= callback;//单击事件
+        }
+
+        map[btnEffectEvent]= btnEffectEvent;
+        map[name]= component._name;
 
         component.addTouchEventListener(this.callbackHandle);
     },
@@ -73,12 +74,9 @@ var Frameworks= {
      * @param btnEffectEvent 特效(点击时，是否有特效，是否音效)
      */
     unbindEventCallback:function(component, callback, event, btnEffectEvent){
-        var self= Frameworks;
-        if(self.m_callbackEventTable.hasOwnProperty(component._name)) {
-            var contain = self.m_callbackEventTable[component._name];
-            if(!CommonFunction.judgeValueIsEffect(contain)) return;
-        }
         //遍历Map
+        var contain= this.m_callbackEventTable.get(component);
+        if(!contain){return;}
 
         if(contain[event]!= null){
             if(event== BUTTON_CLICK){
@@ -94,12 +92,9 @@ var Frameworks= {
             }
         }
 
-        console.log(count);
-
         //原因是:Map中，除了监听事件之外，还有两个对象btnEffectEvent、name
         if(count== 2){
-            console.log(this.m_callbackEventTable);
-            this.m_callbackEventTable[component._name]= null;
+            this.m_callbackEventTable[component]= null;
             //console.log("事件解绑成功！");
         }
     },
@@ -110,13 +105,12 @@ var Frameworks= {
      */
     addSlot2Signal:function(signal, callbackFunction){
         //判断是否已经有该存在该信号
-        if(!this.m_signalSlotTable.hasOwnProperty(signal)){
-            this.m_signalSlotTable[signal]=  callbackFunction;
+        if(!this.m_signalSlotTable.containsKey(signal)){
+            this.m_signalSlotTable.put(signal, callbackFunction);
         }else{
             //如果已经存在,判断信号的回调是否一致
-            var contain = this.m_signalSlotTable[signal];
-            if(contain!= callbackFunction){
-                this.m_signalSlotTable[signal]=  callbackFunction;
+            if(this.m_signalSlotTable.get(signal)!= callbackFunction){
+                this.m_signalSlotTable.put(signal, callbackFunction);
             }
         }
     },
@@ -126,11 +120,9 @@ var Frameworks= {
      * @param dataTable 回调数据(一般为null)
      */
     emit:function(signal, dataTable){
-        if(!this.m_signalSlotTable.hasOwnProperty(signal)) return;
-        if(CommonFunction.judgeValueIsEffect(this.m_signalSlotTable[signal])) return;
+        if(this.m_signalSlotTable.get(signal)== null) return;
         //发送信号，执行回调函数
-
-        this.m_signalSlotTable[signal](dataTable);
+        this.m_signalSlotTable.get(signal)(dataTable);
     },
     /**
      * Func:删除消息信号
@@ -138,12 +130,11 @@ var Frameworks= {
      * @param callbackFunction
      */
     removeSlotFromSignal:function(signal, callbackFunction){
-        if(!this.m_signalSlotTable.hasOwnProperty(signal)) return;
-        if(CommonFunction.judgeValueIsEffect(this.m_signalSlotTable[signal])) return;
+        if(this.m_signalSlotTable.get(signal)== null) return;
 
         //监听信号的回调函数 是否匹配
-        if(this.m_signalSlotTable[signal]== callbackFunction){
-            this.m_signalSlotTable[signal]= null;//从监听中移除
+        if(this.m_signalSlotTable.get(signal)== callbackFunction){
+            this.m_signalSlotTable.removeByKey(signal);//从监听中移除
         }
     }
 };
