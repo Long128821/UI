@@ -56,7 +56,6 @@ var UserAgreementController = BaseController.extend({
     destroyModule:function(destroyType){
         //Frameworks.releaseOnKeypadEventListener(UserAgreementLogic.view);
 		this.destroy();
-        console.log(UserAgreementLogic.view);
 
 		if(destroyType == DESTROY_TYPE_EFFECT){
 			//不销毁数据
@@ -65,7 +64,7 @@ var UserAgreementController = BaseController.extend({
 			Frameworks.moduleCleanUp(UserAgreementLogic);
 			UserAgreementLogic.releaseData();
 		}
-        console.log(UserAgreementLogic.view);
+	
 		UserAgreementLogic.view.removeFromParent(true);
 		this.reset();
 	

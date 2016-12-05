@@ -9,7 +9,6 @@ var LoginController = BaseController.extend({
     },
 
     createView:function(){
-        console.log("createView");
         LoginLogic.createView();
         //Frameworks.setOnKeypadEventListener(LoginLogic.view, LoginLogic.onKeypad);
     },
@@ -27,7 +26,6 @@ var LoginController = BaseController.extend({
 	},
     
     addCallback:function(){
-        console.log("添加");
 		Frameworks.bindEventCallback(CocoStudio.getComponent(LoginLogic.view,"btn_weixin_login"), LoginLogic.callback_btn_weixin_login, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.bindEventCallback(CocoStudio.getComponent(LoginLogic.view,"btn_olduser_login"), LoginLogic.callback_btn_olduser_login, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.bindEventCallback(CocoStudio.getComponent(LoginLogic.view,"btn_reg"), LoginLogic.callback_btn_reg, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
@@ -54,7 +52,6 @@ var LoginController = BaseController.extend({
     },
     
     setModuleLayer:function(moduleLayer){
-        console.log("setModuleLayer:"+ moduleLayer);
     	this.moduleLayer = moduleLayer;
 	},
 
@@ -70,14 +67,12 @@ var LoginController = BaseController.extend({
     },
 
     wakeModule:function(){
-        console.log("唤醒");
     	//Frameworks.setOnKeypadEventListener(LoginLogic.view, LoginLogic.onKeypad);
         LoginLogic.view.setTouchEnabled(true);
         this.addCallback();
     },
 
     destroyModule:function(destroyType){
-        console.log("销毁！");
         //Frameworks.releaseOnKeypadEventListener(LoginLogic.view);
 		this.destroy();
 
