@@ -8,8 +8,6 @@ function read80000000(nmBaseMessage){
     dataMap.put("messageType", MSG_IDLE);
     dataMap.put("messageName", "MSG_IDLE");
 
-    NetworkMonitor.initLastRecvTime();
-
     return dataMap;
 }
 

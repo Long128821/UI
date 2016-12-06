@@ -1,22 +1,12 @@
 //const WebSocketURL= "ws://10.10.0.66:65031";//WebSocket连接路径
 const WebSocketURL= "ws://10.10.0.119:65031";//WebSocket连接路径
 
-const HeartBeatTime= 3000;//心跳空闲时长
-const ContentTimeOut= 30000;//断网多长时间以后没有重连上，不再重连 报错
-
 /**
  * Func:网络连接(单例模式)
- * 断网之后，立即连接(也可以间隔5s之后，再重连，不过感觉游戏，不太合适)，
- * 但是一段时间后，仍然没有连接成功，发送断网请求
- * 间隔多长时间，发送一个心跳(发送数据时，不发送心跳包)，保持与服务器端的连接。
  * 以二进制流的传递方式，传输数据
  */
 var Network= {
     webSocket:null,//WebSocket连接单例
-//    heartBeat_timer:null,//心跳定时器
-//    preHeartBeatTime:-1,//上次心跳时间
-//    unConnectTime:0,//记录开始断网的时间
-    closeTimer:null,//关闭定时器
     getInstance:function(){
         return this;
     },
@@ -29,7 +19,6 @@ var Network= {
         //判断浏览器是否支持WebSocket
         if(window.WebSocket){
             this.initWebSocket();//初始化WebSocket
-            //this.initHeartBeat();//开启心跳定时器
         }else{
             alert("该浏览器不支持WebSocket!");
         }
@@ -47,17 +36,15 @@ var Network= {
         //连接成功之后，会自动打开onopen方法
         self.webSocket.onopen = function(evt){
             console.log('network onOpen...');
-            self.unConnectTime= 0;//连接成功以后，上次断网时间置0
-            //先关闭网络监测，再开启网络监测
-            NetworkMonitor.closeNetworkMonitor();
-            NetworkMonitor.startNetworkMonitor();
+            //通知消息中心(MessageCenter)连接成功
+            MessageCenter.connectSuccess();
         };
 
         //连接成功之后，前台获取后台的信息
         self.webSocket.onmessage = function(evt){
             console.log("接受");
-            var buffer= evt.data;
-            MessageRouting.messageDistribute(buffer);//接收消息
+            //WebSocket
+            MessageCenter.acceptMessage(evt.data);
         };
 
         //Socket连接失败时，会自动调用该函数
@@ -70,84 +57,25 @@ var Network= {
         self.webSocket.onerror = function(evt){
             console.log('network onError...');
             self.clearData();//清空数据
+            //拒绝接受和转发消息
+            MessageCenter.unConnect();
         };
 
         //Socket关闭时，自动调用该函数
         self.webSocket.onclose = function(evt){
             console.log('network onClose...');
             self.clearData();//清空数据
-//            //记录第一次断网的时间，从而计算已经断网的时间
-//            if(!self.unConnectTime){
-//                self.unConnectTime= new Date().getTime();
-//            }
-//            //断线重连
-//            self.reconnect();
+            MessageCenter.unConnect();
         };
     },
     //清空数据，关闭心跳连接
     clearData:function(){
         var self= this;
         self.webSocket= null;
-        if(self.closeTimer){
-            clearInterval(self.closeTimer);
-            self.closeTimer= null;
-        }
-//        //关闭心跳定时器
-//        clearInterval(self.heartBeat_timer);
-//        self.heartBeat_timer= null;
-//        self.preHeartBeatTime= 0;
     },
-//    //创建心跳
-//    initHeartBeat:function(){
-//        var self= this;
-//        //开启心跳定时器
-//        self.heartBeat_timer= setInterval(function(){
-//            self.keepAlive();
-//        }, HeartBeatTime);
-//    },
-//
-//    //心跳
-//    keepAlive:function(){
-//        //只有空闲的时候,才会需要发送心跳包
-//        //不为空&&连接中
-//        if(this.getWebSocketConnecting()){
-//            var curTime= new Date().getTime();
-//            //空闲中
-//            if(this.webSocket.bufferedAmount== 0){
-//                //大约心跳时间
-//                if(curTime- this.preHeartBeatTime>= HeartBeatTime) {
-//                    //发送心跳包
-//                    console.log("发送心跳！");
-//                }
-//            }
-//            this.preHeartBeatTime= curTime;
-//        }else{
-//            //清空数据后，重连
-//            this.clearData();
-//            //记录第一次断网的时间，从而计算已经断网的时间
-//            if(!this.unConnectTime){
-//                this.unConnectTime= new Date().getTime();
-//            }
-//            this.reconnect();
-//        }
-//    },
     //获取webSocket状态
     getWebSocketConnecting:function(){
         return (this.webSocket&&(this.webSocket.readyState== WebSocket.OPEN));
-    },
-
-    //重连
-    reconnect:function(){
-//        var curTime= new Date().getTime();
-//        //判断断线时长是否超时
-//        if(curTime- this.unConnectTime>= ContentTimeOut){
-//            this.unConnectTime= 0;
-//            this.closeWebSocket();
-//        }else{
-//            this.initWebSocket();
-//            //this.initHeartBeat();
-//        }
-        this.initWebSocket();
     },
 
     /**
@@ -168,38 +96,10 @@ var Network= {
         }
     },
 
-    /**
-     * Func:
-     *  手动关闭WebSocket时，一定要确保:
-     *  所有数据流中的消息，已经发送完毕，才可以关闭。
-     */
-    closeWebSocket:function(){
-        var self= this;
-        if(self.webSocket&&self.webSocket.bufferedAmount== 0){
-            self.webSocket.close();
-            if(self.webSocket.readyState== WebSocket.CLOSED){
-                self.webSocket = null;
-                console.log("network close...");
-                (self.closeTimer)&&(clearInterval(self.closeTimer));
-                self.closeTimer= null;
-            }
-        }else{
-            //开关仅开启一次关闭定时器
-            if(!self.closeTimer){
-                //手动关闭时,一定要去确保数据流中，没有数据
-                self.closeTimer= setInterval(function(){
-                    self.closeWebSocket();
-                }, 100);
-            }
-        }
-    },
     //发送消息
-    sendMessage:function(nmBassMessage, callback){
-        if(typeof nmBassMessage!= "object") return;
-        this.send(nmBassMessage.getArrayBuffer());
+    sendMessage:function(nmBaseMessage, callback){
+        if(typeof nmBaseMessage!= "object") return;
+        //将要发送的消息，添加到消息缓冲池中
+        MessageCenter.addBaseMessage(MessageControlType.Send, nmBaseMessage);
     }
 };
-
-
-//Todo:心跳算法
-//Todo:Socket暂停与恢复

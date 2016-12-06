@@ -16,6 +16,7 @@
         "src/FrameWorks/network/NetworkMonitor.js",
         "src/FrameWorks/network/Network.js",
         "src/FrameWorks/NMBaseMessage.js",
+        "src/FrameWorks/FrameWorkDataPool.js",
         "src/FrameWorks/Frameworks.js",
         "src/FrameWorks/Load.js",
         "src/FrameWorks/CocoStudio.js",

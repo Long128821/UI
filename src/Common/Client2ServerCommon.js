@@ -12,14 +12,14 @@ function sendIdleMsg(){
 
     nmBaseMessage.writeOver();
 
-    Network.sendMessage(nmBaseMessage);
+    Network.getInstance().sendMessage(nmBaseMessage);
 
     delete nmBaseMessage;
 }
 
 //一键注册
 //Todo:拿不到的数据有:IMEI 手机号  推荐人的ID 手机型号 是否为模拟器
-function sendBASEID_RESGISTER(IMEI, callback){
+function sendBASEID_RESGISTER(IMEI){
     var nmBaseMessage= new NMBaseMessage();
     //现在仅仅只是测试，不需要设置消息ID
     nmBaseMessage.setMessageType(REQ + BASEID_REGISTER);
@@ -61,7 +61,7 @@ function sendBASEID_RESGISTER(IMEI, callback){
     nmBaseMessage.writeOver();//写完
 
     //写结束，同时设置对应的回调函数(如果需要处理的话)
-    Network.getInstance().sendMessage(nmBaseMessage, callback);
+    Network.getInstance().sendMessage(nmBaseMessage);
 
     //清空数据
     delete nmBaseMessage;

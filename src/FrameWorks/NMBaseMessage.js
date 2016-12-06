@@ -1,5 +1,6 @@
 function NMBaseMessage(arraybuffer){
-    this.setArrayBuffer= function(arrayBuffer){//设置消息
+    //设置消息
+    this.setArrayBuffer= function(arrayBuffer){
         this.m_arrayBuffer=((arrayBuffer== undefined)?0:arrayBuffer);
     };
 
@@ -82,7 +83,7 @@ function NMBaseMessage(arraybuffer){
     //Int类型
     this.writeInt= function(value){
         if(this.checkBinaryStream(g_DataType.Int, 0)){
-            return ;
+            return 0;
         }
         this.m_binaryStream.writeInt(value);
     };
@@ -90,7 +91,7 @@ function NMBaseMessage(arraybuffer){
     //Byte类型
     this.writeByte= function(value){
         if(this.checkBinaryStream(g_DataType.Byte, 0)){
-            return ;
+            return 0;
         }
         this.m_binaryStream.writeByte(value);
     };
@@ -98,7 +99,7 @@ function NMBaseMessage(arraybuffer){
     //Short类型
     this.writeShort= function(value){
         if(this.checkBinaryStream(g_DataType.Short, 0)){
-            return ;
+            return 0;
         }
         this.m_binaryStream.writeShort(value);
     };
@@ -106,7 +107,7 @@ function NMBaseMessage(arraybuffer){
     //Long类型
     this.writeLong= function(value){
         if(this.checkBinaryStream(g_DataType.Long, 0)){
-            return ;
+            return 0;
         }
         this.m_binaryStream.writeLong(value);
     };
@@ -114,7 +115,7 @@ function NMBaseMessage(arraybuffer){
     //UTF16类型
     this.writeUTF16= function(value){
         if(this.checkBinaryStream(g_DataType.UTF16, 0)){
-            return ;
+            return 0;
         }
         this.m_binaryStream.writeUTF16(value);
     };
@@ -122,7 +123,7 @@ function NMBaseMessage(arraybuffer){
     //Int类型
     this.readInt= function(){
         if(this.checkBinaryStream(g_DataType.Int, 1)){
-            return ;
+            return 0;
         }
         return this.m_binaryStream.readInt();
     };
@@ -130,7 +131,7 @@ function NMBaseMessage(arraybuffer){
     //Byte类型
     this.readByte= function(){
         if(this.checkBinaryStream(g_DataType.Byte, 1)){
-            return ;
+            return 0;
         }
         return this.m_binaryStream.readByte();
     };
@@ -138,7 +139,7 @@ function NMBaseMessage(arraybuffer){
     //Short类型
     this.readShort= function(){
         if(this.checkBinaryStream(g_DataType.Short, 1)){
-            return ;
+            return 0;
         }
         return this.m_binaryStream.writeShort();
     };
@@ -146,7 +147,7 @@ function NMBaseMessage(arraybuffer){
     //Long类型
     this.readLong= function(){
         if(this.checkBinaryStream(g_DataType.Long, 1)){
-            return ;
+            return 0;
         }
        return this.m_binaryStream.readLong();
     };
@@ -154,7 +155,7 @@ function NMBaseMessage(arraybuffer){
     //UTF16类型
     this.readUTF16= function(){
         if(this.checkBinaryStream(g_DataType.UTF16, 1)){
-            return ;
+            return 0;
         }
         return this.m_binaryStream.readUTF16();
     };
