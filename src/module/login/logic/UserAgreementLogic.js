@@ -1,3 +1,6 @@
+//同意用户协议
+var webViewURL= "http://f.99sai.com/lord/ServiceTerm.html";
+
 var UserAgreementLogic= {
     view:null,//视图
     
@@ -11,8 +14,10 @@ var UserAgreementLogic= {
     	this.initLayer();
         
         this.view.setTag(ModuleTable["UserAgreement"]["Layer"]);
-        
+
         this.initView();
+
+        this.showWebView();
     },
     
 	initView:function(){
@@ -23,17 +28,33 @@ var UserAgreementLogic= {
 	},
 
     initLayer:function(){
-		var gui = GUI_USERAGREEMENT; 
-		if(GameConfig.RealProportion > GameConfig.SCREEN_PROPORTION_SMALL){
-			//适配方案 1136x640  
-			this.view = CocoStudio.createView("res/UserAgreement.json"); 
-			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.EXACT_FIT); 
-		}else if(GameConfig.RealProportion <= GameConfig.SCREEN_PROPORTION_SMALL){
-			//适配方案 Pad加黑边  
-			this.view = CocoStudio.createView("res/UserAgreement.json"); 
-			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL); 
-		}
+		var gui = GUI_USERAGREEMENT;
+        //适配方案 Pad加黑边
+        this.view = CocoStudio.createView("res/UserAgreement.json");
+        GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL);
+//		if(GameConfig.RealProportion > GameConfig.SCREEN_PROPORTION_SMALL){
+//			//适配方案 1136x640
+//			this.view = CocoStudio.createView("res/UserAgreement.json");
+//			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.EXACT_FIT);
+//		}else if(GameConfig.RealProportion <= GameConfig.SCREEN_PROPORTION_SMALL){
+//			//适配方案 Pad加黑边
+//			this.view = CocoStudio.createView("res/UserAgreement.json");
+//			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL);
+//		}
 	},
+    //显示WebView
+    showWebView:function(){
+        var webView = new ccui.WebView(webViewURL);
+        var size= this.Panel_webview.getContentSize();
+        webView.setContentSize(size);
+        webView.setPosition(cc.p(cc.winSize.width* 0.5, cc.winSize.height* 0.5));
+        //移除原有的webView
+        //获取bgColor(this.Panel_webview._color)
+        //设置背景色
+        webView._renderCmd._div.style["background"]= "rgb(56, 0, 38)";
+
+        this.view.addChild(webView);
+    },
     
 	callback_btn_close:function(pSender, event){
 		if(event == ccui.Widget.TOUCH_BEGAN){
@@ -57,7 +78,7 @@ var UserAgreementLogic= {
     },
     //添加信号
     addSlot:function(){
-    	
+
     },
     //移除信号
     removeSlot:function(){

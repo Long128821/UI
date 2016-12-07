@@ -3,6 +3,7 @@
     "frameRate"     : 60,
     "id"            : "gameCanvas",
     "renderMode"    : 1,
+    "showFPS"       : true,
     "jsList"        : [
         "src/FrameWorks/Map.js",
         "src/game/data/GUI_Config.js",
@@ -14,6 +15,7 @@
         "src/FrameWorks/network/MessageCenter.js",
         "src/FrameWorks/network/MessageRouting.js",
         "src/FrameWorks/network/NetworkMonitor.js",
+        "src/FrameWorks/network/NetworkConfig.js",
         "src/FrameWorks/network/Network.js",
         "src/FrameWorks/NMBaseMessage.js",
         "src/FrameWorks/FrameWorkDataPool.js",
@@ -25,9 +27,10 @@
         "src/game/mvc/engine/MvcEngine.js",
         "src/game/mvc/view/ButtonEffectEvent.js",
         "src/game/network/MessageTypeCommon.js",
-        "src/Common/CommonFunction.js",
+        "src/Common/Common.js",
         "src/Common/Client2ServerCommon.js",
         "src/Common/Server2ClientCommon.js",
+        "src/Common/ProfileCommonSignal.js",
         "src/FrameWorks/utils/GamePub.js"
     ]
 }

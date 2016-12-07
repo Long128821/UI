@@ -4,8 +4,9 @@
 
 //心跳消息
 function sendIdleMsg(){
+    console.log('心跳');
     var nmBaseMessage= new NMBaseMessage();
-    nmBaseMessage.setMessageType(0);//消息ID
+    nmBaseMessage.setMessageType(ACK);//消息ID
     nmBaseMessage.setMsgVer(0);//设置消息版本
 
     nmBaseMessage.writeStart();

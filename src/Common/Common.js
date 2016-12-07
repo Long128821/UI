@@ -1,4 +1,8 @@
-var CommonFunction= {
+var Common= {
+    debugState:false,//是否为调试模式
+    isDebugState:function(){
+        return this.debugState;
+    },
     /**
      * Func:判断一个值是否有效
      * @param value
@@ -18,17 +22,6 @@ var CommonFunction= {
         }
         return size;
     },
-//    //在Table中，是否包含某个key
-//    isContainsKey:function(key, table){
-//        if(this.judgeValueIsEffect(key)||this.judgeValueIsEffect(table)) return false;
-//
-//        for(var _key in table){
-//            if(_key== key){//判断是否一致
-//                return true;
-//            }
-//        }
-//        return false;
-//    },
 
     //获取值
     getValue:function(key, table){
@@ -41,3 +34,6 @@ var CommonFunction= {
         return null;
     }
 };
+
+//根据是否Debug模式，设置是否显示、启动showFPS、debugMode
+cc.director.setDisplayStats(Common.isDebugState());

@@ -81,7 +81,7 @@ var MvcEngine= {
     //获取需要添加到活跃队列的界面数量
     getNeedAddActiveModuleSize:function(){
         ////console.log("getNeedAddActiveModuleSize");
-        return CommonFunction.getTableSize(this.needAddActiveModuleTable);
+        return Common.getTableSize(this.needAddActiveModuleTable);
     },
     /**
      * Func:获取当前显示的界面中的最大层级
@@ -94,7 +94,7 @@ var MvcEngine= {
         //遍历当前显示的所有Table
         for(var key in this.activeModuleTable){
             var value= this.activeModuleTable[key];
-            if(CommonFunction.judgeValueIsEffect(value)){//是否有效
+            if(Common.judgeValueIsEffect(value)){//是否有效
                 var moduleLayer = value.getModuleLayer();//获取界面的对应层级
                 if(maxLayer< moduleLayer){
                     maxLayer= moduleLayer;
@@ -106,7 +106,7 @@ var MvcEngine= {
     //唤醒界面
     doWakeModule:function(addModuleName){
         ////console.log("doWakeModule");
-        if(CommonFunction.judgeValueIsEffect(addModuleName)&& typeof addModuleName== "string"){
+        if(Common.judgeValueIsEffect(addModuleName)&& typeof addModuleName== "string"){
             //createView方法中可能同时创建了多个界面,需要屏蔽界面
             var isHasDestroyModule = false;//是否有需要销毁的层
             var sleepModuleTable = {};//休眠的层
@@ -115,7 +115,7 @@ var MvcEngine= {
             for(var key in this.activeModuleTable){
                 var value= this.activeModuleTable[key];
                 //判断该值是否有效
-                if(CommonFunction.judgeValueIsEffect(value)){
+                if(Common.judgeValueIsEffect(value)){
                     var moduleLayer = value.getModuleLayer();//获取层级
                     if (layerOfCreateModule < moduleLayer) {
                         //高于新打开界面的层级销毁
@@ -123,14 +123,14 @@ var MvcEngine= {
                     }else if (layerOfCreateModule > moduleLayer){
                         //小于新打开界面的层级休眠
                         //为Table赋值，当前Table有效的长度为key值，需要销毁的界面为value
-                        sleepModuleTable[CommonFunction.getTableSize(sleepModuleTable)+ 1] = value;
+                        sleepModuleTable[Common.getTableSize(sleepModuleTable)+ 1] = value;
                     }
                 }
             }
             ////console.log("是否有需要销毁的界面:"+isHasDestroyModule);
             if(isHasDestroyModule){
                 //连续创建界面时，保证下层不会唤醒
-                if(CommonFunction.judgeValueIsEffect(this.activeModuleTable[addModuleName].getLayer())){
+                if(Common.judgeValueIsEffect(this.activeModuleTable[addModuleName].getLayer())){
                     this.activeModuleTable[addModuleName].sleepModule();
                 }
             }
@@ -138,18 +138,18 @@ var MvcEngine= {
             this.sleepModuleTable(sleepModuleTable);
 
             //有需要销毁的界面时，唤醒当前活动的最高一层
-            if(CommonFunction.judgeValueIsEffect(this.needDestroyModuleName)){
+            if(Common.judgeValueIsEffect(this.needDestroyModuleName)){
                 var destroyModuleLayer= ModuleTable[this.needDestroyModuleName]["Layer"];//要销毁的层级
                 for(var key in this.activeModuleTable){
                     var value= this.activeModuleTable[key];
-                    if(CommonFunction.judgeValueIsEffect(value)){
+                    if(Common.judgeValueIsEffect(value)){
                         var moduleLayer= value.getModuleLayer();
                         if(destroyModuleLayer< moduleLayer){
                             //高于关闭界面的层级，则说明有演示弹出的界面
                             this.wakeModuleTable= {};
                         }else if(destroyModuleLayer> moduleLayer){
                             //填充唤醒界面Table, 长度+1 为key value为controller
-                            this.wakeModuleTable[CommonFunction.getTableSize(this.wakeModuleTable)+ 1]= value;
+                            this.wakeModuleTable[Common.getTableSize(this.wakeModuleTable)+ 1]= value;
                         }
                     }
                 }
@@ -157,12 +157,12 @@ var MvcEngine= {
 
             ////console.log(this.wakeModuleTable);
             //销毁时，唤醒的界面中层级最高的
-            if(CommonFunction.getTableSize(this.wakeModuleTable)> 0){
+            if(Common.getTableSize(this.wakeModuleTable)> 0){
                 //筛选需要的唤醒的界面中层级最高的
                 var wakeModule= this.getMaxModule(this.wakeModuleTable);
 
                 //有需要唤醒的界面，同时view也不为空
-                if(CommonFunction.judgeValueIsEffect(wakeModule)&&(CommonFunction.judgeValueIsEffect(wakeModule.getLayer()))){
+                if(Common.judgeValueIsEffect(wakeModule)&&(Common.judgeValueIsEffect(wakeModule.getLayer()))){
                     wakeModule.wakeModule();
                 }
                 //清空唤醒列表
@@ -181,13 +181,13 @@ var MvcEngine= {
     doCreateModule:function(isDelay){
         ////console.log("doCreateModule");
         ////console.log(this.needCreateModuleName);
-        if(!CommonFunction.judgeValueIsEffect(this.needCreateModuleName)){
+        if(!Common.judgeValueIsEffect(this.needCreateModuleName)){
             //唤醒最高级别界面
             this.doWakeModule();
             return;
         }else{
             //根据名字，在ModuleConfig.js配置文件中，查找配置信息
-            if(!CommonFunction.judgeValueIsEffect(ModuleTable[this.needCreateModuleName])){
+            if(!Common.judgeValueIsEffect(ModuleTable[this.needCreateModuleName])){
                 console.error("要创建的新界面("+this.needCreateModuleName+")没有在ModuleConfig.js配置！");
                 return;
             }
@@ -252,7 +252,7 @@ var MvcEngine= {
         //遍历当前活动界面
         for(var key in this.activeModuleTable){
             var value= this.activeModuleTable[key];
-            if(CommonFunction.judgeValueIsEffect(value)&&CommonFunction.judgeValueIsEffect(value.getLayer())){
+            if(Common.judgeValueIsEffect(value)&&Common.judgeValueIsEffect(value.getLayer())){
                 value.destroyModule(DESTROY_TYPE_CLEAN);
             }
         }
@@ -267,8 +267,8 @@ var MvcEngine= {
         for(var key in moduleTable){
             var value= moduleTable[key];
 
-            if(CommonFunction.judgeValueIsEffect(value)){
-                if(CommonFunction.judgeValueIsEffect(value.getLayer())){
+            if(Common.judgeValueIsEffect(value)){
+                if(Common.judgeValueIsEffect(value.getLayer())){
                     var moduleLayer = value.getModuleLayer();
                     if (maxLayer <= moduleLayer){
                         maxLayer = moduleLayer;
@@ -285,7 +285,7 @@ var MvcEngine= {
         var module= this.getMaxModule(this.activeModuleTable);
 
         //如果该界面有效
-        if(CommonFunction.judgeValueIsEffect(module)){
+        if(Common.judgeValueIsEffect(module)){
             module.wakeModule();
         }else{
             console.warn("要唤醒的界面为空！");
@@ -305,7 +305,7 @@ var MvcEngine= {
     //并存储需要唤醒的界面，执行结束
     wakeOrDestroyModules:function(moduleName, destroy_type){
         ////console.log("wakeOrDestroyModules");
-        if(!CommonFunction.judgeValueIsEffect(moduleName)) return;
+        if(!Common.judgeValueIsEffect(moduleName)) return;
 
         this.needDestroyModuleName= moduleName;
         this.needHandleModuleCount= 0;
@@ -313,7 +313,7 @@ var MvcEngine= {
         //获取当前需要删除的界面
         var removeModule= this.removeModuleFromTable(moduleName);
         //判断需要销毁的界面是否为空
-        if(!CommonFunction.judgeValueIsEffect(removeModule)) return;
+        if(!Common.judgeValueIsEffect(removeModule)) return;
 
         //需要销毁的界面层级
         var destroyModuleLayer= ModuleTable[moduleName]["Layer"];
@@ -321,16 +321,16 @@ var MvcEngine= {
         //获取需要销毁的Table
         var destroyModuleTable= this.getDestroyTable(destroyModuleLayer);
 
-        this.needHandleModuleCount= CommonFunction.getTableSize(destroyModuleTable) + 1;
+        this.needHandleModuleCount= Common.getTableSize(destroyModuleTable) + 1;
         ////console.log("需要销毁的数量:"+ this.needHandleModuleCount);
         ////console.log(destroyModuleTable);
-        if(CommonFunction.getTableSize(destroyModuleTable)> 0){
+        if(Common.getTableSize(destroyModuleTable)> 0){
             this.destroyModuleTable(destroyModuleTable, DESTROY_TYPE_CLEAN);
         }
         ////console.log(removeModule);
         //销毁界面
-        if(CommonFunction.judgeValueIsEffect(removeModule.getLayer())){
-            if(CommonFunction.judgeValueIsEffect(destroy_type)){
+        if(Common.judgeValueIsEffect(removeModule.getLayer())){
+            if(Common.judgeValueIsEffect(destroy_type)){
                 removeModule.destroyModule(destroy_type);
             }else{
                 removeModule.destroyModule(DESTROY_TYPE_CLEAN);
@@ -343,7 +343,7 @@ var MvcEngine= {
         ////console.log("需要销毁的层级:"+ destroyModuleLayer+" "+moduleName);
         for(var key in this.activeModuleTable){
             var value= this.activeModuleTable[key];
-            if(CommonFunction.judgeValueIsEffect(value)){
+            if(Common.judgeValueIsEffect(value)){
                 var moduleLayer = value.getModuleLayer();
                 ////console.log("遍历-需要销毁的层级:"+ moduleLayer);
                 if (moduleLayer== 0){
@@ -352,7 +352,7 @@ var MvcEngine= {
                     if(destroyModuleLayer< moduleLayer){
                         //高于关闭界面的层级销毁
                         //销毁Table赋值，key为长度+1
-                        destroyModuleTable[CommonFunction.getTableSize(destroyModuleTable)+ 1]= value;
+                        destroyModuleTable[Common.getTableSize(destroyModuleTable)+ 1]= value;
                         value= null;
                     }
                 }
@@ -376,7 +376,7 @@ var MvcEngine= {
         for(var key in this.activeModuleTable){
             var value= this.activeModuleTable[key];
             //虽然可能存在，但是其值为空，这种情况下，也不算是显示
-            if ((key== moduleName)&&(CommonFunction.judgeValueIsEffect(value))){
+            if ((key== moduleName)&&(Common.judgeValueIsEffect(value))){
                 return true;
             }
         }
@@ -391,7 +391,7 @@ var MvcEngine= {
         if(layerOfCreateModule!= 0){
             ////console.log("！= 0 "+ moduleName);
             if(!this.activeModuleTable.hasOwnProperty(moduleName)&&//需要休眠的不是当前活动的
-                CommonFunction.judgeValueIsEffect(this.activeModuleTable[moduleName])){//该界面没有被删除
+                Common.judgeValueIsEffect(this.activeModuleTable[moduleName])){//该界面没有被删除
                 return;
             }
             //当前显示界面列表中的最大层级
@@ -418,29 +418,29 @@ var MvcEngine= {
         //已显示界面
         for(var key in this.activeModuleTable){
             var value= this.activeModuleTable[key];
-            if(CommonFunction.judgeValueIsEffect(value)){
+            if(Common.judgeValueIsEffect(value)){
                 var moduleLayer = value.getModuleLayer();
                 ////console.log(layerOfCreateModule+ " "+ moduleLayer);
                 if (layerOfCreateModule<= moduleLayer){
                     //等于或者高于新打开界面的层级,销毁
                     if(this.needCreateModuleName== key){
                         //界面已经显示，则不销毁数据
-                        destroyType[CommonFunction.getTableSize(destroyModuleTable)+ 1]= DESTROY_TYPE_EFFECT;
+                        destroyType[Common.getTableSize(destroyModuleTable)+ 1]= DESTROY_TYPE_EFFECT;
                     }else{
-                        destroyType[CommonFunction.getTableSize(destroyModuleTable)+ 1]= DESTROY_TYPE_CLEAN;
+                        destroyType[Common.getTableSize(destroyModuleTable)+ 1]= DESTROY_TYPE_CLEAN;
                     }
 
-                    destroyModuleTable[CommonFunction.getTableSize(destroyModuleTable)+ 1]= value;
+                    destroyModuleTable[Common.getTableSize(destroyModuleTable)+ 1]= value;
                     this.activeModuleTable[key]= null;//从当前活动界面，删除
                 }else if(layerOfCreateModule> moduleLayer){
                     //小于新打开的界面的层级休眠
-                    sleepModuleTable[CommonFunction.getTableSize(sleepModuleTable)+ 1]= value;
+                    sleepModuleTable[Common.getTableSize(sleepModuleTable)+ 1]= value;
                 }
             }
         }
         ////console.log(this.needHandleModuleCount);
         //当前需要处理的界面数= 前一步需要处理的界面数 + 需要销毁的界面数量 + 需要休眠的界面数量
-        this.needHandleModuleCount+= (CommonFunction.getTableSize(destroyModuleTable)+ CommonFunction.getTableSize(sleepModuleTable));
+        this.needHandleModuleCount+= (Common.getTableSize(destroyModuleTable)+ Common.getTableSize(sleepModuleTable));
 
         //console.log(this.needHandleModuleCount);
         //如果没有需要唤醒的界面数，那么唤醒
@@ -457,10 +457,10 @@ var MvcEngine= {
     },
     //休眠界面Table
     sleepModuleTable:function(sleepModuleTable){
-        if(CommonFunction.getTableSize(sleepModuleTable)== 0) return;
+        if(Common.getTableSize(sleepModuleTable)== 0) return;
         for(var key in sleepModuleTable){
             var value= sleepModuleTable[key];
-            if(CommonFunction.judgeValueIsEffect(value)){
+            if(Common.judgeValueIsEffect(value)){
                 value.sleepModule();
             }
         }
@@ -471,9 +471,9 @@ var MvcEngine= {
         var isNumber= (typeof destroyType== "number");
         for(var key in destroyModuleTable){
             var value= destroyModuleTable[key];
-            if(CommonFunction.judgeValueIsEffect(value)){
+            if(Common.judgeValueIsEffect(value)){
                 var moduleLayer = value.getModuleLayer();
-                    if (CommonFunction.judgeValueIsEffect(moduleLayer)){
+                    if (Common.judgeValueIsEffect(moduleLayer)){
                     value.destroyModule(isNumber?destroyType:destroyType[key]);
                 }
             }

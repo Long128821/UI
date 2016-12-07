@@ -33,7 +33,7 @@ var NetworkMonitor= {
                 //虽然此时
                 self.initLastRecvTime();
                 //断线重连
-                Network.getInstance().initNetwork();
+                //Network.getInstance().initNetwork();
             }
         }
     },
@@ -50,6 +50,7 @@ var NetworkMonitor= {
      */
     startNetworkMonitor:function(){
         var self= this;
+        this.initLastRecvTime();
         if(self.m_monitorTimerID== null){
             self.m_monitorTimerID= setInterval(self.logicNetwork, self.monitorTime);
         }

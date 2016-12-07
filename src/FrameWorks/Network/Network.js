@@ -1,6 +1,3 @@
-//const WebSocketURL= "ws://10.10.0.66:65031";//WebSocket连接路径
-const WebSocketURL= "ws://10.10.0.119:65031";//WebSocket连接路径
-
 /**
  * Func:网络连接(单例模式)
  * 以二进制流的传递方式，传输数据
@@ -26,7 +23,8 @@ var Network= {
     //初始化WebSocket
     initWebSocket:function(){
         var self= this;
-        self.webSocket = new WebSocket(WebSocketURL);//创建目标WebSocket服务器
+        var host= "ws://"+ NetworkConfig.getCurURL();//默认为列表中的第一个
+        self.webSocket = new WebSocket(host);//创建目标WebSocket服务器
         self.webSocket.binaryType="arraybuffer";//以二进制传递方式传输数据
         /**
          * 说明:

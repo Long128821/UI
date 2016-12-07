@@ -7,9 +7,9 @@ var MessageRouting= {
      * @param buffer 二进制流(ArrayBuffer)
      */
     messageDistribute:function(nmBaseMessage){
-        if(!CommonFunction.judgeValueIsEffect(nmBaseMessage)) return;
+        if(!Common.judgeValueIsEffect(nmBaseMessage)) return;
 
-        nmBaseMessage.readStart();//开始读取-读取消息头
+        console.log("下行消息ID:0x"+ nmBaseMessage.getMsgType());
 
         //读取消息
         var funcName= "read"+ nmBaseMessage.getMsgType();
@@ -19,10 +19,11 @@ var MessageRouting= {
         //已注册消息中，是否包含该消息ID
         if(Frameworks.isContainsSignal(msgID)){
             var dataTable= eval(funcName)(nmBaseMessage);
+            if(!Common.judgeValueIsEffect(Frameworks.m_signalSlotTable[msgID])) return;
             //分发消息
             Frameworks.emit(msgID, dataTable);
         }else{
-            console.warn("\nMessageRouting.js function is not define!MsgType:0x"+ nmBaseMessage.getMsgType());
+            console.warn("\nMessageRouting.js-function is not define!MsgType:0x"+ nmBaseMessage.getMsgType());
         }
 
         //清除数据

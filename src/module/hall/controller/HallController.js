@@ -16,99 +16,88 @@ var HallController = BaseController.extend({
     requestMsg:function(){
     	HallLogic.requestMsg();
     },
-    
+    //添加信号
     addSlot:function(){
     	HallLogic.addSlot();
     },
-
+    //移除信号
 	removeSlot:function(){
 		HallLogic.removeSlot();
 	},
-    
+    //添加监听
     addCallback:function(){
+		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_lijiyouxi"), HallLogic.callback_Button_lijiyouxi, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_setting"), HallLogic.callback_btn_setting, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
 		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_message"), HallLogic.callback_btn_message, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
 		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_rankinglist"), HallLogic.callback_btn_rankinglist, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
 		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_shop"), HallLogic.callback_btn_shop, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
 		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_friend"), HallLogic.callback_btn_friend, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_YuanBao"), HallLogic.callback_Button_YuanBao, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_task"), HallLogic.callback_Button_task, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
+		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_show_chat"), HallLogic.callback_btn_show_chat, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
 		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_Coin"), HallLogic.callback_Button_Coin, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_YuanBao"), HallLogic.callback_Button_YuanBao, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_vip"), HallLogic.callback_btn_vip, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
 		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"Image_Portrait"), HallLogic.callback_Image_Portrait, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_hall_huodong"), HallLogic.callback_btn_hall_huodong, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
+		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_yaoqianshu"), HallLogic.callback_Button_yaoqianshu, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_arena"), HallLogic.callback_Button_arena, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_yueka"), HallLogic.callback_btn_yueka, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_show_chat"), HallLogic.callback_btn_show_chat, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
 		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_chongzhi"), HallLogic.callback_btn_chongzhi, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_libao"), HallLogic.callback_btn_libao, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
+		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_libao"), HallLogic.callback_btn_libao, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
 		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_huodong"), HallLogic.callback_btn_huodong, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
 		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_Return"), HallLogic.callback_Button_Return, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"Image_pochan"), HallLogic.callback_Image_pochan, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
+		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_match"), HallLogic.callback_Button_match, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_jingdian"), HallLogic.callback_Button_jingdian, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_qianwang"), HallLogic.callback_Button_qianwang, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_xiaoyouxi"), HallLogic.callback_Button_xiaoyouxi, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_lijiyouxi"), HallLogic.callback_Button_lijiyouxi, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_jingdian_chujichang"), HallLogic.callback_Button_jingdian_chujichang, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_jingdian_zhongjichang"), HallLogic.callback_Button_jingdian_zhongjichang, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_jingdian_gaojichang"), HallLogic.callback_Button_jingdian_gaojichang, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_jingdian_fanhui"), HallLogic.callback_Button_jingdian_fanhui, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_qianwang_chujichang"), HallLogic.callback_Button_qianwang_chujichang, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_qianwang_gaojichang"), HallLogic.callback_Button_qianwang_gaojichang, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_qianwang_chaojichang"), HallLogic.callback_Button_qianwang_chaojichang, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_qianwang_fanhui"), HallLogic.callback_Button_qianwang_fanhui, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+		Frameworks.bindEventCallback(CocoStudio.getComponent(HallLogic.view,"Image_vipInfo"), HallLogic.callback_Image_vipInfo, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
     },
-    
+    //移除监听
     removeCallback:function(){
+		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_lijiyouxi"), HallLogic.callback_Button_lijiyouxi, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_setting"), HallLogic.callback_btn_setting, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_message"), HallLogic.callback_btn_message, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_rankinglist"), HallLogic.callback_btn_rankinglist, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_shop"), HallLogic.callback_btn_shop, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_friend"), HallLogic.callback_btn_friend, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_YuanBao"), HallLogic.callback_Button_YuanBao, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_task"), HallLogic.callback_Button_task, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
+		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_show_chat"), HallLogic.callback_btn_show_chat, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_Coin"), HallLogic.callback_Button_Coin, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_YuanBao"), HallLogic.callback_Button_YuanBao, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_vip"), HallLogic.callback_btn_vip, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"Image_Portrait"), HallLogic.callback_Image_Portrait, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_hall_huodong"), HallLogic.callback_btn_hall_huodong, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
+		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_yaoqianshu"), HallLogic.callback_Button_yaoqianshu, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_arena"), HallLogic.callback_Button_arena, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_yueka"), HallLogic.callback_btn_yueka, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_show_chat"), HallLogic.callback_btn_show_chat, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_chongzhi"), HallLogic.callback_btn_chongzhi, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_libao"), HallLogic.callback_btn_libao, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
+		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_libao"), HallLogic.callback_btn_libao, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"btn_huodong"), HallLogic.callback_btn_huodong, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_Return"), HallLogic.callback_Button_Return, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"Image_pochan"), HallLogic.callback_Image_pochan, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
+		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_match"), HallLogic.callback_Button_match, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_jingdian"), HallLogic.callback_Button_jingdian, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_qianwang"), HallLogic.callback_Button_qianwang, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_xiaoyouxi"), HallLogic.callback_Button_xiaoyouxi, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_lijiyouxi"), HallLogic.callback_Button_lijiyouxi, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_jingdian_chujichang"), HallLogic.callback_Button_jingdian_chujichang, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_jingdian_zhongjichang"), HallLogic.callback_Button_jingdian_zhongjichang, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_jingdian_gaojichang"), HallLogic.callback_Button_jingdian_gaojichang, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_jingdian_fanhui"), HallLogic.callback_Button_jingdian_fanhui, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_qianwang_chujichang"), HallLogic.callback_Button_qianwang_chujichang, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_qianwang_gaojichang"), HallLogic.callback_Button_qianwang_gaojichang, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_qianwang_chaojichang"), HallLogic.callback_Button_qianwang_chaojichang, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"Button_qianwang_fanhui"), HallLogic.callback_Button_qianwang_fanhui, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+		Frameworks.unbindEventCallback(CocoStudio.getComponent(HallLogic.view,"Image_vipInfo"), HallLogic.callback_Image_vipInfo, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
     },
     
     setModuleLayer:function(moduleLayer){
     	this.moduleLayer = moduleLayer;
 	},
-
+	//层级
 	getModuleLayer:function(moduleLayer){
 		return this.moduleLayer;
 	},
-    
+    //休眠
     sleepModule:function(){
 		//Frameworks.releaseOnKeypadEventListener(HallLogic.view);
 		HallLogic.view.setTouchEnabled(false);
+		this.removeCallback();
 		Frameworks.emit(SignalCommon.Signal_SleepModule_Done);
     },
-
+    //唤醒
     wakeModule:function(){
     	//Frameworks.setOnKeypadEventListener(HallLogic.view, HallLogic.onKeypad);
         HallLogic.view.setTouchEnabled(true);
         this.addCallback();
     },
-
+    //销毁
     destroyModule:function(destroyType){
         //Frameworks.releaseOnKeypadEventListener(HallLogic.view);
 		this.destroy();

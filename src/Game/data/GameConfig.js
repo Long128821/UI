@@ -10,6 +10,7 @@ var GameConfig= {
     ScaleOrdinate:1,//纵坐标的缩放
     ScreenWidth:1136,//屏幕宽度（分辨率）
     ScreenHeight:640,//屏幕高度（分辨率）
+
     /**
      * 设置当前屏幕的分辨率
      * 一级界面设置显示屏幕比例(本期3.06pad版留黑边)

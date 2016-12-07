@@ -43,7 +43,7 @@ var Frameworks= {
         //首先判断Map是否存在
         if(self.m_callbackEventTable.hasOwnProperty(component._name)){
             var contain= self.m_callbackEventTable[component._name];
-            if(CommonFunction.judgeValueIsEffect(contain)){
+            if(Common.judgeValueIsEffect(contain)){
                 if(contain.hasOwnProperty(event)){//判断控件是否一致
                     //是否有会有回调方法
                     contain[event](component, event);
@@ -83,7 +83,7 @@ var Frameworks= {
         var self= Frameworks;
         if(self.m_callbackEventTable.hasOwnProperty(component._name)) {
             var contain = self.m_callbackEventTable[component._name];
-            if(!CommonFunction.judgeValueIsEffect(contain)) return;
+            if(!Common.judgeValueIsEffect(contain)) return;
         }
         //遍历Map
 
@@ -134,6 +134,7 @@ var Frameworks= {
      */
     emit:function(signal, dataTable){
         if(!this.isContainsSignal(signal)) return;
+        if(!Common.judgeValueIsEffect(this.m_signalSlotTable[signal])) return;
         //发送信号，执行回调函数
         this.m_signalSlotTable[signal](dataTable);
     },
@@ -142,7 +143,7 @@ var Frameworks= {
      */
     isContainsSignal:function(signal){
         if(!this.m_signalSlotTable.hasOwnProperty(signal)) return false;
-        if(!CommonFunction.judgeValueIsEffect(this.m_signalSlotTable[signal])) return false;
+        //if(!Common.judgeValueIsEffect(this.m_signalSlotTable[signal])) return false;
         return true;
     },
     /**
@@ -152,7 +153,7 @@ var Frameworks= {
      */
     removeSlotFromSignal:function(signal, callbackFunction){
         if(!this.m_signalSlotTable.hasOwnProperty(signal)) return;
-        if(!CommonFunction.judgeValueIsEffect(this.m_signalSlotTable[signal])) return;
+        if(!Common.judgeValueIsEffect(this.m_signalSlotTable[signal])) return;
 
         //监听信号的回调函数 是否匹配
         if(this.m_signalSlotTable[signal]== callbackFunction){

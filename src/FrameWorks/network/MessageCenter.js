@@ -19,15 +19,24 @@ var MessageCenter= {
         //先关闭网络监测，再开启网络监测
         NetworkMonitor.closeNetworkMonitor();
         NetworkMonitor.startNetworkMonitor();
+
+        this.updateSign();
+
         //不可以接收、发送消息
         this.setIsWebSocketPause(false);
+    },
+    //更新登陆界面的状态
+    updateSign:function(){
+        if(typeof  LoginLogic!= "undefined"){//此时登录对象是否已经定义
+            LoginLogic.setIPLabel();
+        }
     },
     //WebSocket连接断开
     unConnect:function(){
         //拒绝接受和转发消息
         this.setIsWebSocketPause(true);
         //断线重连
-        Network.getInstance().initNetwork();
+        //Network.getInstance().initNetwork();
     },
     /*********消息缓存***************/
     /**

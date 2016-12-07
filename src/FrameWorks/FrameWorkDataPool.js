@@ -33,11 +33,17 @@ var FrameWorkDataPool= {
      * @param nmBaseMessage
      */
     setObject:function(controlType, nmBaseMessage){
-        var element= ((controlType== MessageControlType.Response)?this.readElements:this.writeElements);
+        var element= this.writeElements;
+        if(controlType== MessageControlType.Response){
+            nmBaseMessage.readStart();//读取消息头
+            element= this.readElements;
+        }
         var map= {};
+
         //追加元素
         map["Signal"]= nmBaseMessage.getMsgType();
         map["nmBaseMessage"]= nmBaseMessage;
+
         element.push(map);
     },
     /**

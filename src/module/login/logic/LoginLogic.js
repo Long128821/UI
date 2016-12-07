@@ -27,8 +27,12 @@ var LoginLogic= {
     	this.initLayer();
         
         this.view.setTag(ModuleTable["Login"]["Layer"]);
-        
+
         this.initView();
+
+        this.initTextLabel();
+
+        this.createUsernameEditor();
     },
     
 	initView:function(){
@@ -55,20 +59,23 @@ var LoginLogic= {
 	},
 
     initLayer:function(){
-		var gui = GUI_LOGIN; 
-		if(GameConfig.RealProportion >= GameConfig.SCREEN_PROPORTION_GREAT){
-			//适配方案 1136x640  
-			this.view = CocoStudio.createView("res/Login.json"); 
-			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.EXACT_FIT);
-		}else if(GameConfig.RealProportion <= GameConfig.SCREEN_PROPORTION_SMALL){
-			//适配方案 Pad加黑边  
-			this.view = CocoStudio.createView("res/Login.json"); 
-			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL);
-		}else if((GameConfig.RealProportion < GameConfig.SCREEN_PROPORTION_GREAT) && (GameConfig.RealProportion > GameConfig.SCREEN_PROPORTION_SMALL)){
-			//适配方案 960x640  
-			this.view = CocoStudio.createView("res/Login_960_640.json"); 
-			GameConfig.setCurrentScreenResolution(this.view, gui, 960, 640, cc.ResolutionPolicy.EXACT_FIT); 
-		}
+		var gui = GUI_LOGIN;
+        //适配方案 Pad加黑边
+        this.view = CocoStudio.createView("res/Login.json");
+        GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL);
+//		if(GameConfig.RealProportion >= GameConfig.SCREEN_PROPORTION_GREAT){
+//			//适配方案 1136x640
+//			this.view = CocoStudio.createView("res/Login.json");
+//			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.EXACT_FIT);
+//		}else if(GameConfig.RealProportion <= GameConfig.SCREEN_PROPORTION_SMALL){
+//			//适配方案 Pad加黑边
+//			this.view = CocoStudio.createView("res/Login.json");
+//			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL);
+//		}else if((GameConfig.RealProportion < GameConfig.SCREEN_PROPORTION_GREAT) && (GameConfig.RealProportion > GameConfig.SCREEN_PROPORTION_SMALL)){
+//			//适配方案 960x640
+//			this.view = CocoStudio.createView("res/Login_960_640.json");
+//			GameConfig.setCurrentScreenResolution(this.view, gui, 960, 640, cc.ResolutionPolicy.EXACT_FIT);
+//		}
 	},
     
 	callback_btn_weixin_login:function(pSender, event){
@@ -104,7 +111,7 @@ var LoginLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            sendBASEID_RESGISTER("");
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -117,7 +124,7 @@ var LoginLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            MvcEngine.createModule(GUI_USERAGREEMENT);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -212,10 +219,12 @@ var LoginLogic= {
     //添加信号
     addSlot:function(){
     	Frameworks.addSlot2Signal(BASEID_LOGIN, ProfileLogin.loginManage);
+    	Frameworks.addSlot2Signal(BASEID_REGISTER, ProfileLogin.registerManage);
     },
     //移除信号
     removeSlot:function(){
     	Frameworks.removeSlotFromSignal(BASEID_LOGIN, ProfileLogin.loginManage);
+    	Frameworks.removeSlotFromSignal(BASEID_REGISTER, ProfileLogin.registerManage);
     },
     
     //释放界面的私有数据
@@ -225,5 +234,89 @@ var LoginLogic= {
     
     requestMsg:function(){
     
+    },
+
+    //初始化Text Label
+    initTextLabel:function(){
+        if(Common.isDebugState()){
+            this.setIPLabel();
+        }
+    },
+
+    //设置显示IP
+    setIPLabel:function(){
+        var ip= "";
+        if(Network.getInstance().getWebSocketConnecting()){
+            this.lable_ip_text.setString("连接:"+ NetworkConfig.getCurURL());
+        }else{
+            this.lable_ip_text.setString("无连接");
+        }
+    },
+
+    //创建玩家名输入框
+    createUsernameEditor:function(){
+        var editBoxSize = cc.size(356, 53);
+        /*****************账户名************************/
+        this.edit_username= cc.EditBox.create(editBoxSize, cc.Scale9Sprite.create("#ui_opacity_1-1.png"));
+        var panelLoginSize= this.Panel_login.getContentSize();
+        this.edit_username.setAnchorPoint(cc.p(0, 0.5));
+        this.edit_username.setPosition(panelLoginSize.width* 0.2, panelLoginSize.height* 0.63);
+
+        this.edit_username.setPlaceHolder("输入账户");
+        this.edit_username.setPlaceholderFont("微软雅黑", 40);
+
+        this.edit_username.setFont("微软雅黑", 40);
+        this.edit_username.setFontColor(cc.color(0, 0, 0));
+        this.edit_username.setMaxLength(32);//设置输入框长度32
+        this.edit_username.setReturnType(cc.KEYBOARD_RETURNTYPE_DONE);//
+        this.edit_username.setInputMode(cc.EDITBOX_INPUT_MODE_SINGLELINE);//用户可输入除换行符外的任何文本
+
+        this.Panel_login.addChild(this.edit_username);
+
+        this.edit_username.setVisible(false);
+
+        /*****************密码************************/
+        this.edit_password= cc.EditBox.create(editBoxSize, cc.Scale9Sprite.create("#ui_opacity_1-1.png"));
+        this.edit_password.setAnchorPoint(cc.p(0, 0.5));
+        this.edit_password.setPosition(panelLoginSize.width* 0.2, panelLoginSize.height* 0.42);
+
+        this.edit_password.setPlaceHolder("输入密码");
+        this.edit_password.setPlaceholderFont("微软雅黑", 40);
+
+        this.edit_password.setFont("微软雅黑", 40);
+        this.edit_password.setFontColor(cc.color(0, 0, 0));
+        this.edit_password.setMaxLength(32);//设置输入框长度32
+        this.edit_password.setReturnType(cc.KEYBOARD_RETURNTYPE_DONE);//
+        this.edit_password.setInputMode(cc.EDITBOX_INPUT_MODE_SINGLELINE);//用户可输入除换行符外的任何文本
+
+        this.Panel_login.addChild(this.edit_password);
+
+        this.edit_password.setVisible(false);
+
+
+        /*********************IP**********************/
+        this.edit_ip= cc.EditBox.create(editBoxSize, cc.Scale9Sprite.create("#ui_opacity_1-1.png"));
+        this.edit_ip.setAnchorPoint(cc.p(0, 0));
+        this.edit_ip.setPosition(cc.p(editBoxSize.width* 0.1, 0));
+
+        //设置输入框
+        this.edit_ip.setString(NetworkConfig.getCurIP());
+        this.edit_ip.setFont("微软雅黑", 40);
+        this.edit_ip.setFontColor(cc.color(0xB3, 0x9C, 0x77));
+        this.edit_ip.setMaxLength(32);//设置输入框长度32
+        this.edit_ip.setReturnType(cc.KEYBOARD_RETURNTYPE_DONE);//
+        this.edit_ip.setInputMode(cc.EDITBOX_INPUT_MODE_SINGLELINE);//用户可输入除换行符外的任何文本
+
+        this.ImageView_ip.addChild(this.edit_ip);
+
+        this.edit_ip.setVisible(true);
+    },
+    //休眠时输入框不可使用
+    setEditorVisible:function(bEnabled){
+        this.edit_ip.setVisible(bEnabled);
+//        this.edit_username.setVisible(bEnabled);
+//        this.edit_password.setVisible(bEnabled);
     }
 };
+
+//Todo:cc.EditBox不可输入
