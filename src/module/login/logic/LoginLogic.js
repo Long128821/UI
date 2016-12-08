@@ -22,17 +22,26 @@ var LoginLogic= {
 	ImageView_password:null,
 	btn_login:null,
 	Button_login_close:null,
-	
+
+	m_bLoginVisible:false,//登陆框是否显示
     createView:function(){
+        if(Network.getWebSocketConnecting()){
+            sendMANAGERID_USERLIST_FROM_IMIE();
+        }
     	this.initLayer();
         
         this.view.setTag(ModuleTable["Login"]["Layer"]);
 
         this.initView();
 
+        //显示连接状态
         this.initTextLabel();
 
+        //创建输入框
         this.createUsernameEditor();
+
+        //是否为Debug模式
+        this.showDebugState();
     },
     
 	initView:function(){
@@ -85,6 +94,7 @@ var LoginLogic= {
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
             //MvcEngine.createModule(GUI_USERAGREEMENT);
+            console.log(ProfileLogin.getLoginUserName()+" "+ ProfileLogin.getLoginPassword());
             sendBASEID_LOGIN(ProfileLogin.getLoginUserName(), ProfileLogin.getLoginPassword());
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
@@ -98,7 +108,8 @@ var LoginLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            LoginLogic.setLoginChooseVisible(false);
+            LoginLogic.setPanelLoginVisible(true);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -123,6 +134,8 @@ var LoginLogic= {
 			//按下
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
+            LoginLogic.edit_username.setVisible(false);
+            LoginLogic.edit_password.setVisible(false);
 			//抬起
             MvcEngine.createModule(GUI_USERAGREEMENT);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
@@ -163,7 +176,7 @@ var LoginLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            MvcEngine.createModule(GUI_RESETPASSWORD);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -189,7 +202,7 @@ var LoginLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            LoginLogic.onLogin();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -201,8 +214,8 @@ var LoginLogic= {
 			//按下
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
-			//抬起
-
+            LoginLogic.setPanelLoginVisible(false);
+            LoginLogic.setLoginChooseVisible(true);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -220,11 +233,13 @@ var LoginLogic= {
     addSlot:function(){
     	Frameworks.addSlot2Signal(BASEID_LOGIN, ProfileLogin.loginManage);
     	Frameworks.addSlot2Signal(BASEID_REGISTER, ProfileLogin.registerManage);
+        Frameworks.addSlot2Signal(MANAGERID_USERLIST_FROM_IMIE, ProfileLogin.IMEIUserListManage);
     },
     //移除信号
     removeSlot:function(){
     	Frameworks.removeSlotFromSignal(BASEID_LOGIN, ProfileLogin.loginManage);
     	Frameworks.removeSlotFromSignal(BASEID_REGISTER, ProfileLogin.registerManage);
+    	Frameworks.removeSlotFromSignal(MANAGERID_USERLIST_FROM_IMIE, ProfileLogin.IMEIUserListManage);
     },
     
     //释放界面的私有数据
@@ -304,7 +319,7 @@ var LoginLogic= {
         this.edit_ip.setFont("微软雅黑", 40);
         this.edit_ip.setFontColor(cc.color(0xB3, 0x9C, 0x77));
         this.edit_ip.setMaxLength(32);//设置输入框长度32
-        this.edit_ip.setReturnType(cc.KEYBOARD_RETURNTYPE_DONE);//
+        this.edit_ip.setReturnType(cc.KEYBOARD_RETURNTYPE_DONE);
         this.edit_ip.setInputMode(cc.EDITBOX_INPUT_MODE_SINGLELINE);//用户可输入除换行符外的任何文本
 
         this.ImageView_ip.addChild(this.edit_ip);
@@ -312,11 +327,68 @@ var LoginLogic= {
         this.edit_ip.setVisible(true);
     },
     //休眠时输入框不可使用
-    setEditorVisible:function(bEnabled){
+    setEditorVisible:function(bEnabled, type) {
         this.edit_ip.setVisible(bEnabled);
-//        this.edit_username.setVisible(bEnabled);
-//        this.edit_password.setVisible(bEnabled);
+        if(type== 0){//休眠
+            this.edit_username.setVisible(false);
+            this.edit_password.setVisible(false);
+        }else{
+            this.edit_username.setVisible(this.m_bLoginVisible);
+            this.edit_password.setVisible(this.m_bLoginVisible);
+        }
+    },
+    //显示或者隐藏Debug模式
+    showDebugState:function(){
+        var isVisible= Common.isDebugState();
+        this.btn_showLog.setVisible(isVisible);
+        this.btn_setIp.setVisible(isVisible);
+        this.ImageView_ip.setVisible(isVisible);
+    },
+    //控制《登录》界面的显示或者隐藏
+    setPanelLoginVisible:function(isVisible){
+        this.Panel_login.setVisible(isVisible);
+        this.edit_username.setVisible(isVisible);
+        this.edit_password.setVisible(isVisible);
+        this.Button_login_close.setVisible(isVisible);
+        this.m_bLoginVisible= isVisible;
+    },
+    //控制《已有账户》界面的显示或者隐藏
+    setLoginChooseVisible:function(isVisible){
+        this.btn_olduser_login.setVisible(isVisible);
+        this.btn_weixin_login.setVisible(isVisible);
+        this.btn_reg.setVisible(isVisible);
+        this.btn_showLog.setVisible(isVisible);
+        this.btn_setIp.setVisible(isVisible);
+        this.ImageView_ip.setVisible(isVisible);
+        this.lable_ip_text.setVisible(isVisible);
+    },
+    //登录
+    onLogin:function(){
+        ProfileLogin.setLoginUserName(this.edit_username.getString());
+        ProfileLogin.setLoginPassword(this.edit_password.getString());
+
+        if(this.check_agree.getSelectedState()){
+            //粗鲁检测一下是否为空
+            if(Common.judgeValueIsEffect(ProfileLogin.getLoginUserName())&&(Common.judgeValueIsEffect(ProfileLogin.getLoginPassword()))){
+                console.log(ProfileLogin.getLoginUserName());
+                console.log(ProfileLogin.getLoginPassword());
+                sendBASEID_LOGIN(ProfileLogin.getLoginUserName(), ProfileLogin.getLoginPassword());
+            }else{
+                alert("用户名和密码不能为空！");
+            }
+        }else{
+            alert("请先同意同趣游戏用户协议！");
+        }
     }
 };
 
-//Todo:cc.EditBox不可输入
+//Todo:删除用户数据(没有用户列表)
+//Todo:使用加载Loading页面
+//Todo:同意用户协议(时间不知道需要多长时间)
+//Todo:设置IP(不知道有哪些IP地址和端口号)
+//Todo:更多用户下拉列表(没有IMEI,获取不到对应的用户列表)
+
+//Todo:联调——心跳
+//Todo:联调——重置密码
+//Todo:问题——获取用户列表
+//Todo:联调——获取用户基本信息

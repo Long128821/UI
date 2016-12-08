@@ -1,3 +1,9 @@
+//var CustomTableViewCell = cc.TableViewCell.extend({
+//    draw:function (ctx) {
+//        this._super(ctx);
+//    }
+//});
+
 var HallLogic= {
     view:null,//视图
     
@@ -12,7 +18,7 @@ var HallLogic= {
 	Image_hongdian3:null,
 	btn_rankinglist:null,
 	Image_hongdian4:null,
-	btn_shop:null,
+    btn_shop:null,
 	Image_hongdian5:null,
 	btn_friend:null,
 	Image_hongdian6:null,
@@ -73,6 +79,10 @@ var HallLogic= {
         this.view.setTag(ModuleTable["Hall"]["Layer"]);
         
         this.initView();
+
+        this.initTable();
+
+//        this.initMiniGameList();
     },
     
 	initView:function(){
@@ -167,7 +177,7 @@ var HallLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            console.log("立即游戏");
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -180,7 +190,7 @@ var HallLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            MvcEngine.createModule(GUI_SETTING);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -323,7 +333,7 @@ var HallLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            console.log("摇钱树！");
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -469,11 +479,13 @@ var HallLogic= {
     },
     //添加信号
     addSlot:function(){
-    	
+    	Frameworks.addSlot2Signal(BASEID_GET_BASEINFO, ProfileHall.test);
+    	Frameworks.addSlot2Signal(BASEID_GET_NOTICE, ProfileHall.test);
     },
     //移除信号
     removeSlot:function(){
-    	
+        Frameworks.removeSlotFromSignal(BASEID_GET_BASEINFO, ProfileHall.test);
+        Frameworks.removeSlotFromSignal(BASEID_GET_NOTICE, ProfileHall.test);
     },
     
     //释放界面的私有数据
@@ -483,5 +495,152 @@ var HallLogic= {
     
     requestMsg:function(){
     
+    },
+    //初始化界面(昵称、头像、Vip、称号、元宝数、金币数、按钮)
+    initTable:function(){
+        this.initHallBaseData();
+
+        //按钮的各种动画
+        this.showAnimation();
+        //分割线的动画
+        this.showLightLineAnimate();
+
+        sendBASEID_GET_BASEINFO();
+        sendBASEID_GET_NOTICE();
+    },
+    initHallBaseData:function(){
+        this.Label_NickName.setString(profile_user.getSelfNickName());//昵称
+        this.Label_Coin.setString(profile_user.getSelfCoin());//金币数
+        this.Label_YuanBao.setString(profile_user.getSelfYuanBao());//元宝数
+        console.log("当前玩家的Vip等级:"+ profile_user.getSelfVipLevel());
+        this.Image_vipInfo._imageRenderer.setTexture("res/ic_vip"+ profile_user.getSelfVipLevel()+".png");
+        console.log("当前玩家的称谓等级:"+ profile_user.getSelfHonor());
+        this.Image_chengwei._imageRenderer.setTexture(g_arrHonor[parseInt(profile_user.getSelfHonor())]);
+        console.log("当前玩家的头像:"+ profile_user.getSelfPhotoUrl());
+        //加载网络头像
+        Common.setTextureByNet(profile_user.getSelfPhotoUrl(), this.Image_touxiang_default);
+    },
+    //执行动画
+    showAnimation:function(){
+        var self= this;
+        //红色按钮标识区域，不显示
+        self.Button_yaoqianshu.setOpacity(0);
+        self.Button_lijiyouxi.setOpacity(0);
+
+        //礼包按钮的晃动操作
+        GamePub.showShakeAnimate(self.btn_libao);
+
+        //摇钱树动画
+        Common.createArmature(
+            "res/Animation/Yaoqianshu_Action_Enter_Animation.ExportJson",//动画Json路径
+            "Yaoqianshu_Action_Enter_Animation",//要执行的动画名
+            function(armature){
+                armature.getAnimation().playWithIndex(0, 0.1, true);//循环播放
+                /*************按钮的锚点为(0,0),摇钱树(0.5, 0.5)在按钮的居中位置*******************/
+                var size= self.Button_yaoqianshu.getContentSize();
+                armature.setPosition(cc.p(size.width* 0.5, size.height* 0.5- 5));
+
+                self.Button_yaoqianshu.addChild(armature);
+            });
+
+        //快速开始动画
+        Common.createArmature(
+            "res/Animation/Animation_Hall_Quick.ExportJson",//动画Json路径
+            "Animation_Hall_Quick",//要执行的动画名
+            function(armature){
+                armature.getAnimation().playWithIndex(0, 0.1, true);//循环播放
+                /*************按钮的锚点为(0,0),摇钱树(0.5, 0.5)在按钮的居中位置*******************/
+                var size= self.Button_lijiyouxi.getContentSize();
+                armature.setPosition(cc.p(size.width* 0.5, size.height* 0.5));
+                self.Button_lijiyouxi.addChild(armature);
+            });
+
+        //经典场动画
+        Common.createArmature(
+            "res/Animation/Animation_Newhall_ClassicRoom.ExportJson",//动画Json路径
+            "Animation_Newhall_ClassicRoom",//要执行的动画名
+            function(armature){
+                armature.getAnimation().playWithIndex(0, 0.1, true);//循环播放
+                armature.setAnchorPoint(cc.p(0,0));
+                armature.setPosition(0, 10);
+                self.Button_jingdian.addChild(armature);
+            });
+
+        //千王场动画
+        Common.createArmature(
+            "res/Animation/Animation_Newhall_CheatKingRoom.ExportJson",//动画Json路径
+            "Animation_Newhall_CheatKingRoom",//要执行的动画名
+            function(armature){
+                armature.getAnimation().playWithIndex(0, 0.1, true);//循环播放
+                armature.setAnchorPoint(cc.p(0,0));
+                armature.setPosition(0, 10);
+                self.Button_qianwang.addChild(armature);
+            });
+
+        //比赛场动画
+        Common.createArmature(
+            "res/Animation/Animation_Newhall_TounamentRoom.ExportJson",//动画Json路径
+            "Animation_Newhall_TounamentRoom",//要执行的动画名
+            function(armature){
+                armature.getAnimation().playWithIndex(0, 0.1, true);//循环播放
+                armature.setAnchorPoint(cc.p(0,0));
+                armature.setPosition(-16, 10);
+                self.Button_match.addChild(armature);
+            });
+    },
+    //分割线动画
+    showLightLineAnimate:function(){
+        var self= this;
+        self.Image_light.setPosition(cc.p(-76, 259));
+        var moveTo= cc.moveTo(1.5, cc.p(1136+ 76, 259));
+        var delayTime= cc.delayTime(Math.random()* 10+ 10);
+        var seq= cc.sequence(moveTo, delayTime, cc.callFunc(function(pSender){
+            self.showLightLineAnimate();
+        }));
+        self.Image_light.runAction(seq);
+//    },
+//    //小游戏列表
+//    initMiniGameList:function(){
+//        var arrMiniPath= [
+//            "res/btn_hall_xiaoyouxi_bairenniuniu.png",
+//            "res/btn_hall_xiaoyouxi_jiejibuyu.png",
+//            "res/btn_hall_xiaoyouxi_shuiguoji.png",
+//            "res/btn_hall_xiaoyouxi_wanrenjinhua.png"
+//        ];
+//
+//        var tableView= new cc.TableView(HallLogic, cc.size(cc.winSize.width, 141));
+//        tableView.setDirection(cc.SCROLLVIEW_DIRECTION_HORIZONTAL);//水平方向滚动
+//        tableView.setPosition(cc.winSize.width* 0.5, cc.winSize.height* 0.1);
+//        tableView.reloadData();
+//        this.view.addChild(tableView, 1);
+//    },
+//    tableCellAtIndex:function (table, idx) {
+//        var strValue = idx.toFixed(0);
+//        var cell = table.dequeueCell();
+//        var label;
+//        if (!cell) {
+//            cell = new CustomTableViewCell();
+//
+//            var sprite = new cc.Sprite("res/ic_vip"+ profile_user.getSelfVipLevel()+".png");
+//            cell.addChild(sprite);
+//
+//            label = new cc.LabelTTF(strValue, "Helvetica", 20.0);
+//            label.x = 0;
+//            label.y = 0;
+//            label.tag = 123;
+//            cell.addChild(label);
+//        } else {
+//            label = cell.getChildByTag(123);
+//            label.setString(strValue);
+//        }
+//    },
+//    numberOfCellsInTableView:function (table) {
+//        return 4;
+//    },
+//    tableCellSizeForIndex:function (table, idx) {
+//        if (idx == 2) {
+//            return cc.size(100, 100);
+//        }
+//        return cc.size(60, 60);
     }
 };

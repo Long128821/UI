@@ -18,3 +18,7 @@ GUI_LOADING= "Loading";
 
 //大厅
 GUI_HALL= "Hall";
+
+//大厅-设置
+GUI_SETTING= "Setting";
+

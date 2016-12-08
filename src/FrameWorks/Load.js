@@ -3,15 +3,15 @@ var Load= {
     m_index:0,//加载完毕项
     m_callBack:null,//加载回调
     //加载某一个页面的所需要的JS文件
-    LoadRes:function(needCreateModuleName, callback){
+    LoadResOfTable:function(needCreateModuleName, callback){
         this.m_index= 0;
         this.m_callBack= callback== undefined?null:callback;
 
-        this.LoadJs(needCreateModuleName);
-        this.LoadJson(needCreateModuleName);
+        this.LoadJsOfTable(needCreateModuleName);
+        this.LoadJsonOfTable(needCreateModuleName);
     },
     //加载某一个页面的所需要的JS文件
-    LoadJs:function(needCreateModuleName){
+    LoadJsOfTable:function(needCreateModuleName){
         //没有校验的原因是，有些场景可能已经加载过了
         var jsLists= ModuleTable[needCreateModuleName]["jsLists"];
 
@@ -22,7 +22,7 @@ var Load= {
         });
     },
     //加载UI工程
-    LoadJson:function(needCreateModuleName){
+    LoadJsonOfTable:function(needCreateModuleName){
         //没有校验的原因是，有些场景可能已经加载过了
         var resLists= ModuleTable[needCreateModuleName]["resLists"];
         var self= this;
@@ -42,5 +42,17 @@ var Load= {
             //测试时，如果不停留一毫秒，有些资源 有时 会缺失，例如:文本、TextFiled
             setTimeout(this.m_callBack, 1);
         }
+    },
+    //加载资源
+    LoadJson:function(needCreateModuleName, callback){
+        cc.loader.load(needCreateModuleName,
+            function (result, count, loadedCount) {
+                //加载中
+            }, function () {
+                //加载完成
+                if(callback!= null||callback!= undefined){
+                    callback();
+                }
+            });
     }
 };

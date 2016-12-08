@@ -45,6 +45,10 @@ var FrameWorkDataPool= {
         map["nmBaseMessage"]= nmBaseMessage;
 
         element.push(map);
+
+        if(controlType== MessageControlType.Response){
+            console.log(nmBaseMessage.getMsgType());
+        }
     },
     /**
      * Func:移除所有key相同的值

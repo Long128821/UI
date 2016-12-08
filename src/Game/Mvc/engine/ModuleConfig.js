@@ -129,10 +129,13 @@ ModuleTable["ResetPassword"]["jsLists"] = [
     "src/module/login/controller/ResetPasswordController.js"];
 ModuleTable["ResetPassword"]["Layer"] = Layer.Second_Layer;
 ModuleTable["ResetPassword"]["resLists"] = [
-    "res/bg_tanchukuang_ui.png",
-    "res/btn_login_ui_nor.png",
-    "res/btn_login_ui_nor.png",
-    "res/btn_login_ui_input_press.png",
+    "res/bg_tongyongdi.png",
+    "res/ui_mingchenhemimadi.png",
+    "res/btn_shouqizhankaidi.png",
+    "res/ui_zhankai.png",
+    "res/ui_zhankai.png",
+    "res/btn_zengsongliwu.png",
+    "res/btn_tichupaizhuo.png",
     "res/ResetPassword.json"];
 
 ModuleTable["UserAgreement"] = {};
@@ -145,3 +148,30 @@ ModuleTable["UserAgreement"]["resLists"] = [
     "res/bg_tongyongdi.png",
     "res/btn_zengsongliwu.png",
     "res/UserAgreement.json"];
+
+ModuleTable["Setting"] = {};
+ModuleTable["Setting"]["jsLists"] = [
+    "src/module/hall/profile/ProfileSetting.js",
+    "src/module/hall/logic/SettingLogic.js",
+    "src/module/hall/controller/SettingController.js"];
+ModuleTable["Setting"]["Layer"] = Layer.Second_Layer;
+ModuleTable["Setting"]["resLists"] = [
+    "res/ic_setup_close.png",
+    "res/ic_setup_close.png",
+    "res/bg_tongyongdi2.png",
+    "res/btn_item_close.png",
+    "res/ui_xiugaimimadi.png",
+    "res/ui_xiugaimimadi.png",
+    "res/ui_xigaimima.png",
+    "res/btn_shezhi.png",
+    "res/ic_setup_music.png",
+    "res/btn_shezhi.png",
+    "res/ic_setup_volume.png",
+    "res/btn_shezhi.png",
+    "res/btn_shezhi.png",
+    "res/btn_tichupaizhuo.png",
+    "res/bth_qhzh.png",
+    "res/btn_zengsongliwu.png",
+    "res/bth_bbjc.png",
+    "res/ui_xiugaimima.png",
+    "res/Setting.json"];

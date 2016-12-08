@@ -195,7 +195,7 @@ var MvcEngine= {
             var self= this;
             //加载该页面中所使用的js文件
             //Todo:返回controller
-            Load.LoadRes(self.needCreateModuleName, function(msg){
+            Load.LoadResOfTable(self.needCreateModuleName, function(msg){
                 //字符串拼接层名(GUI_Config.js中的层名+ "Controller")
                 var className= self.needCreateModuleName+"Controller";
                 var classFunc= eval(className);//将字符串转换为类名
@@ -384,6 +384,7 @@ var MvcEngine= {
     },
     //休眠或者销毁界面
     sleepOrDestroyModules:function(moduleName){
+        console.log(moduleName);
         ////console.log("sleepOrDestroyModules");
         var layerOfCreateModule = ModuleTable[moduleName]["Layer"];//要创建的界面层级
         //console.log(layerOfCreateModule);

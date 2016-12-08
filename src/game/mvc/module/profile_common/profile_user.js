@@ -65,6 +65,15 @@ var profile_user= {
         this.UserTable["SelfInfo"].YuanBao= yuanBao;
     },
 
+    //称号
+    getSelfHonor:function(){
+        var value= this.UserTable["SelfInfo"].Honor;
+        return (value== undefined?0:value);
+    },
+    setSelfHonor:function(honor){
+        this.UserTable["SelfInfo"].Honor= honor;
+    },
+
     //初始化账户数据，登录或者注册时，切换账户
     initUserInfo:function(userID){
         if(userID== this.getSelfUserID()){

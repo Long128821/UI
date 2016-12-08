@@ -1,7 +1,21 @@
 var Common= {
-    debugState:false,//是否为调试模式
+    debugState:true,//是否为调试模式
+    changeID:CHANGEID,//渠道号
+    version:0x04000000,//版本号
     isDebugState:function(){
         return this.debugState;
+    },
+    getChangeID:function(){
+        return this.changeID;
+    },
+    setChangeID:function(changeID){
+        this.changeID= changeID;
+    },
+    getVersion:function(){
+        return this.version;
+    },
+    setVersion:function(version){
+        this.version= version;
     },
     /**
      * Func:判断一个值是否有效
@@ -32,6 +46,33 @@ var Common= {
             }
         }
         return null;
+    },
+    //ImageView换图(网络)
+    setTextureByNet:function(url, target){
+        //异步加载头像资源
+        var image= cc.loader.loadImg(
+            url,
+            function(){
+                target._imageRenderer.setTexture(image.src);
+            }
+        );
+    },
+    createArmature:function(jsonPath, armatureName, callback){
+        this.loadArmature(jsonPath, function(){
+            ccs.armatureDataManager.addArmatureFileInfo(jsonPath);
+            callback(ccs.Armature.create(armatureName));
+        });
+    },
+    loadArmature:function(jsonPath, callback){
+        var jsonName= jsonPath.substring(0, jsonPath.lastIndexOf("."));
+        var index= 0;
+        Load.LoadJson([
+            jsonName+"0.png",
+            jsonName+"0.plist",
+            jsonPath
+        ],function(){
+            callback();
+        });
     }
 };
 

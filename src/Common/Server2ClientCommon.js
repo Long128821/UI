@@ -50,6 +50,7 @@ function read80010002(nmBaseMessage){
 
     //UserID  Int 用户ID
     dataTable.put("UserID", nmBaseMessage.readInt());
+    console.log(dataTable.get("UserID"));
     //result Byte 是否成功
     dataTable.put("result", nmBaseMessage.readByte());
     //ResultTxt UTF16 提示语内容
@@ -70,6 +71,40 @@ function read80010002(nmBaseMessage){
     dataTable.put("VipLevel", nmBaseMessage.readInt());
     //yuanbao Int 元宝
     dataTable.put("yuanbao", nmBaseMessage.readInt());
+
+    console.log(dataTable.get("Coin"));
+
+    return dataTable;
+}
+
+//读取基本信息(BASEID_GET_BASEINFO)
+function read80010003(nmBaseMessage){
+    var dataTable= new Map();
+    //存放消息类型和消息名
+    dataTable.put("messageType", ACK + BASEID_GET_BASEINFO);
+    dataTable.put("messageName", "BASEID_GET_BASEINFO");
+
+    //UserID  Int 用户ID
+    dataTable.put("UserID", nmBaseMessage.readInt());
+    console.log(dataTable.get("UserID"));
+    //NickName UTF16 昵称
+    dataTable.put("NickName", nmBaseMessage.readUTF16());
+    //Sex	byte	性别	1男   2女
+    dataTable.put("Sex", nmBaseMessage.readByte());
+    //Age	byte	年龄
+    dataTable.put("Age", nmBaseMessage.readByte());
+    //City	text	城市	如 :北京-海淀
+    dataTable.put("City", nmBaseMessage.readUTF16());
+    //PhotoUrl UTF16 头像URL
+    dataTable.put("PhotoUrl", nmBaseMessage.readUTF16());
+    //sign	text	个性签名
+    dataTable.put("PhotoUrl", nmBaseMessage.readUTF16());
+    //Coin Long 金币数
+    dataTable.put("Coin", nmBaseMessage.readLong());
+    //yuanbao Int 元宝
+    dataTable.put("yuanbao", nmBaseMessage.readInt());
+
+    console.log(dataTable.get("Coin"));
 
     return dataTable;
 }
@@ -123,7 +158,79 @@ function read80670006(nmBaseMessage){
     dataTable.put("messageType", ACK + MAIL_UNREAD_SEND);
     dataTable.put("messageName", "MAIL_UNREAD_SEND");
 
-    dataTable.put("Type", nmBaseMessage.readByte());//未读消息类型:1系统消息，2个人消息
+    //未读消息类型:1系统消息，2个人消息
+    dataTable.put("Type", nmBaseMessage.readByte());
     console.log("未读消息类型:"+ dataTable.get("Type"));
+    return dataTable;
+}
+
+//获取当前手机用户登录列表信息
+function read8007009d(nmBaseMessage){
+    var dataTable= new Map();
+    //存放消息类型和消息名
+    dataTable.put("messageType", ACK + MANAGERID_USERLIST_FROM_IMIE);
+    dataTable.put("messageName", "MANAGERID_USERLIST_FROM_IMIE");
+
+    //NickCnt	int	昵称数量	loop
+    var nickCnt= nmBaseMessage.readInt();
+    var table= {};
+    if(nickCnt> 0){
+        for(var i=0; i< nickCnt; ++i){
+            nmBaseMessage.readShort();
+            //NickName	text	登陆过此手机的昵称
+            table[i]["NickName"]= nmBaseMessage.readUTF16();
+            //IsBindWeChat	byte	此账号是否绑定微信	0：没有；1：有
+            table[i]["IsBindWeChat"]= nmBaseMessage.readByte();
+        }
+        //isHint	byte	是否需要提示用户绑定微信
+        dataTable.put("NickLists", table);
+    }
+    return dataTable;
+}
+
+//获取用户绑定微信信息(MANAGERID_HINT_BIND_WECHAT)
+function read8007009e(nmBaseMessage){
+    var dataTable= new Map();
+    //存放消息类型和消息名
+    dataTable.put("messageType", ACK + MANAGERID_HINT_BIND_WECHAT);
+    dataTable.put("messageName", "MANAGERID_USERLIST_FROM_IMIE");
+
+    //isHint	byte	是否需要提示用户绑定微信
+    dataTable.put("isHint", nmBaseMessage.readByte());
+    //AwardCoin	text	绑定微信提示信息
+    dataTable.put("AwardCoin", nmBaseMessage.getString());
+    console.log("未读消息类型:"+ dataTable.get("Type"));
+    return dataTable;
+}
+
+//找回密码(DBID_FIND_PASSWORD)
+function read8006000c(nmBaseMessage){
+    var dataTable= new Map();
+
+    dataTable.put("messageType", ACK + DBID_FIND_PASSWORD);
+    dataTable.put("messageName", "MANAGERID_USERLIST_FROM_IMIE");
+
+    //Result	Byte	是否成功	0 否 1 是
+    dataTable.put("Result", nmBaseMessage.readByte());
+    //ResultTxt	Text	结果提示语
+    dataTable.put("ResultTxt", nmBaseMessage.readUTF16());
+    //NewPassword	Text	新密码
+    dataTable.put("NewPassword", nmBaseMessage.readUTF16());
+
+    console.log("找回密码:"+ dataTable);
+    return dataTable;
+}
+
+//游戏公告(BASEID_GET_NOTICE)
+function read8001000a(nmBaseMessage){
+    var dataTable= new Map();
+
+    dataTable.put("messageType", ACK + BASEID_GET_NOTICE);
+    dataTable.put("messageName", "BASEID_GET_NOTICE");
+
+    //NoticeCnt	Byte	公告数量
+    dataTable.put("Result", nmBaseMessage.readByte());
+
+    console.log("找回密码:"+ dataTable.get("Result"));
     return dataTable;
 }

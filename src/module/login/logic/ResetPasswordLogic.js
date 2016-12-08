@@ -18,6 +18,8 @@ var ResetPasswordLogic= {
         this.view.setTag(ModuleTable["ResetPassword"]["Layer"]);
         
         this.initView();
+
+        this.setUserName();
     },
     
 	initView:function(){
@@ -33,17 +35,26 @@ var ResetPasswordLogic= {
 	},
 
     initLayer:function(){
-		var gui = GUI_RESETPASSWORD; 
-		if(GameConfig.RealProportion > GameConfig.SCREEN_PROPORTION_SMALL){
-			//适配方案 1136x640  
-			this.view = CocoStudio.createView("res/ResetPassword.json"); 
-			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.EXACT_FIT); 
-		}else if(GameConfig.RealProportion <= GameConfig.SCREEN_PROPORTION_SMALL){
-			//适配方案 Pad加黑边  
-			this.view = CocoStudio.createView("res/ResetPassword.json"); 
-			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL); 
-		}
+		var gui = GUI_RESETPASSWORD;
+        //适配方案 Pad加黑边
+        this.view = CocoStudio.createView("res/ResetPassword.json");
+        GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL);
+//		if(GameConfig.RealProportion > GameConfig.SCREEN_PROPORTION_SMALL){
+//			//适配方案 1136x640
+//			this.view = CocoStudio.createView("res/ResetPassword.json");
+//			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.EXACT_FIT);
+//		}else if(GameConfig.RealProportion <= GameConfig.SCREEN_PROPORTION_SMALL){
+//			//适配方案 Pad加黑边
+//			this.view = CocoStudio.createView("res/ResetPassword.json");
+//			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL);
+//		}
 	},
+    setUserName:function(){
+        //如果账户名不为空
+        if(LoginLogic.edit_username.getString()){
+            this.txt_username.setText(LoginLogic.edit_username.getString());
+        }
+    },
     
 	callback_btn_cancel:function(pSender, event){
 		if(event == ccui.Widget.TOUCH_BEGAN){
@@ -51,7 +62,7 @@ var ResetPasswordLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            MvcEngine.destroyModule(GUI_RESETPASSWORD);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -64,7 +75,7 @@ var ResetPasswordLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            ResetPasswordLogic.onSubmit();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -93,11 +104,11 @@ var ResetPasswordLogic= {
     },
     //添加信号
     addSlot:function(){
-    	
+    	Frameworks.addSlot2Signal(DBID_FIND_PASSWORD, ProfileResetPassword.resetPassword);
     },
     //移除信号
     removeSlot:function(){
-    	
+    	Frameworks.removeSlotFromSignal(DBID_FIND_PASSWORD, ProfileResetPassword.resetPassword);
     },
     
     //释放界面的私有数据
@@ -107,5 +118,12 @@ var ResetPasswordLogic= {
     
     requestMsg:function(){
     
+    },
+    onSubmit:function(){
+        var dataTable= {};
+        dataTable["NickName"]= this.txt_username.getString();
+        dataTable["Phone"]= this.txt_phonenum.getString();
+        dataTable["IMEI"]= "";
+        sendDBID_FIND_PASSWORD(dataTable);
     }
 };

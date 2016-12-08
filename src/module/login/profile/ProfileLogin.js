@@ -59,13 +59,17 @@ var ProfileLogin= {
                 var userInfo = window.localStorage.getItem("userInfo");//本地存储中，已经存在用户数据
                 var userInfo_map = JSON.parse(userInfo);//将Json串转为Json对象
 
+                console.log("本地账号:"+userInfo_map["nickname"]+ " "+ userInfo_map["password"]);
+
+                profile_user.setSelfUserID(userInfo_map["UserID"]);
                 ProfileLogin.setLoginUserName(userInfo_map["nickname"]);
                 ProfileLogin.setLoginPassword(userInfo_map["password"]);
             }else{
                 //Todo:删除:测试时，如果本地没有本地存储，那么添加
                 //记录登录账户的用户名和密码
-                ProfileLogin.setLoginUserName("long128821");
-                ProfileLogin.setLoginPassword("128821");
+                profile_user.setSelfUserID("103488");
+                ProfileLogin.setLoginUserName("游客88811928");
+                ProfileLogin.setLoginPassword("1ae70d");
             }
         }
     },
@@ -86,7 +90,7 @@ var ProfileLogin= {
             profile_user.setSelfPassword(ProfileLogin.mPasswordValue);
             profile_user.setSelfCoin(dataTable.get("Coin"));
             profile_user.setSelfYuanBao(dataTable.get("YuanBao"));
-            //profile_user.setUserThirdPartPlatId(dataTable.get("ThirdPartPlatId"));
+            profile_user.setSelfPhotoUrl(dataTable.get("PhotoUrl"));
 
             //本地保存用户数据
             ProfileLogin.saveUserData();
@@ -102,8 +106,6 @@ var ProfileLogin= {
         var result= dataTable.get("Result");
         var resultText= dataTable.get("ResultTxt");
 
-        console.log("登录:"+ result+" "+ resultText);
-
         if(result== 0){
             //初始化账户数据
             ProfileLogin.initAllGameData(ProfileLogin.isChangeAccount);
@@ -114,7 +116,7 @@ var ProfileLogin= {
             profile_user.setSelfPassword(dataTable.get("Password"));
             profile_user.setSelfCoin(dataTable.get("Coin"));
             profile_user.setSelfYuanBao(dataTable.get("YuanBao"));
-            //profile_user.setUserThirdPartPlatId(dataTable.get("ThirdPartPlatId"));
+            profile_user.setSelfHonor(dataTable.get("honor"));
 
             //本地保存用户数据
             ProfileLogin.saveUserData();
@@ -123,6 +125,14 @@ var ProfileLogin= {
             //Todo:Toast:登录失败提示
             alert(resultText);
         }
+    },
+    //界面收到登录成功
+    loginSuccess:function(){
+
+    },
+    //根据IMEI获得绑定该设备的用户列表
+    IMEIUserListManage:function(dataTable){
+
     }
 };
 

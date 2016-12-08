@@ -62,7 +62,7 @@ var LoginController = BaseController.extend({
     sleepModule:function(){
 		//Frameworks.releaseOnKeypadEventListener(LoginLogic.view);
 		LoginLogic.view.setTouchEnabled(false);
-        LoginLogic.setEditorVisible(false);
+        LoginLogic.setEditorVisible(false, 0);
         this.removeCallback();
 		Frameworks.emit(SignalCommon.Signal_SleepModule_Done);
     },
@@ -70,7 +70,7 @@ var LoginController = BaseController.extend({
     wakeModule:function(){
     	//Frameworks.setOnKeypadEventListener(LoginLogic.view, LoginLogic.onKeypad);
         LoginLogic.view.setTouchEnabled(true);
-        LoginLogic.setEditorVisible(true);
+        LoginLogic.setEditorVisible(true, 1);
         this.addCallback();
     },
 
