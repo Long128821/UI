@@ -9,8 +9,7 @@ var MessageRouting= {
     messageDistribute:function(nmBaseMessage){
         if(!Common.judgeValueIsEffect(nmBaseMessage)) return;
 
-        console.log("下行消息ID:0x"+ nmBaseMessage.getMsgType());
-
+//        console.log("下行消息ID:0x"+ nmBaseMessage.getMsgType());
         //读取消息
         var funcName= "read"+ nmBaseMessage.getMsgType();
         //将字符串80010002-->16进制表示-->10进制表示

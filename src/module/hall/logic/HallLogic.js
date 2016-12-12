@@ -82,7 +82,9 @@ var HallLogic= {
 
         this.initTable();
 
-//        this.initMiniGameList();
+        this.initMiniGameList();
+
+        this.initActivityLists();
     },
     
 	initView:function(){
@@ -480,12 +482,12 @@ var HallLogic= {
     //添加信号
     addSlot:function(){
     	Frameworks.addSlot2Signal(BASEID_GET_BASEINFO, ProfileHall.test);
-    	Frameworks.addSlot2Signal(BASEID_GET_NOTICE, ProfileHall.test);
+    	Frameworks.addSlot2Signal(BASEID_GET_NOTICE, ProfileHall.test1);
     },
     //移除信号
     removeSlot:function(){
         Frameworks.removeSlotFromSignal(BASEID_GET_BASEINFO, ProfileHall.test);
-        Frameworks.removeSlotFromSignal(BASEID_GET_NOTICE, ProfileHall.test);
+        Frameworks.removeSlotFromSignal(BASEID_GET_NOTICE, ProfileHall.test1);
     },
     
     //释放界面的私有数据
@@ -510,13 +512,13 @@ var HallLogic= {
     },
     initHallBaseData:function(){
         this.Label_NickName.setString(profile_user.getSelfNickName());//昵称
-        this.Label_Coin.setString(profile_user.getSelfCoin());//金币数
+        this.Label_Coin.setString(profile_user.getSelfCoin());//金币数z
         this.Label_YuanBao.setString(profile_user.getSelfYuanBao());//元宝数
-        console.log("当前玩家的Vip等级:"+ profile_user.getSelfVipLevel());
+//        console.log("当前玩家的Vip等级:"+ profile_user.getSelfVipLevel());
         this.Image_vipInfo._imageRenderer.setTexture("res/ic_vip"+ profile_user.getSelfVipLevel()+".png");
-        console.log("当前玩家的称谓等级:"+ profile_user.getSelfHonor());
+//        console.log("当前玩家的称谓等级:"+ profile_user.getSelfHonor());
         this.Image_chengwei._imageRenderer.setTexture(g_arrHonor[parseInt(profile_user.getSelfHonor())]);
-        console.log("当前玩家的头像:"+ profile_user.getSelfPhotoUrl());
+//        console.log("当前玩家的头像:"+ profile_user.getSelfPhotoUrl());
         //加载网络头像
         Common.setTextureByNet(profile_user.getSelfPhotoUrl(), this.Image_touxiang_default);
     },
@@ -598,49 +600,13 @@ var HallLogic= {
             self.showLightLineAnimate();
         }));
         self.Image_light.runAction(seq);
-//    },
-//    //小游戏列表
-//    initMiniGameList:function(){
-//        var arrMiniPath= [
-//            "res/btn_hall_xiaoyouxi_bairenniuniu.png",
-//            "res/btn_hall_xiaoyouxi_jiejibuyu.png",
-//            "res/btn_hall_xiaoyouxi_shuiguoji.png",
-//            "res/btn_hall_xiaoyouxi_wanrenjinhua.png"
-//        ];
-//
-//        var tableView= new cc.TableView(HallLogic, cc.size(cc.winSize.width, 141));
-//        tableView.setDirection(cc.SCROLLVIEW_DIRECTION_HORIZONTAL);//水平方向滚动
-//        tableView.setPosition(cc.winSize.width* 0.5, cc.winSize.height* 0.1);
-//        tableView.reloadData();
-//        this.view.addChild(tableView, 1);
-//    },
-//    tableCellAtIndex:function (table, idx) {
-//        var strValue = idx.toFixed(0);
-//        var cell = table.dequeueCell();
-//        var label;
-//        if (!cell) {
-//            cell = new CustomTableViewCell();
-//
-//            var sprite = new cc.Sprite("res/ic_vip"+ profile_user.getSelfVipLevel()+".png");
-//            cell.addChild(sprite);
-//
-//            label = new cc.LabelTTF(strValue, "Helvetica", 20.0);
-//            label.x = 0;
-//            label.y = 0;
-//            label.tag = 123;
-//            cell.addChild(label);
-//        } else {
-//            label = cell.getChildByTag(123);
-//            label.setString(strValue);
-//        }
-//    },
-//    numberOfCellsInTableView:function (table) {
-//        return 4;
-//    },
-//    tableCellSizeForIndex:function (table, idx) {
-//        if (idx == 2) {
-//            return cc.size(100, 100);
-//        }
-//        return cc.size(60, 60);
+    },
+    //小游戏列表
+    initMiniGameList:function(){
+        MiniGameLists.init(this.view, cc.pAdd(cc.p(0, cc.winSize.height* 0.025), this.Panel_MiniGame.getPosition()));
+    },
+    //活动列表
+    initActivityLists:function(){
+        ActivityLists.init(this.view, this.Panel_Commend.getPosition());
     }
 };

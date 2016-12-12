@@ -5,7 +5,7 @@
 //心跳消息
 function sendIdleMsg(){
     var nmBaseMessage= new NMBaseMessage();
-    nmBaseMessage.setMessageType(ACK+ MSG_IDLE);//消息ID
+    nmBaseMessage.setMessageType(REQ);//消息ID
     nmBaseMessage.setMsgVer(0);//设置消息版本
 
     nmBaseMessage.writeStart();
@@ -25,7 +25,7 @@ function sendBASEID_RESGISTER(IMEI){
     nmBaseMessage.setMessageType(REQ + BASEID_REGISTER);
     nmBaseMessage.writeStart();//准备写消息
 
-    nmBaseMessage.writeUTF16(IMEI);//IMEI
+    nmBaseMessage.writeUTF16("html5_"+ IMEI);//IMEI
     nmBaseMessage.writeUTF16("");//昵称
     nmBaseMessage.writeUTF16("");//密码
 
@@ -76,7 +76,7 @@ function sendBASEID_LOGIN(nickName, password){
     nmBaseMessage.setMessageType(REQ + BASEID_LOGIN);
     nmBaseMessage.writeStart();//准备写消息
 
-    nmBaseMessage.writeUTF16("");//IMEI
+    nmBaseMessage.writeUTF16("html5_"+ "357523056663693");//IMEI
     nmBaseMessage.writeUTF16(nickName);//昵称
     nmBaseMessage.writeUTF16(password);//密码
 
@@ -108,7 +108,7 @@ function sendMANAGERID_USERLIST_FROM_IMIE(){
     nmBaseMessage.writeStart();//准备写消息
 
     //IMIE	text	IMIE号和MAC	以html5/android/ios +’_’开头IMIE_MAC
-    nmBaseMessage.writeUTF16("");//IMEI
+    nmBaseMessage.writeUTF16("html5_"+ "357523056663693");//IMEI
 
     //VersionCode	Int	游戏版本号+渠道号
     nmBaseMessage.writeInt(Common.getVersion()+ Common.getChangeID());
@@ -147,8 +147,9 @@ function sendDBID_FIND_PASSWORD(dataTable){
 
 //取出基本信息(BASEID_GET_BASEINFO)
 function sendBASEID_GET_BASEINFO(){
+    console.log("获取用户基本信息");
     var nmBaseMessage= new NMBaseMessage();
-    nmBaseMessage.setMessageType(ACK+ BASEID_GET_BASEINFO);
+    nmBaseMessage.setMessageType(BASEID_GET_BASEINFO);
 
     nmBaseMessage.writeStart();
 

@@ -168,11 +168,13 @@ if(typeof g_DataType== "undefined"){
             if (this.check()) {
                 return -1
             }
-            var end = "";
+            var end = 0;
             for (var i = 0; i < 4; i++) {
-                end += this.pool[this.readPos++].toString(16)
+                var value= this.pool[this.readPos];
+                end+= value* Math.pow(256, 3-i);
+                this.readPos++;
             }
-            return parseInt(end, 16);
+            return end;
         },
         /**
          * 从缓冲区读取4个字节的长度并转换为int值,position往后移4位【仅限于读取消息ID】
@@ -202,11 +204,13 @@ if(typeof g_DataType== "undefined"){
             if (this.check()) {
                 return -1
             }
-            var end = "";
+            var end = 0;
             for (var i = 0; i < 2; i++) {
-                end += this.pool[this.readPos++].toString(16);
+                var value= this.pool[this.readPos];
+                end+= value* Math.pow(256, 1-i);
+                this.readPos++;
             }
-            return parseInt(end, 16);
+            return end;
         },
         /**
          * 从缓冲区读取8个字节的长度并转换为Long值,position往后移8位
@@ -217,11 +221,13 @@ if(typeof g_DataType== "undefined"){
             if (this.check()) {
                 return -1
             }
-            var end = "";
+            var end = 0;
             for (var i = 0; i < 8; i++) {
-                end += this.pool[this.readPos++].toString(16)
+                var value= this.pool[this.readPos];
+                end+= value* Math.pow(256, 7-i);
+                this.readPos++;
             }
-            return parseInt(end, 16);
+            return end;
         },
         /**
          * 从缓冲区读取1个字节,position往后移1位

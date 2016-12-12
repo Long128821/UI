@@ -63,7 +63,7 @@ var NetworkMonitor= {
      * Func:发送心跳上行消息
      */
     keepAlive:function(){
-        console.log("发送心跳！");
+        //console.log("发送心跳！");
         sendIdleMsg();
     },
 

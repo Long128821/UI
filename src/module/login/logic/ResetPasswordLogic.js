@@ -123,7 +123,7 @@ var ResetPasswordLogic= {
         var dataTable= {};
         dataTable["NickName"]= this.txt_username.getString();
         dataTable["Phone"]= this.txt_phonenum.getString();
-        dataTable["IMEI"]= "";
+        dataTable["IMEI"]= "html5_"+ "357523056663693";
         sendDBID_FIND_PASSWORD(dataTable);
     }
 };

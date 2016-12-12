@@ -122,7 +122,7 @@ var LoginLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            sendBASEID_RESGISTER("");
+            sendBASEID_RESGISTER("357523056663693");
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -372,6 +372,7 @@ var LoginLogic= {
             if(Common.judgeValueIsEffect(ProfileLogin.getLoginUserName())&&(Common.judgeValueIsEffect(ProfileLogin.getLoginPassword()))){
                 console.log(ProfileLogin.getLoginUserName());
                 console.log(ProfileLogin.getLoginPassword());
+                console.log("发送用户列表！");
                 sendBASEID_LOGIN(ProfileLogin.getLoginUserName(), ProfileLogin.getLoginPassword());
             }else{
                 alert("用户名和密码不能为空！");

@@ -76,6 +76,10 @@ ModuleTable["Hall"]["resLists"] = [
     "res/bg_hall_xiaoyouxi_dikuang.png",
     "res/btn_hall_vipanniu.png",
     "res/ui_hall_fenggexianguangxiao.png",
+    "res/btn_hall_xiaoyouxi_bairenniuniu.png",
+    "res/btn_hall_xiaoyouxi_jiejibuyu.png",
+    "res/btn_hall_xiaoyouxi_shuiguoji.png",
+    "res/btn_hall_xiaoyouxi_wanrenjinhua.png",
     "res/Hall.json"];
 
 ModuleTable["Loading"] = {};

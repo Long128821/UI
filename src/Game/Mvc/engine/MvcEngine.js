@@ -384,7 +384,6 @@ var MvcEngine= {
     },
     //休眠或者销毁界面
     sleepOrDestroyModules:function(moduleName){
-        console.log(moduleName);
         ////console.log("sleepOrDestroyModules");
         var layerOfCreateModule = ModuleTable[moduleName]["Layer"];//要创建的界面层级
         //console.log(layerOfCreateModule);

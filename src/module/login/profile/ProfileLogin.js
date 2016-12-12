@@ -94,7 +94,6 @@ var ProfileLogin= {
 
             //本地保存用户数据
             ProfileLogin.saveUserData();
-            console.log(result+ " "+ resultText);
             MvcEngine.createModule(GUI_HALL);
         }else{
             //Todo:Toast:登录失败提示
@@ -132,7 +131,7 @@ var ProfileLogin= {
     },
     //根据IMEI获得绑定该设备的用户列表
     IMEIUserListManage:function(dataTable){
-
+        console.log("Profile");
     }
 };
 

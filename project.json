@@ -31,6 +31,8 @@
         "src/Common/Client2ServerCommon.js",
         "src/Common/Server2ClientCommon.js",
         "src/Common/ProfileCommonSignal.js",
+        "src/Common/MiniGameLists.js",
+        "src/Common/ActivityLists.js",
         "src/FrameWorks/utils/GamePub.js"
     ]
 }
