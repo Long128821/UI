@@ -6,27 +6,24 @@ var arrActivityLists= [
     "res/ui_hall_tuiguangfenye_yemadi.png"
 ];
 
-var activitySize= cc.size(454, 190);
-var offset= 20;
+var activitySize= cc.size(454, 190);//每一个单元的尺寸
+var offset= 20;//指示标识符的间隔
 
 var ActivityLists= {
     m_parent:null,//视图
-    m_tableViewPos:cc.p(0,0),//视图列表位置
-    m_curActivityID:0,//当前活动ID
+    m_pageViewPos:cc.p(0,0),//视图列表位置
     m_activityCnt:arrActivityLists.length-2,//当前活动数量
-    m_arrActivityList:[],//活动列表
     m_arrRadioButton:[],//单选框按钮
-    m_tableView:null,
+    m_pageView:null,//PageView视图
+    m_activityTimer:null,//切换定时器
     init:function(parent, pos){
         this.m_parent= parent;
-        this.m_tableViewPos= pos;
-        this.preLoad();
+        this.m_pageViewPos= pos;
+        this.preLoad();//预加载资源
     },
     preLoad:function(){
         var self= this;
-        this.m_arrRadioButton= [];
-        this.m_arrActivityList= [];
-        this.m_curActivityID= 0;
+        this.m_arrRadioButton= [];//指示数组
         cc.loader.load(arrActivityLists, function(){}, function(){
             self.initActivityLists();
             self.initRadioButton();
@@ -34,24 +31,34 @@ var ActivityLists= {
         });
     },
     initActivityLists:function(){
-        var tableView = new cc.TableView(this, activitySize);
-        tableView.setDirection(cc.SCROLLVIEW_DIRECTION_HORIZONTAL);
-        tableView.setDelegate(this);
-        tableView.setAnchorPoint(0, 0);
-        tableView.setPosition(this.m_tableViewPos);
-        this.m_parent.addChild(tableView, 2);
-        tableView.reloadData();
+        var pageView = new ccui.PageView();
+        pageView.setPosition(this.m_pageViewPos);
+        pageView.setTouchEnabled(true);
+        pageView.setContentSize(activitySize);
 
-        tableView.setColor(cc.color(0,0,0));
+        for (var i = 0; i < this.m_activityCnt; ++i) {
+            var imageView = new ccui.Button(arrActivityLists[i]);
+            imageView.x = activitySize.width / 2;
+            imageView.y = activitySize.height / 2;
 
-        this.m_tableView= tableView;
+            //仅仅触发一次
+            imageView.addClickEventListener(this.pageViewEvent, this);
+            //触发多次
+            imageView.addTouchEventListener(this.pageViewEvent1, this);
+
+            pageView.addPage(imageView, 2);
+        }
+        this.m_pageView= pageView;
+        this.m_parent.addChild(pageView, 2);
+
+        pageView.addEventListenerPageView(this.pageViewEvent, this);
     },
     //单选框
     initRadioButton:function(){
         var startPosX= (activitySize.width- (this.m_activityCnt- 1)* offset)* 0.5;
         for(var i=0; i< this.m_activityCnt; ++i){
             var sprite= cc.Sprite.create("res/ui_hall_tuiguangfenye_yemadi.png");
-            sprite.setPosition(cc.pAdd(cc.p(startPosX+ i* offset, -15),this.m_tableViewPos));
+            sprite.setPosition(cc.pAdd(cc.p(startPosX+ i* offset, -15),this.m_pageViewPos));
             this.m_parent.addChild(sprite, 2);
             this.m_arrRadioButton[i]= sprite;
         }
@@ -62,43 +69,35 @@ var ActivityLists= {
         sprite1.setPosition(backSpriteSize.width* 0.5, backSpriteSize.height* 0.5);
         this.m_arrRadioButton[0].addChild(sprite1);
     },
-    tableCellSizeForIndex:function (table, idx) {
-        return activitySize;
-    },
-    tableCellAtIndex:function (table, idx) {
-        var strValue = idx.toFixed(0);
-        var cell = table.dequeueCell();
-        cell = new cc.TableViewCell();
-        var sprite = new cc.Sprite(arrActivityLists[parseInt(strValue)]);
-        sprite.setAnchorPoint(0,0);
-        sprite.setPosition(0,0);
-        cell.addChild(sprite);
-        this.m_arrActivityList[parseInt(strValue)]= cell;
-        return cell;
-    },
-    numberOfCellsInTableView:function (table) {
-        return this.m_activityCnt;
-    },
     //启动切换
     autoChange:function(){
         var self= this;
-        setInterval(function(delta){
+        this.m_activityTimer= setInterval(function(delta){
             self.changeRadioButton();
         }, 3000);
     },
+    //切换定时器s
     changeRadioButton:function(){
         var self= this;
-        var preRadio= self.m_curActivityID;
+        var curActivityID= self.m_pageView.getCurPageIndex();
+        var preRadio= curActivityID;
         self.m_arrRadioButton[preRadio].removeAllChildren();
-        self.m_curActivityID= (++self.m_curActivityID)%(self.m_activityCnt);
+        curActivityID= (++curActivityID)%(self.m_activityCnt);
 
         //更新指示
         var sprite1= cc.Sprite.create("res/ui_hall_tuiguangfenye_dangqianye.png");
-        var backSpriteSize= self.m_arrRadioButton[self.m_curActivityID].getPosition();
+        var backSpriteSize= self.m_arrRadioButton[curActivityID].getPosition();
         sprite1.setAnchorPoint(0.5, 0.5);
         sprite1.setPosition(backSpriteSize.width* 0.5, backSpriteSize.height* 0.5);
-        self.m_arrRadioButton[self.m_curActivityID].addChild(sprite1);
+        self.m_arrRadioButton[curActivityID].addChild(sprite1);
 
-        self.m_tableView.setContentOffsetInDuration(cc.p(self.m_curActivityID* (-activitySize.width), 0), 1);
+        self.m_pageView.scrollToItem((curActivityID)%(self.m_activityCnt));
+    },
+    pageViewEvent: function (pSender, type) {
+    },
+    pageViewEvent1: function (pSender, type) {
+        console.log(type== ccui.Widget.TOUCH_ENDED);
     }
 };
+
+//Todo:关闭定时器
