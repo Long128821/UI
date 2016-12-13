@@ -50,10 +50,10 @@ var Common= {
     //ImageView换图(网络)
     setTextureByNet:function(url, target){
         //异步加载头像资源
-        var image= cc.loader.loadImg(
+        cc.loader.loadImg(
             url,
             function(){
-                target._imageRenderer.setTexture(image.src);
+                target._imageRenderer.setTexture(url);
             }
         );
     },

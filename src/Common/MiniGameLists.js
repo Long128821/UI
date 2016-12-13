@@ -13,6 +13,9 @@ var arrMiniGame= [
     "res/btn_hall_xiaoyouxirukou1.png"
 ];
 
+//小游戏图片尺寸
+var miniGameSize= cc.size(251, 141);
+
 var MiniGameLists= {
     m_parent:null,//视图
     m_tableViewPos:cc.p(0,0),//视图列表位置
@@ -21,24 +24,29 @@ var MiniGameLists= {
         this.m_tableViewPos= pos;
         this.preLoad();
     },
+    //预加载资源
     preLoad:function(){
         var self= this;
         cc.loader.load(arrMiniGame, function(){}, function(){
+            //加载完成
             self.initMiniGame();
         });
     },
     initMiniGame:function(){
-        var tableView = new cc.TableView(this, cc.size(cc.winSize.width, 141));
-        tableView.setDirection(cc.SCROLLVIEW_DIRECTION_HORIZONTAL);
-        tableView.setDelegate(this);//设置回调函数的路径
+        var tableView = new cc.TableView(this, cc.size(cc.winSize.width, miniGameSize.height));
+        tableView.setDirection(cc.SCROLLVIEW_DIRECTION_HORIZONTAL);//水平滑动
+        tableView.setDelegate(this);//设置回调函数的路径(this.tableCellTouched)
         tableView.setAnchorPoint(0, 0);
         tableView.setPosition(this.m_tableViewPos);
         this.m_parent.addChild(tableView, 2);
+        //重新加载数据
         tableView.reloadData();
     },
+    //重写TableView的tableCellSizeForIndex函数
     tableCellSizeForIndex:function (table, idx) {
-        return cc.size(251, 141);
+        return miniGameSize;
     },
+    //重写TableView的tableCellAtIndex函数
     tableCellAtIndex:function (table, idx) {
         var strValue = idx.toFixed(0);
         var cell = table.dequeueCell();
@@ -50,9 +58,11 @@ var MiniGameLists= {
 
         return cell;
     },
+    //单元数量-重写TableView的tableCellAtIndex函数
     numberOfCellsInTableView:function (table) {
         return arrMiniGame.length;
     },
+    //触摸结束-重写TableView的tableCellAtIndex函数
     tableCellTouched:function (table, cell) {
         console.log("cell touched at index: " + cell.getIdx());
     }

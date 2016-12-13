@@ -22,3 +22,9 @@ GUI_HALL= "Hall";
 //大厅-设置
 GUI_SETTING= "Setting";
 
+//修改账户基本信息
+GUI_OTHERUSERINFO= "OtherUserInfo";
+
+//月卡
+GUI_MONTHCARD= "MonthCard";
+

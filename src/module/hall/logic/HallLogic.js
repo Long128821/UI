@@ -1,9 +1,3 @@
-//var CustomTableViewCell = cc.TableViewCell.extend({
-//    draw:function (ctx) {
-//        this._super(ctx);
-//    }
-//});
-
 var HallLogic= {
     view:null,//视图
     
@@ -322,7 +316,7 @@ var HallLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            sendJINHUA_MGR_USER_INFO(profile_user.getSelfUserID());
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -361,7 +355,7 @@ var HallLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            MvcEngine.createModule(GUI_MONTHCARD);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -481,11 +475,13 @@ var HallLogic= {
     },
     //添加信号
     addSlot:function(){
-    	Frameworks.addSlot2Signal(BASEID_GET_BASEINFO, ProfileHall.test);
+    	Frameworks.addSlot2Signal(JINHUA_MGR_USER_INFO, ProfileHall.getUserInfo);
+    	Frameworks.addSlot2Signal(BASEID_GET_NOTICE, ProfileHall.test1);
     	Frameworks.addSlot2Signal(BASEID_GET_NOTICE, ProfileHall.test1);
     },
     //移除信号
     removeSlot:function(){
+        Frameworks.removeSlotFromSignal(JINHUA_MGR_USER_INFO, ProfileHall.getUserInfo);
         Frameworks.removeSlotFromSignal(BASEID_GET_BASEINFO, ProfileHall.test);
         Frameworks.removeSlotFromSignal(BASEID_GET_NOTICE, ProfileHall.test1);
     },
@@ -512,10 +508,17 @@ var HallLogic= {
     },
     initHallBaseData:function(){
         this.Label_NickName.setString(profile_user.getSelfNickName());//昵称
-        this.Label_Coin.setString(profile_user.getSelfCoin());//金币数z
+        //判断金币数，是否超出
+        if(profile_user.getSelfCoin()>= 100000000){
+            this.Label_Coin.setString(parseInt(profile_user.getSelfCoin()/100000000)+"亿");//金币数
+        }else{
+            this.Label_Coin.setString(profile_user.getSelfCoin());//金币数
+        }
+
         this.Label_YuanBao.setString(profile_user.getSelfYuanBao());//元宝数
 //        console.log("当前玩家的Vip等级:"+ profile_user.getSelfVipLevel());
-        this.Image_vipInfo._imageRenderer.setTexture("res/ic_vip"+ profile_user.getSelfVipLevel()+".png");
+        //this.Image_vipInfo._imageRenderer.setTexture("res/ic_vip"+ profile_user.getSelfVipLevel()+".png");
+        this.btn_vip.loadTextureNormal("res/ic_vip"+ profile_user.getSelfVipLevel()+".png");
 //        console.log("当前玩家的称谓等级:"+ profile_user.getSelfHonor());
         this.Image_chengwei._imageRenderer.setTexture(g_arrHonor[parseInt(profile_user.getSelfHonor())]);
 //        console.log("当前玩家的头像:"+ profile_user.getSelfPhotoUrl());

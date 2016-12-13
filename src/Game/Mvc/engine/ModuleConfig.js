@@ -179,3 +179,43 @@ ModuleTable["Setting"]["resLists"] = [
     "res/bth_bbjc.png",
     "res/ui_xiugaimima.png",
     "res/Setting.json"];
+
+ModuleTable["OtherUserInfo"] = {};
+ModuleTable["OtherUserInfo"]["jsLists"] = [
+    "src/module/userinfo/profile/ProfileOtherUserInfo.js",
+    "src/module/userinfo/logic/OtherUserInfoLogic.js",
+    "src/module/userinfo/controller/OtherUserInfoController.js"];
+ModuleTable["OtherUserInfo"]["Layer"] = Layer.Second_Layer;
+ModuleTable["OtherUserInfo"]["resLists"] = [
+    "res/bg_toumingditu.png",
+    "res/co_desk.plist",
+    "res/co_desk.png",
+    "res/ic_vip_shuzi.png",
+    "res/num_vip_level.png",
+    "res/table_elements.plist",
+    "res/table_elements.png",
+    "res/ui_jinbishu.png",
+    "res/ui_meilizhishu.png",
+    "res/ui_meilushu.png",
+    "res/ui_meilushu_daifuhao.png",
+    "res/ui_paihang_shuzi2.png",
+    "res/ui_vip_jiaobiaoshuzi.png",
+    "res/ui_vip_lvshuzi_gaoji.png",
+    "res/userinfo_mine.plist",
+    "res/userinfo_mine.png",
+    "res/OtherUserInfo.json"];
+
+ModuleTable["MonthCard"] = {};
+ModuleTable["MonthCard"]["jsLists"] = [
+    "src/module/recharge/profile/ProfileMonthCard.js",
+    "src/module/recharge/logic/MonthCardLogic.js",
+    "src/module/recharge/controller/MonthCardController.js"];
+ModuleTable["MonthCard"]["Layer"] = Layer.Second_Layer;
+ModuleTable["MonthCard"]["resLists"] = [
+    "res/btn_weixinzhifu3.png",
+    "res/pic_caizhi.png",
+    "res/btn_item_close.png",
+    "res/btn_zengsongliwu.png",
+    "res/ui_item_btn_ensure.png",
+    "res/ui_yueka_daojishiwenzi.png",
+    "res/MonthCard.json"];

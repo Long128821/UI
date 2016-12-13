@@ -25,9 +25,9 @@ var LoginLogic= {
 
 	m_bLoginVisible:false,//登陆框是否显示
     createView:function(){
-        if(Network.getWebSocketConnecting()){
-            sendMANAGERID_USERLIST_FROM_IMIE();
-        }
+//        if(Network.getWebSocketConnecting()){
+//            sendMANAGERID_USERLIST_FROM_IMIE();
+//        }
     	this.initLayer();
         
         this.view.setTag(ModuleTable["Login"]["Layer"]);
@@ -244,7 +244,7 @@ var LoginLogic= {
     
     //释放界面的私有数据
     releaseData:function(){
-    
+
     },
     
     requestMsg:function(){
@@ -261,10 +261,12 @@ var LoginLogic= {
     //设置显示IP
     setIPLabel:function(){
         var ip= "";
-        if(Network.getInstance().getWebSocketConnecting()){
-            this.lable_ip_text.setString("连接:"+ NetworkConfig.getCurURL());
-        }else{
-            this.lable_ip_text.setString("无连接");
+        if(this.lable_ip_text){
+            if(Network.getInstance().getWebSocketConnecting()){
+                this.lable_ip_text.setString("连接:"+ NetworkConfig.getCurURL());
+            }else{
+                this.lable_ip_text.setString("无连接");
+            }
         }
     },
 
@@ -325,6 +327,10 @@ var LoginLogic= {
         this.ImageView_ip.addChild(this.edit_ip);
 
         this.edit_ip.setVisible(true);
+
+        //设置不能已有账户登录
+        this.edit_username.setString(ProfileLogin.getLoginUserName());
+        this.edit_password.setString(ProfileLogin.getLoginPassword());
     },
     //休眠时输入框不可使用
     setEditorVisible:function(bEnabled, type) {

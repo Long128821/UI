@@ -141,7 +141,9 @@ function NMBaseMessage(arraybuffer){
         if(this.checkBinaryStream(g_DataType.Short, 1)){
             return 0;
         }
-        return this.m_binaryStream.writeShort();
+        var value= this.m_binaryStream.readShort();
+        this.m_binaryStream.readPos+= 2;
+        return value;
     };
 
     //Long类型
@@ -158,5 +160,20 @@ function NMBaseMessage(arraybuffer){
             return 0;
         }
         return this.m_binaryStream.readUTF16();
+    };
+
+//    //UTF16类型
+//    this.readString= function(){
+//        if(this.checkBinaryStream(g_DataType.UTF16, 1)){
+//            return 0;
+//        }
+//        return this.m_binaryStream.readString();
+//    };
+    //Unicode类型
+    this.readUnicode= function(){
+        if(this.checkBinaryStream(g_DataType.UTF16, 1)){
+            return 0;
+        }
+        return this.m_binaryStream.readUnicode();
     };
 } 

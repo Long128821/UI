@@ -86,7 +86,7 @@ var MessageCenter= {
      * @param buffer 网络中的二进制数组buffer
      */
     acceptMessage:function(buffer){
-//        console.log("13522490962");
+        console.log("接收消息");
         if(!MessageCenter.getIsWebSocketPause()){//可否接受信息
             //重置最后一次心跳时间
             NetworkMonitor.initLastRecvTime();

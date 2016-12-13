@@ -147,7 +147,6 @@ function sendDBID_FIND_PASSWORD(dataTable){
 
 //取出基本信息(BASEID_GET_BASEINFO)
 function sendBASEID_GET_BASEINFO(){
-    console.log("获取用户基本信息");
     var nmBaseMessage= new NMBaseMessage();
     nmBaseMessage.setMessageType(BASEID_GET_BASEINFO);
 
@@ -200,3 +199,5 @@ function sendMANAGERID_JINHUA_USERINFO(){
 
     delete nmBaseMessage;
 }
+
+//获取

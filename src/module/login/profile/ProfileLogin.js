@@ -62,14 +62,15 @@ var ProfileLogin= {
                 console.log("本地账号:"+userInfo_map["nickname"]+ " "+ userInfo_map["password"]);
 
                 profile_user.setSelfUserID(userInfo_map["UserID"]);
+
                 ProfileLogin.setLoginUserName(userInfo_map["nickname"]);
                 ProfileLogin.setLoginPassword(userInfo_map["password"]);
             }else{
                 //Todo:删除:测试时，如果本地没有本地存储，那么添加
                 //记录登录账户的用户名和密码
                 profile_user.setSelfUserID("103488");
-                ProfileLogin.setLoginUserName("游客88811928");
-                ProfileLogin.setLoginPassword("1ae70d");
+                ProfileLogin.setLoginUserName("long8911");
+                ProfileLogin.setLoginPassword("128821");
             }
         }
     },

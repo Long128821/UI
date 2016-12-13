@@ -257,10 +257,10 @@ if(typeof g_DataType== "undefined"){
             //将arrayBuffer按照DataView视图读取方式读取
             var binary= new Uint8Array(this.arrayBuffer.slice(this.readPos+ 2, this.readPos+ len));
             this.readPos+= len;
-            return this.binaryArrayToString(binary);
+            return this.binaryArrayToStringByUTFT6(binary);
         },
         /**
-         * 方法二:使用Unit16Array方法-中文
+         * 方法二:使用Unit16Array方法-中文(大端字节-FF FE)
          * 从缓冲区的position位置按UTF8的格式读取字符串,position往后移指定的长度
          * @returns {String} 读取的字符串
          */
@@ -272,18 +272,54 @@ if(typeof g_DataType== "undefined"){
             //将arrayBuffer按照DataView视图读取方式读取
             var binary= new Uint16Array(this.arrayBuffer.slice(this.readPos+ 2, this.readPos+ len));
             this.readPos+= len;
-            return this.binaryArrayToString(binary);
+            return this.binaryArrayToStringByUTFT6(binary);
+        },
+        /**
+         * 方法二:使用Unit8Array方法-中文(Unicode编码——小端字节 FE FF)
+         * 从缓冲区的position位置按UTF8的格式读取字符串,position往后移指定的长度
+         * @returns {String} 读取的字符串
+         */
+        readUnicode: function () {
+            var len= this.readShort();
+            //其中，2个是后台传递前台时，多传了两个字符串结束符(EOF)
+            //BOM =  FF FE
+            //小端字节和大端字节的转换，EOF放在字节流的前面
+            //将arrayBuffer按照DataView视图读取方式读取
+            var binary= new Uint8Array(this.arrayBuffer.slice(this.readPos+ 2, this.readPos+ len));
+            this.readPos+= len;
+            return this.binaryArrayToStringByUnicode(binary);
         },
         /*
          func:二进制数组转换为字符串
         */
-        binaryArrayToString:function(binaryArray){
+        binaryArrayToStringByUTFT6:function(binaryArray){
             var str = "";
             for (var i = 0; i < binaryArray.length; i++) {
                 if (binaryArray[i] != 0)
                 {
                     var hexChar = "0x" + binaryArray[i].toString("16").toUpperCase();
                     str += String.fromCharCode(hexChar);
+                }
+            }
+            return str;
+        },
+        /*
+         func:二进制数组转换为字符串(Unicode)
+         */
+        binaryArrayToStringByUnicode:function(binaryArray){
+            var str = "";
+            var temp= "";
+            for (var i = 0; i < binaryArray.length; ++i) {
+                if(i%2== 0){
+                    temp= "0x";
+                }
+                if (binaryArray[i] != 0)
+                {
+                    var hexChar = binaryArray[i].toString("16").toUpperCase();
+                    temp+= hexChar;
+                }
+                if(i%2== 1){
+                    str+= String.fromCharCode(temp);
                 }
             }
             return str;
