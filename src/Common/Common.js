@@ -73,6 +73,9 @@ var Common= {
         ],function(){
             callback();
         });
+    },
+    getJinHuaResource:function(path){
+        return "res/"+ path;
     }
 };
 

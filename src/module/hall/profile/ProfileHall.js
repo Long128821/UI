@@ -1,5 +1,7 @@
 //数据图标集
 var ProfileHall= {
+    //
+    onlinePlayerNumber:0,//当前在线人数
     getUserInfo:function(dataTable){
         profile_user.setSelfNickName(dataTable.get("nickName"));
         profile_user.setSelfCoin(dataTable.get("Coin"));
@@ -14,10 +16,13 @@ var ProfileHall= {
 
         MvcEngine.createModule(GUI_OTHERUSERINFO);
     },
-    test:function(){
-        console.log("接受用户基本信息");
+    //在线时长
+    slotJINHUA_MGR_SETTING:function(dataTable){
+        ProfileHall.onlinePlayerNumber= dataTable["onLineCnt"];
+        HallLogic.setOnlinePlayerNumber();
     },
-    test1:function(){
-        console.log("公告");
+    //游戏公告
+    slotJINHUA_MGR_NOTICE:function(dataTable){
+        HallLogic.createSystemNoticeLabel(dataTable["RecordList"][0].content,0, cc.color(dataTable["RecordList"][0].colorR, dataTable["RecordList"][0].colorG, dataTable["RecordList"][0].colorB));
     }
 };

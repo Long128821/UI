@@ -36,6 +36,7 @@
         "src/Common/ProfileCommonSignal.js",
         "src/Common/MiniGameLists.js",
         "src/Common/ActivityLists.js",
-        "src/FrameWorks/utils/GamePub.js"
+        "src/FrameWorks/utils/GamePub.js",
+        "src/game/mvc/utils/VipElementsUtils.js"
     ]
 }

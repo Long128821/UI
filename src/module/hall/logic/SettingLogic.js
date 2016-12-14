@@ -223,17 +223,17 @@ var SettingLogic= {
      */
     switchState:function(type){
         if(type== 0){
-            GameConfig.isPlayMusic= !GameConfig.isPlayMusic;
-            this.img_music.setVisible(!GameConfig.isPlayMusic);
+            GameConfig.setGameMusicOff(!GameConfig.getGameMusicOff());
+            this.img_music.setVisible(!GameConfig.getGameMusicOff());
         }else{
-            GameConfig.isPlayEffect= !GameConfig.isPlayEffect;
-            this.img_yinxiao.setVisible(!GameConfig.isPlayEffect);
+            GameConfig.setGameSoundOff(!GameConfig.getGameSoundOff());
+            this.img_yinxiao.setVisible(!GameConfig.getGameSoundOff());
         }
     },
     //初始化界面数据
     initBaseData:function(){
-        this.img_music.setVisible(!GameConfig.isPlayMusic);
-        this.img_yinxiao.setVisible(!GameConfig.isPlayEffect);
+        this.img_music.setVisible(!GameConfig.getGameMusicOff());
+        this.img_yinxiao.setVisible(!GameConfig.getGameSoundOff());
         //版本号ID
         this.lab_text2.setText("游戏版本号:"+ Common.getVersion()+"."+Common.getChangeID()+"     ID:"+ profile_user.getSelfUserID());
 

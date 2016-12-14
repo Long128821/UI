@@ -19,6 +19,7 @@ var ActivityLists= {
     m_pageViewPos:cc.p(0,0),//视图列表位置
     m_activityCnt:arrActivityLists.length-2,//当前活动数量
     m_arrRadioButton:[],//单选框按钮
+    m_arrCellButton:[],//活动列表单元
     m_pageView:null,//PageView视图
     m_activityTimer:null,//切换定时器
     /**
@@ -35,6 +36,7 @@ var ActivityLists= {
     preLoad:function(){
         var self= this;
         this.m_arrRadioButton= [];//指示数组
+        this.m_arrCellButton= [];
         this.m_activityCnt= arrActivityLists.length-2;//活动列表= 去除两个按钮
         //预加载资源
         cc.loader.load(arrActivityLists, function(){}, function(){
@@ -58,11 +60,13 @@ var ActivityLists= {
             button.y = activitySize.height / 2;
 
             //仅仅触发一次
-            button.addClickEventListener(this.buttonEvent, this);
+            button.addClickEventListener(this.buttonEvent);
 //            //触发多次
 //            button.addTouchEventListener(this.buttonEvent, this);
             button.setTag(i);
             pageView.addPage(button, 2);
+
+            this.m_arrCellButton[i]= button;
         }
         this.m_pageView= pageView;
         //在view中，添加节点，zOrder为2
@@ -151,6 +155,15 @@ var ActivityLists= {
      */
     pageViewEvent: function (pageView, cell) {
         ActivityLists.changeRadioButton();
+    },
+    //设置TouchEnabled可否使用
+    setTouchEnabled:function(bEnabled){
+        for (var i = 0; i < this.m_arrCellButton.length; ++i) {
+            var button = this.m_arrCellButton[i];
+            button.setTouchEnabled(bEnabled== undefined?false:bEnabled);
+        }
+        //设置PageView控件不可滑动
+        this.m_pageView.setTouchEnabled(bEnabled== undefined?false:bEnabled);
     }
 };
 

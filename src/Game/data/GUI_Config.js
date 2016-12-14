@@ -28,3 +28,6 @@ GUI_OTHERUSERINFO= "OtherUserInfo";
 //月卡
 GUI_MONTHCARD= "MonthCard";
 
+//VipInfo
+GUI_VIPINFO= "VipInfo";
+

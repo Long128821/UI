@@ -79,6 +79,8 @@ var HallLogic= {
         this.initMiniGameList();
 
         this.initActivityLists();
+        //发送公共消息
+        this.sendGameCommonMessage();
     },
     
 	initView:function(){
@@ -303,7 +305,7 @@ var HallLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            MvcEngine.createModule(GUI_VIPINFO);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -459,7 +461,7 @@ var HallLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            MvcEngine.createModule(GUI_VIPINFO);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -476,14 +478,14 @@ var HallLogic= {
     //添加信号
     addSlot:function(){
     	Frameworks.addSlot2Signal(JINHUA_MGR_USER_INFO, ProfileHall.getUserInfo);
-    	Frameworks.addSlot2Signal(BASEID_GET_NOTICE, ProfileHall.test1);
-    	Frameworks.addSlot2Signal(BASEID_GET_NOTICE, ProfileHall.test1);
+        Frameworks.addSlot2Signal(JINHUA_MGR_SETTING, ProfileHall.slotJINHUA_MGR_SETTING);//在线人数
+        Frameworks.addSlot2Signal(JINHUA_MGR_NOTICE, ProfileHall.slotJINHUA_MGR_NOTICE);//游戏公告
     },
     //移除信号
     removeSlot:function(){
         Frameworks.removeSlotFromSignal(JINHUA_MGR_USER_INFO, ProfileHall.getUserInfo);
-        Frameworks.removeSlotFromSignal(BASEID_GET_BASEINFO, ProfileHall.test);
-        Frameworks.removeSlotFromSignal(BASEID_GET_NOTICE, ProfileHall.test1);
+        Frameworks.removeSlotFromSignal(JINHUA_MGR_SETTING, ProfileHall.slotJINHUA_MGR_SETTING);
+        Frameworks.removeSlotFromSignal(JINHUA_MGR_NOTICE, ProfileHall.slotJINHUA_MGR_NOTICE);
     },
     
     //释放界面的私有数据
@@ -493,6 +495,15 @@ var HallLogic= {
     
     requestMsg:function(){
     
+    },
+    //发送全局消息
+    sendGameCommonMessage:function(){
+        if(profile_user.getSelfUserID()!= 0){
+            //当前在线时长
+            sendJINHUA_MGR_SETTING(new Date().getTime());
+            //公告
+            sendJINHUA_MGR_NOTICE(0);
+        }
     },
     //初始化界面(昵称、头像、Vip、称号、元宝数、金币数、按钮)
     initTable:function(){
@@ -516,9 +527,6 @@ var HallLogic= {
         }
 
         this.Label_YuanBao.setString(profile_user.getSelfYuanBao());//元宝数
-//        console.log("当前玩家的Vip等级:"+ profile_user.getSelfVipLevel());
-        //this.Image_vipInfo._imageRenderer.setTexture("res/ic_vip"+ profile_user.getSelfVipLevel()+".png");
-        this.btn_vip.loadTextureNormal("res/ic_vip"+ profile_user.getSelfVipLevel()+".png");
 //        console.log("当前玩家的称谓等级:"+ profile_user.getSelfHonor());
         this.Image_chengwei._imageRenderer.setTexture(g_arrHonor[parseInt(profile_user.getSelfHonor())]);
 //        console.log("当前玩家的头像:"+ profile_user.getSelfPhotoUrl());
@@ -593,6 +601,11 @@ var HallLogic= {
                 self.Button_match.addChild(armature);
             });
     },
+    //设置活动列表和小游戏列表可否使用
+    setListEnabled:function(bEnabled){
+        MiniGameLists.setTouchEnabled(bEnabled);
+        ActivityLists.setTouchEnabled(bEnabled);
+    },
     //分割线动画
     showLightLineAnimate:function(){
         var self= this;
@@ -610,6 +623,62 @@ var HallLogic= {
     },
     //活动列表
     initActivityLists:function(){
-        ActivityLists.init(this.view, this.Panel_Commend.getPosition());
+       ActivityLists.init(this.view, this.Panel_Commend.getPosition());
+    },
+//    //设置称谓
+//    setUserChengWei:function(){
+//        var tipLevel = JinHuaLoadProfile.JinHuaSetting.getUserTitle();
+//        var url = null;
+//        if(tipLevel == 1 ){
+//        url = "ui_xiaoqigai_1.png"
+//        }else if( tipLevel == 2 ){
+//        url = "ui_pingming_1.png"
+//        }else if( tipLevel == 3 ){
+//        url = "ui_xiaokang_1.png"
+//        }else if( tipLevel == 4 ){
+//        url = "ui_caizhu_1.png"
+//        }else if( tipLevel == 5 ){
+//        url = "ui_tuhao_1.png"
+//        }else if( tipLevel == 6 ){
+//        url = "ui_yidiajujia_1.png"
+//        }else if( tipLevel == 7 ){
+//        url = "ui_fujiatianxia_1.png"
+//        }else if( tipLevel == 8 ){
+//        url = "ui_fukediguo_1.png"
+//        }else if( tipLevel == 9 ){
+//        url = "ui_guominlaogong_1.png"
+//        }
+//
+//        this.Image_chengwei.loadTexture(Common.getResourcePath(url));
+//    },
+    //设置当前在线人数
+    setOnlinePlayerNumber:function(){
+        this.Label_online.setColor(cc.color(255,0,0));
+        this.Label_online.setText("当前在线:"+ProfileHall.onlinePlayerNumber+"人");
+    },
+    //系统公告文本
+    createSystemNoticeLabel:function(systemNotice,textLenWidth,color){
+        var chatPanelSize= this.panel_chat.getContentSize();
+        var chatPanelPoint= this.panel_chat.getPosition();
+        var ImageNoticeSize= this.ImageView_Notice.getContentSize();
+
+        var labelNotice= cc.LabelTTF.create(systemNotice.toString(), "微软雅黑", 20);
+        labelNotice.setAnchorPoint(cc.p(0, 0));
+        labelNotice.setPosition(cc.p(chatPanelSize.width + chatPanelPoint.x + ImageNoticeSize.width / 2,0));
+        labelNotice.setColor(color);
+        this.panel_chat.addChild(labelNotice);
+
+        var moveBy =  cc.MoveBy.create(GameConfig.NOTICE_MOVE_TIME*(labelNotice.width + chatPanelSize.width), cc.p(-chatPanelPoint.x -labelNotice.width -chatPanelSize.width,0));
+        var seq = cc.Sequence.create(moveBy);
+        labelNotice.runAction(cc.RepeatForever.create(seq));
+    },
+    //显示系统公告
+    showNotice:function(){
+
     }
 };
+
+//Todo:公告
+//Todo:首冲翻倍
+//Todo:存储金花数据
+//Todo:startReadLoop()

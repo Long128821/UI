@@ -36,11 +36,12 @@ var Network= {
             console.log('network onOpen...');
             //通知消息中心(MessageCenter)连接成功
             MessageCenter.connectSuccess();
+//            send80550002();
         };
 
         //连接成功之后，前台获取后台的信息
         self.webSocket.onmessage = function(evt){
-            //console.log("接受");
+            console.log("接受");
             //WebSocket
             MessageCenter.acceptMessage(evt.data);
         };

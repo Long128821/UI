@@ -18,6 +18,7 @@ var miniGameSize= cc.size(251, 141);
 
 var MiniGameLists= {
     m_parent:null,//视图
+    m_tableView:null,//TableView视图
     m_tableViewPos:cc.p(0,0),//视图列表位置
     init:function(parent, pos){
         this.m_parent= parent;
@@ -41,6 +42,8 @@ var MiniGameLists= {
         this.m_parent.addChild(tableView, 2);
         //重新加载数据
         tableView.reloadData();
+
+        this.m_tableView= tableView;
     },
     //重写TableView的tableCellSizeForIndex函数
     tableCellSizeForIndex:function (table, idx) {
@@ -65,5 +68,11 @@ var MiniGameLists= {
     //触摸结束-重写TableView的tableCellAtIndex函数
     tableCellTouched:function (table, cell) {
         console.log("cell touched at index: " + cell.getIdx());
+    },
+    //设置TouchEnabled可否使用
+    setTouchEnabled:function(bEnabled){
+        this.m_tableView.setDelegate(bEnabled?this:null);
+        //设置TableView不可滑动
+        this.m_tableView.setTouchEnabled(bEnabled?false:bEnabled);
     }
 };

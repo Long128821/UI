@@ -12,6 +12,21 @@ var GameConfig= {
     ScreenHeight:640,//屏幕高度（分辨率）
     isPlayMusic:false,//是否播放背景音乐
     isPlayEffect:false,//是否播放音效
+    NOTICE_MOVE_TIME:0.013,//滚动时间
+
+    getGameMusicOff:function(){
+        return this.isPlayMusic;
+    },
+    setGameMusicOff:function(isPlayMusic){
+        this.isPlayMusic= isPlayMusic== undefined?false:isPlayMusic;
+    },
+
+    getGameSoundOff:function(){
+        return this.isPlayEffect;
+    },
+    setGameSoundOff:function(isPlayEffect){
+        this.isPlayEffect= isPlayEffect== undefined?false:isPlayEffect;
+    },
 
     /**
      * 设置当前屏幕的分辨率

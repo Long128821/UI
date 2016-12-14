@@ -219,3 +219,25 @@ ModuleTable["MonthCard"]["resLists"] = [
     "res/ui_item_btn_ensure.png",
     "res/ui_yueka_daojishiwenzi.png",
     "res/MonthCard.json"];
+
+ModuleTable["VipInfo"] = {};
+ModuleTable["VipInfo"]["jsLists"] = [
+    "src/module/vip/profile/ProfileVipInfo.js",
+    "src/module/vip/logic/VipInfoLogic.js",
+    "src/module/vip/controller/VipInfoController.js"];
+ModuleTable["VipInfo"]["Layer"] = Layer.Second_Layer;
+ModuleTable["VipInfo"]["resLists"] = [
+    "res/bg_toumingditu.png",
+    "res/btn_vipshuoming_zuoyoujiantou.png",
+    "res/btn_vipshuoming_zuoyoujiantou.png",
+    "res/ui_vipshuoming_biaoti.png",
+    "res/btn_item_close.png",
+    "res/ic_vip_0.png",
+    "res/ic_vip_jiaobiao_hongzuan.png",
+    "res/ic_vip_jiaobiao_shuzichendi.png",
+    "res/ic_vip_0.png",
+    "res/ic_vip_jiaobiao_hongzuan.png",
+    "res/ic_vip_jiaobiao_shuzichendi.png",
+    "res/btn_orange.png",
+    "res/ui_nothing.png",
+    "res/VipInfo.json"];

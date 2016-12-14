@@ -437,7 +437,7 @@ var OtherUserInfoLogic= {
         //设置头像
         this.Label_name.setString(profile_user.getSelfNickName());
         //设置Vip等级
-        this.Image_vip_bg._imageRenderer.setTexture("res/ic_vip"+ profile_user.getSelfVipLevel()+".png");
+        //this.Image_vip_bg._imageRenderer.setTexture("res/ic_vip"+ profile_user.getSelfVipLevel()+".png");
         //设置称谓
         this.Image_chengwei._imageRenderer.setTexture(g_arrHonor[parseInt(profile_user.getSelfHonor())]);
         this.Image_chengwei.setScale(0.75);
