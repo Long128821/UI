@@ -73,6 +73,6 @@ var MiniGameLists= {
     setTouchEnabled:function(bEnabled){
         this.m_tableView.setDelegate(bEnabled?this:null);
         //设置TableView不可滑动
-        this.m_tableView.setTouchEnabled(bEnabled?false:bEnabled);
+        this.m_tableView.setTouchEnabled(bEnabled==undefined?false:bEnabled);
     }
 };

@@ -88,7 +88,7 @@ var HallController = BaseController.extend({
     sleepModule:function(){
 		//Frameworks.releaseOnKeypadEventListener(HallLogic.view);
 		HallLogic.view.setTouchEnabled(false);
-        HallLogic.setListEnabled(false);
+        HallLogic.setListenerEnabled(false);
 		this.removeCallback();
 		Frameworks.emit(SignalCommon.Signal_SleepModule_Done);
     },
@@ -96,7 +96,7 @@ var HallController = BaseController.extend({
     wakeModule:function(){
     	//Frameworks.setOnKeypadEventListener(HallLogic.view, HallLogic.onKeypad);
         HallLogic.view.setTouchEnabled(true);
-        HallLogic.setListEnabled(true);
+        HallLogic.setListenerEnabled(true);
         this.addCallback();
     },
     //销毁
@@ -111,7 +111,7 @@ var HallController = BaseController.extend({
             Frameworks.moduleCleanUp(HallLogic);
             HallLogic.releaseData();
         }
-        HallLogic.setListEnabled(false);
+        HallLogic.setListenerEnabled(false);
 		HallLogic.view.removeFromParent(true);
 		this.reset();
 	

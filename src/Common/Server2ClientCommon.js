@@ -124,6 +124,7 @@ function read80040006(nmBaseMessage){
     if(UserAttrCN> 0){
         for(var i=0; i< UserAttrCN; ++i){
             table[i]= {};
+            nmBaseMessage.startReadLoop();
             var name= nmBaseMessage.readUTF16();
             var value= nmBaseMessage.readUTF16();
             console.log(name+" "+value);
@@ -178,7 +179,8 @@ function read8007009d(nmBaseMessage){
     var table= {};
     if(nickCnt> 0){
         for(var i=0; i< nickCnt; ++i){
-            nmBaseMessage.readShort();
+            //开始读取Loop类型的头部
+            nmBaseMessage.startReadLoop();
             //NickName	text	登陆过此手机的昵称
             table[i]["NickName"]= nmBaseMessage.readUTF16();
             //IsBindWeChat	byte	此账号是否绑定微信	0：没有；1：有

@@ -9,7 +9,6 @@ var profile_user= {
         this.UserTable["SelfInfo"].UserID= userID;
     },
 
-
     //昵称
     getSelfNickName:function(){
         var value= this.UserTable["SelfInfo"].NickName;
@@ -147,6 +146,19 @@ var profile_user= {
             this.UserTable["SelfInfo"]= {};
             this.UserTable["OtherInfo"]= {};
         }
+    },
+    //读取用户消息
+    readJINHUA_MGR_USER_INFO:function(dataTable){
+        this.setSelfNickName(dataTable["nickName"]);
+        this.setSelfCoin(dataTable["Coin"]);
+        this.setSelfLevel(dataTable["Level"]);
+        this.setSelfSex(dataTable["Sex"]);
+        this.setSelfCharm(dataTable["Charm"]);
+        this.setSelfCharmLevel(dataTable["CharmLv"]);
+        this.setSelfInnings(dataTable["Innings"]);
+        this.setSelfWinPer(dataTable["winPer"]);
+        this.setSelfLevelExpMax(dataTable["LevelExpMax"]);
+        this.setSelfLevelExp(dataTable["LevelExp"]);
     }
 
 

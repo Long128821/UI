@@ -70,6 +70,8 @@ var OtherUserInfoLogic= {
 	Panel_60:null,
 	Button_closeweb:null,
 	Panel_dingwei:null,
+
+    m_webView:null,//魅力值的WebView
 	
     createView:function(){
         cc.spriteFrameCache.addSpriteFrames("res/co_desk.plist","res/co_desk.png");
@@ -271,13 +273,25 @@ var OtherUserInfoLogic= {
 			//按下
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
-			//抬起
-
+            OtherUserInfoLogic.setWebView(true);
+            OtherUserInfoLogic.showWebView();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
 		}
 	},
+    setWebView:function(bShow){
+        //抬起
+        this.Panel_60.setVisible(bShow);
+        this.Panel_60.setTouchEnabled(bShow);
+        this.Button_closeweb.setTouchEnabled(bShow);
+        if(ProfileOtherUserInfo.curButtonTag== ProfileOtherUserInfo.ButtonTag.Tag_Item){
+            BackpackLists.setBackpackListsVisible(!bShow);
+        }
+        if(!bShow){
+            this.m_webView.removeFromParent(true);
+        }
+    },
 
 	callback_Button_item:function(pSender, event){
 		if(event == ccui.Widget.TOUCH_BEGAN){
@@ -285,7 +299,7 @@ var OtherUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            OtherUserInfoLogic.setItemOrSave(ProfileOtherUserInfo.ButtonTag.Tag_Item);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -298,7 +312,7 @@ var OtherUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            OtherUserInfoLogic.setItemOrSave(ProfileOtherUserInfo.ButtonTag.Tag_Save);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -402,7 +416,7 @@ var OtherUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            OtherUserInfoLogic.setWebView(false);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -418,11 +432,11 @@ var OtherUserInfoLogic= {
     },
     //添加信号
     addSlot:function(){
-    	
+    	Frameworks.addSlot2Signal(JINHUA_MGR_BACKPACK_ITEMS_V2, ProfileOtherUserInfo.slotJINHUA_MGR_BACKPACK_ITEMS_V2);
     },
     //移除信号
     removeSlot:function(){
-    	
+        Frameworks.removeSlotFromSignal(JINHUA_MGR_BACKPACK_ITEMS_V2, ProfileOtherUserInfo.slotJINHUA_MGR_BACKPACK_ITEMS_V2);
     },
     
     //释放界面的私有数据
@@ -434,13 +448,28 @@ var OtherUserInfoLogic= {
     
     },
     initData:function(){
+        var userInfoTable= Profile_JinHuaOtherUserInfo.getUserInfoTable();
+        if(Common.getTableSize(userInfoTable)== 0){
+            MvcEngine.destroyModule(GUI_OTHERUSERINFO);
+            return;
+        }
+
         //设置头像
-        this.Label_name.setString(profile_user.getSelfNickName());
+        this.Label_name.setString(userInfoTable["nickName"]);
+        //Todo：可以删除称谓
+        //[称谓-等级]
+        var arr= Profile_JinHuaSetting.getUserTitle(userInfoTable["Coin"]);
+//        if(arr[0]== null){
+//            this.Image_chengwei.setVisible(false);
+//        }else{
+//            this.Image_chengwei._imageRenderer.setTexture(Common.getJinHuaResource(g_arrHonor[arr[1]]));
+//            this.Image_chengwei.setScale(0.75);
+//        }
+        this.Image_chengwei._imageRenderer.setTexture(Common.getJinHuaResource(g_arrHonor[arr[1]]));
+        this.Image_chengwei.setScale(0.75);
         //设置Vip等级
         //this.Image_vip_bg._imageRenderer.setTexture("res/ic_vip"+ profile_user.getSelfVipLevel()+".png");
-        //设置称谓
-        this.Image_chengwei._imageRenderer.setTexture(g_arrHonor[parseInt(profile_user.getSelfHonor())]);
-        this.Image_chengwei.setScale(0.75);
+
         //加载网络头像
         Common.setTextureByNet(profile_user.getSelfPhotoUrl(), this.Image_toux);
         this.Image_toux.setScale(1.2);
@@ -448,12 +477,12 @@ var OtherUserInfoLogic= {
         //金币数
         this.AtlasLabel_jinbi.setStringValue(profile_user.getSelfCoin());
         //等级
-        this.AtlasLabel_level.setStringValue(profile_user.getSelfLevel());
+        this.AtlasLabel_level.setStringValue(userInfoTable["Level"]);
         //魅力值
         this.AtlasLabel_meilizhi.setString(profile_user.getSelfCharm());
 
         //从plist中加载性别图片
-        switch(profile_user.getSelfSex()){
+        switch(userInfoTable["Sex"]){
             case 0://保密
                 this.Image_sex_bg.loadTexture("ic_weizhixingbie.png", 1);
                 break;
@@ -464,22 +493,176 @@ var OtherUserInfoLogic= {
                 this.Image_sex_bg.loadTexture("ic_sex_gril.png", 1);
                 break;
         }
+        //设置魅力值等级
+        var userCharmLevel= userInfoTable["CharmLv"];
+        if(userCharmLevel>= 5){
+            userCharmLevel= 5
+        }else if(userCharmLevel< 0){
+            userCharmLevel= 0;
+        }
         //显示魅力值等级
-        for(var i=0; i< profile_user.getSelfCharmLevel(); ++i){
+        for(var i=0; i< userCharmLevel; ++i){
             var image= CocoStudio.getComponent(this.view, "Image_liang"+ (i+ 1));
             image.setVisible(true);
         }
         //局数
-        this.AtlasLabel_jushu.setStringValue(profile_user.getSelfInnings());
+        this.AtlasLabel_jushu.setStringValue(userInfoTable["Innings"]);
         //胜率
-        this.AtlasLabel_shenglvshu.setStringValue(profile_user.getSelfWinPer());
+        this.AtlasLabel_shenglvshu.setStringValue(userInfoTable["winPer"]);
         //当前经验
-        this.Label_exp.setString(profile_user.getSelfLevelExp()+"/"+profile_user.getSelfLevelExpMax());
+        this.Label_exp.setString(userInfoTable["LevelExp"] + "/" + userInfoTable["LevelExpMax"]);
         //当前进度
-        if(profile_user.getSelfLevelExp()== 0||profile_user.getSelfLevelExpMax()){
-            this.Image_jindu.setScale(0);
+        if(userInfoTable["LevelExp"]== 0||userInfoTable["LevelExpMax"]){
+            this.Image_jindu.setScaleX(0);
         }else{
-            this.Image_jindu.setScale(profile_user.getSelfLevelExp()/profile_user.getSelfLevelExpMax());
+            this.Image_jindu.setScaleX(userInfoTable["LevelExp"] + "/" + userInfoTable["LevelExpMax"]);
         }
+        //是否绑定手机
+        if(Common.judgeValueIsEffect(userInfoTable["isBindTel"])&&(userInfoTable["isBindTel"]== 1)){
+            this.Image_shouji_bind.loadTexture("ic_gerenxinxi_shoujibangding.png",1);
+        }else{
+            this.Image_shouji_bind.loadTexture("ic_gerenxinxi_shoujiweibangding.png",1);
+        }
+        //是否绑定手机
+        if(Common.judgeValueIsEffect(userInfoTable["isBindWeiXin"])&&(userInfoTable["isBindWeiXin"]== 1)){
+            this.Image_weixin_bind.loadTexture("ic_gerenxinxi_weixinbangding.png",1);
+        }else{
+            this.Image_weixin_bind.loadTexture("ic_gerenxinxi_weixinweibangding.png",1);
+        }
+        //是否真人认证
+        if(Common.judgeValueIsEffect(userInfoTable["isCert"])&&(userInfoTable["isCert"]== 1)){
+            if(userInfoTable["Sex"]== Profile_JinHuaGameData.MALE){//男
+                this.Image_biaoqian.loadTexture("pic_rznan.png",1);
+            }else if(userInfoTable["Sex"]== Profile_JinHuaGameData.FEMALE){//女
+                this.Image_biaoqian.loadTexture("pic_renvdi.png",1);
+            }else{
+                this.Image_biaoqian.loadTexture("pic_rengzhengdi.png",1)
+            }
+        }else{
+            this.Image_biaoqian.setVisible(false);
+            this.Image_biaoqian.setTouchEnabled(false);
+        }
+
+        if(userInfoTable["luckyIcon"]== 1){
+            this.Image_lucky_icon.setVisible(true);
+        }
+        //Vip等级
+        var userVipLevel = userInfoTable["VipLevel"];
+        if(userVipLevel >= 0){
+            var texture = VipElementsUtils.getVipBgFromVipLevel(userVipLevel);
+            if(texture != null){
+                this.Image_vip_bg.loadTexture(texture,1)
+            }else{
+                this.Image_vip_bg.loadTexture("ic_vip_0.png",1)
+            }
+
+            if(userVipLevel == 0){
+                this.AtlasLabel_vip_level.setVisible(false);
+                this.Image_vip_highsign.setVisible(false);
+                this.Image_vip_lowsignbg.setVisible(false);
+                this.AtlasLabel_lowsign.setVisible(false);
+            }else if(userVipLevel > 0 && userVipLevel < 10){
+                this.AtlasLabel_vip_level.setVisible(true);
+                this.Image_vip_highsign.setVisible(false);
+                this.Image_vip_lowsignbg.setVisible(true);
+                this.AtlasLabel_lowsign.setVisible(true);
+                this.AtlasLabel_vip_level.setStringValue(userVipLevel);
+                this.AtlasLabel_lowsign.setStringValue(userVipLevel);
+            }else if(userVipLevel >= 10){
+                this.AtlasLabel_vip_level.setVisible(true);
+                this.Image_vip_highsign.setVisible(true);
+                this.Image_vip_lowsignbg.setVisible(false);
+                this.AtlasLabel_lowsign.setVisible(false);
+                this.AtlasLabel_vip_level.setStringValue(userVipLevel);
+                var signTexture = VipElementsUtils.getVipHighSignFromVipLevel(userVipLevel);
+                if(signTexture == nil){
+                    this.Image_vip_highsign.setVisible(false);
+                }else{
+                    this.Image_vip_highsign.loadTexture(signTexture,1);
+                }
+            }
+        }
+        //默认显示道具
+        ProfileOtherUserInfo.setCurButtonTag(ProfileOtherUserInfo.ButtonTag.Tag_Item);
+        this.setItemOrSave(ProfileOtherUserInfo.getCurButtonTag());
+    },
+    //设置显示保险项还是小组件
+    setItemOrSave:function(tag){
+        ProfileOtherUserInfo.setCurButtonTag(tag);
+        //小组件
+        if(ProfileOtherUserInfo.ButtonTag.Tag_Item== ProfileOtherUserInfo.getCurButtonTag()){
+            this.showSave(false);
+            this.Button_safe.loadTextures("btn_weixuanzhong_r.png","btn_weixuanzhong_r.png","",1);
+            this.Button_item.loadTextures("btn_xuanzhong_l.png","btn_xuanzhong_l.png","",1);
+            sendJINHUA_MGR_BACKPACK_ITEMS_V2();
+        }else{//保险箱
+            this.showSave(true);
+            this.Button_safe.loadTextures("btn_xuanzhong_r.png","btn_xuanzhong_r.png","",1);
+            this.Button_item.loadTextures("btn_weixuanzhong_l.png","btn_weixuanzhong_l.png","",1);
+            //删除背包组件
+            BackpackLists.setBackpackListsVisible(false);
+        }
+    },
+    //显示保险箱
+    showSave:function(bSave){
+        this.Panel_baoxianxiang.setVisible(bSave);
+        this.Image_save.setTouchEnabled(bSave);
+        this.Image_draw.setTouchEnabled(bSave);
+        this.Button_comfirm.setTouchEnabled(bSave);
+        this.Button_add1000w.setTouchEnabled(bSave);
+        this.Button_addMax.setTouchEnabled(bSave);
+        this.Button_add5000w.setTouchEnabled(bSave);
+    },
+    //初始化背包消息
+    initBackpack:function(){
+        var BackpackListTable = ProfileOtherUserInfo.getBackpackTable();
+        console.log(BackpackListTable);
+        var backpackCnt= ProfileOtherUserInfo.getBackpackListCnt();
+        BackpackLists.setCellSize(backpackCnt);
+        //最少显示两行,空的地方也要显示方框背景图
+        var showRowSize= Math.floor(backpackCnt/ 6);
+        if(showRowSize< 2){
+            showRowSize= 2;
+        }else if(showRowSize%6> 0){
+            showRowSize++;
+        }
+        //设置单元数量
+        BackpackLists.setRowSize(showRowSize);
+
+        for(var i=0; i< showRowSize* 6; ++i){
+            if(!Common.judgeValueIsEffect(BackpackListTable[i])){
+                BackpackListTable[i]= {};
+            }
+        }
+
+        if(Common.judgeValueIsEffect(backpackCnt)&&(backpackCnt!= 0)&&(ProfileOtherUserInfo.getCurButtonTag()== ProfileOtherUserInfo.ButtonTag.Tag_Item)){
+            this.initBackpackList();
+        }
+    },
+    //初始化背包列表
+    initBackpackList:function(){
+        //初始化单元格
+        BackpackLists.init(this.view);
+        BackpackLists.showItems(ProfileOtherUserInfo.getBackpackTable());
+    },
+    //显示WebView
+    showWebView:function(){
+        var x = this.Panel_dingwei.getPosition().x;
+        var y = this.Panel_dingwei.getPosition().y;
+        var w = this.Panel_dingwei.getSize().width;
+        var h = this.Panel_dingwei.getSize().height;
+        var userCharm= Profile_JinHuaOtherUserInfo.getUserInfoTable()["Charm"];
+        var webView = new ccui.WebView("http://f.99sai.com/jinhua/charm/jhCharm.html?meili="+ userCharm);
+        var size= this.Panel_dingwei.getContentSize();
+        webView.setContentSize(size);
+        webView.setPosition(cc.p(w* 0.5, h* 0.4));
+        webView.setAnchorPoint(0.5, 0);
+        //移除原有的webView
+        //获取bgColor(this.Panel_webview._color)
+        //设置背景色
+        webView._renderCmd._div.style["background"]= "rgb(56, 0, 38)";
+        this.Panel_dingwei.addChild(webView);
+
+        this.m_webView= webView;
     }
 };

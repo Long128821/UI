@@ -57,6 +57,17 @@ var Common= {
             }
         );
     },
+    addSprite:function(url, callback){
+        //异步加载头像资源
+        cc.loader.loadImg(
+            url,
+            function(){
+                if(callback!= undefined){
+                    callback(cc.Sprite.create(url));
+                }
+            }
+        );
+    },
     createArmature:function(jsonPath, armatureName, callback){
         this.loadArmature(jsonPath, function(){
             ccs.armatureDataManager.addArmatureFileInfo(jsonPath);

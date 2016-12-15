@@ -23,6 +23,9 @@
         "src/FrameWorks/Load.js",
         "src/FrameWorks/CocoStudio.js",
         "src/game/mvc/module/profile_common/profile_user.js",
+        "src/game/mvc/module/profile_jinhua/Profile_JinHuaSetting.js",
+        "src/game/mvc/module/profile_jinhua/Profile_JinHuaOtherUserInfo.js",
+        "src/game/mvc/module/profile_jinhua/Profile_JinHuaGameData.js",
         "src/game/mvc/module/signal/SignalCommon.js",
         "src/game/mvc/engine/MvcEngine.js",
         "src/game/mvc/view/ButtonEffectEvent.js",
@@ -36,6 +39,7 @@
         "src/Common/ProfileCommonSignal.js",
         "src/Common/MiniGameLists.js",
         "src/Common/ActivityLists.js",
+        "src/Common/BackpackLists.js",
         "src/FrameWorks/utils/GamePub.js",
         "src/game/mvc/utils/VipElementsUtils.js"
     ]

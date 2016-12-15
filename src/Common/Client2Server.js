@@ -64,3 +64,18 @@ function sendJINHUA_MGR_NOTICE(Timestamp){
 
     delete nmBaseMessage;
 }
+
+//3.46金花背包V2(JINHUA_MGR_BACKPACK_ITEMS_V2）
+function sendJINHUA_MGR_BACKPACK_ITEMS_V2(){
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JINHUA_MGR_BACKPACK_ITEMS_V2);
+    nmBaseMessage.writeStart();
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+

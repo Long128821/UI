@@ -68,6 +68,12 @@ function NMBaseMessage(arraybuffer){
         this.readImpl();//读取消息头
     };
 
+    //开始读取loop类型
+    this.startReadLoop= function(){
+        console.log("Loop长度:"+ this.readShort());
+        this.m_binaryStream.readPos-= 2;
+    };
+
     //监测数据是否为空
     //@DataType:数据类型
     //@Way:0-写入 1-读取
@@ -162,13 +168,6 @@ function NMBaseMessage(arraybuffer){
         return this.m_binaryStream.readUTF16();
     };
 
-//    //UTF16类型
-//    this.readString= function(){
-//        if(this.checkBinaryStream(g_DataType.UTF16, 1)){
-//            return 0;
-//        }
-//        return this.m_binaryStream.readString();
-//    };
     //Unicode类型
     this.readUnicode= function(){
         if(this.checkBinaryStream(g_DataType.UTF16, 1)){

@@ -64,7 +64,7 @@ var NetworkMonitor= {
      */
     keepAlive:function(){
         //console.log("发送心跳！");
-        //sendIdleMsg();
+        sendIdleMsg();
     },
 
     /**

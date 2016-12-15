@@ -500,7 +500,7 @@ var HallLogic= {
     sendGameCommonMessage:function(){
         if(profile_user.getSelfUserID()!= 0){
             //当前在线时长
-            sendJINHUA_MGR_SETTING(new Date().getTime());
+            sendJINHUA_MGR_SETTING(Profile_JinHuaSetting.getTimeStamp());
             //公告
             sendJINHUA_MGR_NOTICE(0);
         }
@@ -513,9 +513,6 @@ var HallLogic= {
         this.showAnimation();
         //分割线的动画
         this.showLightLineAnimate();
-
-        sendBASEID_GET_BASEINFO();
-        sendBASEID_GET_NOTICE();
     },
     initHallBaseData:function(){
         this.Label_NickName.setString(profile_user.getSelfNickName());//昵称
@@ -528,7 +525,7 @@ var HallLogic= {
 
         this.Label_YuanBao.setString(profile_user.getSelfYuanBao());//元宝数
 //        console.log("当前玩家的称谓等级:"+ profile_user.getSelfHonor());
-        this.Image_chengwei._imageRenderer.setTexture(g_arrHonor[parseInt(profile_user.getSelfHonor())]);
+        this.Image_chengwei._imageRenderer.setTexture(Common.getJinHuaResource(g_arrHonor[parseInt(profile_user.getSelfHonor())]));
 //        console.log("当前玩家的头像:"+ profile_user.getSelfPhotoUrl());
         //加载网络头像
         Common.setTextureByNet(profile_user.getSelfPhotoUrl(), this.Image_touxiang_default);
@@ -602,7 +599,7 @@ var HallLogic= {
             });
     },
     //设置活动列表和小游戏列表可否使用
-    setListEnabled:function(bEnabled){
+    setListenerEnabled:function(bEnabled){
         MiniGameLists.setTouchEnabled(bEnabled);
         ActivityLists.setTouchEnabled(bEnabled);
     },
@@ -654,7 +651,29 @@ var HallLogic= {
     //设置当前在线人数
     setOnlinePlayerNumber:function(){
         this.Label_online.setColor(cc.color(255,0,0));
-        this.Label_online.setText("当前在线:"+ProfileHall.onlinePlayerNumber+"人");
+        this.Label_online.setText("当前在线:"+Profile_JinHuaSetting.getOnlinePlayerNumber()+"人");
+    },
+    //切换首充翻倍动画
+    setShouChongFanBei:function(){
+        var self= this;
+        if(!Profile_JinHuaSetting.getIsRecharged()){
+            //首充翻倍
+            self.btn_chongzhi.setOpacity(0);
+            //首充翻倍
+            Common.createArmature(
+                "res/Animation/ShouchonganniuAnimation.ExportJson",//动画Json路径
+                "ShouchonganniuAnimation",//要执行的动画名
+                function(armature){
+                    armature.getAnimation().playWithIndex(0, 0.1, true);//循环播放
+                    /*************按钮的锚点为(0,0),摇钱树(0.5, 0.5)在按钮的居中位置*******************/
+                    var size= self.btn_chongzhi.getContentSize();
+                    armature.setAnchorPoint(cc.p(0,0));
+                    armature.setPosition(cc.p(0,0));
+                    //armature.setPosition(cc.p(size.width* 0.5, size.height* 0.5));
+
+                    self.btn_chongzhi.addChild(armature);
+                });
+        }
     },
     //系统公告文本
     createSystemNoticeLabel:function(systemNotice,textLenWidth,color){

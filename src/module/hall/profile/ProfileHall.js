@@ -1,25 +1,21 @@
 //数据图标集
 var ProfileHall= {
-    //
-    onlinePlayerNumber:0,//当前在线人数
+    //获取玩家本身数据
     getUserInfo:function(dataTable){
-        profile_user.setSelfNickName(dataTable.get("nickName"));
-        profile_user.setSelfCoin(dataTable.get("Coin"));
-        profile_user.setSelfLevel(dataTable.get("Level"));
-        profile_user.setSelfSex(dataTable.get("Sex"));
-        profile_user.setSelfCharm(dataTable.get("Charm"));
-        profile_user.setSelfCharmLevel(dataTable.get("CharmLv"));
-        profile_user.setSelfInnings(dataTable.get("Innings"));
-        profile_user.setSelfWinPer(dataTable.get("winPer"));
-        profile_user.setSelfLevelExpMax(dataTable.get("LevelExpMax"));
-        profile_user.setSelfLevelExp(dataTable.get("LevelExp"));
+        //获取玩家本身数据
+        Profile_JinHuaOtherUserInfo.readJINHUA_MGR_USER_INFO(dataTable);
+        profile_user.readJINHUA_MGR_USER_INFO(dataTable);
 
         MvcEngine.createModule(GUI_OTHERUSERINFO);
     },
     //在线时长
     slotJINHUA_MGR_SETTING:function(dataTable){
-        ProfileHall.onlinePlayerNumber= dataTable["onLineCnt"];
+        //设置金花数据
+        Profile_JinHuaSetting.readJINHUA_MGR_SETTING(dataTable);
+        //设置同时在线人数
         HallLogic.setOnlinePlayerNumber();
+        //设置是否显示首充翻倍
+        HallLogic.setShouChongFanBei();
     },
     //游戏公告
     slotJINHUA_MGR_NOTICE:function(dataTable){
