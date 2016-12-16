@@ -32,6 +32,7 @@ var BackpackLists= {
         cc.loader.load(["res/btn_gerenxinxi_tubiaokuang.png"], function(){}, function(){
             //加载完成
             self.initBackpack();
+            self.showItems(ProfileOtherUserInfo.getBackpackTable());
         });
     },
     initBackpack:function(){
@@ -89,16 +90,18 @@ var BackpackLists= {
     },
     //因为使用异步加载的缘故，++i不准确
     showItem:function(dataTable,i){
-        var self= this;
-        if(i>= this.m_cellSize) return;
+        var self= BackpackLists;
+        if(i>= self.m_cellSize) return;
+        if((i>= self.m_arrCell.length)&&(self.m_arrCell.length!= 0)) return;
+        var cellSize= self.m_arrCell[i].getContentSize();
         Common.addSprite(dataTable[i].picUrl, function(sprite){
-            sprite.setPosition(self.m_arrCell[i].getContentSize().width* 0.5,self.m_arrCell[i].getContentSize().height* 0.5);
+            sprite.setPosition(cellSize.width* 0.5,cellSize.height* 0.5);
             sprite.setScale(0.75);
             self.m_arrCell[i].addChild(sprite, 1);
 
 
             var num= cc.LabelTTF.create(dataTable[i].count, "微软雅黑",10);
-            num.setPosition(cc.p(self.m_arrCell[i].getContentSize().width* 0.8,self.m_arrCell[i].getContentSize().height* 0.88));
+            num.setPosition(cc.p(cellSize.width* 0.8,cellSize.height* 0.88));
             self.m_arrCell[i].addChild(num, 1);
 
             //递归调用

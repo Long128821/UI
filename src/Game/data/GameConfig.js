@@ -1,3 +1,4 @@
+JINHUA_GAME_ID = 4;//炸金花gameID
 var GameConfig= {
     GAME_ID:4,
     //如果当前屏幕的比例是大于1.6,则使用1136x640的UI工程(1136 / 640 = 1.7)

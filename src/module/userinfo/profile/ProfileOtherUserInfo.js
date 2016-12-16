@@ -17,9 +17,14 @@ var ProfileOtherUserInfo= {
 
     },
     //JINHUA_MGR_BACKPACK_ITEMS_V2
-    slotJINHUA_MGR_BACKPACK_ITEMS_V2:function(dataTable){
+    slot_JINHUA_MGR_BACKPACK_ITEMS_V2:function(dataTable){
         ProfileOtherUserInfo.BackpackTable= dataTable;
         OtherUserInfoLogic.initBackpack();
+    },
+    //JHID_STRONG_BOX_INFO
+    slot_JHID_STRONG_BOX_INFO:function(dataTable){
+        console.log("asdfasdf");
+        console.log(dataTable);
     },
     //获取道具Table
     getBackpackTable:function(){

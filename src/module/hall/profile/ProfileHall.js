@@ -1,7 +1,12 @@
 //数据图标集
 var ProfileHall= {
+    //大厅初始化-获取玩家数据
+    slot_BASEID_GET_BASEINFO:function(dataTable){
+        profile_user.readBASEID_GET_BASEINFO(dataTable);
+        HallLogic.initHallBaseData();
+    },
     //获取玩家本身数据
-    getUserInfo:function(dataTable){
+    slot_JINHUA_MGR_USER_INFO:function(dataTable){
         //获取玩家本身数据
         Profile_JinHuaOtherUserInfo.readJINHUA_MGR_USER_INFO(dataTable);
         profile_user.readJINHUA_MGR_USER_INFO(dataTable);

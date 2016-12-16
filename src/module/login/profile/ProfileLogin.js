@@ -70,28 +70,24 @@ var ProfileLogin= {
                 //记录登录账户的用户名和密码
                 profile_user.setSelfUserID("103488");
                 ProfileLogin.setLoginUserName("long8911");
-                ProfileLogin.setLoginPassword("128821");
+                ProfileLogin.setLoginPassword("891112");
             }
         }
     },
     //界面收到登录信息后处理
     loginManage:function(dataTable){
-        var result= dataTable.get("result");
-        var resultText= dataTable.get("ResultTxt");
+        var result= dataTable["result"];
+        var resultText= dataTable["ResultTxt"];
 
         console.log("登录:"+ result+" "+ resultText);
 
         if(result== 0){
             //初始化账户数据
             ProfileLogin.initAllGameData(ProfileLogin.isChangeAccount);
-
+            //存储本地对应的密码
+            profile_user.setSelfPassword(ProfileLogin.getLoginPassword());
             //设置一些基本数据
-            profile_user.setSelfUserID(dataTable.get("UserID"));
-            profile_user.setSelfNickName(dataTable.get("NickName"));
-            profile_user.setSelfPassword(ProfileLogin.mPasswordValue);
-            profile_user.setSelfCoin(dataTable.get("Coin"));
-            profile_user.setSelfYuanBao(dataTable.get("YuanBao"));
-            profile_user.setSelfPhotoUrl(dataTable.get("PhotoUrl"));
+            profile_user.readBASEID_LOGIN(dataTable);
 
             //本地保存用户数据
             ProfileLogin.saveUserData();
@@ -103,20 +99,15 @@ var ProfileLogin= {
     },
     //界面收到注册信息后处理
     registerManage:function(dataTable){
-        var result= dataTable.get("Result");
-        var resultText= dataTable.get("ResultTxt");
+        var result= dataTable["Result"];
+        var resultText= dataTable["ResultTxt"];
 
         if(result== 0){
             //初始化账户数据
             ProfileLogin.initAllGameData(ProfileLogin.isChangeAccount);
 
             //设置一些基本数据
-            profile_user.setSelfUserID(dataTable.get("UserID"));
-            profile_user.setSelfNickName(dataTable.get("NickName"));
-            profile_user.setSelfPassword(dataTable.get("Password"));
-            profile_user.setSelfCoin(dataTable.get("Coin"));
-            profile_user.setSelfYuanBao(dataTable.get("YuanBao"));
-            profile_user.setSelfHonor(dataTable.get("honor"));
+            profile_user.readBASEID_REGISTER(dataTable);
 
             //本地保存用户数据
             ProfileLogin.saveUserData();

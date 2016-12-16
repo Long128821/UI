@@ -127,7 +127,7 @@ function sendMANAGERID_USERLIST_FROM_IMIE(){
 //重置密码
 function sendDBID_FIND_PASSWORD(dataTable){
     var nmBaseMessage= new NMBaseMessage();
-    nmBaseMessage.setMessageType(ACK+ DBID_FIND_PASSWORD);
+    nmBaseMessage.setMessageType(REQ+ DBID_FIND_PASSWORD);
 
     nmBaseMessage.writeStart();
 
@@ -145,4 +145,63 @@ function sendDBID_FIND_PASSWORD(dataTable){
     delete nmBaseMessage;
 }
 
-//获取
+//得到短信通道号码
+function sendDBID_GET_SMS_NUMBER(dataTable){
+    var nmBaseMessage= new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + DBID_GET_SMS_NUMBER);
+
+    nmBaseMessage.writeStart();
+
+    //NickName	Text	用户昵称
+    nmBaseMessage.writeUTF16(dataTable["NickName"]);
+    //Tel	text	手机
+    nmBaseMessage.writeUTF16(dataTable["Phone"]);
+    //IMEI	Text	imei
+    nmBaseMessage.writeUTF16(dataTable["IMEI"]);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//请求修改基本信息
+function sendBASEID_EDIT_BASEINFO(dataTable){
+    var nmBaseMessage= new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + BASEID_EDIT_BASEINFO);
+
+    nmBaseMessage.writeStart();
+
+    var editCnt = dataTable["editCnt"];
+    nmBaseMessage.writeInt(dataTable["userID"]);
+    nmBaseMessage.writeByte(editCnt);
+
+    for(var i=0; i< editCnt;++i){
+        nmBaseMessage.writeByte(dataTable["editContent"][i].attID);
+        nmBaseMessage.writeUTF16(dataTable["editContent"][i].attVal);
+    }
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//BASEID_GET_BASEINFO
+function sendBASEID_GET_BASEINFO(userID){
+    console.log("BASEID_GET_BASEINFO:"+userID);
+    var nmBaseMessage= new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + BASEID_GET_BASEINFO);
+
+    nmBaseMessage.writeStart();
+
+    nmBaseMessage.writeInt(userID);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}

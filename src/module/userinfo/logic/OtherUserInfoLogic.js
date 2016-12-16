@@ -248,7 +248,7 @@ var OtherUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            MvcEngine.createModule(GUI_CHANGEINFOPOP);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -351,7 +351,7 @@ var OtherUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            MvcEngine.createModule(GUI_DOUBLEBUTTONCONFIRM);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -432,11 +432,13 @@ var OtherUserInfoLogic= {
     },
     //添加信号
     addSlot:function(){
-    	Frameworks.addSlot2Signal(JINHUA_MGR_BACKPACK_ITEMS_V2, ProfileOtherUserInfo.slotJINHUA_MGR_BACKPACK_ITEMS_V2);
+    	Frameworks.addSlot2Signal(JINHUA_MGR_BACKPACK_ITEMS_V2, ProfileOtherUserInfo.slot_JINHUA_MGR_BACKPACK_ITEMS_V2);
+    	Frameworks.addSlot2Signal(JHID_STRONG_BOX_INFO, ProfileOtherUserInfo.slot_JHID_STRONG_BOX_INFO);
     },
     //移除信号
     removeSlot:function(){
-        Frameworks.removeSlotFromSignal(JINHUA_MGR_BACKPACK_ITEMS_V2, ProfileOtherUserInfo.slotJINHUA_MGR_BACKPACK_ITEMS_V2);
+        Frameworks.removeSlotFromSignal(JINHUA_MGR_BACKPACK_ITEMS_V2, ProfileOtherUserInfo.slot_JINHUA_MGR_BACKPACK_ITEMS_V2);
+        Frameworks.removeSlotFromSignal(JHID_STRONG_BOX_INFO, ProfileOtherUserInfo.slot_JHID_STRONG_BOX_INFO);
     },
     
     //释放界面的私有数据
@@ -575,7 +577,7 @@ var OtherUserInfoLogic= {
                 this.AtlasLabel_lowsign.setVisible(false);
                 this.AtlasLabel_vip_level.setStringValue(userVipLevel);
                 var signTexture = VipElementsUtils.getVipHighSignFromVipLevel(userVipLevel);
-                if(signTexture == nil){
+                if(signTexture == null){
                     this.Image_vip_highsign.setVisible(false);
                 }else{
                     this.Image_vip_highsign.loadTexture(signTexture,1);
@@ -601,6 +603,8 @@ var OtherUserInfoLogic= {
             this.Button_item.loadTextures("btn_weixuanzhong_l.png","btn_weixuanzhong_l.png","",1);
             //删除背包组件
             BackpackLists.setBackpackListsVisible(false);
+
+            sendJHID_STRONG_BOX_INFO();
         }
     },
     //显示保险箱
@@ -616,7 +620,6 @@ var OtherUserInfoLogic= {
     //初始化背包消息
     initBackpack:function(){
         var BackpackListTable = ProfileOtherUserInfo.getBackpackTable();
-        console.log(BackpackListTable);
         var backpackCnt= ProfileOtherUserInfo.getBackpackListCnt();
         BackpackLists.setCellSize(backpackCnt);
         //最少显示两行,空的地方也要显示方框背景图
@@ -643,7 +646,6 @@ var OtherUserInfoLogic= {
     initBackpackList:function(){
         //初始化单元格
         BackpackLists.init(this.view);
-        BackpackLists.showItems(ProfileOtherUserInfo.getBackpackTable());
     },
     //显示WebView
     showWebView:function(){
@@ -666,3 +668,7 @@ var OtherUserInfoLogic= {
         this.m_webView= webView;
     }
 };
+
+
+//Todo：竞技场排名(拿不到GameLoadModuleConfig.getArenaExists()的数据、同时不知道消息协议)
+//Todo:联调-初始化保险箱JHID_STRONG_BOX_INFO

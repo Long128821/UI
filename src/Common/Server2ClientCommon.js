@@ -3,110 +3,113 @@
  */
 //心跳消息
 function read80000000(nmBaseMessage){
-    var dataTable= new Map();
+    var dataTable= {};
     //存放消息类型和消息名
-    dataTable.put("messageType", MSG_IDLE);
-    dataTable.put("messageName", "MSG_IDLE");
+    dataTable["messageType"]= MSG_IDLE;
+    dataTable["messageName"]= "MSG_IDLE";
 
     return dataTable;
 }
 
 //读取微信注册(ACK+ BASEID_RESGISTER)
 function read80010001(nmBaseMessage){
-    var dataTable= new Map();
+    var dataTable= {};
     //存放消息类型和消息名
-    dataTable.put("messageType", ACK + BASEID_REGISTER);
-    dataTable.put("messageName", "BASEID_REGISTER");
+    dataTable["messageType"]= ACK + BASEID_REGISTER;
+    dataTable["messageName"]= "BASEID_REGISTER";
 
     //Result byte 注册结果
-    dataTable.put("Result", nmBaseMessage.readByte());
+    dataTable["Result"]= nmBaseMessage.readByte();
     //ResultTxt UTF16 提示语内容
-    dataTable.put("ResultTxt", nmBaseMessage.readUTF16());
+    dataTable["ResultTxt"]= nmBaseMessage.readUTF16();
     //UserID  Int 用户ID
-    dataTable.put("UserID", nmBaseMessage.readInt());
+    dataTable["UserID"]= nmBaseMessage.readInt();
     //NickName  昵称
-    dataTable.put("NickName", nmBaseMessage.readUTF16());
+    dataTable["NickName"]= nmBaseMessage.readUTF16();
     //Password  密码
-    dataTable.put("Password", nmBaseMessage.readUTF16());
+    dataTable["Password"]= nmBaseMessage.readUTF16();
     //yuanbao Int 元宝
-    dataTable.put("Yuanbao", nmBaseMessage.readInt());
+    dataTable["Yuanbao"]= nmBaseMessage.readInt();
     //Coin Long 金币数
-    dataTable.put("Coin", nmBaseMessage.readLong());
+    dataTable["Coin"]= nmBaseMessage.readLong();
     //honor  荣誉值
-    dataTable.put("honor", nmBaseMessage.readInt());
+    dataTable["honor"]= nmBaseMessage.readInt();
     //PhotoUrl UTF16 头像URL
-    dataTable.put("PhotoUrl", nmBaseMessage.readUTF16());
+    dataTable["PhotoUrl"]= nmBaseMessage.readUTF16();
     //SessionID Long 当前Socket连接的SessionID
-    dataTable.put("SessionID", nmBaseMessage.readLong());
+    dataTable["SessionID"]= nmBaseMessage.readLong();
     return dataTable;
 }
 
 //读取微信登录(ACK+ BASEID_LOGIN)
 function read80010002(nmBaseMessage){
-    var dataTable= new Map();
+    var dataTable= {};
     //存放消息类型和消息名
-    dataTable.put("messageType", ACK + BASEID_LOGIN);
-    dataTable.put("messageName", "BASEID_LOGIN");
+    dataTable["messageType"]= ACK + BASEID_LOGIN;
+    dataTable["messageName"]= "BASEID_LOGIN";
 
     //UserID  Int 用户ID
-    dataTable.put("UserID", nmBaseMessage.readInt());
+    dataTable["UserID"]= nmBaseMessage.readInt();
 //    console.log(dataTable.get("UserID"));
     //result Byte 是否成功
-    dataTable.put("result", nmBaseMessage.readByte());
+    dataTable["result"]= nmBaseMessage.readByte();
     //ResultTxt UTF16 提示语内容
-    dataTable.put("ResultTxt", nmBaseMessage.readUTF16());
+    dataTable["ResultTxt"]= nmBaseMessage.readUTF16();
     //InitLoginInfoChanged Byte 是否修改过原始登录消息
-    dataTable.put("InitLoginInfoChanged", nmBaseMessage.readByte());
+    dataTable["InitLoginInfoChanged"]= nmBaseMessage.readByte();
     //NickName UTF16 昵称
-    dataTable.put("NickName", nmBaseMessage.readUTF16());
+    dataTable["NickName"]= nmBaseMessage.readUTF16();
     //PhotoUrl UTF16 头像URL
-    dataTable.put("PhotoUrl", nmBaseMessage.readUTF16());
+    dataTable["PhotoUrl"]= nmBaseMessage.readUTF16();
     //Coin Long 金币数
-    dataTable.put("Coin", nmBaseMessage.readLong());
+    dataTable["Coin"]= nmBaseMessage.readLong();
     //UnreadMsgCnt  Int 未读消息数量
-    dataTable.put("UnreadMsgCnt", nmBaseMessage.readInt());
+    dataTable["UnreadMsgCnt"]= nmBaseMessage.readInt();
     //SessionID Long 当前Socket连接的SessionID
-    dataTable.put("SessionID", nmBaseMessage.readLong());
+    dataTable["SessionID"]= nmBaseMessage.readLong();
     //VipLevel Int VIP等级
-    dataTable.put("VipLevel", nmBaseMessage.readInt());
+    dataTable["VipLevel"]= nmBaseMessage.readInt();
     //yuanbao Int 元宝
-    dataTable.put("yuanbao", nmBaseMessage.readInt());
-
-//    console.log(dataTable.get("Coin"));
-
+    dataTable["yuanbao"]= nmBaseMessage.readInt();
     return dataTable;
 }
 
 //读取基本信息(BASEID_GET_BASEINFO)
 function read80010003(nmBaseMessage){
-//    console.log("获取基本信息");
-    var dataTable= new Map();
+    console.log("获取基本信息");
+    var dataTable= {};
     //存放消息类型和消息名
-    dataTable.put("messageType", ACK + BASEID_GET_BASEINFO);
-    dataTable.put("messageName", "BASEID_GET_BASEINFO");
+    dataTable["messageType"]= ACK + BASEID_GET_BASEINFO;
+    dataTable["messageName"]= "BASEID_GET_BASEINFO";
 
     //UserID  Int 用户ID
-    dataTable.put("UserID", nmBaseMessage.readInt());
-//    console.log(dataTable.get("UserID"));
+    dataTable["UserID"]= nmBaseMessage.readInt();
     //NickName UTF16 昵称
-    dataTable.put("NickName", nmBaseMessage.readUTF16());
+    dataTable["NickName"]= nmBaseMessage.readUTF16();
     //Sex	byte	性别	1男   2女
-    dataTable.put("Sex", nmBaseMessage.readByte());
+    dataTable["Sex"]= nmBaseMessage.readByte();
     //Age	byte	年龄
-    dataTable.put("Age", nmBaseMessage.readByte());
+    dataTable["Age"]= nmBaseMessage.readByte();
     //City	text	城市	如 :北京-海淀
-    dataTable.put("City", nmBaseMessage.readUTF16());
+    dataTable["City"]= nmBaseMessage.readUTF16();
     //PhotoUrl UTF16 头像URL
-    dataTable.put("PhotoUrl", nmBaseMessage.readUTF16());
+    dataTable["PhotoUrl"]= nmBaseMessage.readUTF16();
     //sign	text	个性签名
-    dataTable.put("PhotoUrl", nmBaseMessage.readUTF16());
+    dataTable["Sign"]= nmBaseMessage.readUTF16();
     //Coin Long 金币数
-    dataTable.put("Coin", nmBaseMessage.readLong());
+    dataTable["Coin"]= nmBaseMessage.readLong();
     //yuanbao Int 元宝
-    dataTable.put("yuanbao", nmBaseMessage.readInt());
-
-//    console.log(dataTable);
-
+    dataTable["yuanbao"]= nmBaseMessage.readInt();
+    //Honor  荣誉值
+    dataTable["Honor"]= nmBaseMessage.readInt();
+    //DuiJiangQuan  兑奖券
+    dataTable["DuiJiangQuan"]= nmBaseMessage.readInt();
+    //commendationCnt  奖状数
+    dataTable["commendationCnt"]= nmBaseMessage.readInt();
+    //VipLevel  VIP等级
+    dataTable["VipLevel"]= nmBaseMessage.readInt();
+    //djqPieces  兑奖券碎片
+    dataTable["djqPieces"]= nmBaseMessage.readInt();
     return dataTable;
 }
 
@@ -237,5 +240,17 @@ function read8001000a(nmBaseMessage){
     dataTable.put("Result", nmBaseMessage.readByte());
 
     console.log("游戏公告:"+ dataTable.get("Result"));
+    return dataTable;
+}
+//解析修改基本信息
+function read80010004(nmBaseMessage){
+    var dataTable= {};
+    dataTable["messageType"]= ACK + BASEID_EDIT_BASEINFO;
+    dataTable["messageName"]= "BASEID_EDIT_BASEINFO";
+
+    //Result  修改结果
+    dataTable["Result"]= nmBaseMessage.readByte();
+    //ResultTxt 修改提示
+    dataTable["ResultTxt"] = nmBaseMessage.readUTF16();
     return dataTable;
 }

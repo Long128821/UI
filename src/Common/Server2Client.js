@@ -251,3 +251,15 @@ function read8068002e(nmBaseMessage){
     }
     return dataTable;
 }
+
+//保险箱(JHID_STRONG_BOX_INFO）
+function read8020002d(nmBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JHID_STRONG_BOX_INFO;
+    dataTable["messageName"] = "JHID_STRONG_BOX_INFO";
+    //strongBoxCoin	Long	保险箱中的金币
+    dataTable["strongBoxCoin"] = nmBaseMessage.readLong();
+    //charmRate	int	存钱扣魅力的千分比	存钱扣魅力费率，向下取整
+    dataTable["charmRate"] = nmBaseMessage.readInt();
+    return dataTable;
+}

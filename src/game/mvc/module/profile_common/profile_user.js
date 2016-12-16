@@ -159,9 +159,50 @@ var profile_user= {
         this.setSelfWinPer(dataTable["winPer"]);
         this.setSelfLevelExpMax(dataTable["LevelExpMax"]);
         this.setSelfLevelExp(dataTable["LevelExp"]);
+    },
+    //登录成功
+    readBASEID_LOGIN:function(dataTable){
+        this.setSelfNickName(dataTable["NickName"]);
+        this.setSelfCoin(dataTable["Coin"]);
+        this.setSelfYuanBao(dataTable["yuanbao"]);
+        this.setSelfPhotoUrl(dataTable["PhotoUrl"]);
+        this.setSelfVipLevel(dataTable["VipLevel"]);
+    },
+    //注册成功
+    readBASEID_REGISTER:function(dataTable){
+        this.setSelfUserID(dataTable["UserID"]);
+        this.setSelfNickName(dataTable["NickName"]);
+        this.setSelfPassword(dataTable["Password"]);
+        this.setSelfCoin(dataTable["Coin"]);
+        this.setSelfYuanBao(dataTable["YuanBao"]);
+        this.setSelfHonor(dataTable["honor"]);
+    },
+    //进入大厅
+    //注册成功
+    readBASEID_GET_BASEINFO:function(dataTable){
+        this.setSelfUserID(dataTable["UserID"]);
+        this.setSelfNickName(dataTable["NickName"]);
+        this.setSelfPhotoUrl(dataTable["PhotoUrl"]);
+        this.setSelfCoin(dataTable["Coin"]);
+        this.setSelfLevel(dataTable["VipLevel"]);
+        this.setSelfSex(dataTable["Sex"]);
+        this.setSelfYuanBao(dataTable["yuanbao"]);
+        this.setSelfHonor(dataTable["Honor"]);
+//        //Age	byte	年龄
+//        dataTable["Age"]= nmBaseMessage.readByte();
+//        //City	text	城市	如 :北京-海淀
+//        dataTable["City"]= nmBaseMessage.readUTF16();
+//        //PhotoUrl UTF16 头像URL
+//        dataTable["PhotoUrl"]= nmBaseMessage.readUTF16();
+//        //sign	text	个性签名
+//        dataTable["Sign"]= nmBaseMessage.readUTF16();
+//        //DuiJiangQuan  兑奖券
+//        dataTable["DuiJiangQuan"]= nmBaseMessage.readInt();
+//        //commendationCnt  奖状数
+//        dataTable["commendationCnt"]= nmBaseMessage.readInt();
+//        //djqPieces  兑奖券碎片
+//        dataTable["djqPieces"]= nmBaseMessage.readInt();
     }
-
-
 //    //第三方平台ID
 //    setUserThirdPartPlatId:function(thirdPartPlatId){
 //        this.UserTable["SelfInfo"].ThirdPartPlatId= thirdPartPlatId;

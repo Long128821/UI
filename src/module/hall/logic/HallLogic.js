@@ -477,13 +477,15 @@ var HallLogic= {
     },
     //添加信号
     addSlot:function(){
-    	Frameworks.addSlot2Signal(JINHUA_MGR_USER_INFO, ProfileHall.getUserInfo);
+    	Frameworks.addSlot2Signal(BASEID_GET_BASEINFO, ProfileHall.slot_BASEID_GET_BASEINFO);//大厅初始化-获取用户数据
+    	Frameworks.addSlot2Signal(JINHUA_MGR_USER_INFO, ProfileHall.slot_JINHUA_MGR_USER_INFO);//添加头像-获取用户数据
         Frameworks.addSlot2Signal(JINHUA_MGR_SETTING, ProfileHall.slotJINHUA_MGR_SETTING);//在线人数
         Frameworks.addSlot2Signal(JINHUA_MGR_NOTICE, ProfileHall.slotJINHUA_MGR_NOTICE);//游戏公告
     },
     //移除信号
     removeSlot:function(){
-        Frameworks.removeSlotFromSignal(JINHUA_MGR_USER_INFO, ProfileHall.getUserInfo);
+        Frameworks.removeSlotFromSignal(BASEID_GET_BASEINFO, ProfileHall.slot_BASEID_GET_BASEINFO);
+        Frameworks.removeSlotFromSignal(JINHUA_MGR_USER_INFO, ProfileHall.slot_JINHUA_MGR_USER_INFO);
         Frameworks.removeSlotFromSignal(JINHUA_MGR_SETTING, ProfileHall.slotJINHUA_MGR_SETTING);
         Frameworks.removeSlotFromSignal(JINHUA_MGR_NOTICE, ProfileHall.slotJINHUA_MGR_NOTICE);
     },
@@ -503,12 +505,12 @@ var HallLogic= {
             sendJINHUA_MGR_SETTING(Profile_JinHuaSetting.getTimeStamp());
             //公告
             sendJINHUA_MGR_NOTICE(0);
+            //获取玩家数据
+            sendBASEID_GET_BASEINFO(profile_user.getSelfUserID());
         }
     },
     //初始化界面(昵称、头像、Vip、称号、元宝数、金币数、按钮)
     initTable:function(){
-        this.initHallBaseData();
-
         //按钮的各种动画
         this.showAnimation();
         //分割线的动画
@@ -523,12 +525,33 @@ var HallLogic= {
             this.Label_Coin.setString(profile_user.getSelfCoin());//金币数
         }
 
-        this.Label_YuanBao.setString(profile_user.getSelfYuanBao());//元宝数
 //        console.log("当前玩家的称谓等级:"+ profile_user.getSelfHonor());
         this.Image_chengwei._imageRenderer.setTexture(Common.getJinHuaResource(g_arrHonor[parseInt(profile_user.getSelfHonor())]));
 //        console.log("当前玩家的头像:"+ profile_user.getSelfPhotoUrl());
         //加载网络头像
         Common.setTextureByNet(profile_user.getSelfPhotoUrl(), this.Image_touxiang_default);
+
+        //Vip等级
+        var userVipLevel = profile_user.getSelfLevel();
+        if(userVipLevel >= 0) {
+            var texture = VipElementsUtils.getVipBgFromVipLevel(userVipLevel);
+            if (texture != null) {
+                this.btn_vip.loadTextures(Common.getJinHuaResource(texture), Common.getJinHuaResource(texture),"");
+            }else{
+                this.btn_vip.loadTexture(Common.getJinHuaResource("ic_vip_0.png"),Common.getJinHuaResource("ic_vip_0.png"),"");
+            }
+        }
+
+        //元宝
+        var myYuanBao = profile_user.getSelfYuanBao();
+        if(myYuanBao>= 100000000){
+            myYuanBao = GamePub.getPreciseDecimal(myYuanBao / 100000000, 2)+"亿"
+        }else if(myYuanBao >= 10000) {
+            myYuanBao = GamePub.getPreciseDecimal(myYuanBao / 10000, 2)+"万";
+        }
+        this.Label_YuanBao.setString(myYuanBao);//元宝数
+
+
     },
     //执行动画
     showAnimation:function(){
@@ -701,3 +724,4 @@ var HallLogic= {
 //Todo:首冲翻倍
 //Todo:存储金花数据
 //Todo:startReadLoop()
+//Todo:Vip等级需要联调

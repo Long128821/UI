@@ -31,3 +31,10 @@ GUI_MONTHCARD= "MonthCard";
 //VipInfo
 GUI_VIPINFO= "VipInfo";
 
+//修改资料
+GUI_CHANGEINFOPOP= "ChangeInfoPop";
+
+//二次确认
+GUI_DOUBLEBUTTONCONFIRM= "DoubleButtonConfirm";
+
+

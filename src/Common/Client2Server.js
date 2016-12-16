@@ -78,4 +78,37 @@ function sendJINHUA_MGR_BACKPACK_ITEMS_V2(){
     delete nmBaseMessage;
 }
 
+//保险箱info (JHID_STRONG_BOX_INFO)
+function sendJHID_STRONG_BOX_INFO(){
+    console.log("保险箱");
+    var nmBaseMessage = new NMBaseMessage();
+    console.log(JHID_STRONG_BOX_INFO);
+    nmBaseMessage.setMessageType(REQ + JHID_STRONG_BOX_INFO);
+    nmBaseMessage.writeStart();
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//保险箱存钱(JHID_SAVE_TAKE_STRONG_BOX_COIN)
+function sendJHID_SAVE_TAKE_STRONG_BOX_COIN(Coin,Type){
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JHID_SAVE_TAKE_STRONG_BOX_COIN);
+    nmBaseMessage.writeStart();
+
+    nmBaseMessage.writeStart();
+    //Coin	Long	单次不能存取太多金币
+    nmBaseMessage.writeLong(Coin);
+    //Type	Byte	操作类型	1存钱2取钱
+    nmBaseMessage.writeByte(Type);
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
 

@@ -123,7 +123,7 @@ function NMBaseMessage(arraybuffer){
         if(this.checkBinaryStream(g_DataType.UTF16, 0)){
             return 0;
         }
-        this.m_binaryStream.writeUTF16(value);
+        this.m_binaryStream.writeUTF16(value.toString());
     };
 
     //Int类型
