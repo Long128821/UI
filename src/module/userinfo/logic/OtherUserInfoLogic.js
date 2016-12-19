@@ -460,17 +460,7 @@ var OtherUserInfoLogic= {
         this.Label_name.setString(userInfoTable["nickName"]);
         //Todo：可以删除称谓
         //[称谓-等级]
-        var arr= Profile_JinHuaSetting.getUserTitle(userInfoTable["Coin"]);
-//        if(arr[0]== null){
-//            this.Image_chengwei.setVisible(false);
-//        }else{
-//            this.Image_chengwei._imageRenderer.setTexture(Common.getJinHuaResource(g_arrHonor[arr[1]]));
-//            this.Image_chengwei.setScale(0.75);
-//        }
-        this.Image_chengwei._imageRenderer.setTexture(Common.getJinHuaResource(g_arrHonor[arr[1]]));
-        this.Image_chengwei.setScale(0.75);
-        //设置Vip等级
-        //this.Image_vip_bg._imageRenderer.setTexture("res/ic_vip"+ profile_user.getSelfVipLevel()+".png");
+        Common.setUserChengWei(userInfoTable["Coin"], this.Image_chengwei);
 
         //加载网络头像
         Common.setTextureByNet(profile_user.getSelfPhotoUrl(), this.Image_toux);

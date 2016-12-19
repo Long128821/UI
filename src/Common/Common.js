@@ -77,7 +77,7 @@ var Common= {
     loadArmature:function(jsonPath, callback){
         var jsonName= jsonPath.substring(0, jsonPath.lastIndexOf("."));
         var index= 0;
-        Load.LoadJson([
+        Load.LoadJsonOrPic([
             jsonName+"0.png",
             jsonName+"0.plist",
             jsonPath
@@ -85,8 +85,35 @@ var Common= {
             callback();
         });
     },
+    //获取金花资源路径
     getJinHuaResource:function(path){
         return "res/"+ path;
+    },
+    //设置称谓
+    setUserChengWei:function(coin, target){
+        var arr= Profile_JinHuaSetting.getUserTitle(coin);
+        var tipLevel = arr[1];
+        var url = null;
+        if(tipLevel == 1 ){
+            url = "ui_xiaoqigai_1.png";
+        }else if( tipLevel == 2 ){
+            url = "ui_pingming_1.png";
+        }else if( tipLevel == 3 ){
+            url = "ui_xiaokang_1.png";
+        }else if( tipLevel == 4 ){
+            url = "ui_caizhu_1.png";
+        }else if( tipLevel == 5 ){
+            url = "ui_tuhao_1.png";
+        }else if( tipLevel == 6 ){
+            url = "ui_yidiajujia_1.png";
+        }else if( tipLevel == 7 ){
+            url = "ui_fujiatianxia_1.png";
+        }else if( tipLevel == 8 ){
+            url = "ui_fukediguo_1.png";
+        }else if( tipLevel == 9 ){
+            url = "ui_guominlaogong_1.png";
+        }
+        target.loadTexture(this.getJinHuaResource(url));
     }
 };
 

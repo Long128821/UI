@@ -189,15 +189,73 @@ function sendBASEID_EDIT_BASEINFO(dataTable){
     delete nmBaseMessage;
 }
 
-//BASEID_GET_BASEINFO
+//获取基本信息BASEID_GET_BASEINFO
 function sendBASEID_GET_BASEINFO(userID){
-    console.log("BASEID_GET_BASEINFO:"+userID);
     var nmBaseMessage= new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + BASEID_GET_BASEINFO);
 
     nmBaseMessage.writeStart();
 
     nmBaseMessage.writeInt(userID);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+function sendGIFTBAGID_GIFTBAG_LIST_SIMPLE(){
+    var nmBaseMessage= new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + GIFTBAGID_GIFTBAG_LIST_SIMPLE);
+    nmBaseMessage.setMsgVer(1);//消息版本号
+
+    nmBaseMessage.writeStart();
+
+    //GameID  游戏ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+    //客户端版本号
+    nmBaseMessage.writeInt();
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+//请求站内信消息列表
+function sendMAIL_SYSTEM_MESSGE_LIST(LastMessageId,Count){
+    var nmBaseMessage= new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + MAIL_SYSTEM_MESSGE_LIST);
+    nmBaseMessage.setMsgVer(1);//消息版本号
+
+    nmBaseMessage.writeStart();
+
+    //GameID  游戏ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+    //上条消息id
+    nmBaseMessage.writeInt(LastMessageId);
+    //列表数量
+    nmBaseMessage.writeInt(Count);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//请求站内信消息列表
+function sendMAIL_SYSTEM_MESSAGE_READ(MessageId){
+    var nmBaseMessage= new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + MAIL_SYSTEM_MESSAGE_READ);
+
+    nmBaseMessage.writeStart();
+
+    //GameID  游戏ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+    //上条消息id
+    nmBaseMessage.writeInt(MessageId);
 
     nmBaseMessage.writeOver();
 

@@ -37,4 +37,16 @@ GUI_CHANGEINFOPOP= "ChangeInfoPop";
 //二次确认
 GUI_DOUBLEBUTTONCONFIRM= "DoubleButtonConfirm";
 
+//游戏帮助
+GUI_GAMEHELP= "GameHelp";
+
+//邮件
+GUI_MESSAGELIST= "MessageList";
+
+//签到奖励
+GUI_DAILYSALARY= "DailySalary";
+
+//二级邮箱
+GUI_MESSAGESERVER= "MessageServer";
+
 

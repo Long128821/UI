@@ -112,3 +112,35 @@ function sendJHID_SAVE_TAKE_STRONG_BOX_COIN(Coin,Type){
 }
 
 
+//扎金花工资面板 (JINHUA_MGR_DAILY_SALARY）
+function sendJINHUA_MGR_DAILY_SALARY(){
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JINHUA_MGR_DAILY_SALARY);
+    nmBaseMessage.writeStart();
+
+    nmBaseMessage.writeStart();
+    //游戏ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+function sendJINHUA_MGR_GET_SALARY(){
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JINHUA_MGR_GET_SALARY);
+    nmBaseMessage.writeStart();
+
+    nmBaseMessage.writeStart();
+    //游戏ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}

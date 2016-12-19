@@ -201,7 +201,7 @@ var HallLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            MvcEngine.createModule(GUI_MESSAGELIST);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -479,15 +479,17 @@ var HallLogic= {
     addSlot:function(){
     	Frameworks.addSlot2Signal(BASEID_GET_BASEINFO, ProfileHall.slot_BASEID_GET_BASEINFO);//大厅初始化-获取用户数据
     	Frameworks.addSlot2Signal(JINHUA_MGR_USER_INFO, ProfileHall.slot_JINHUA_MGR_USER_INFO);//添加头像-获取用户数据
-        Frameworks.addSlot2Signal(JINHUA_MGR_SETTING, ProfileHall.slotJINHUA_MGR_SETTING);//在线人数
-        Frameworks.addSlot2Signal(JINHUA_MGR_NOTICE, ProfileHall.slotJINHUA_MGR_NOTICE);//游戏公告
+        Frameworks.addSlot2Signal(JINHUA_MGR_SETTING, ProfileHall.slot_JINHUA_MGR_SETTING);//在线人数
+        Frameworks.addSlot2Signal(JINHUA_MGR_NOTICE, ProfileHall.slot_JINHUA_MGR_NOTICE);//游戏公告
+        Frameworks.addSlot2Signal(JINHUA_MGR_DAILY_SALARY, ProfileHall.slot_JINHUA_MGR_DAILY_SALARY);//每日工资面板
     },
     //移除信号
     removeSlot:function(){
         Frameworks.removeSlotFromSignal(BASEID_GET_BASEINFO, ProfileHall.slot_BASEID_GET_BASEINFO);
         Frameworks.removeSlotFromSignal(JINHUA_MGR_USER_INFO, ProfileHall.slot_JINHUA_MGR_USER_INFO);
-        Frameworks.removeSlotFromSignal(JINHUA_MGR_SETTING, ProfileHall.slotJINHUA_MGR_SETTING);
-        Frameworks.removeSlotFromSignal(JINHUA_MGR_NOTICE, ProfileHall.slotJINHUA_MGR_NOTICE);
+        Frameworks.removeSlotFromSignal(JINHUA_MGR_SETTING, ProfileHall.slot_JINHUA_MGR_SETTING);
+        Frameworks.removeSlotFromSignal(JINHUA_MGR_NOTICE, ProfileHall.slot_JINHUA_MGR_NOTICE);
+        Frameworks.removeSlotFromSignal(JINHUA_MGR_DAILY_SALARY, ProfileHall.slot_JINHUA_MGR_DAILY_SALARY);
     },
     
     //释放界面的私有数据
@@ -507,6 +509,8 @@ var HallLogic= {
             sendJINHUA_MGR_NOTICE(0);
             //获取玩家数据
             sendBASEID_GET_BASEINFO(profile_user.getSelfUserID());
+            //每日工资
+            sendJINHUA_MGR_DAILY_SALARY();
         }
     },
     //初始化界面(昵称、头像、Vip、称号、元宝数、金币数、按钮)
@@ -526,8 +530,8 @@ var HallLogic= {
         }
 
 //        console.log("当前玩家的称谓等级:"+ profile_user.getSelfHonor());
-        this.Image_chengwei._imageRenderer.setTexture(Common.getJinHuaResource(g_arrHonor[parseInt(profile_user.getSelfHonor())]));
-//        console.log("当前玩家的头像:"+ profile_user.getSelfPhotoUrl());
+        //
+        Common.setUserChengWei(profile_user.getSelfCoin(), this.Image_chengwei);
         //加载网络头像
         Common.setTextureByNet(profile_user.getSelfPhotoUrl(), this.Image_touxiang_default);
 
@@ -713,15 +717,10 @@ var HallLogic= {
         var moveBy =  cc.MoveBy.create(GameConfig.NOTICE_MOVE_TIME*(labelNotice.width + chatPanelSize.width), cc.p(-chatPanelPoint.x -labelNotice.width -chatPanelSize.width,0));
         var seq = cc.Sequence.create(moveBy);
         labelNotice.runAction(cc.RepeatForever.create(seq));
-    },
-    //显示系统公告
-    showNotice:function(){
-
     }
 };
 
 //Todo:公告
-//Todo:首冲翻倍
-//Todo:存储金花数据
-//Todo:startReadLoop()
 //Todo:Vip等级需要联调
+//Todo:没有做礼包数据的原因是:没有应用版本号和版本名
+//Todo:没有做活动的原因是:GameLoadModuleConfig.getTaskGameConfigList()活动文件列表不知道

@@ -14,6 +14,7 @@ var GameConfig= {
     isPlayMusic:false,//是否播放背景音乐
     isPlayEffect:false,//是否播放音效
     NOTICE_MOVE_TIME:0.013,//滚动时间
+    URL_TABLE_CUSTOMSERVICE_HELP:"http://f.99sai.com/jinhua/html/comm_help.html",//设置--帮助
 
     getGameMusicOff:function(){
         return this.isPlayMusic;

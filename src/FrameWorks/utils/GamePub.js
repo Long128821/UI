@@ -31,5 +31,21 @@ var GamePub= {
         }
         var nLeft= nNum%nDecimal;
         return nNum- nLeft;
+    },
+    //
+        //得到九宫格精灵
+        //@param #String imageNamePath 图片地址
+    //@param #number insetWidth 图片保留宽
+    //@param #number insetHeight 图片保留高
+    //@param #number ScaleWidth 图片显示宽
+    //@param #number ScaleHeight 图片显示高
+    createPointNineSpriteForPlist:function(imageNamePath, insetWidth, insetHeight, ScaleWidth, ScaleHeight){
+        var tmp = cc.Sprite.createWithSpriteFrameName(imageNamePath);
+        var tmpSize = tmp.getContentSize();
+        var rectInsets = cc.size(insetWidth,insetHeight,tmpSize.width-insetWidth*2,tmpSize.height-insetHeight*2);
+        var winRect = cc.size(ScaleWidth, ScaleHeight);//设置要拉伸后的的大小
+        var m_pNextBG  = cc.Scale9Sprite.createWithSpriteFrameName(imageNamePath, rectInsets);
+        m_pNextBG.setContentSize(winRect);
+        return m_pNextBG;
     }
 };

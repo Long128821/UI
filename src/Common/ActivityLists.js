@@ -68,10 +68,10 @@ var ActivityLists= {
 
             this.m_arrCellButton[i]= button;
         }
-        this.m_pageView= pageView;
+        this.m_tableView= pageView;
         //在view中，添加节点，zOrder为2
-        this.m_parent.addChild(this.m_pageView, 2);
-        this.m_pageView.addEventListener(this.pageViewEvent, this);
+        this.m_parent.addChild(this.m_tableView, 2);
+        this.m_tableView.addEventListener(this.pageViewEvent, this);
     },
     //单选框
     initRadioButton:function(){
@@ -105,7 +105,7 @@ var ActivityLists= {
 
         var nextActivityID= this.getNextActivityID();
 
-        self.m_pageView.scrollToItem((nextActivityID)%(self.m_activityCnt));
+        self.m_tableView.scrollToItem((nextActivityID)%(self.m_activityCnt));
     },
     /**
      * Func:切换标志
@@ -128,7 +128,7 @@ var ActivityLists= {
     },
     //获取当前的PageID
     getCurActivityID:function(){
-        return this.m_pageView.getCurPageIndex();
+        return this.m_tableView.getCurPageIndex();
     },
     //获取当前的PageID
     getPreActivityID:function(){
@@ -163,7 +163,7 @@ var ActivityLists= {
             button.setTouchEnabled(bEnabled== undefined?false:bEnabled);
         }
         //设置PageView控件不可滑动
-        this.m_pageView.setTouchEnabled(bEnabled== undefined?false:bEnabled);
+        this.m_tableView.setTouchEnabled(bEnabled== undefined?false:bEnabled);
     }
 };
 

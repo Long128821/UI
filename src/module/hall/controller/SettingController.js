@@ -58,6 +58,7 @@ var SettingController = BaseController.extend({
 	},
     //休眠
     sleepModule:function(){
+        console.log("休眠");
 		//Frameworks.releaseOnKeypadEventListener(SettingLogic.view);
 		SettingLogic.view.setTouchEnabled(false);
 		this.removeCallback();
@@ -65,6 +66,7 @@ var SettingController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
+        console.log("唤醒");
     	//Frameworks.setOnKeypadEventListener(SettingLogic.view, SettingLogic.onKeypad);
         SettingLogic.view.setTouchEnabled(true);
         this.addCallback();

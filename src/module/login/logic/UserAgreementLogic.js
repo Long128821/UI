@@ -53,7 +53,6 @@ var UserAgreementLogic= {
         //设置背景色
         webView._renderCmd._div.style["background"]= "rgb(56, 0, 38)";
 
-        console.log(this.view.getPosition());
         this.view.addChild(webView);
     },
     

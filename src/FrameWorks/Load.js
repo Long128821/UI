@@ -44,7 +44,7 @@ var Load= {
         }
     },
     //加载资源
-    LoadJson:function(needCreateModuleName, callback){
+    LoadJsonOrPic:function(needCreateModuleName, callback){
         cc.loader.load(needCreateModuleName,
             function (result, count, loadedCount) {
                 //加载中

@@ -185,7 +185,7 @@ function read8007009d(nmBaseMessage){
             //开始读取Loop类型的头部
             nmBaseMessage.startReadLoop();
             //NickName	text	登陆过此手机的昵称
-            table[i]["NickName"]= nmBaseMessage.readUTF16();
+            table[i]["NickName"]= nmBaseMessage.readUnicode();
             //IsBindWeChat	byte	此账号是否绑定微信	0：没有；1：有
             table[i]["IsBindWeChat"]= nmBaseMessage.readByte();
         }
@@ -252,5 +252,56 @@ function read80010004(nmBaseMessage){
     dataTable["Result"]= nmBaseMessage.readByte();
     //ResultTxt 修改提示
     dataTable["ResultTxt"] = nmBaseMessage.readUTF16();
+    return dataTable;
+}
+
+//解析站内信消息列表
+function read80670001(nmBaseMessage){
+    var dataTable= {};
+    //存放消息类型和消息名
+    dataTable["messageType"]= ACK + MAIL_SYSTEM_MESSGE_LIST;
+    dataTable["messageName"]= "MANAGERID_USERLIST_FROM_IMIE";
+
+    //NickCnt	int	昵称数量	loop
+    var messageList_Count= nmBaseMessage.readInt();
+    console.log("当前手机用户登录列表数量:"+ messageList_Count);
+    dataTable["messageList_Count"]= messageList_Count;
+    dataTable["MessageListTable"]= {};
+    if(messageList_Count> 0){
+        for(var i=0; i< messageList_Count; ++i){
+            //开始读取Loop类型的头部
+            nmBaseMessage.startReadLoop();
+            dataTable["MessageListTable"][i]= {};
+            //消息id
+            dataTable["MessageListTable"][i]["MessageId"]= nmBaseMessage.readInt();
+            //消息标题
+            dataTable["MessageListTable"][i]["MessageTitle"]= nmBaseMessage.readUnicode();
+            //消息内容  Html
+            dataTable["MessageListTable"][i]["MessageContent"]= nmBaseMessage.readUnicode();
+            //消息类型  0 普通消息  1 领奖消息  2 执行Action
+            dataTable["MessageListTable"][i]["MessageType"]= nmBaseMessage.readByte();
+            //消息状态 0 未读 ，1 已读 ， 2 已领奖
+            dataTable["MessageListTable"][i]["MessageFlag"]= nmBaseMessage.readByte();
+            //Action类型
+            dataTable["MessageListTable"][i]["Action"]= nmBaseMessage.readInt();
+            //Action参数
+            dataTable["MessageListTable"][i]["ActionParam"]= nmBaseMessage.readUnicode();
+            //CreateTime时间
+            dataTable["MessageListTable"][i]["CreateTime"]= nmBaseMessage.readUnicode();
+        }
+    }
+    return dataTable;
+}
+
+//站内信消息阅读
+function read80670003(nmBaseMessage){
+    var dataTable= {};
+    dataTable["messageType"]= ACK + MAIL_SYSTEM_MESSAGE_READ;
+    dataTable["messageName"]= "MAIL_SYSTEM_MESSAGE_READ";
+
+    //消息id Int
+    dataTable["MessageId"]= nmBaseMessage.readInt();
+    //领奖是否成功
+    dataTable["Success"] = nmBaseMessage.readByte();
     return dataTable;
 }

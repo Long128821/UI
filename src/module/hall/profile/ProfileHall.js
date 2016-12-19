@@ -14,7 +14,7 @@ var ProfileHall= {
         MvcEngine.createModule(GUI_OTHERUSERINFO);
     },
     //在线时长
-    slotJINHUA_MGR_SETTING:function(dataTable){
+    slot_JINHUA_MGR_SETTING:function(dataTable){
         //设置金花数据
         Profile_JinHuaSetting.readJINHUA_MGR_SETTING(dataTable);
         //设置同时在线人数
@@ -23,7 +23,16 @@ var ProfileHall= {
         HallLogic.setShouChongFanBei();
     },
     //游戏公告
-    slotJINHUA_MGR_NOTICE:function(dataTable){
+    slot_JINHUA_MGR_NOTICE:function(dataTable){
         HallLogic.createSystemNoticeLabel(dataTable["RecordList"][0].content,0, cc.color(dataTable["RecordList"][0].colorR, dataTable["RecordList"][0].colorG, dataTable["RecordList"][0].colorB));
+    },
+    //金花每日工资
+    slot_JINHUA_MGR_DAILY_SALARY:function(dataTable){
+        if(!Common.judgeValueIsEffect(dataTable)) return;
+        Profile_DailySalary.setDailySalaryInfoTable(dataTable);
+        //可否领取今日工资
+        if(dataTable["CanReceive"]== 1){
+            MvcEngine.createModule(GUI_DAILYSALARY);
+        }
     }
 };

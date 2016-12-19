@@ -263,3 +263,49 @@ function read8020002d(nmBaseMessage){
     dataTable["charmRate"] = nmBaseMessage.readInt();
     return dataTable;
 }
+
+//扎金花每日领工资面板信息 (JINHUA_MGR_DAILY_SALARY）
+function read8268001a(nmBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JINHUA_MGR_DAILY_SALARY;
+    dataTable["messageName"] = "JINHUA_MGR_DAILY_SALARY";
+
+    //CanReceive	Byte	是否可以领取奖励	1:可领取 0不可领取
+    dataTable["CanReceive"] = nmBaseMessage.readByte();
+    //Coin	Int	用户金币数
+    dataTable["Coin"] = nmBaseMessage.readLong();
+    //MaxDay	Int	最大连续天数
+    dataTable["MaxDay"] = nmBaseMessage.readInt();
+    //CountDay	Int	当前连续天数
+    dataTable["CountDay"] = nmBaseMessage.readInt();
+    //TomorrowReward	Int	明日登陆可领工资数
+    dataTable["TomorrowReward"] = nmBaseMessage.readInt();
+    //MaxReward	Int	达到最大连续天数可领工资数
+    dataTable["MaxReward"] = nmBaseMessage.readInt();
+    //BaseReward	Int	基础奖励
+    dataTable["BaseReward"] = nmBaseMessage.readInt();
+    //LevelReward	Int	等级奖励
+    dataTable["LevelReward"] = nmBaseMessage.readInt();
+    //VipReward	Int	VIP等级奖励
+    dataTable["VipReward"] = nmBaseMessage.readInt();
+    //VipLevel	Int	用户VIP等级
+    dataTable["VipLevel"] = nmBaseMessage.readInt();
+    //Level	Int	用户等级
+    dataTable["Level"] = nmBaseMessage.readInt();
+    //PhotoUrl	String	头像地址
+    dataTable["PhotoUrl"] = nmBaseMessage.readUTF16();
+    return dataTable;
+}
+
+//扎金花每日领工资面板信息 (JINHUA_MGR_DAILY_SALARY）
+function read8068001b(nmBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JINHUA_MGR_GET_SALARY;
+    dataTable["messageName"] = "JINHUA_MGR_GET_SALARY";
+
+    //Success	Byte	是否领取成功	1:成功 0不成功
+    dataTable["Success"] = nmBaseMessage.readByte();
+    //Msg	String	提示信息
+    dataTable["Msg"] = nmBaseMessage.readUTF16();
+    return dataTable;
+}

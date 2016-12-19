@@ -35,7 +35,7 @@ var Profile_JinHuaSetting= {
     //获取用户称号和用户等级
     getUserTitle:function(userCoin){
         var titleName = null;
-        var level = 0;
+        var level = 1;
         if(Common.judgeValueIsEffect(this.JinHuaTitleListTable)&&(Common.getTableSize(this.JinHuaTitleListTable)!= 0)){
            var coin= 0;
             if(!Common.judgeValueIsEffect(userCoin)){
