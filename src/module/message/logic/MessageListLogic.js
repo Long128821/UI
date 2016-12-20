@@ -131,12 +131,12 @@ var MessageListLogic= {
         var leftBottomPos= cc.p(tableViewPos.x- tableSize.width* 0.5, tableViewPos.y- tableSize.height*0.5);
         //预加载资源
         var arrPath= [
-            Common.getJinHuaResource("ui_xinxiaoxidi.png"),
-            Common.getJinHuaResource("ic_email_gift_yidu.png"),
-            Common.getJinHuaResource("ic_email_gift.png"),
-            Common.getJinHuaResource("ui_xinyoujiantubiao.png"),
-            Common.getJinHuaResource("read.png"),
-            Common.getJinHuaResource("ui_new.png")
+            Common.getResourcePath("ui_xinxiaoxidi.png"),
+            Common.getResourcePath("ic_email_gift_yidu.png"),
+            Common.getResourcePath("ic_email_gift.png"),
+            Common.getResourcePath("ui_xinyoujiantubiao.png"),
+            Common.getResourcePath("read.png"),
+            Common.getResourcePath("ui_new.png")
         ];
         //代码先执行，但是精灵尺寸为空,不能正确显示
         Load.LoadJsonOrPic(arrPath,function(){
@@ -166,7 +166,7 @@ var MessageListLogic= {
     createItem:function(cell, idx){
         var MessageListTable= Profile_Message.getMessageListTable();
         //背景
-        var sprite= GamePub.createPointNineSpriteForPlist(Common.getJinHuaResource("ui_xinxiaoxidi.png"), 25, 25, this.Panel_list.getContentSize().width- 20, 95- 6);
+        var sprite= GamePub.createPointNineSpriteForPlist(Common.getResourcePath("ui_xinxiaoxidi.png"), 25, 25, this.Panel_list.getContentSize().width- 20, 95- 6);
         sprite.setAnchorPoint(0,0);
         sprite.setPosition(cc.p(10,0));
         cell.addChild(sprite);
@@ -210,7 +210,7 @@ var MessageListLogic= {
             }
         }
         //头像
-        var avator= cc.Sprite.create(Common.getJinHuaResource(avatorurl));
+        var avator= cc.Sprite.create(Common.getResourcePath(avatorurl));
         avator.setPosition(cc.p(spriteSize.width* 0.05, spriteSize.height* 0.5));
         sprite.addChild(avator);
 
@@ -219,7 +219,7 @@ var MessageListLogic= {
             labelTime.setColor(cc.color(0xe4,0xb6,0x47));
             LabelContent.setColor(cc.color(0xac,0x77,0xa5));
 
-            var imageNew = cc.Sprite.create(Common.getJinHuaResource("ui_new.png"));
+            var imageNew = cc.Sprite.create(Common.getResourcePath("ui_new.png"));
             imageNew.setAnchorPoint(cc.p(0, 0));
             imageNew.setPosition(cc.p(spriteSize.width* 0.08, spriteSize.height* 0.5));
             sprite.addChild(imageNew);

@@ -240,7 +240,7 @@ var HallLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            MvcEngine.createModule(GUI_FRIENDLIST);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -253,7 +253,7 @@ var HallLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            MvcEngine.createModule(GUI_RENWU);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -530,7 +530,6 @@ var HallLogic= {
         }
 
 //        console.log("当前玩家的称谓等级:"+ profile_user.getSelfHonor());
-        //
         Common.setUserChengWei(profile_user.getSelfCoin(), this.Image_chengwei);
         //加载网络头像
         Common.setTextureByNet(profile_user.getSelfPhotoUrl(), this.Image_touxiang_default);
@@ -540,9 +539,9 @@ var HallLogic= {
         if(userVipLevel >= 0) {
             var texture = VipElementsUtils.getVipBgFromVipLevel(userVipLevel);
             if (texture != null) {
-                this.btn_vip.loadTextures(Common.getJinHuaResource(texture), Common.getJinHuaResource(texture),"");
+                this.btn_vip.loadTextures(Common.getResourcePath(texture), Common.getResourcePath(texture),"");
             }else{
-                this.btn_vip.loadTexture(Common.getJinHuaResource("ic_vip_0.png"),Common.getJinHuaResource("ic_vip_0.png"),"");
+                this.btn_vip.loadTexture(Common.getResourcePath("ic_vip_0.png"),Common.getResourcePath("ic_vip_0.png"),"");
             }
         }
 
@@ -649,32 +648,6 @@ var HallLogic= {
     initActivityLists:function(){
        ActivityLists.init(this.view, this.Panel_Commend.getPosition());
     },
-//    //设置称谓
-//    setUserChengWei:function(){
-//        var tipLevel = JinHuaLoadProfile.JinHuaSetting.getUserTitle();
-//        var url = null;
-//        if(tipLevel == 1 ){
-//        url = "ui_xiaoqigai_1.png"
-//        }else if( tipLevel == 2 ){
-//        url = "ui_pingming_1.png"
-//        }else if( tipLevel == 3 ){
-//        url = "ui_xiaokang_1.png"
-//        }else if( tipLevel == 4 ){
-//        url = "ui_caizhu_1.png"
-//        }else if( tipLevel == 5 ){
-//        url = "ui_tuhao_1.png"
-//        }else if( tipLevel == 6 ){
-//        url = "ui_yidiajujia_1.png"
-//        }else if( tipLevel == 7 ){
-//        url = "ui_fujiatianxia_1.png"
-//        }else if( tipLevel == 8 ){
-//        url = "ui_fukediguo_1.png"
-//        }else if( tipLevel == 9 ){
-//        url = "ui_guominlaogong_1.png"
-//        }
-//
-//        this.Image_chengwei.loadTexture(Common.getResourcePath(url));
-//    },
     //设置当前在线人数
     setOnlinePlayerNumber:function(){
         this.Label_online.setColor(cc.color(255,0,0));

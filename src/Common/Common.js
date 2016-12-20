@@ -57,7 +57,7 @@ var Common= {
             }
         );
     },
-    addSprite:function(url, callback){
+    addSpriteByNet:function(url, callback){
         //异步加载头像资源
         cc.loader.loadImg(
             url,
@@ -86,7 +86,7 @@ var Common= {
         });
     },
     //获取金花资源路径
-    getJinHuaResource:function(path){
+    getResourcePath:function(path){
         return "res/"+ path;
     },
     //设置称谓
@@ -113,7 +113,7 @@ var Common= {
         }else if( tipLevel == 9 ){
             url = "ui_guominlaogong_1.png";
         }
-        target.loadTexture(this.getJinHuaResource(url));
+        target.loadTexture(this.getResourcePath(url));
     }
 };
 

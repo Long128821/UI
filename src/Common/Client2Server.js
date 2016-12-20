@@ -128,10 +128,61 @@ function sendJINHUA_MGR_DAILY_SALARY(){
 
     delete nmBaseMessage;
 }
-
+//获取每日工资
 function sendJINHUA_MGR_GET_SALARY(){
     var nmBaseMessage = new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + JINHUA_MGR_GET_SALARY);
+    nmBaseMessage.writeStart();
+
+    nmBaseMessage.writeStart();
+    //游戏ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//获取好友列表
+function sendJINHUA_MGR_FRIEND_LIST(){
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JINHUA_MGR_FRIEND_LIST);
+    nmBaseMessage.writeStart();
+
+    nmBaseMessage.writeStart();
+    //游戏ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//获取追踪列表(JINHUA_MGR_TRACE_LIST)
+function sendJINHUA_MGR_TRACE_LIST(){
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JINHUA_MGR_TRACE_LIST);
+    nmBaseMessage.writeStart();
+
+    nmBaseMessage.writeStart();
+    //游戏ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//获取陌生人列表(JINHUA_MGR_STRANGER_LIST)
+function sendJINHUA_MGR_STRANGER_LIST(){
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JINHUA_MGR_STRANGER_LIST);
     nmBaseMessage.writeStart();
 
     nmBaseMessage.writeStart();

@@ -115,7 +115,6 @@ var Frameworks= {
      * @param callbackFunction
      */
     addSlot2Signal:function(signal, callbackFunction){
-        //console.log("addSlot2Signal");
         //判断是否已经有该存在该信号
         if(!this.m_signalSlotTable.hasOwnProperty(signal)){
             this.m_signalSlotTable[signal]=  callbackFunction;
@@ -162,4 +161,4 @@ var Frameworks= {
     }
 };
 
-//Frameworks.addSlot2Signal(ACK);
+Frameworks.addSlot2Signal(GAMEID_SERVER_MSG);

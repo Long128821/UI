@@ -13,8 +13,8 @@ var MessageRouting= {
         //读取消息
         var funcName= "read"+ nmBaseMessage.getMsgType();
         //将字符串80010002-->16进制表示-->10进制表示
-        var msgID= parseInt(nmBaseMessage.getMsgType(), 16)- ACK;
-        console.log(funcName);
+        var value= parseInt(nmBaseMessage.getMsgType(), 16);
+        var msgID= value> ACK?parseInt(nmBaseMessage.getMsgType(), 16)- ACK:value;
         //已注册消息中，是否包含该消息ID
         if(Frameworks.isContainsSignal(msgID)){
             var dataTable= eval(funcName)(nmBaseMessage);

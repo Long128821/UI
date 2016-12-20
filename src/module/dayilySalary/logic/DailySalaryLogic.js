@@ -219,9 +219,9 @@ var DailySalaryLogic= {
         if(userVipLevel >= 0){
             var texture = VipElementsUtils.getVipBgFromVipLevel(userVipLevel);
             if(texture != null){
-                this.Image_vip_bg.loadTexture(Common.getJinHuaResource(texture))
+                this.Image_vip_bg.loadTexture(Common.getResourcePath(texture))
             }else{
-                this.Image_vip_bg.loadTexture(Common.getJinHuaResource("ic_vip_0.png"))
+                this.Image_vip_bg.loadTexture(Common.getResourcePath("ic_vip_0.png"))
             }
 
             if(userVipLevel == 0){
@@ -246,7 +246,7 @@ var DailySalaryLogic= {
                 if(signTexture == null){
                     this.Image_vip_highsign.setVisible(false);
                 }else{
-                    this.Image_vip_highsign.loadTexture(Common.getJinHuaResource(signTexture));
+                    this.Image_vip_highsign.loadTexture(Common.getResourcePath(signTexture));
                 }
             }
         }

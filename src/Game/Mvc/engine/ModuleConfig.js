@@ -333,3 +333,38 @@ ModuleTable["DailySalary"]["resLists"] = [
     "res/ui_gongzi_lingqu.png",
     "res/btn_item_close.png",
     "res/DailySalary.json"];
+
+ModuleTable["RenWu"] = {};
+ModuleTable["RenWu"]["jsLists"] = [
+    "src/module/task/profile/ProfileRenWu.js",
+    "src/module/task/logic/RenWuLogic.js",
+    "src/module/task/controller/RenWuController.js"];
+ModuleTable["RenWu"]["Layer"] = Layer.Second_Layer;
+ModuleTable["RenWu"]["resLists"] = [
+    "res/ui_renwudikuang.png",
+    "res/ui_renwuweixuanzhong2.png",
+    "res/ui_chengjiurenwu.png",
+    "res/ui_renwuweixuanzhong1.png",
+    "res/ui_meirirenwu.png",
+    "res/btn_item_close.png",
+    "res/RenWu.json"];
+
+ModuleTable["FriendList"] = {};
+ModuleTable["FriendList"]["jsLists"] = [
+    "src/module/message/profile/ProfileFriendList.js",
+    "src/module/message/logic/FriendListLogic.js",
+    "src/module/message/controller/FriendListController.js"];
+ModuleTable["FriendList"]["Layer"] = Layer.Second_Layer;
+ModuleTable["FriendList"]["resLists"] = [
+    "res/btn_jiaweihaoyou.png",
+    "res/ui_haoyoushangxian.png",
+    "res/btn_meilihao.png",
+    "res/btn_xuanzhong_l.png",
+    "res/btn_zhuizongliebiao_mweixuanzhong.png",
+    "res/btn_weixuanzhong_r.png",
+    "res/btn_item_close.png",
+    "res/btn_jiaweihaoyou.png",
+    "res/btn_vipshuoming_zuoyoujiantou.png",
+    "res/btn_vipshuoming_zuoyoujiantou.png",
+    "res/btn_zengsongliwu1.png",
+    "res/FriendList.json"];

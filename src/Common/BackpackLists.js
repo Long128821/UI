@@ -48,7 +48,7 @@ var BackpackLists= {
         cell = new cc.TableViewCell();
         for(var i=0; i< this.m_rowSize; ++i){
             for(var j= 0;j< columnSize; ++j){
-                var sprite = new cc.Sprite(Common.getJinHuaResource("btn_gerenxinxi_tubiaokuang.png"));
+                var sprite = new cc.Sprite(Common.getResourcePath("btn_gerenxinxi_tubiaokuang.png"));
                 sprite.setAnchorPoint(0,0.5);
                 sprite.setPosition(backpackCellSize.width* j+ 10, (this.m_rowSize- i- 0.275)* backpackCellSize.height);
                 cell.addChild(sprite);
@@ -94,7 +94,7 @@ var BackpackLists= {
         if(i>= self.m_cellSize) return;
         if((i>= self.m_arrCell.length)&&(self.m_arrCell.length!= 0)) return;
         var cellSize= self.m_arrCell[i].getContentSize();
-        Common.addSprite(dataTable[i].picUrl, function(sprite){
+        Common.addSpriteByNet(dataTable[i].picUrl, function(sprite){
             sprite.setPosition(cellSize.width* 0.5,cellSize.height* 0.5);
             sprite.setScale(0.75);
             self.m_arrCell[i].addChild(sprite, 1);

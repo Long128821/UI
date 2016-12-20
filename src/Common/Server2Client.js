@@ -11,7 +11,7 @@ function read8268000a(nmBaseMessage){
     //isFriend	Byte	是否是好友	1是，0不是
     dataTable["isFriend"]=nmBaseMessage.readByte();
     //nickName	String	昵称
-    dataTable["nickName"]=nmBaseMessage.readUTF16();
+    dataTable["nickName"]=nmBaseMessage.readString();
     //Coin	Long	玩家金币
     dataTable["Coin"]=nmBaseMessage.readLong();
     //Level	Int	玩家等级
@@ -19,17 +19,17 @@ function read8268000a(nmBaseMessage){
     //Sex	Byte	性别
     dataTable["Sex"]=nmBaseMessage.readByte();
     //PhotoUrl	String	头像
-    dataTable["PhotoUrl"]=nmBaseMessage.readUTF16();
+    dataTable["PhotoUrl"]=nmBaseMessage.readString();
     //SignAward	Int	加好友签到金币加成
     dataTable["SignAward"]=nmBaseMessage.readInt();
     //Area	String	地区
-    dataTable["Area"]=nmBaseMessage.readUTF16();
+    dataTable["Area"]=nmBaseMessage.readString();
     //Innings	Int	局数
     dataTable["Innings"]=nmBaseMessage.readInt();
     //winPer	Int	胜率
     dataTable["winPer"]=nmBaseMessage.readInt();
     //Sign	String	签名
-    dataTable["Sign"]=nmBaseMessage.readUTF16();
+    dataTable["Sign"]=nmBaseMessage.readString();
     //GiftCoin	Long	收到的礼物总价值
     dataTable["GiftCoin"]=nmBaseMessage.readLong();
 
@@ -42,7 +42,7 @@ function read8268000a(nmBaseMessage){
             nmBaseMessage.startReadLoop();
             dataTable["Gifts"][i]= {};
             //name	String	礼物名称
-            dataTable["Gifts"][i].name = nmBaseMessage.readUnicode();
+            dataTable["Gifts"][i].name = nmBaseMessage.readString();
             //cnt	Int	收到的礼物数量
             dataTable["Gifts"][i].cnt = nmBaseMessage.readInt();
         }
@@ -119,7 +119,7 @@ function read8068000c(nmBaseMessage){
         dataTable["VipsInfo"][i] = {};
         nmBaseMessage.startReadLoop();
         //...vipInfoURL	Text	Vip详情路径
-        dataTable["VipsInfo"][i].vipInfoURL = nmBaseMessage.readUnicode();
+        dataTable["VipsInfo"][i].vipInfoURL = nmBaseMessage.readString();
     }
     //vipInfoIndex	Int	当前显示的VIP详情路径
     dataTable["vipInfoIndex"] = nmBaseMessage.readInt();
@@ -149,16 +149,16 @@ function read82680005(nmBaseMessage){
         //…maxcoin	Int
         dataTable["TitleList"][i].maxcoin = nmBaseMessage.readLong();
         //…name	String	称谓名称
-        dataTable["TitleList"][i].name = nmBaseMessage.readUnicode();
+        dataTable["TitleList"][i].name = nmBaseMessage.readString();
     }
     //IosDownUrl	Text	苹果下载地址
-    dataTable["IosDownUrl"] = nmBaseMessage.readUTF16();
+    dataTable["IosDownUrl"] = nmBaseMessage.readString();
     //AndroidDownUrl	Text	安卓下载地址
-    dataTable["AndroidDownUrl"] = nmBaseMessage.readUTF16();
+    dataTable["AndroidDownUrl"] = nmBaseMessage.readString();
     //shareToFri}Url	Text	好友分享下载链接
-    dataTable["shareToFri}Url"] = nmBaseMessage.readUTF16();
+    dataTable["shareToFri}Url"] = nmBaseMessage.readString();
     //MonthCardRemaining	Text	金花月卡剩余时间
-    dataTable["MonthCardRemaining"] = nmBaseMessage.readUTF16();
+    dataTable["MonthCardRemaining"] = nmBaseMessage.readString();
     //enterRoomEffectMinVipLevel	Int	进场特效最低VIP等级
     dataTable["enterRoomEffectMinVipLevel"] = nmBaseMessage.readInt();
     //monthDay	Int	月卡剩余时间	天数，没有月卡返回0
@@ -208,7 +208,7 @@ function read80680003(nmBaseMessage){
         dataTable["RecordList"][i] = {};
         nmBaseMessage.startReadLoop();
         //…content	Text	提示
-        dataTable["RecordList"][i].content = nmBaseMessage.readUnicode();
+        dataTable["RecordList"][i].content = nmBaseMessage.readString();
         //…actionId	Int	actionId（小游戏id）	如果为0，则是普通公告
         dataTable["RecordList"][i].actionId = nmBaseMessage.readInt();
         //…status	Int	小游戏状态	1能进去，2加锁，3是金币不足
@@ -239,11 +239,11 @@ function read8068002e(nmBaseMessage){
         //…itemId	Int	Id
         dataTable["BackpackList"][i].itemId = nmBaseMessage.readInt();
         //…title	Text	标题
-        dataTable["BackpackList"][i].title = nmBaseMessage.readUnicode();
+        dataTable["BackpackList"][i].title = nmBaseMessage.readString();
         //…picUrl	Text	图片路径
-        dataTable["BackpackList"][i].picUrl = nmBaseMessage.readUnicode();
+        dataTable["BackpackList"][i].picUrl = nmBaseMessage.readString();
         //…desc	Text	描述文字
-        dataTable["BackpackList"][i].desc = nmBaseMessage.readUnicode();
+        dataTable["BackpackList"][i].desc = nmBaseMessage.readString();
         //…count	Int	用户拥有数量
         dataTable["BackpackList"][i].count = nmBaseMessage.readInt();
         //...isuse	Byte	是否可以使用	0不可使用1可以使用
@@ -293,7 +293,7 @@ function read8268001a(nmBaseMessage){
     //Level	Int	用户等级
     dataTable["Level"] = nmBaseMessage.readInt();
     //PhotoUrl	String	头像地址
-    dataTable["PhotoUrl"] = nmBaseMessage.readUTF16();
+    dataTable["PhotoUrl"] = nmBaseMessage.readString();
     return dataTable;
 }
 
@@ -306,6 +306,152 @@ function read8068001b(nmBaseMessage){
     //Success	Byte	是否领取成功	1:成功 0不成功
     dataTable["Success"] = nmBaseMessage.readByte();
     //Msg	String	提示信息
-    dataTable["Msg"] = nmBaseMessage.readUTF16();
+    dataTable["Msg"] = nmBaseMessage.readString();
+    return dataTable;
+}
+
+//3.46扎金花好友列表 (JINHUA_MGR_FRIEND_LIST）
+function read82680008(nmBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JINHUA_MGR_FRIEND_LIST;
+    dataTable["messageName"] = "JINHUA_MGR_FRIEND_LIST";
+
+    //FriendList	LoopMsg		游戏内加好友列表
+    dataTable["FriendList"] = {};
+    var FriendListCnt = nmBaseMessage.readInt();
+    dataTable["FriendListCnt"]= FriendListCnt;
+    for(var i=0; i< FriendListCnt; ++i){
+        nmBaseMessage.startReadLoop();
+        dataTable["FriendList"][i] = {};
+        //…userID	Int
+        dataTable["FriendList"][i].userID = nmBaseMessage.readInt();
+        //…name	String	昵称
+        dataTable["FriendList"][i].name = nmBaseMessage.readString();
+        //…coin	Int	用户金币
+        dataTable["FriendList"][i].coin = nmBaseMessage.readLong();
+        //…level	Int	好友等级
+        dataTable["FriendList"][i].level = nmBaseMessage.readInt();
+        //…signAward	Int	签到加成
+        dataTable["FriendList"][i].signAward = nmBaseMessage.readInt();
+        //…photoUrl	String	头像
+        dataTable["FriendList"][i].photoUrl = nmBaseMessage.readString();
+        //vipLevel 用户vip等级
+        dataTable["FriendList"][i].vipLevel = nmBaseMessage.readInt();
+        //visibility 是否可领取签到奖励
+        dataTable["FriendList"][i].visibility = nmBaseMessage.readByte();
+        //conversationID int 会话ID
+        dataTable["FriendList"][i].conversationID = nmBaseMessage.readInt();
+        //unreadCnt int 会话中未读邮件数量
+        dataTable["FriendList"][i].unreadCnt = nmBaseMessage.readInt();
+    }
+
+    //邀请的好友列表
+    //InvintFriendList	LoopMsg		游戏内加好友列表
+    dataTable["InvintFriendList"] = {};
+    var InvintFriendListCnt = nmBaseMessage.readInt();
+    dataTable["InvintFriendListCnt"]= InvintFriendListCnt;
+    for(var i=0; i< InvintFriendListCnt; ++i){
+        nmBaseMessage.startReadLoop();
+        dataTable["InvintFriendList"][i] = {};
+        //…userID	Int
+        dataTable["InvintFriendList"][i].userID = nmBaseMessage.readInt();
+        //…name	String	昵称
+        dataTable["InvintFriendList"][i].name = nmBaseMessage.readString();
+        //…coin	Int	用户金币
+        dataTable["InvintFriendList"][i].coin = tonumber(nmBaseMessage.readLong());
+        //…level	Int	好友等级
+        dataTable["InvintFriendList"][i].level = nmBaseMessage.readInt();
+        //…signAward	Int	签到加成
+        dataTable["InvintFriendList"][i].signAward = nmBaseMessage.readInt();
+        //…photoUrl	String	头像
+        dataTable["InvintFriendList"][i].photoUrl = nmBaseMessage.readString();
+        //…lastDays	Int	多久没有登陆过
+        dataTable["InvintFriendList"][i].lastDays = nmBaseMessage.readInt();
+        //vipLevel 用户vip等级
+        dataTable["InvintFriendList"][i].vipLevel = nmBaseMessage.readInt();
+        //visibility 是否可领取签到奖励
+        dataTable["InvintFriendList"][i].visibility = nmBaseMessage.readByte();
+        //conversationID int 会话ID
+        dataTable["InvintFriendList"][i].conversationID = nmBaseMessage.readInt();
+        //unreadCnt int 会话中未读邮件数量
+        dataTable["InvintFriendList"][i].unreadCnt = nmBaseMessage.readInt();
+    }
+    //Maxfriendcnt	Int	好友上限数
+    dataTable["Maxfriendcnt"] = nmBaseMessage.readInt();
+    //SignAward	Int	签到总奖励
+    dataTable["SignAward"] = nmBaseMessage.readInt();
+    return dataTable;
+}
+
+//3.46扎金花陌生人列表 (JINHUA_MGR_STRANGER_LIST）
+function read82680019(nmBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JINHUA_MGR_STRANGER_LIST;
+    dataTable["messageName"] = "JINHUA_MGR_STRANGER_LIST";
+
+    //FriendList	LoopMsg		游戏内加好友列表
+    dataTable["FriendList"] = {};
+    var BackpackListCnt = nmBaseMessage.readInt();
+    dataTable["FriendListCnt"]= BackpackListCnt;
+    for(var i=0; i< BackpackListCnt; ++i){
+        nmBaseMessage.startReadLoop();
+        dataTable["FriendList"][i] = {};
+        //…userID Int
+        dataTable["FriendList"][i].userID = nmBaseMessage.readInt();
+        //…name String  昵称
+        dataTable["FriendList"][i].name = nmBaseMessage.readString();
+        //…coin Int 用户金币
+        dataTable["FriendList"][i].coin = nmBaseMessage.readLong();
+        //…level  Int 好友等级
+        dataTable["FriendList"][i].level = nmBaseMessage.readInt();
+        //…photoUrl String  头像
+        dataTable["FriendList"][i].photoUrl = nmBaseMessage.readString();
+        //vipLevel 用户vip等级
+        dataTable["FriendList"][i].vipLevel = nmBaseMessage.readInt();
+        //conversationID int 会话ID
+        dataTable["FriendList"][i].conversationID = nmBaseMessage.readInt();
+        //unreadCnt int 会话中未读邮件数量
+        dataTable["FriendList"][i].unreadCnt = nmBaseMessage.readInt();
+    }
+    return dataTable;
+}
+
+
+//3.46扎金花追踪列表 (JINHUA_MGR_TRACE_LIST）
+function read82680020(nmBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JINHUA_MGR_TRACE_LIST;
+    dataTable["messageName"] = "JINHUA_MGR_TRACE_LIST";
+
+    //FriendList	LoopMsg		游戏内加好友列表
+    dataTable["TraceList"] = {};
+    var BackpackListCnt = nmBaseMessage.readInt();
+    dataTable["TraceListCnt"]= BackpackListCnt;
+    for(var i=0; i< BackpackListCnt; ++i){
+        nmBaseMessage.startReadLoop();
+        dataTable["TraceList"][i] = {};
+        //…userID	Int
+        dataTable["TraceList"][i].userID = nmBaseMessage.readInt();
+        //…name	Text	昵称
+        dataTable["TraceList"][i].name = nmBaseMessage.readString();
+        //…coin	Int	用户金币
+        dataTable["TraceList"][i].coin = tonumber(nmBaseMessage.readLong());
+        //…level	Int	好友等级
+        dataTable["TraceList"][i].level = nmBaseMessage.readInt();
+        //…photoUrl	Text	头像
+        dataTable["TraceList"][i].photoUrl = nmBaseMessage.readString();
+        //...vipLevel	Int	用户VIP等级
+        dataTable["TraceList"][i].vipLevel = nmBaseMessage.readInt();
+        //...loginState	Text	登录状态	在线，离线N小时，离线N天等
+        dataTable["TraceList"][i].loginState = nmBaseMessage.readString();
+        //...stateColor	Text	颜色	RGB字符串
+        dataTable["TraceList"][i].stateColor = nmBaseMessage.readString();
+        //...location	Text	位置，如果在线，显示在哪个场次
+        dataTable["TraceList"][i].location = nmBaseMessage.readString();
+        //...isTrace	Byte	是否可以追踪	1可以0不可以
+        dataTable["TraceList"][i].isTrace = nmBaseMessage.readByte();
+    }
+    //TraceMax	Int	追踪列表上限
+    dataTable["TraceMax"] = nmBaseMessage.readInt();
     return dataTable;
 }

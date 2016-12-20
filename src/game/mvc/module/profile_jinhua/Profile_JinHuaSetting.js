@@ -14,6 +14,7 @@ var Profile_JinHuaSetting= {
     },
     //读取消息体
     readJINHUA_MGR_SETTING:function(dataTable){
+        //console.log(dataTable);
         if(dataTable== undefined||dataTable== null){
             this.Timestamp=0;//时间戳
             this.JinHuaSettingTable= null;//金花settingsTable
@@ -30,7 +31,7 @@ var Profile_JinHuaSetting= {
     getOnlinePlayerNumber:function(){
         //获取同时在线时长
         var onlinePlayerNumber = this.JinHuaSettingTable["onLineCnt"];
-        return onlinePlayerNumber== undefined?0:onlinePlayerNumber;
+        return onlinePlayerNumber== undefined||onlinePlayerNumber<0?0:onlinePlayerNumber;
     },
     //获取用户称号和用户等级
     getUserTitle:function(userCoin){
@@ -55,3 +56,5 @@ var Profile_JinHuaSetting= {
         return [titleName, level];
     }
 };
+
+//Todo:当前在线人数为-1

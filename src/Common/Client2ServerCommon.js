@@ -25,18 +25,18 @@ function sendBASEID_RESGISTER(IMEI){
     nmBaseMessage.setMessageType(REQ + BASEID_REGISTER);
     nmBaseMessage.writeStart();//准备写消息
 
-    nmBaseMessage.writeUTF16("html5_"+ IMEI);//IMEI
-    nmBaseMessage.writeUTF16("");//昵称
-    nmBaseMessage.writeUTF16("");//密码
+    nmBaseMessage.writeString("html5_"+ IMEI);//IMEI
+    nmBaseMessage.writeString("");//昵称
+    nmBaseMessage.writeString("");//密码
 
     nmBaseMessage.writeInt(Common.getVersion());//AppVersionCode	Int	平台或者游戏版本号
 
-    nmBaseMessage.writeUTF16("ZhaJinHua");//平台版本
-    nmBaseMessage.writeUTF16("ChangeID");//注册渠道号
+    nmBaseMessage.writeString("ZhaJinHua");//平台版本
+    nmBaseMessage.writeString("ChangeID");//注册渠道号
     //RobotModel	Byte	机器人型号	0普通用户  1,2,3 机器人等级
     nmBaseMessage.writeByte(0);
     //mobile	Text	手机号码	自动获取的
-    nmBaseMessage.writeUTF16("");
+    nmBaseMessage.writeString("");
 
     //PlatformCode	byte	客户端类型
     //	public static final int OSID_ANDROID = 1;
@@ -76,19 +76,19 @@ function sendBASEID_LOGIN(nickName, password){
     nmBaseMessage.setMessageType(REQ + BASEID_LOGIN);
     nmBaseMessage.writeStart();//准备写消息
 
-    nmBaseMessage.writeUTF16("html5_"+ "357523056663693");//IMEI
-    nmBaseMessage.writeUTF16(nickName);//昵称
-    nmBaseMessage.writeUTF16(password);//密码
+    nmBaseMessage.writeString("html5_"+ "357523056663693");//IMEI
+    nmBaseMessage.writeString(nickName);//昵称
+    nmBaseMessage.writeString(password);//密码
 
     nmBaseMessage.writeInt(Common.getVersion());//版本号
 
-    nmBaseMessage.writeUTF16("ChangeID");//注册渠道号
+    nmBaseMessage.writeString("ChangeID");//注册渠道号
 
     nmBaseMessage.writeByte(2);//客户端类型
 
     nmBaseMessage.writeByte(GameConfig.GAME_ID);//发起注册的游戏ID
 
-    nmBaseMessage.writeUTF16("Sun");//手机型号
+    nmBaseMessage.writeString("Sun");//手机型号
 
     nmBaseMessage.writeInt(profile_user.getSelfUserID());//用户ID
 
@@ -108,7 +108,7 @@ function sendMANAGERID_USERLIST_FROM_IMIE(){
     nmBaseMessage.writeStart();//准备写消息
 
     //IMIE	text	IMIE号和MAC	以html5/android/ios +’_’开头IMIE_MAC
-    nmBaseMessage.writeUTF16("html5_"+ "357523056663693");//IMEI
+    nmBaseMessage.writeString("html5_"+ "357523056663693");//IMEI
 
     //VersionCode	Int	游戏版本号+渠道号
     nmBaseMessage.writeInt(Common.getVersion()+ Common.getChangeID());
@@ -132,11 +132,11 @@ function sendDBID_FIND_PASSWORD(dataTable){
     nmBaseMessage.writeStart();
 
     //NickName	Text	用户昵称
-    nmBaseMessage.writeUTF16(dataTable["NickName"]);
+    nmBaseMessage.writeString(dataTable["NickName"]);
     //Tel	text	手机
-    nmBaseMessage.writeUTF16(dataTable["Phone"]);
+    nmBaseMessage.writeString(dataTable["Phone"]);
     //IMEI	Text	imei
-    nmBaseMessage.writeUTF16(dataTable["IMEI"]);
+    nmBaseMessage.writeString(dataTable["IMEI"]);
 
     nmBaseMessage.writeOver();
 
@@ -153,11 +153,11 @@ function sendDBID_GET_SMS_NUMBER(dataTable){
     nmBaseMessage.writeStart();
 
     //NickName	Text	用户昵称
-    nmBaseMessage.writeUTF16(dataTable["NickName"]);
+    nmBaseMessage.writeString(dataTable["NickName"]);
     //Tel	text	手机
-    nmBaseMessage.writeUTF16(dataTable["Phone"]);
+    nmBaseMessage.writeString(dataTable["Phone"]);
     //IMEI	Text	imei
-    nmBaseMessage.writeUTF16(dataTable["IMEI"]);
+    nmBaseMessage.writeString(dataTable["IMEI"]);
 
     nmBaseMessage.writeOver();
 
@@ -179,7 +179,7 @@ function sendBASEID_EDIT_BASEINFO(dataTable){
 
     for(var i=0; i< editCnt;++i){
         nmBaseMessage.writeByte(dataTable["editContent"][i].attID);
-        nmBaseMessage.writeUTF16(dataTable["editContent"][i].attVal);
+        nmBaseMessage.writeString(dataTable["editContent"][i].attVal);
     }
 
     nmBaseMessage.writeOver();
@@ -245,7 +245,7 @@ function sendMAIL_SYSTEM_MESSGE_LIST(LastMessageId,Count){
     delete nmBaseMessage;
 }
 
-//请求站内信消息列表
+//阅读站内信消息
 function sendMAIL_SYSTEM_MESSAGE_READ(MessageId){
     var nmBaseMessage= new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + MAIL_SYSTEM_MESSAGE_READ);
@@ -256,6 +256,66 @@ function sendMAIL_SYSTEM_MESSAGE_READ(MessageId){
     nmBaseMessage.writeByte(GameConfig.GAME_ID);
     //上条消息id
     nmBaseMessage.writeInt(MessageId);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+
+//请求每日任务列表(COMMONS_DAILYTASK)
+function sendCOMMONS_DAILYTASK(){
+    var nmBaseMessage= new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + COMMONS_DAILYTASK);
+
+    nmBaseMessage.writeStart();
+
+    //GameID  游戏ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+    //版本
+    nmBaseMessage.writeInt(Common.getVersion());
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//请求成就任务列表(COMMONS_LIFETIME_TASKLIST)
+function sendCOMMONS_LIFETIME_TASKLIST(){
+    var nmBaseMessage= new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + COMMONS_LIFETIME_TASKLIST);
+
+    nmBaseMessage.writeStart();
+
+    //GameID  游戏ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+    //版本
+    nmBaseMessage.writeInt(Common.getVersion());
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//领取任务奖励
+function sendCOMMONS_GET_DAILYTASK_PRIZE(taskId){
+    var nmBaseMessage= new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + COMMONS_GET_DAILYTASK_PRIZE);
+
+    nmBaseMessage.writeStart();
+
+    //GameID  游戏ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+    //版本
+    nmBaseMessage.writeInt(Common.getVersion());
+    //任务ID
+    nmBaseMessage.writeInt(taskId);
 
     nmBaseMessage.writeOver();
 

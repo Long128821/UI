@@ -49,4 +49,10 @@ GUI_DAILYSALARY= "DailySalary";
 //二级邮箱
 GUI_MESSAGESERVER= "MessageServer";
 
+//任务
+GUI_RENWU = "RenWu";
+
+//好友列表
+GUI_FRIENDLIST= "FriendList";
+
 

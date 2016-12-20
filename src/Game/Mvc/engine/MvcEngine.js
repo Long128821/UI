@@ -179,8 +179,7 @@ var MvcEngine= {
     },
     //创建界面
     doCreateModule:function(isDelay){
-        ////console.log("doCreateModule");
-        ////console.log(this.needCreateModuleName);
+        //console.log("doCreateModule");
         if(!Common.judgeValueIsEffect(this.needCreateModuleName)){
             //唤醒最高级别界面
             this.doWakeModule();
@@ -194,7 +193,6 @@ var MvcEngine= {
 
             var self= this;
             //加载该页面中所使用的js文件
-            //Todo:返回controller
             Load.LoadResOfTable(self.needCreateModuleName, function(msg){
                 //字符串拼接层名(GUI_Config.js中的层名+ "Controller")
                 var className= self.needCreateModuleName+"Controller";
@@ -232,7 +230,7 @@ var MvcEngine= {
     //当前界面休眠/销毁结束以后调用(界面Controller发送信号)
     //如没有需要休眠/销毁的界面，则直接调用
     slot_Destroy_Sleep_Done:function(){
-        ////console.log("slot_Destroy_Sleep_Done");
+        //console.log("slot_Destroy_Sleep_Done");
         //虽然此方法在该类中定义，但是因为根据调用该方法的对象不同(采用的是拼接字符串回调的方法，所以该函数中的this对象不同)
         //因此，转而使用MvcEngine代替this
         MvcEngine.needHandleModuleCount--;
@@ -362,13 +360,19 @@ var MvcEngine= {
     },
     //要打开的界面
     createModule:function(moduleName){
-        ////console.log("createModule");
+        //console.log("createModule");
         Frameworks.releaseClick();//释放当前按钮
-        //添加信号， 监听该页面的销毁和休眠
-        Frameworks.addSlot2Signal(SignalCommon.Signal_SleepModule_Done, this.slot_Destroy_Sleep_Done);
-        Frameworks.addSlot2Signal(SignalCommon.Signal_DestroyModule_Done, this.slot_Destroy_Sleep_Done);
-        //创建该界面，对其他界面的影响(休眠、销毁)
-        this.sleepOrDestroyModules(moduleName);
+
+        var self= this;
+        //加载该页面中所使用的js文件
+        //Todo:返回controller
+        Load.LoadResOfTable(moduleName, function(msg){
+            //添加信号， 监听该页面的销毁和休眠
+            Frameworks.addSlot2Signal(SignalCommon.Signal_SleepModule_Done, self.slot_Destroy_Sleep_Done);
+            Frameworks.addSlot2Signal(SignalCommon.Signal_DestroyModule_Done, self.slot_Destroy_Sleep_Done);
+            //创建该界面，对其他界面的影响(休眠、销毁)
+            self.sleepOrDestroyModules(moduleName);
+        });
     },
     //获取当前界面是否显示
     logicModuleIsShow:function(moduleName){

@@ -70,7 +70,7 @@ var ProfileLogin= {
                 //记录登录账户的用户名和密码
                 profile_user.setSelfUserID("103488");
                 ProfileLogin.setLoginUserName("long8911");
-                ProfileLogin.setLoginPassword("891112");
+                ProfileLogin.setLoginPassword("128821");
             }
         }
     },
