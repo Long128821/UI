@@ -70,7 +70,9 @@ function NMBaseMessage(arraybuffer){
 
     //开始读取loop类型
     this.startReadLoop= function(){
-        console.log("Loop长度:"+ this.readShort());
+        //console.log("Loop长度:"+ this.readShort());
+        //读取Loop的长度
+        this.readShort();
         this.m_binaryStream.readPos-= 2;
     };
 
@@ -119,11 +121,11 @@ function NMBaseMessage(arraybuffer){
     };
 
     //UTF16类型
-    this.writeUTF16= function(value){
+    this.writeString= function(value){
         if(this.checkBinaryStream(g_DataType.UTF16, 0)){
             return 0;
         }
-        this.m_binaryStream.writeUTF16(value.toString());
+        this.m_binaryStream.writeString(value.toString());
     };
 
     //Int类型
@@ -159,20 +161,23 @@ function NMBaseMessage(arraybuffer){
         }
        return this.m_binaryStream.readLong();
     };
-
-    //UTF16类型
-    this.readUTF16= function(){
-        if(this.checkBinaryStream(g_DataType.UTF16, 1)){
-            return 0;
+    //读取字符串
+    this.readString= function(){
+        var len= this.m_binaryStream.readShort();
+        if(this.checkBinaryStream(g_DataType.UTF16, 1)||len== 0){
+            return "";
         }
-        return this.m_binaryStream.readUTF16();
-    };
+        //String 包括(Short类型的长度(2个字节， 因此+ 2))
+        //读取BOM(占用两个字节),判断是UTF16，还是Unicode
+        var arrayBuffer= this.m_binaryStream.arrayBuffer.slice(this.m_binaryStream.readPos, this.m_binaryStream.readPos+ 2);
+        var BOM= new Uint16Array(arrayBuffer);
 
-    //Unicode类型
-    this.readUnicode= function(){
-        if(this.checkBinaryStream(g_DataType.UTF16, 1)){
-            return 0;
+        if(BOM== 65279){//小端字节(String FE FF)
+            return this.m_binaryStream.readUTF16(len);
+        }else if(BOM== 65534){//大端字节(Unicode FF FE)
+            return this.m_binaryStream.readUnicode(len);
+        }else{
+            console.warn("BOM的格式不对！Bom= "+ new Uint8Array(arrayBuffer).join("-"));
         }
-        return this.m_binaryStream.readUnicode();
-    };
+    }
 } 
