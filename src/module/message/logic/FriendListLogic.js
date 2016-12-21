@@ -82,7 +82,7 @@ var FriendListLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            FriendListLogic.showShangxianView(true);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -101,27 +101,29 @@ var FriendListLogic= {
 
 		}
 	},
-
+    //我的好友
 	callback_Button_wodehaoyou:function(pSender, event){
 		if(event == ccui.Widget.TOUCH_BEGAN){
 			//按下
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            ProfileFriendList.m_curPageID= 0;
+            FriendListLogic.showPanel();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
 		}
 	},
-
+    //追踪列表
 	callback_Button_zhuizongliebiao:function(pSender, event){
 		if(event == ccui.Widget.TOUCH_BEGAN){
 			//按下
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            ProfileFriendList.m_curPageID= 1;
+            FriendListLogic.showPanel();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -134,7 +136,8 @@ var FriendListLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            ProfileFriendList.m_curPageID= 2;
+            FriendListLogic.showPanel();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -225,7 +228,7 @@ var FriendListLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            FriendListLogic.showShangxianView(false);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -244,12 +247,14 @@ var FriendListLogic= {
     	Frameworks.addSlot2Signal(JINHUA_MGR_FRIEND_LIST, ProfileFriendList.slot_JINHUA_MGR_FRIEND_LIST);//好友列表
     	Frameworks.addSlot2Signal(JINHUA_MGR_STRANGER_LIST, ProfileFriendList.slot_JINHUA_MGR_STRANGER_LIST);//陌生人列表
     	Frameworks.addSlot2Signal(JINHUA_MGR_TRACE_LIST, ProfileFriendList.slot_JINHUA_MGR_TRACE_LIST);//追踪列表
+    	Frameworks.addSlot2Signal(JINHUA_MGR_SIGN_FRIEND_REWARD, ProfileFriendList.slot_JINHUA_MGR_SIGN_FRIEND_REWARD);//领取金币
     },
     //移除信号
     removeSlot:function(){
     	Frameworks.removeSlotFromSignal(JINHUA_MGR_FRIEND_LIST, ProfileFriendList.slot_JINHUA_MGR_FRIEND_LIST);
     	Frameworks.removeSlotFromSignal(JINHUA_MGR_STRANGER_LIST, ProfileFriendList.slot_JINHUA_MGR_STRANGER_LIST);
     	Frameworks.removeSlotFromSignal(JINHUA_MGR_TRACE_LIST, ProfileFriendList.slot_JINHUA_MGR_TRACE_LIST);
+    	Frameworks.removeSlotFromSignal(JINHUA_MGR_SIGN_FRIEND_REWARD, ProfileFriendList.slot_JINHUA_MGR_SIGN_FRIEND_REWARD);
     },
     
     //释放界面的私有数据
@@ -292,6 +297,26 @@ var FriendListLogic= {
             Common.getResourcePath("ui_xinxiaoxidi.png"),
             Common.getResourcePath("ui_yiduxiaoxidi.png"),
             Common.getResourcePath("btn_weixuanzhong_r.png"),
+            Common.getResourcePath("ui_vip_lvshuzi_gaoji.png"),
+            Common.getResourcePath("ui_vip_jiaobiaoshuzi.png"),
+            Common.getResourcePath("ic_vip_0.png"),
+            Common.getResourcePath("ic_vip_biaoqian_lv01.png"),
+            Common.getResourcePath("ic_vip_biaoqian_lv02.png"),
+            Common.getResourcePath("ic_vip_biaoqian_lv03.png"),
+            Common.getResourcePath("ic_vip_biaoqian_lv04.png"),
+            Common.getResourcePath("ic_vip_biaoqian_lv05.png"),
+            Common.getResourcePath("ic_vip_biaoqian_lv06.png"),
+            Common.getResourcePath("ic_vip_biaoqian_lv07.png"),
+            Common.getResourcePath("ic_vip_biaoqian_lv08.png"),
+            Common.getResourcePath("ic_vip_biaoqian_lv09.png"),
+            Common.getResourcePath("ic_vip_biaoqian_lv10.png"),
+            Common.getResourcePath("ui_haoyouzengsongjiajinbi.png"),
+            Common.getResourcePath("ic_tongqian.png"),
+            Common.getResourcePath("read.png"),
+            Common.getResourcePath("btn_lingqu_1.png"),
+            Common.getResourcePath("ui_lingqujinbi.png"),
+            Common.getResourcePath("btn_lingqu_1.png"),
+            Common.getResourcePath("ui_xinyoujiantubiao.png")
         ];
 
         //代码先执行，但是精灵尺寸为空,不能正确显示
@@ -308,9 +333,9 @@ var FriendListLogic= {
         });
 
     },
+    //显示不同界面
     showPanel:function(){
         var pageID= ProfileFriendList.m_curPageID;
-
         if(pageID== 0){//好友列表
             this.Button_wodehaoyou.loadTextures(Common.getResourcePath("btn_xuanzhong_l.png"),Common.getResourcePath("btn_xuanzhong_l.png"),"");
             this.Button_zhuizongliebiao.loadTextures(Common.getResourcePath("btn_zhuizongliebiao_mweixuanzhong.png"),Common.getResourcePath("btn_zhuizongliebiao_mweixuanzhong.png"),"");
@@ -340,6 +365,7 @@ var FriendListLogic= {
         var tableSize= this.Panel_TableView.getContentSize();
         var ListTable= ProfileFriendList.m_friendListTable;
         var TaskListLoop= ListTable["FriendList"];
+
         //未读的消息数量
         var unreadCnt = TaskListLoop[idx].unreadCnt;
 
@@ -356,7 +382,7 @@ var FriendListLogic= {
 
         var button= cc.MenuItemSprite.create(
             sprite,
-            null, this.onClick, this);
+            null, this.onShow, this);
         button.setAnchorPoint(0,0);
         button.setTag(idx);
         menu.addChild(button);
@@ -365,61 +391,142 @@ var FriendListLogic= {
         var spriteSize= sprite.getContentSize();
         //等级
         var labelVip = cc.LabelTTF.create("Lv."+ TaskListLoop[idx]["level"], "Arial", 20);
-        labelVip.setAnchorPoint(0.5, 0.5);
-        labelVip.setPosition(cc.p(spriteSize.width* 0.18, spriteSize.height* 0.75));
+        labelVip.setAnchorPoint(0, 0.5);
+        labelVip.setPosition(cc.p(spriteSize.width* 0.15, spriteSize.height* 0.75));
         itemParentNode.addChild(labelVip);
 
         //玩家名
-        var labelTitle = cc.LabelTTF.create(TaskListLoop[idx]["name"], "Arial", 18);
-        labelTitle.setAnchorPoint(0.5, 0.5);
-        labelTitle.setPosition(cc.p(spriteSize.width* 0.28, spriteSize.height* 0.75));
-        itemParentNode.addChild(labelTitle);
+        var labelName = cc.LabelTTF.create(TaskListLoop[idx]["name"], "Arial", 18);
+        labelName.setAnchorPoint(0, 0.5);
+        labelName.setPosition(cc.p(spriteSize.width* 0.24, spriteSize.height* 0.75));
+        itemParentNode.addChild(labelName);
 
+        //玩家财富
+        var labelMoney = cc.LabelTTF.create("财富:      "+TaskListLoop[idx]["coin"], "Arial", 18);
+        labelMoney.setAnchorPoint(0, 0.5);
+        labelMoney.setPosition(cc.p(spriteSize.width* 0.15, spriteSize.height* 0.25));
+        itemParentNode.addChild(labelMoney);
+        //图标
+        var moneySp= cc.Sprite.create(Common.getResourcePath("ic_tongqian.png"));
+        moneySp.setPosition(spriteSize.width* 0.21, spriteSize.height* 0.22);
+        itemParentNode.addChild(moneySp, 1);
+        //描述背景
+        var signAwardLabBg = cc.Sprite.create(Common.getResourcePath("ui_haoyouzengsongjiajinbi.png"));
+        signAwardLabBg.setPosition(spriteSize.width* 0.675, spriteSize.height* 0.5);
+        itemParentNode.addChild(signAwardLabBg, 1);
+        //描述文案
+        var signAwardLab= cc.LabelTTF.create("好友赠送+"+ TaskListLoop[idx]["signAward"], "Arial", 24);
+        signAwardLab.setAnchorPoint(cc.p(0.5,0.5));
+        signAwardLab.setPosition(spriteSize.width* 0.675, spriteSize.height* 0.5);
+        itemParentNode.addChild(signAwardLab, 1);
+        var messagePath;
+        //是否还有消息未读
+        if(TaskListLoop[idx]["unreadCnt"]> 0){
+            messagePath= "ui_xinyoujiantubiao.png";
+            labelVip.setColor(cc.color(255, 255, 255));
+            labelName.setColor(cc.color(0xf0, 0xd8, 0xff));
+            labelMoney.setColor(cc.color(0xf0, 0xd8, 0xff));
+            signAwardLab.setColor(cc.color(255, 255, 255));
+        }else{
+            messagePath= "read.png";
+            labelVip.setColor(cc.color(0x8f,0x69,0x97));
+            labelName.setColor(cc.color(0x8f,0x69,0x97));
+            labelMoney.setColor(cc.color(0x8f,0x69,0x97));
+            signAwardLab.setColor(cc.color(0x8f,0x69,0x97));
+        }
+
+        //消息图标
+        var messageIcon = cc.Sprite.create(Common.getResourcePath(messagePath));
+        messageIcon.setPosition(spriteSize.width* 0.5, spriteSize.height* 0.5);
+        itemParentNode.addChild(messageIcon, 1);
+
+        //玩家头像
         Common.addSpriteByNet(TaskListLoop[idx]["photoUrl"], function(sprite){
             sprite.setPosition(spriteSize.width* 0.08, spriteSize.height* 0.5);
             sprite.setScale(0.85);
             itemParentNode.addChild(sprite);
         });
-//
-//        var strContent= TaskListLoop[idx]["Desc"];
-//        if(strContent.length> 20){
-//            strContent= strContent.substring(0, 20)+"......";
-//        }
-//
-//        //内容
-//        var LabelContent = cc.LabelTTF.create("("+ strContent+")", "Arial", 20);
-//        LabelContent.setPosition(cc.p(spriteSize.width* 0.12, spriteSize.height* 0.25));
-//        LabelContent.setColor(cc.color(0x6f,0x5e,0x6c));
-//        sprite.addChild(LabelContent);
-//
-//        //任务进度
-//        var DB_progress = cc.Sprite.create(Common.getResourcePath("ui_renwujinduheidi.png"));
-//        DB_progress.setPosition(spriteSize.width* 0.375, spriteSize.height* 0.5);
-//        sprite.addChild(DB_progress);
-//
-//        var progress = cc.ProgressTimer.create(cc.Sprite.create(Common.getResourcePath("ui_renwujindutiao.png")));
-//        progress.setBarChangeRate(cc.p(1,0));//设置进度条的长度和高度开始变化的大小
-//        progress.setType(cc.ProgressTimer.TYPE_BAR);
-//        progress.setMidpoint(cc.p(0,0));//设置中心点
-//        progress.setPosition(cc.p(DB_progress.getContentSize().width* 0.5, DB_progress.getContentSize().height* 0.5));
-//        progress.setPercentage(TaskListLoop[idx]["Progress"]);
-//        DB_progress.addChild(progress);
-//
-//        //文本-任务进度
-//        var labelProgress = cc.LabelTTF.create(TaskListLoop[idx]["Process"], "Arial", 16);
-//        labelProgress.setPosition(cc.p(DB_progress.getContentSize().width* 0.5, DB_progress.getContentSize().height* 0.5));
-//        progress.addChild(labelProgress);
-//
-//        //奖励
-//        var PrizeName = cc.LabelTTF.create(TaskListLoop[idx]["PrizeName"], "Arial", 20);
-//        PrizeName.setPosition(cc.p(spriteSize.width* 0.625, spriteSize.height* 0.5));
-//        sprite.addChild(PrizeName);
-//
+        //头像框
+        var avatarSp= cc.Sprite.create(Common.getResourcePath("ui_touxiangkuang.png"));
+        avatarSp.setPosition(spriteSize.width* 0.08, spriteSize.height* 0.5);
+        avatarSp.setScale(0.85);
+        itemParentNode.addChild(avatarSp, 1);
 
+        //[称谓-等级]
+        var chengweiSp= cc.Sprite.create(Common.getUserChengWeiPath(TaskListLoop[idx]["coin"]));
+        chengweiSp.setPosition(spriteSize.width* 0.08, spriteSize.height* 0.15);
+        itemParentNode.addChild(chengweiSp, 1);
+        chengweiSp.setScale(0.85);
 
-//        var wordSprite= cc.Sprite.create(Common.getResourcePath(buttonWord));
-//        wordSprite.setPosition(bgSprite.getContentSize().width* 0.5, bgSprite.getContentSize().height* 0.6);
-//        button.addChild(wordSprite);
+        //Vip等级
+        var userVipLevel = TaskListLoop[idx]["vipLevel"];
+
+        var path = VipElementsUtils.getVipBgFromVipLevel(userVipLevel);
+        var vipBgSprite;
+        //Todo:资源重复，该部分资源在Plist中也存在
+        if(path!= null){
+            vipBgSprite= cc.Sprite.create(Common.getResourcePath(path));
+        }else{
+            vipBgSprite= cc.Sprite.create(Common.getResourcePath("ic_vip_0.png"));
+        }
+        itemParentNode.addChild(vipBgSprite, 1);
+        var vipBgSize= vipBgSprite.getContentSize();
+
+        var AtlasLabel_vip_level= cc.LabelAtlas.create("", Common.getResourcePath("ui_vip_lvshuzi_gaoji.png"), 14, 20, "0");
+        AtlasLabel_vip_level.setString(":"+userVipLevel);
+        AtlasLabel_vip_level.setAnchorPoint(cc.p(0.5, 0.5));
+        AtlasLabel_vip_level.setPosition(vipBgSize.width* 0.5, vipBgSize.height* 0.5);
+        vipBgSprite.addChild(AtlasLabel_vip_level);
+
+        if(userVipLevel> 0 &&userVipLevel< 10){
+            var AtlasLabel_lowsign= cc.LabelAtlas.create("", Common.getResourcePath("ui_vip_jiaobiaoshuzi.png"), 12, 14, "0");
+            AtlasLabel_lowsign.setString(userVipLevel);
+            AtlasLabel_lowsign.setAnchorPoint(cc.p(0.5, 0.5));
+            AtlasLabel_lowsign.setPosition(vipBgSize.width, vipBgSprite.height);
+            vipBgSprite.addChild(AtlasLabel_lowsign);
+
+            var Image_vip_lowsignbg = cc.Sprite.create(Common.getResourcePath("ic_vip_jiaobiao_shuzichendi.png"));
+            Image_vip_lowsignbg.setAnchorPoint(cc.p(0.5, 0.5));
+            Image_vip_lowsignbg.setPosition(vipBgSize.width,vipBgSize.height);
+            vipBgSprite.addChild(Image_vip_lowsignbg);
+        }else if(userVipLevel>= 10){
+            var highSignTexture = VipElementsUtils.getVipHighSignFromVipLevel(userVipLevel);
+            var Image_vip_highsign = null;
+            if(highSignTexture != null){
+                Image_vip_highsign = cc.Sprite.create(Common.getResourcePath(highSignTexture));
+                Image_vip_highsign.setAnchorPoint(cc.p(0.5, 0.5));
+                Image_vip_highsign.setPosition(vipBgSize.width,vipBgSize.height);
+                vipBgSprite.addChild(Image_vip_highsign);
+            }
+        }
+
+        vipBgSprite.setScale(0.85);
+        vipBgSprite.setAnchorPoint(cc.p(0, 0.5));
+        vipBgSprite.setPosition(cc.p(spriteSize.width* 0.01, spriteSize.height* 0.85));
+
+        var buttonName = "btn_lingqu_1.png";
+        var buttonWord = "ui_lingqujinbi.png";
+
+        if(TaskListLoop[idx]["visibility"]== 0){//按钮状态
+            buttonWord = "ui_yilingqu.png";
+        }
+        var bgSprite= cc.Sprite.create(Common.getResourcePath(buttonName));
+        var button1= cc.MenuItemSprite.create(
+            bgSprite,
+            null, this.onClick, this);
+        button1.setPosition(spriteSize.width* 0.9, spriteSize.height* 0.5);
+        button1.setTag(idx);
+        menu.addChild(button1);
+
+        var wordSprite= cc.Sprite.create(Common.getResourcePath(buttonWord));
+        wordSprite.setPosition(bgSprite.getContentSize().width* 0.5, bgSprite.getContentSize().height* 0.6);
+        button1.addChild(wordSprite);
+
+        if(TaskListLoop[idx]["visibility"]== 0){//按钮状态
+            button1.setOpacity(120);
+        }
+
+        ProfileFriendList.m_arrFriendButton[idx]= button1;
 
         return cell;
     },
@@ -427,11 +534,45 @@ var FriendListLogic= {
     numberOfCellsInTableView:function (table){
         return ProfileFriendList.m_friendListTable["FriendListCnt"];
     },
-    //按钮的回调哈数，利用Tag来区分是列表中的第几个
+    //按钮的回调函数,利用Tag来区分是列表中的第几个
     onClick:function(pSender){
-        console.log("Test");
-//        var taskListTable= ProfileFriendList.m_friendListTable["TaskListLoop"];
-//        var taskID= taskListTable[pSender.getTag()]["ID"];
-//        sendCOMMONS_GET_DAILYTASK_PRIZE(taskID);
+        var id= pSender.getTag();
+        var userID= ProfileFriendList.m_friendListTable["FriendList"][id]["userID"];
+        sendJINHUA_MGR_SIGN_FRIEND_REWARD(userID,id+ 1)
+    },
+    //显示头像
+    onShow:function(pSender){
+        //显示头像
+        var id= pSender.getTag();
+        var userID= ProfileFriendList.m_friendListTable["FriendList"][id]["userID"];
+        if(userID== 1001){//同趣小妹
+            //隐藏列表
+
+            MvcEngine.createModule(GUI_XIAOMEIINFO);
+        }else{
+            //其他玩家列表
+            sendJINHUA_MGR_USER_INFO(userID);
+        }
+    },
+    //切换按钮状态
+    changeBtnState:function(index){
+        var button= ProfileFriendList.m_arrFriendButton[index];
+        button.setOpacity(120);
+        button.setTexture(Common.getResourcePath("ui_yilingqu.png"));
+    },
+    //添加上限
+    onLimit:function(flag){
+        if(ProfileFriendList.m_curPageID!= 1) {
+            this.showShangxianView(flag);
+        }
+    },
+    //显示上限
+    showShangxianView:function(flag){
+        if(flag!= undefined){
+            this.Panel_haoyoushangxian.setVisible(flag);
+            this.m_tableView.setVisible(!flag);
+        }else{
+            this.Panel_haoyoushangxian.setVisible(false);
+        }
     }
 };

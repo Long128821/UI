@@ -91,6 +91,10 @@ var Common= {
     },
     //设置称谓
     setUserChengWei:function(coin, target){
+        var url= this.getUserChengWeiPath(coin);
+        target.loadTexture(url);
+    },
+    getUserChengWeiPath:function(coin){
         var arr= Profile_JinHuaSetting.getUserTitle(coin);
         var tipLevel = arr[1];
         var url = null;
@@ -113,7 +117,7 @@ var Common= {
         }else if( tipLevel == 9 ){
             url = "ui_guominlaogong_1.png";
         }
-        target.loadTexture(this.getResourcePath(url));
+        return this.getResourcePath(url);
     }
 };
 

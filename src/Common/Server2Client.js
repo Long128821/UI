@@ -1,5 +1,5 @@
 /**
- * Func:服务器-->客户端的消息
+ * Func:服务器//>客户端的消息
  */
 //获取用户列表(JINHUA_MGR_USER_INFO)
 function read8268000a(nmBaseMessage){
@@ -453,5 +453,18 @@ function read82680020(nmBaseMessage){
     }
     //TraceMax	Int	追踪列表上限
     dataTable["TraceMax"] = nmBaseMessage.readInt();
+    return dataTable;
+}
+
+//3.46金花领取好友签到奖励 (JINHUA_MGR_SIGN_FRIEND_REWARD
+function read80680013(nmBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JINHUA_MGR_SIGN_FRIEND_REWARD;
+    dataTable["messageName"] = "JINHUA_MGR_SIGN_FRIEND_REWARD";
+    //Result	Byte	结果	1成功2不成功
+    dataTable["Result"] = nmBaseMessage.readByte();
+    //Flag 好友列表中的ID
+    dataTable["Flag"] = nmBaseMessage.readInt();
+    
     return dataTable;
 }

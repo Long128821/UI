@@ -40,19 +40,20 @@ GUI_DOUBLEBUTTONCONFIRM= "DoubleButtonConfirm";
 //游戏帮助
 GUI_GAMEHELP= "GameHelp";
 
-//邮件
+//大厅-邮件
 GUI_MESSAGELIST= "MessageList";
 
 //签到奖励
 GUI_DAILYSALARY= "DailySalary";
 
-//二级邮箱
+//大厅-邮件-二级邮箱
 GUI_MESSAGESERVER= "MessageServer";
 
-//任务
+//大厅-任务
 GUI_RENWU = "RenWu";
 
-//好友列表
+//大厅-好友
 GUI_FRIENDLIST= "FriendList";
 
-
+//大厅-好友-同趣小妹
+GUI_XIAOMEIINFO= "XiaoMeiInfo";

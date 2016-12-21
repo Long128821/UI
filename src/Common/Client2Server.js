@@ -195,3 +195,22 @@ function sendJINHUA_MGR_STRANGER_LIST(){
 
     delete nmBaseMessage;
 }
+
+//金花
+function sendJINHUA_MGR_SIGN_FRIEND_REWARD(userID, index){
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JINHUA_MGR_SIGN_FRIEND_REWARD);
+    nmBaseMessage.writeStart();
+
+    nmBaseMessage.writeStart();
+    //userId	好友id
+    nmBaseMessage.writeInt(userID);
+    //index		好友在列表中的位置
+    nmBaseMessage.writeInt(index);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}

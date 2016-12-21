@@ -9,6 +9,7 @@ var FriendListController = BaseController.extend({
     },
 
     createView:function(){
+        ProfileFriendList.clearData();
         FriendListLogic.createView();
         //Frameworks.setOnKeypadEventListener(FriendListLogic.view, FriendListLogic.onKeypad);
     },
@@ -79,6 +80,7 @@ var FriendListController = BaseController.extend({
     destroyModule:function(destroyType){
         //Frameworks.releaseOnKeypadEventListener(FriendListLogic.view);
 		this.destroy();
+        ProfileFriendList.clearData();
 
 		if(destroyType == DESTROY_TYPE_EFFECT){
 			//不销毁数据

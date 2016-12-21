@@ -42,7 +42,7 @@ var OtherUserInfoController = BaseController.extend({
 		Frameworks.bindEventCallback(CocoStudio.getComponent(OtherUserInfoLogic.view,"Button_add1000w"), OtherUserInfoLogic.callback_Button_add1000w, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.bindEventCallback(CocoStudio.getComponent(OtherUserInfoLogic.view,"Button_addMax"), OtherUserInfoLogic.callback_Button_addMax, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.bindEventCallback(CocoStudio.getComponent(OtherUserInfoLogic.view,"Button_add5000w"), OtherUserInfoLogic.callback_Button_add5000w, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(OtherUserInfoLogic.view,"Button_close"), OtherUserInfoLogic.callback_Button_close, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+		Frameworks.bindEventCallback(CocoStudio.getComponent(OtherUserInfoLogic.view,"Button_close"), OtherUserInfoLogic.callback_Button_close_1, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.bindEventCallback(CocoStudio.getComponent(OtherUserInfoLogic.view,"Button_closeweb"), OtherUserInfoLogic.callback_Button_closeweb, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
     },
     //移除监听
@@ -63,7 +63,7 @@ var OtherUserInfoController = BaseController.extend({
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(OtherUserInfoLogic.view,"Button_add1000w"), OtherUserInfoLogic.callback_Button_add1000w, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(OtherUserInfoLogic.view,"Button_addMax"), OtherUserInfoLogic.callback_Button_addMax, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(OtherUserInfoLogic.view,"Button_add5000w"), OtherUserInfoLogic.callback_Button_add5000w, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(OtherUserInfoLogic.view,"Button_close"), OtherUserInfoLogic.callback_Button_close, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+		Frameworks.unbindEventCallback(CocoStudio.getComponent(OtherUserInfoLogic.view,"Button_close"), OtherUserInfoLogic.callback_Button_close_1, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(OtherUserInfoLogic.view,"Button_closeweb"), OtherUserInfoLogic.callback_Button_closeweb, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
     },
     

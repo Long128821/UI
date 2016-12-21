@@ -28,14 +28,14 @@ var VipInfoController = BaseController.extend({
     addCallback:function(){
 		Frameworks.bindEventCallback(CocoStudio.getComponent(VipInfoLogic.view,"Button_left"), VipInfoLogic.callback_Button_left, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.bindEventCallback(CocoStudio.getComponent(VipInfoLogic.view,"Button_right"), VipInfoLogic.callback_Button_right, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(VipInfoLogic.view,"Button_close"), VipInfoLogic.callback_Button_close, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+		Frameworks.bindEventCallback(CocoStudio.getComponent(VipInfoLogic.view,"Button_close"), VipInfoLogic.callback_Button_close_1, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.bindEventCallback(CocoStudio.getComponent(VipInfoLogic.view,"Button_recharge"), VipInfoLogic.callback_Button_recharge, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
     },
     //移除监听
     removeCallback:function(){
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(VipInfoLogic.view,"Button_left"), VipInfoLogic.callback_Button_left, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(VipInfoLogic.view,"Button_right"), VipInfoLogic.callback_Button_right, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(VipInfoLogic.view,"Button_close"), VipInfoLogic.callback_Button_close, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+		Frameworks.unbindEventCallback(CocoStudio.getComponent(VipInfoLogic.view,"Button_close"), VipInfoLogic.callback_Button_close_1, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(VipInfoLogic.view,"Button_recharge"), VipInfoLogic.callback_Button_recharge, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
     },
     

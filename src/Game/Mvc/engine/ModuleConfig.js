@@ -368,3 +368,22 @@ ModuleTable["FriendList"]["resLists"] = [
     "res/btn_vipshuoming_zuoyoujiantou.png",
     "res/btn_zengsongliwu1.png",
     "res/FriendList.json"];
+
+ModuleTable["XiaoMeiInfo"] = {};
+ModuleTable["XiaoMeiInfo"]["jsLists"] = [
+    "src/module/userinfo/profile/ProfileXiaoMeiInfo.js",
+    "src/module/userinfo/logic/XiaoMeiInfoLogic.js",
+    "src/module/userinfo/controller/XiaoMeiInfoController.js"];
+ModuleTable["XiaoMeiInfo"]["Layer"] = Layer.Second_Layer;
+ModuleTable["XiaoMeiInfo"]["resLists"] = [
+    "res/bg_tongyongdi.png",
+    "res/toumap.png",
+    "res/ui_touxiangkuang.png",
+    "res/ui_haoyouxitong_dengjiditu.png",
+    "res/btn_gerenziliao55.png",
+    "res/ui_haoyouxitong_faxiaoxi.png",
+    "res/ui_lv.png",
+    "res/ui_tongquxiamei.png",
+    "res/ui_lianxi.png",
+    "res/btn_item_close.png",
+    "res/XiaoMeiInfo.json"];
