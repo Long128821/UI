@@ -26,13 +26,11 @@ var XiaoMeiInfoController = BaseController.extend({
 	},
     //添加监听
     addCallback:function(){
-		Frameworks.bindEventCallback(CocoStudio.getComponent(XiaoMeiInfoLogic.view,"Button_xiaoxi"), XiaoMeiInfoLogic.callback_Button_xiaoxi, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(XiaoMeiInfoLogic.view,"Button_close_1"), XiaoMeiInfoLogic.callback_Button_close_1, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("XiaoMeiInfoLogic#", CocoStudio.getComponent(XiaoMeiInfoLogic.view,"Button_xiaoxi"), XiaoMeiInfoLogic.callback_Button_xiaoxi, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
     },
     //移除监听
     removeCallback:function(){
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(XiaoMeiInfoLogic.view,"Button_xiaoxi"), XiaoMeiInfoLogic.callback_Button_xiaoxi, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(XiaoMeiInfoLogic.view,"Button_close_1"), XiaoMeiInfoLogic.callback_Button_close_1, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(XiaoMeiInfoLogic.view,"XiaoMeiInfoLogic#Button_xiaoxi"), XiaoMeiInfoLogic.callback_Button_xiaoxi, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
     },
     
     setModuleLayer:function(moduleLayer){

@@ -24,17 +24,18 @@ var ResetPasswordController = BaseController.extend({
 	removeSlot:function(){
 		ResetPasswordLogic.removeSlot();
 	},
-    
+
+    //添加监听
     addCallback:function(){
-		Frameworks.bindEventCallback(CocoStudio.getComponent(ResetPasswordLogic.view,"btn_cancel"), ResetPasswordLogic.callback_btn_cancel, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(ResetPasswordLogic.view,"btn_commit"), ResetPasswordLogic.callback_btn_commit, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(ResetPasswordLogic.view,"btn_more"), ResetPasswordLogic.callback_btn_more, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.bindEventCallback("ResetPasswordLogic#", CocoStudio.getComponent(ResetPasswordLogic.view,"btn_more"), ResetPasswordLogic.callback_btn_more, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("ResetPasswordLogic#", CocoStudio.getComponent(ResetPasswordLogic.view,"btn_commit"), ResetPasswordLogic.callback_btn_commit, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("ResetPasswordLogic#", CocoStudio.getComponent(ResetPasswordLogic.view,"btn_cancel"), ResetPasswordLogic.callback_btn_cancel, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
     },
-    
+    //移除监听
     removeCallback:function(){
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(ResetPasswordLogic.view,"btn_cancel"), ResetPasswordLogic.callback_btn_cancel, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(ResetPasswordLogic.view,"btn_commit"), ResetPasswordLogic.callback_btn_commit, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(ResetPasswordLogic.view,"btn_more"), ResetPasswordLogic.callback_btn_more, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(ResetPasswordLogic.view,"ResetPasswordLogic#btn_more"), ResetPasswordLogic.callback_btn_more, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(ResetPasswordLogic.view,"ResetPasswordLogic#btn_commit"), ResetPasswordLogic.callback_btn_commit, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(ResetPasswordLogic.view,"ResetPasswordLogic#btn_cancel"), ResetPasswordLogic.callback_btn_cancel, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
     },
     
     setModuleLayer:function(moduleLayer){

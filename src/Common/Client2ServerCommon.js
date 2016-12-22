@@ -4,6 +4,8 @@
 
 //心跳消息
 function sendIdleMsg(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
     var nmBaseMessage= new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ);//消息ID
     nmBaseMessage.setMsgVer(0);//设置消息版本
@@ -20,6 +22,8 @@ function sendIdleMsg(){
 //一键注册
 //Todo:拿不到的数据有:IMEI 手机号  推荐人的ID 手机型号 是否为模拟器
 function sendBASEID_RESGISTER(IMEI){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
     var nmBaseMessage= new NMBaseMessage();
     //现在仅仅只是测试，不需要设置消息ID
     nmBaseMessage.setMessageType(REQ + BASEID_REGISTER);
@@ -71,6 +75,8 @@ function sendBASEID_RESGISTER(IMEI){
 //@callback 登陆成功之后的回调函数
 //Todo:拿不到的数据有  IMEI 手机型号
 function sendBASEID_LOGIN(nickName, password){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
     var nmBaseMessage= new NMBaseMessage();
     //现在仅仅只是测试，不需要设置消息ID
     nmBaseMessage.setMessageType(REQ + BASEID_LOGIN);
@@ -100,8 +106,10 @@ function sendBASEID_LOGIN(nickName, password){
     //清空数据
     delete nmBaseMessage;
 }
-
+//获取当前设备绑定的用户信息
 function sendMANAGERID_USERLIST_FROM_IMIE(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
     var nmBaseMessage= new NMBaseMessage();
     //现在仅仅只是测试，不需要设置消息ID
     nmBaseMessage.setMessageType(REQ + MANAGERID_USERLIST_FROM_IMIE);
@@ -126,6 +134,8 @@ function sendMANAGERID_USERLIST_FROM_IMIE(){
 
 //重置密码
 function sendDBID_FIND_PASSWORD(dataTable){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
     var nmBaseMessage= new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ+ DBID_FIND_PASSWORD);
 
@@ -147,6 +157,8 @@ function sendDBID_FIND_PASSWORD(dataTable){
 
 //得到短信通道号码
 function sendDBID_GET_SMS_NUMBER(dataTable){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
     var nmBaseMessage= new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + DBID_GET_SMS_NUMBER);
 
@@ -168,6 +180,8 @@ function sendDBID_GET_SMS_NUMBER(dataTable){
 
 //请求修改基本信息
 function sendBASEID_EDIT_BASEINFO(dataTable){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
     var nmBaseMessage= new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + BASEID_EDIT_BASEINFO);
 
@@ -191,6 +205,8 @@ function sendBASEID_EDIT_BASEINFO(dataTable){
 
 //获取基本信息BASEID_GET_BASEINFO
 function sendBASEID_GET_BASEINFO(userID){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
     var nmBaseMessage= new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + BASEID_GET_BASEINFO);
 
@@ -204,8 +220,10 @@ function sendBASEID_GET_BASEINFO(userID){
 
     delete nmBaseMessage;
 }
-
+//用户可购买礼包列表(精简)
 function sendGIFTBAGID_GIFTBAG_LIST_SIMPLE(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
     var nmBaseMessage= new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + GIFTBAGID_GIFTBAG_LIST_SIMPLE);
     nmBaseMessage.setMsgVer(1);//消息版本号
@@ -225,6 +243,8 @@ function sendGIFTBAGID_GIFTBAG_LIST_SIMPLE(){
 }
 //请求站内信消息列表
 function sendMAIL_SYSTEM_MESSGE_LIST(LastMessageId,Count){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
     var nmBaseMessage= new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + MAIL_SYSTEM_MESSGE_LIST);
     nmBaseMessage.setMsgVer(1);//消息版本号
@@ -247,6 +267,8 @@ function sendMAIL_SYSTEM_MESSGE_LIST(LastMessageId,Count){
 
 //阅读站内信消息
 function sendMAIL_SYSTEM_MESSAGE_READ(MessageId){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
     var nmBaseMessage= new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + MAIL_SYSTEM_MESSAGE_READ);
 
@@ -267,6 +289,8 @@ function sendMAIL_SYSTEM_MESSAGE_READ(MessageId){
 
 //请求每日任务列表(COMMONS_DAILYTASK)
 function sendCOMMONS_DAILYTASK(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
     var nmBaseMessage= new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + COMMONS_DAILYTASK);
 
@@ -286,6 +310,8 @@ function sendCOMMONS_DAILYTASK(){
 
 //请求成就任务列表(COMMONS_LIFETIME_TASKLIST)
 function sendCOMMONS_LIFETIME_TASKLIST(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
     var nmBaseMessage= new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + COMMONS_LIFETIME_TASKLIST);
 
@@ -305,6 +331,8 @@ function sendCOMMONS_LIFETIME_TASKLIST(){
 
 //领取任务奖励
 function sendCOMMONS_GET_DAILYTASK_PRIZE(taskId){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
     var nmBaseMessage= new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + COMMONS_GET_DAILYTASK_PRIZE);
 
@@ -322,4 +350,132 @@ function sendCOMMONS_GET_DAILYTASK_PRIZE(taskId){
     Network.getInstance().sendMessage(nmBaseMessage);
 
     delete nmBaseMessage;
+}
+
+//请求获取用户充值信息
+function sendGIFTBAGID_USER_ENCHARGE_INFO(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage= new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + GIFTBAGID_USER_ENCHARGE_INFO);
+
+    nmBaseMessage.writeStart();
+
+    //GameID  游戏ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//请求用户礼包状态
+function sendGIFTBAGID_GET_GIFTBAG_MSG(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage= new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + GIFTBAGID_GET_GIFTBAG_MSG);
+
+    nmBaseMessage.writeStart();
+
+    //GameID  游戏ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//请求服务器时间同步
+function sendBASEID_TIMESTAMP_SYNC(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage= new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + BASEID_TIMESTAMP_SYNC);
+
+    nmBaseMessage.writeStart();
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//取自己或他人的详细信息
+function sendDBID_USER_INFO(userid){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage= new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + DBID_USER_INFO);
+    nmBaseMessage.setMsgVer(1);//消息版本号
+
+    nmBaseMessage.writeStart();
+
+    //UserID
+    nmBaseMessage.writeInt(userid);
+    //GameID byte  游戏ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//获取小游戏推广(MANAGERID_GET_MINIGAME_PROMOTION)
+function sendMANAGERID_GET_MINIGAME_PROMOTION(userid){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage= new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + MANAGERID_GET_MINIGAME_PROMOTION);
+    nmBaseMessage.setMsgVer(1);//消息版本号
+
+    nmBaseMessage.writeStart();
+    //GameID byte  游戏ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+    //GameVersionCode  int 游戏版本号
+    nmBaseMessage.writeInt(Common.getVersion() + Common.getChangeID());
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//请求进入聊天室
+function sendIMID_ENTER_CHAT_ROOM(dataTable){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nMBaseMessage= new NMBaseMessage();
+    nMBaseMessage.setMessageType(REQ + IMID_ENTER_CHAT_ROOM);
+
+    nMBaseMessage.writeStart();
+
+    //ChatRoomID  聊天室ID（目前填写游戏ID即可）
+	nMBaseMessage.writeInt(GameConfig.GAME_ID);
+    //NickName  昵称
+    nMBaseMessage.writeString(dataTable["NickName"]);
+    //IsFirstEnter  是否第一次进入
+    nMBaseMessage.writeByte(dataTable["IsFirstEnter"]);
+    //ChatRoomName  聊天室标识（与ChatRoomID共同做Key）
+	nMBaseMessage.writeString(dataTable["ChatRoomName"]);
+
+    nMBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nMBaseMessage);
+
+    delete nMBaseMessage;
 }

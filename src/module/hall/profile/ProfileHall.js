@@ -1,10 +1,11 @@
 //数据图标集
 var ProfileHall= {
-    //大厅初始化-获取玩家数据
-    slot_BASEID_GET_BASEINFO:function(dataTable){
-        profile_user.readBASEID_GET_BASEINFO(dataTable);
-        HallLogic.initHallBaseData();
-    },
+//    //大厅初始化-获取玩家数据
+//    slot_BASEID_GET_BASEINFO:function(dataTable){
+//        profile_user.readBASEID_GET_BASEINFO(dataTable);
+//        //更新大厅数据
+//        HallLogic.updateHallData();
+//    },
     //获取玩家本身数据
     slot_JINHUA_MGR_USER_INFO:function(dataTable){
         //获取玩家本身数据
@@ -12,6 +13,13 @@ var ProfileHall= {
         profile_user.readJINHUA_MGR_USER_INFO(dataTable);
 
         MvcEngine.createModule(GUI_OTHERUSERINFO);
+    },
+    //DBID_USER_INFO, ProfileHall.slot_DBID_USER_INFO
+    //更新玩家用户信息
+    slot_DBID_USER_INFO:function(dataTable){
+        profile_user.readDBID_USER_INFO(dataTable);
+        //更新大厅数据
+        HallLogic.updateHallData();
     },
     //在线时长
     slot_JINHUA_MGR_SETTING:function(dataTable){

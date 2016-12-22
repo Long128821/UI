@@ -1,5 +1,5 @@
 /**
- * Func:服务器-->客户端的消息
+ * Func.服务器//>客户端的消息
  */
 //心跳消息
 function read80000000(nmBaseMessage){
@@ -89,7 +89,7 @@ function read80010003(nmBaseMessage){
     dataTable["Sex"]= nmBaseMessage.readByte();
     //Age	byte	年龄
     dataTable["Age"]= nmBaseMessage.readByte();
-    //City	text	城市	如 :北京-海淀
+    //City	text	城市	如 .北京-海淀
     dataTable["City"]= nmBaseMessage.readString();
     //PhotoUrl UTF16 头像URL
     dataTable["PhotoUrl"]= nmBaseMessage.readString();
@@ -134,6 +134,7 @@ function read80040006(nmBaseMessage){
         //value Text 属性值
         dataTable["UserAttrLoop"][i]["value"] = nmBaseMessage.readString();
     }
+    console.log(dataTable);
     return dataTable;
 }
 
@@ -157,33 +158,33 @@ function read80670006(nmBaseMessage){
     dataTable.put("messageType", ACK + MAIL_UNREAD_SEND);
     dataTable.put("messageName", "MAIL_UNREAD_SEND");
 
-    //未读消息类型:1系统消息，2个人消息
+    //未读消息类型.1系统消息，2个人消息
     dataTable.put("Type", nmBaseMessage.readByte());
     return dataTable;
 }
 
 //获取当前手机用户登录列表信息
 function read8007009d(nmBaseMessage){
-    var dataTable= new Map();
+    var dataTable= {};
     //存放消息类型和消息名
-    dataTable.put("messageType", ACK + MANAGERID_USERLIST_FROM_IMIE);
-    dataTable.put("messageName", "MANAGERID_USERLIST_FROM_IMIE");
+    dataTable["messageType"]= ACK + MANAGERID_USERLIST_FROM_IMIE;
+    dataTable["messageName"]= "MANAGERID_USERLIST_FROM_IMIE";
 
     //NickCnt	int	昵称数量	loop
     var nickCnt= nmBaseMessage.readInt();
-    var table= {};
-    if(nickCnt> 0){
-        for(var i=0; i< nickCnt; ++i){
-            //开始读取Loop类型的头部
-            nmBaseMessage.startReadLoop();
-            //NickName	text	登陆过此手机的昵称
-            table[i]["NickName"]= nmBaseMessage.readString();
-            //IsBindWeChat	byte	此账号是否绑定微信	0：没有；1：有
-            table[i]["IsBindWeChat"]= nmBaseMessage.readByte();
-        }
-        //isHint	byte	是否需要提示用户绑定微信
-        dataTable.put("NickLists", table);
+    dataTable["nickCnt"]= nickCnt;
+    for(var i=0; i< nickCnt; ++i){
+        dataTable["NickNameLoop"][i]= {};
+        //开始读取Loop类型的头部
+        nmBaseMessage.startReadLoop();
+        //NickName	text	登陆过此手机的昵称
+        dataTable["NickNameLoop"][i]["NickName"]= nmBaseMessage.readString();
+        //IsBindWeChat	byte	此账号是否绑定微信	0：没有；1：有
+        dataTable["NickNameLoop"][i]["IsBindWeChat"]= nmBaseMessage.readByte();
     }
+    //isHint	byte	是否需要提示用户绑定微信
+    dataTable["isHint"]= nmBaseMessage.readByte();
+    console.log(dataTable);
     return dataTable;
 }
 
@@ -246,7 +247,7 @@ function read80670001(nmBaseMessage){
     var dataTable= {};
     //存放消息类型和消息名
     dataTable["messageType"]= ACK + MAIL_SYSTEM_MESSGE_LIST;
-    dataTable["messageName"]= "MANAGERID_USERLIST_FROM_IMIE";
+    dataTable["messageName"]= "MAIL_SYSTEM_MESSGE_LIST";
 
     //NickCnt	int	昵称数量	loop
     var messageList_Count= nmBaseMessage.readInt();
@@ -316,7 +317,7 @@ function read80050003(nmBaseMessage){
     dataTable["ActionId"] = nmBaseMessage.readInt();
     //ActionString
     dataTable["ActionParam"] = nmBaseMessage.readInt();
-    console.log("聊天室发言:");
+    console.log("聊天室发言.");
     console.log(dataTable);
     return dataTable;
 }
@@ -411,12 +412,12 @@ function read80650021(nmBaseMessage){
     return dataTable;
 }
 
-//解析服务器通知（COMMONS_GET_DAILYTASK_PRIZE）
+//解析服务器通知（GAMEID_SERVER_MSG）
 function read00040002(nmBaseMessage){
     var dataTable= {};
     dataTable["messageType"]= REQ + GAMEID_SERVER_MSG;
     dataTable["messageName"]= "GAMEID_SERVER_MSG";
-    //Type Byte 类型 1:充值弹窗 2:飘字 3:比赛播报 4.系统公告 5.强制退出 6.Toast,7.冲榜飘字,8.普通弹框
+    //Type Byte 类型 1.充值弹窗 2.飘字 3.比赛播报 4.系统公告 5.强制退出 6.Toast,7.冲榜飘字,8.普通弹框
     dataTable["Type"] = nmBaseMessage.readByte();
     //Msg text 比赛状态的客户端提示语
     dataTable["Msg"] = nmBaseMessage.readString();
@@ -429,8 +430,227 @@ function read00040002(nmBaseMessage){
             dataTable["toastSecond"] = nmBaseMessage.readInt();
         }
     }
-    console.log(dataTable);
     return dataTable;
 }
 
-//Todo:强制退出
+//解析双核推送礼包(GIFTBAGID_PUSH_DUAL_GIFTBAG)
+//ACK 不需要交互，直接由服务器推送过来
+//REQ 由客户端请求，服务器推送过来。
+function read80510005(nmBaseMessage){
+    var dataTable= {};
+    dataTable["messageType"]= ACK + GIFTBAGID_PUSH_DUAL_GIFTBAG;
+    dataTable["messageName"]= "GIFTBAGID_PUSH_DUAL_GIFTBAG";
+
+    // GiftBagType int 礼 包 类 别 ID
+    dataTable["mGiftBagType"] = nmBaseMessage.readInt();
+    // BannerUrl Text banner 图 片 地 址
+    dataTable["BannerUrl"] = nmBaseMessage.readString();
+    // TitleText Text 标 题 文 本
+    dataTable["TitleText"] = nmBaseMessage.readString();
+
+
+    dataTable["GiftBagData"] = {};
+
+    // GiftAwardNum Byte 礼 包 中 物 品 个 数
+    var mnGiftAwardNum = nmBaseMessage.readInt();
+    dataTable["GiftAwardNum"] = mnGiftAwardNum;
+    dataTable["GiftBagData"] = {};
+    for(var i=0; i< dataTable["GiftAwardNum"]; ++i){
+        dataTable["GiftBagData"][i] = {};
+        //开始读取Loop头
+        nmBaseMessage.startReadLoop();
+        // … GiftBagType int 礼 包 类 别 ID
+        dataTable["GiftBagData"][i].mnGiftBagType = dataTable["mGiftBagType"];
+        // … GiftID int 礼 包 ID
+        dataTable["GiftBagData"][i].mnGiftID = nmBaseMessage.readInt();
+        // … GiftName Text 礼 包 名 称
+        dataTable["GiftBagData"][i].msGiftName = nmBaseMessage.readString();
+
+        // … GiftPrice int 礼 包 价 格 ( 元)
+        dataTable["GiftBagData"][i].mnGiftPriceRMB = nmBaseMessage.readInt();
+        // … GiftPrice int 礼 包 价 格 ( 元)
+        dataTable["GiftBagData"][i].mnGiftPriceYuanBao = nmBaseMessage.readInt();
+        // … GiftImageUrl Text 礼 包 banner 图 片 地 址
+        dataTable["GiftBagData"][i].msGiftImageUrl = nmBaseMessage.readString();
+        // … ButtonText Text 按 钮 文 本
+        dataTable["GiftBagData"][i].msTitleMsg = nmBaseMessage.readString();
+        // … BuyCount int 购 买 次 数
+        dataTable["GiftBagData"][i].mnBuyCount = nmBaseMessage.readInt();
+    }
+
+    // AllowTableShow byte 是 否 允 许 在 牌 桌 弹 出 1 .允 许 ， 0 .不 允 许
+    dataTable["mnAllowTableShow"] = nmBaseMessage.readByte();
+    // PaymentType byte 支 付 类 型 1 .RMB ， 0 .元 宝
+    dataTable["mnPaymentType"] = nmBaseMessage.readByte();
+    // RechargeMode	Byte	支付方式	0双按钮 1短代
+    dataTable["RechargeMode"] = nmBaseMessage.readByte();
+
+    //限时礼包剩余时间，如果不是限时礼包则为0
+    dataTable["RemainTime"] = nmBaseMessage.readLong();
+
+    return dataTable;
+}
+//解析获取用户充值信息
+function read80510001(nMBaseMessage){
+    var dataTable= {};
+    dataTable["messageType"]= ACK + GIFTBAGID_USER_ENCHARGE_INFO;
+    dataTable["messageName"]= "GIFTBAGID_USER_ENCHARGE_INFO";
+
+    //EnchargeAmount int 充值总金额
+    dataTable["EnchargeAmount"] = nMBaseMessage.readInt();
+
+    return dataTable;
+}
+
+//解析获取用户充值信息
+function read80050001(nMBaseMessage){
+    var dataTable= {};
+    dataTable["messageType"]= ACK + IMID_ENTER_CHAT_ROOM;
+    dataTable["messageName"]= "IMID_ENTER_CHAT_ROOM";
+
+    //ResultID   结果。 0成功 1失败
+    dataTable["ResultID"] = nMBaseMessage.readByte();
+    //ResultText  结果文本内容
+    dataTable["ResultText"] = nMBaseMessage.readString();
+
+    return dataTable;
+}
+
+//解析用户礼包状态
+function read80510008(nMBaseMessage){
+    var dataTable= {};
+    dataTable["messageType"]= ACK + GIFTBAGID_GET_GIFTBAG_MSG;
+    dataTable["messageName"]= "GIFTBAGID_GET_GIFTBAG_MSG";
+
+    //GiftBagCnt  礼包数量
+    dataTable["GiftBagData"] = {};
+    var GiftBagCnt = nMBaseMessage.readInt();
+    dataTable["GiftBagCnt"]= GiftBagCnt;
+    for(var i=0; i< GiftBagCnt; ++i){
+        dataTable["GiftBagData"][i] = {};
+        nMBaseMessage.startReadLoop();
+
+        //…GiftBagType  礼包类别ID
+        dataTable["GiftBagData"][i].GiftBagType = nMBaseMessage.readInt();
+        //…IsPayGift  是否可以购买此类礼包
+        dataTable["GiftBagData"][i].IsPayGift = nMBaseMessage.readInt();
+    }
+
+    //RemainCount  当天剩余破产送金次数
+    dataTable["RemainCount"] = nMBaseMessage.readByte();
+
+    return dataTable;
+}
+
+//用户可购买礼包列表(精简)
+function read80510010(nMBaseMessage){
+    var dataTable= {};
+    dataTable["messageType"]= ACK + GIFTBAGID_GIFTBAG_LIST_SIMPLE;
+    dataTable["messageName"]= "GIFTBAGID_GIFTBAG_LIST_SIMPLE";
+
+    //GiftBagCnt  礼包数量
+    dataTable["GiftBagData"] = {};
+    var GiftBagCnt = nMBaseMessage.readInt();
+    dataTable["GiftBagCnt"]= GiftBagCnt;
+    for(var i=0; i< GiftBagCnt; ++i){
+        dataTable["GiftBagData"][i] = {};
+        nMBaseMessage.startReadLoop();
+
+        //…GiftBagType  礼包类别ID
+        dataTable["GiftBagData"][i].GiftBagType = nMBaseMessage.readInt();
+    }
+
+    //礼包列表中第一个礼包的结束时间OverTime
+    dataTable["OverTime"] = parseInt(nMBaseMessage.readLong());
+
+    return dataTable;
+}
+
+//解析同步客户端时间
+function read8001000d(nMBaseMessage){
+    var dataTable= {};
+    dataTable["messageType"]= ACK + BASEID_TIMESTAMP_SYNC;
+    dataTable["messageName"]= "BASEID_TIMESTAMP_SYNC";
+
+    //TimeStamp  服务器当前时间戳
+    dataTable["TimeStamp"] = parseInt(nMBaseMessage.readLong());
+
+    return dataTable;
+}
+
+//获取小游戏推广 (MANAGERID_GET_MINIGAME_PROMOTION)
+function read8007009c(nMBaseMessage){
+    var dataTable= {};
+    dataTable["messageType"]= ACK + MANAGERID_GET_MINIGAME_PROMOTION;
+    dataTable["messageName"]= "MANAGERID_GET_MINIGAME_PROMOTION";
+
+    //MiniGameID	Int	小游戏ID
+    dataTable["MiniGameID"] = nMBaseMessage.readInt();
+    //Url	String	小游戏图标	本地没有的时候使用
+    dataTable["Url"] = nMBaseMessage.readString();
+
+    return dataTable;
+}
+
+//解析自己或他人的详细信息
+function read80060002(nMBaseMessage){
+    var dataTable= {};
+    dataTable["messageType"]= ACK + DBID_USER_INFO;
+    dataTable["messageName"]= "DBID_USER_INFO";
+
+    // UserID Int 用户ID
+    dataTable["UserID"] = nMBaseMessage.readInt();
+    // NickName text 昵称
+    dataTable["NickName"] = nMBaseMessage.readString();
+    // Sex byte 性别 1男 2女
+    dataTable["Sex"] = nMBaseMessage.readByte();
+    // Age byte 年龄
+    dataTable["age"] = nMBaseMessage.readByte();
+    // City text 城市 如 .北京-海淀
+    dataTable["city"] = nMBaseMessage.readString();
+    // PhotoUrl text 头像URL
+    dataTable["photourl"] = nMBaseMessage.readString();
+    // Sign text 个性签名
+    dataTable["sign"] = nMBaseMessage.readString();
+    // Coin long 金币
+    dataTable["coin"] = parseInt(nMBaseMessage.readLong());
+    // YuanBao int 元宝
+    dataTable["yuanbao"] = nMBaseMessage.readInt();
+    // TaoJin int 荣誉值
+    dataTable["honor"] = nMBaseMessage.readInt();
+    // GameID byte 游戏ID
+    dataTable["gameid"] = nMBaseMessage.readByte();
+    // DuiJiangQuan int 兑奖券 MsgVer >= 1时发送
+    dataTable["duijiang"] = nMBaseMessage.readInt();
+    // commendationCnt int 奖状数 MsgVer >= 1时发送
+    dataTable["commendationCnt"] = nMBaseMessage.readInt();
+    /****************此处采用Loop的方式传递数据，但是数量固定为1*****************************/
+    nMBaseMessage.startReadLoop();
+    dataTable["WinGameNum"] = nMBaseMessage.readInt();
+    dataTable["LoseGameNum"]= nMBaseMessage.readInt();
+    dataTable["MaxShoupai"] = nMBaseMessage.readString();
+    dataTable["luckyIcon"] = nMBaseMessage.readByte();
+
+    //VipLevel int VIP等级
+    dataTable["mnVipLevel"] = nMBaseMessage.readInt();
+    //Common.log("DBID_USER_INFO mnVipLevel " .. dataTable["mnVipLevel"])
+    //LawLimitRemind text 法律风险相关提示语 亲，您今天已经累计输掉3000万金币了，达到单日上限，无法继续游戏了。
+	dataTable["lawLimitRemind"] = nMBaseMessage.readString();
+    //DjqPieces int 兑奖券碎片数量
+    dataTable["djqPieces"] = nMBaseMessage.readInt();
+    //HistoryMaxCoin long 历史最高金币数
+    dataTable["historyMaxCoin"] = parseInt(nMBaseMessage.readLong());
+
+    return dataTable;
+}
+
+//Todo:领取工资之后，GAMEID_IMAGE_TOAST
+
+
+//Todo.强制退出
+//var dataTable= {};
+//dataTable["messageType"]= ACK + GIFTBAGID_PUSH_DUAL_GIFTBAG;
+//dataTable["messageName"]= "GIFTBAGID_PUSH_DUAL_GIFTBAG";
+//
+//console.log(dataTable);
+//return dataTable;

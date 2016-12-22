@@ -24,15 +24,16 @@ var MoreController = BaseController.extend({
 	removeSlot:function(){
 		MoreLogic.removeSlot();
 	},
-    
+
+    //添加监听
     addCallback:function(){
-		Frameworks.bindEventCallback(CocoStudio.getComponent(MoreLogic.view,"Panel_20"), MoreLogic.callback_Panel_20, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(MoreLogic.view,"Panel_23"), MoreLogic.callback_Panel_23, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.bindEventCallback("MoreLogic#", CocoStudio.getComponent(MoreLogic.view,"Panel_20"), MoreLogic.callback_Panel_20, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.bindEventCallback("MoreLogic#", CocoStudio.getComponent(MoreLogic.view,"Panel_23"), MoreLogic.callback_Panel_23, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
     },
-    
+    //移除监听
     removeCallback:function(){
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(MoreLogic.view,"Panel_20"), MoreLogic.callback_Panel_20, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(MoreLogic.view,"Panel_23"), MoreLogic.callback_Panel_23, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(MoreLogic.view,"MoreLogic#Panel_20"), MoreLogic.callback_Panel_20, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(MoreLogic.view,"MoreLogic#Panel_23"), MoreLogic.callback_Panel_23, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
     },
     
     setModuleLayer:function(moduleLayer){

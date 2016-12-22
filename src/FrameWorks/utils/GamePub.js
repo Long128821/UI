@@ -14,7 +14,6 @@ var GamePub= {
         view.runAction(seq.repeatForever());
     },
     //精确保留多少位消息
-    //
     getPreciseDecimal:function(nNum, n){
         if(typeof nNum!= "number"){
             console.warn(nNum+ " is not number");
@@ -31,6 +30,15 @@ var GamePub= {
         }
         var nLeft= nNum%nDecimal;
         return nNum- nLeft;
+    },
+    //转换金币数(使用万、亿为单位)
+    convertCoin:function(coin){
+        if(coin>= 100000000){
+            return this.getPreciseDecimal(coin / 100000000, 2)+"亿"
+        }else if(coin >= 10000) {
+            return this.getPreciseDecimal(coin / 10000, 2)+"万";
+        }
+        return coin;
     },
     //
         //得到九宫格精灵

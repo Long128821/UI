@@ -26,15 +26,15 @@ var MessageListController = BaseController.extend({
 	},
     //添加监听
     addCallback:function(){
-		Frameworks.bindEventCallback(CocoStudio.getComponent(MessageListLogic.view,"btn_back"), MessageListLogic.callback_btn_back, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(MessageListLogic.view,"Button_leftArrow"), MessageListLogic.callback_Button_leftArrow, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(MessageListLogic.view,"Button_rightArrow"), MessageListLogic.callback_Button_rightArrow, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
+        Frameworks.bindEventCallback("MessageListLogic#", CocoStudio.getComponent(MessageListLogic.view,"btn_back"), MessageListLogic.callback_btn_back, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("MessageListLogic#", CocoStudio.getComponent(MessageListLogic.view,"Button_leftArrow"), MessageListLogic.callback_Button_leftArrow, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
+        Frameworks.bindEventCallback("MessageListLogic#", CocoStudio.getComponent(MessageListLogic.view,"Button_rightArrow"), MessageListLogic.callback_Button_rightArrow, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
     },
     //移除监听
     removeCallback:function(){
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(MessageListLogic.view,"btn_back"), MessageListLogic.callback_btn_back, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(MessageListLogic.view,"Button_leftArrow"), MessageListLogic.callback_Button_leftArrow, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(MessageListLogic.view,"Button_rightArrow"), MessageListLogic.callback_Button_rightArrow, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(MessageListLogic.view,"MessageListLogic#btn_back"), MessageListLogic.callback_btn_back, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(MessageListLogic.view,"MessageListLogic#Button_leftArrow"), MessageListLogic.callback_Button_leftArrow, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(MessageListLogic.view,"MessageListLogic#Button_rightArrow"), MessageListLogic.callback_Button_rightArrow, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
     },
     
     setModuleLayer:function(moduleLayer){

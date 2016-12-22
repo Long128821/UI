@@ -189,7 +189,7 @@ var LoginLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            sendMANAGERID_USERLIST_FROM_IMIE();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 

@@ -24,31 +24,31 @@ var ChangeInfoPopController = BaseController.extend({
 	removeSlot:function(){
 		ChangeInfoPopLogic.removeSlot();
 	},
-    //添加监听
+//添加监听
     addCallback:function(){
-		Frameworks.bindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"Panel_127"), ChangeInfoPopLogic.callback_Panel_127, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"Image_female"), ChangeInfoPopLogic.callback_Image_female, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"Image_male"), ChangeInfoPopLogic.callback_Image_male, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"Image_secrecy"), ChangeInfoPopLogic.callback_Image_secrecy, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"Button_quxiao"), ChangeInfoPopLogic.callback_Button_quxiao, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"Button_queding"), ChangeInfoPopLogic.callback_Button_queding, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"Button_shouji_bind"), ChangeInfoPopLogic.callback_Button_shouji_bind, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"Button_shouji_unbind"), ChangeInfoPopLogic.callback_Button_shouji_unbind, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"Button_weixin_bind"), ChangeInfoPopLogic.callback_Button_weixin_bind, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"Button_weixin_binded"), ChangeInfoPopLogic.callback_Button_weixin_binded, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("ChangeInfoPopLogic#", CocoStudio.getComponent(ChangeInfoPopLogic.view,"Panel_127"), ChangeInfoPopLogic.callback_Panel_127, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.bindEventCallback("ChangeInfoPopLogic#", CocoStudio.getComponent(ChangeInfoPopLogic.view,"Image_female"), ChangeInfoPopLogic.callback_Image_female, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.bindEventCallback("ChangeInfoPopLogic#", CocoStudio.getComponent(ChangeInfoPopLogic.view,"Image_male"), ChangeInfoPopLogic.callback_Image_male, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.bindEventCallback("ChangeInfoPopLogic#", CocoStudio.getComponent(ChangeInfoPopLogic.view,"Image_secrecy"), ChangeInfoPopLogic.callback_Image_secrecy, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.bindEventCallback("ChangeInfoPopLogic#", CocoStudio.getComponent(ChangeInfoPopLogic.view,"Button_quxiao"), ChangeInfoPopLogic.callback_Button_quxiao, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("ChangeInfoPopLogic#", CocoStudio.getComponent(ChangeInfoPopLogic.view,"Button_queding"), ChangeInfoPopLogic.callback_Button_queding, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("ChangeInfoPopLogic#", CocoStudio.getComponent(ChangeInfoPopLogic.view,"Button_shouji_bind"), ChangeInfoPopLogic.callback_Button_shouji_bind, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("ChangeInfoPopLogic#", CocoStudio.getComponent(ChangeInfoPopLogic.view,"Button_shouji_unbind"), ChangeInfoPopLogic.callback_Button_shouji_unbind, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("ChangeInfoPopLogic#", CocoStudio.getComponent(ChangeInfoPopLogic.view,"Button_weixin_bind"), ChangeInfoPopLogic.callback_Button_weixin_bind, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("ChangeInfoPopLogic#", CocoStudio.getComponent(ChangeInfoPopLogic.view,"Button_weixin_binded"), ChangeInfoPopLogic.callback_Button_weixin_binded, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
     },
     //移除监听
     removeCallback:function(){
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"Panel_127"), ChangeInfoPopLogic.callback_Panel_127, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"Image_female"), ChangeInfoPopLogic.callback_Image_female, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"Image_male"), ChangeInfoPopLogic.callback_Image_male, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"Image_secrecy"), ChangeInfoPopLogic.callback_Image_secrecy, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"Button_quxiao"), ChangeInfoPopLogic.callback_Button_quxiao, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"Button_queding"), ChangeInfoPopLogic.callback_Button_queding, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"Button_shouji_bind"), ChangeInfoPopLogic.callback_Button_shouji_bind, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"Button_shouji_unbind"), ChangeInfoPopLogic.callback_Button_shouji_unbind, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"Button_weixin_bind"), ChangeInfoPopLogic.callback_Button_weixin_bind, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"Button_weixin_binded"), ChangeInfoPopLogic.callback_Button_weixin_binded, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"ChangeInfoPopLogic#Panel_127"), ChangeInfoPopLogic.callback_Panel_127, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"ChangeInfoPopLogic#Image_female"), ChangeInfoPopLogic.callback_Image_female, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"ChangeInfoPopLogic#Image_male"), ChangeInfoPopLogic.callback_Image_male, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"ChangeInfoPopLogic#Image_secrecy"), ChangeInfoPopLogic.callback_Image_secrecy, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"ChangeInfoPopLogic#Button_quxiao"), ChangeInfoPopLogic.callback_Button_quxiao, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"ChangeInfoPopLogic#Button_queding"), ChangeInfoPopLogic.callback_Button_queding, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"ChangeInfoPopLogic#Button_shouji_bind"), ChangeInfoPopLogic.callback_Button_shouji_bind, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"ChangeInfoPopLogic#Button_shouji_unbind"), ChangeInfoPopLogic.callback_Button_shouji_unbind, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"ChangeInfoPopLogic#Button_weixin_bind"), ChangeInfoPopLogic.callback_Button_weixin_bind, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(ChangeInfoPopLogic.view,"ChangeInfoPopLogic#Button_weixin_binded"), ChangeInfoPopLogic.callback_Button_weixin_binded, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
     },
     
     setModuleLayer:function(moduleLayer){

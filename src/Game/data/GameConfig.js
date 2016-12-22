@@ -15,6 +15,20 @@ var GameConfig= {
     isPlayEffect:false,//是否播放音效
     NOTICE_MOVE_TIME:0.013,//滚动时间
     URL_TABLE_CUSTOMSERVICE_HELP:"http://f.99sai.com/jinhua/html/comm_help.html",//设置--帮助
+    m_curBaseLayer:null,//当前底层界面
+    mnHallInitSendMsg:false,//在大厅界面是否发送公共消息请求
+
+    getMNHallInitSendMsg:function(){
+        return this.mnHallInitSendMsg;
+    },
+    setMNHallInitSendMsg:function(mnHallInitSendMsg){
+        this.mnHallInitSendMsg= mnHallInitSendMsg== undefined?false:mnHallInitSendMsg;
+    },
+
+    //初始化游戏公共数据
+    initGameCommonData:function(){
+        this.mnHallInitSendMsg= false;
+    },
 
     getGameMusicOff:function(){
         return this.isPlayMusic;
@@ -46,6 +60,23 @@ var GameConfig= {
         this.ScreenWidth = UIDesignWidth;
         this.ScreenHeight = UIDesignHeight;
         cc.view.setDesignResolutionSize(this.ScreenWidth, this.ScreenHeight, kResolution);
+    },
+    //获取当前底层界面
+    getCurBaseLayer:function(){
+        return this.m_curBaseLayer;
+    },
+    //设置当前底层界面
+    setCurBaseLayer:function(curBaseLayer){
+        if(!Common.judgeValueIsEffect(curBaseLayer)) return;
+        this.m_curBaseLayer= curBaseLayer;
+        //每次跳转界面要做的逻辑处理
+        if(this.m_curBaseLayer!= GUI_LOADING && this.m_curBaseLayer!= GUI_LOGIN){
+            sendGIFTBAGID_USER_ENCHARGE_INFO();//请求个人充值金额
+            sendGIFTBAGID_GET_GIFTBAG_MSG();//请求礼包状态
+            sendBASEID_TIMESTAMP_SYNC();
+        }
     }
 };
+
+GameConfig.initGameCommonData();
 

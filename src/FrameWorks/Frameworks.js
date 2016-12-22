@@ -44,7 +44,7 @@ var Frameworks= {
         if(self.m_callbackEventTable.hasOwnProperty(component._name)){
             var contain= self.m_callbackEventTable[component._name];
             if(Common.judgeValueIsEffect(contain)){
-                if(contain.hasOwnProperty(event)){//判断控件是否一致
+                if(contain.hasOwnProperty(event)&&Common.judgeValueIsEffect(contain[event])){//判断控件是否一致
                     //是否有会有回调方法
                     contain[event](component, event);
                 }
@@ -53,14 +53,19 @@ var Frameworks= {
     },
     /**
      * Func:绑定点击事件
+     * @param logicName 控件所处的logic名
      * @param component 要绑定的控件(cc.widget)
      * @param callback 回调函数
      * @param event 绑定事件(按钮响应类型)
      * @param btnEffectEvent 特效(点击时，是否有特效，是否音效)
+     * 多添加一个logic名的原因是:
+     * Lua全局变量，覆盖
+     * js私有成员变量，如果仅仅在table中按照key访问，不确切
      */
-    bindEventCallback:function(component, callback, event, btnEffectEvent){
-        //console.log("bindEventCallback");
+    bindEventCallback:function(logicName,component, callback, event, btnEffectEvent){
         var map= {};
+        var key= logicName+ component._name;
+        component._name= key;
         if(!this.m_callbackEventTable.hasOwnProperty(component._name)||this.m_callbackEventTable[component._name]== null){
             this.m_callbackEventTable[component._name]= map;
         }
@@ -73,20 +78,18 @@ var Frameworks= {
     },
     /**
      * Func:解绑点击事件
-     * @param component 要解绑的控件(cc.widget)
+     * @param component 要解绑的控件(cc.widget)[控件所处的logic名+ 控件名]
      * @param callback 回调函数
      * @param event 绑定事件(按钮响应类型)
      * @param btnEffectEvent 特效(点击时，是否有特效，是否音效)
      */
     unbindEventCallback:function(component, callback, event, btnEffectEvent){
-        //console.log("unbindEventCallback");
         var self= Frameworks;
         if(self.m_callbackEventTable.hasOwnProperty(component._name)) {
             var contain = self.m_callbackEventTable[component._name];
             if(!Common.judgeValueIsEffect(contain)) return;
         }
         //遍历Map
-
         if(contain[event]!= null){
             if(event== BUTTON_CLICK){
                 contain[event]= null;
@@ -100,11 +103,8 @@ var Frameworks= {
                 count++;
             }
         }
-        //console.log(count);
-        //console.log(contain);
         //原因是:Map中，除了监听事件之外，还有两个对象btnEffectEvent、name
         if(count== 1){
-            //console.log(this.m_callbackEventTable);
             this.m_callbackEventTable[component._name]= null;
             //console.log("事件解绑成功！");
         }
@@ -142,7 +142,6 @@ var Frameworks= {
      */
     isContainsSignal:function(signal){
         if(!this.m_signalSlotTable.hasOwnProperty(signal)) return false;
-        //if(!Common.judgeValueIsEffect(this.m_signalSlotTable[signal])) return false;
         return true;
     },
     /**
@@ -160,5 +159,3 @@ var Frameworks= {
         }
     }
 };
-
-Frameworks.addSlot2Signal(GAMEID_SERVER_MSG);

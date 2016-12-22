@@ -26,15 +26,15 @@ var MessageServerController = BaseController.extend({
 	},
     //添加监听
     addCallback:function(){
-		Frameworks.bindEventCallback(CocoStudio.getComponent(MessageServerLogic.view,"Panel_Content"), MessageServerLogic.callback_Panel_Content, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(MessageServerLogic.view,"btn_action"), MessageServerLogic.callback_btn_action, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(MessageServerLogic.view,"btn_lingqu"), MessageServerLogic.callback_btn_lingqu, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("MessageServerLogic#", CocoStudio.getComponent(MessageServerLogic.view,"Panel_Content"), MessageServerLogic.callback_Panel_Content, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.bindEventCallback("MessageServerLogic#", CocoStudio.getComponent(MessageServerLogic.view,"btn_action"), MessageServerLogic.callback_btn_action, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("MessageServerLogic#", CocoStudio.getComponent(MessageServerLogic.view,"btn_lingqu"), MessageServerLogic.callback_btn_lingqu, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
     },
     //移除监听
     removeCallback:function(){
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(MessageServerLogic.view,"Panel_Content"), MessageServerLogic.callback_Panel_Content, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(MessageServerLogic.view,"btn_action"), MessageServerLogic.callback_btn_action, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(MessageServerLogic.view,"btn_lingqu"), MessageServerLogic.callback_btn_lingqu, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(MessageServerLogic.view,"MessageServerLogic#Panel_Content"), MessageServerLogic.callback_Panel_Content, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(MessageServerLogic.view,"MessageServerLogic#btn_action"), MessageServerLogic.callback_btn_action, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(MessageServerLogic.view,"MessageServerLogic#btn_lingqu"), MessageServerLogic.callback_btn_lingqu, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
     },
     
     setModuleLayer:function(moduleLayer){

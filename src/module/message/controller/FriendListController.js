@@ -27,33 +27,33 @@ var FriendListController = BaseController.extend({
 	},
     //添加监听
     addCallback:function(){
-		Frameworks.bindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"Button_haoyoushangxian"), FriendListLogic.callback_Button_haoyoushangxian, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"Button_yiwen1"), FriendListLogic.callback_Button_yiwen1, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"Button_wodehaoyou"), FriendListLogic.callback_Button_wodehaoyou, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"Button_zhuizongliebiao"), FriendListLogic.callback_Button_zhuizongliebiao, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"Button_linshihaoyou"), FriendListLogic.callback_Button_linshihaoyou, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"Button_close"), FriendListLogic.callback_Button_close, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"Button_shuaxin"), FriendListLogic.callback_Button_shuaxin, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"Button_leftArrow"), FriendListLogic.callback_Button_leftArrow, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"Button_rightArrow"), FriendListLogic.callback_Button_rightArrow, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"Panel_haoyoushangxian"), FriendListLogic.callback_Panel_haoyoushangxian, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"Panel_155"), FriendListLogic.callback_Panel_155, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"Button_closeShangxian"), FriendListLogic.callback_Button_closeShangxian, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("FriendListLogic#", CocoStudio.getComponent(FriendListLogic.view,"Button_haoyoushangxian"), FriendListLogic.callback_Button_haoyoushangxian, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("FriendListLogic#", CocoStudio.getComponent(FriendListLogic.view,"Button_yiwen1"), FriendListLogic.callback_Button_yiwen1, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("FriendListLogic#", CocoStudio.getComponent(FriendListLogic.view,"Button_wodehaoyou"), FriendListLogic.callback_Button_wodehaoyou, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("FriendListLogic#", CocoStudio.getComponent(FriendListLogic.view,"Button_zhuizongliebiao"), FriendListLogic.callback_Button_zhuizongliebiao, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("FriendListLogic#", CocoStudio.getComponent(FriendListLogic.view,"Button_linshihaoyou"), FriendListLogic.callback_Button_linshihaoyou, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("FriendListLogic#", CocoStudio.getComponent(FriendListLogic.view,"Button_close"), FriendListLogic.callback_Button_close, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("FriendListLogic#", CocoStudio.getComponent(FriendListLogic.view,"Button_shuaxin"), FriendListLogic.callback_Button_shuaxin, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("FriendListLogic#", CocoStudio.getComponent(FriendListLogic.view,"Button_leftArrow"), FriendListLogic.callback_Button_leftArrow, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
+        Frameworks.bindEventCallback("FriendListLogic#", CocoStudio.getComponent(FriendListLogic.view,"Button_rightArrow"), FriendListLogic.callback_Button_rightArrow, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
+        Frameworks.bindEventCallback("FriendListLogic#", CocoStudio.getComponent(FriendListLogic.view,"Panel_haoyoushangxian"), FriendListLogic.callback_Panel_haoyoushangxian, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.bindEventCallback("FriendListLogic#", CocoStudio.getComponent(FriendListLogic.view,"Panel_155"), FriendListLogic.callback_Panel_155, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.bindEventCallback("FriendListLogic#", CocoStudio.getComponent(FriendListLogic.view,"Button_closeShangxian"), FriendListLogic.callback_Button_closeShangxian, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
     },
     //移除监听
     removeCallback:function(){
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"Button_haoyoushangxian"), FriendListLogic.callback_Button_haoyoushangxian, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"Button_yiwen1"), FriendListLogic.callback_Button_yiwen1, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"Button_wodehaoyou"), FriendListLogic.callback_Button_wodehaoyou, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"Button_zhuizongliebiao"), FriendListLogic.callback_Button_zhuizongliebiao, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"Button_linshihaoyou"), FriendListLogic.callback_Button_linshihaoyou, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"Button_close"), FriendListLogic.callback_Button_close, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"Button_shuaxin"), FriendListLogic.callback_Button_shuaxin, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"Button_leftArrow"), FriendListLogic.callback_Button_leftArrow, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"Button_rightArrow"), FriendListLogic.callback_Button_rightArrow, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"Panel_haoyoushangxian"), FriendListLogic.callback_Panel_haoyoushangxian, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"Panel_155"), FriendListLogic.callback_Panel_155, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"Button_closeShangxian"), FriendListLogic.callback_Button_closeShangxian, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"FriendListLogic#Button_haoyoushangxian"), FriendListLogic.callback_Button_haoyoushangxian, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"FriendListLogic#Button_yiwen1"), FriendListLogic.callback_Button_yiwen1, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"FriendListLogic#Button_wodehaoyou"), FriendListLogic.callback_Button_wodehaoyou, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"FriendListLogic#Button_zhuizongliebiao"), FriendListLogic.callback_Button_zhuizongliebiao, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"FriendListLogic#Button_linshihaoyou"), FriendListLogic.callback_Button_linshihaoyou, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"FriendListLogic#Button_close"), FriendListLogic.callback_Button_close, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"FriendListLogic#Button_shuaxin"), FriendListLogic.callback_Button_shuaxin, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"FriendListLogic#Button_leftArrow"), FriendListLogic.callback_Button_leftArrow, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"FriendListLogic#Button_rightArrow"), FriendListLogic.callback_Button_rightArrow, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_IN);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"FriendListLogic#Panel_haoyoushangxian"), FriendListLogic.callback_Panel_haoyoushangxian, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"FriendListLogic#Panel_155"), FriendListLogic.callback_Panel_155, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(FriendListLogic.view,"FriendListLogic#Button_closeShangxian"), FriendListLogic.callback_Button_closeShangxian, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
     },
     
     setModuleLayer:function(moduleLayer){

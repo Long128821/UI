@@ -26,15 +26,15 @@ var DoubleButtonConfirmController = BaseController.extend({
 	},
     //添加监听
     addCallback:function(){
-		Frameworks.bindEventCallback(CocoStudio.getComponent(DoubleButtonConfirmLogic.view,"Panel_127"), DoubleButtonConfirmLogic.callback_Panel_127, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(DoubleButtonConfirmLogic.view,"Button_quxiao"), DoubleButtonConfirmLogic.callback_Button_quxiao, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(DoubleButtonConfirmLogic.view,"Button_queding"), DoubleButtonConfirmLogic.callback_Button_queding, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("DoubleButtonConfirmLogic#", CocoStudio.getComponent(DoubleButtonConfirmLogic.view,"Panel_127"), DoubleButtonConfirmLogic.callback_Panel_127, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.bindEventCallback("DoubleButtonConfirmLogic#", CocoStudio.getComponent(DoubleButtonConfirmLogic.view,"Button_quxiao"), DoubleButtonConfirmLogic.callback_Button_quxiao, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("DoubleButtonConfirmLogic#", CocoStudio.getComponent(DoubleButtonConfirmLogic.view,"Button_queding"), DoubleButtonConfirmLogic.callback_Button_queding, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
     },
     //移除监听
     removeCallback:function(){
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(DoubleButtonConfirmLogic.view,"Panel_127"), DoubleButtonConfirmLogic.callback_Panel_127, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(DoubleButtonConfirmLogic.view,"Button_quxiao"), DoubleButtonConfirmLogic.callback_Button_quxiao, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(DoubleButtonConfirmLogic.view,"Button_queding"), DoubleButtonConfirmLogic.callback_Button_queding, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(DoubleButtonConfirmLogic.view,"DoubleButtonConfirmLogic#Panel_127"), DoubleButtonConfirmLogic.callback_Panel_127, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(DoubleButtonConfirmLogic.view,"DoubleButtonConfirmLogic#Button_quxiao"), DoubleButtonConfirmLogic.callback_Button_quxiao, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(DoubleButtonConfirmLogic.view,"DoubleButtonConfirmLogic#Button_queding"), DoubleButtonConfirmLogic.callback_Button_queding, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
     },
     
     setModuleLayer:function(moduleLayer){

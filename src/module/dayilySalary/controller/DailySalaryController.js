@@ -26,21 +26,21 @@ var DailySalaryController = BaseController.extend({
 	},
     //添加监听
     addCallback:function(){
-		Frameworks.bindEventCallback(CocoStudio.getComponent(DailySalaryLogic.view,"Panel_127"), DailySalaryLogic.callback_Panel_127, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(DailySalaryLogic.view,"Panel_left"), DailySalaryLogic.callback_Panel_left, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(DailySalaryLogic.view,"Panel_right"), DailySalaryLogic.callback_Panel_right, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(DailySalaryLogic.view,"Button_VipLevelUp"), DailySalaryLogic.callback_Button_VipLevelUp, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(DailySalaryLogic.view,"Button_lingjiang"), DailySalaryLogic.callback_Button_lingjiang, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(DailySalaryLogic.view,"Button_quxiao"), DailySalaryLogic.callback_Button_quxiao, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("DailySalaryLogic#", CocoStudio.getComponent(DailySalaryLogic.view,"Panel_127"), DailySalaryLogic.callback_Panel_127, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.bindEventCallback("DailySalaryLogic#", CocoStudio.getComponent(DailySalaryLogic.view,"Panel_left"), DailySalaryLogic.callback_Panel_left, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.bindEventCallback("DailySalaryLogic#", CocoStudio.getComponent(DailySalaryLogic.view,"Panel_right"), DailySalaryLogic.callback_Panel_right, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.bindEventCallback("DailySalaryLogic#", CocoStudio.getComponent(DailySalaryLogic.view,"Button_VipLevelUp"), DailySalaryLogic.callback_Button_VipLevelUp, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("DailySalaryLogic#", CocoStudio.getComponent(DailySalaryLogic.view,"Button_lingjiang"), DailySalaryLogic.callback_Button_lingjiang, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("DailySalaryLogic#", CocoStudio.getComponent(DailySalaryLogic.view,"Button_quxiao"), DailySalaryLogic.callback_Button_quxiao, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
     },
     //移除监听
     removeCallback:function(){
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(DailySalaryLogic.view,"Panel_127"), DailySalaryLogic.callback_Panel_127, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(DailySalaryLogic.view,"Panel_left"), DailySalaryLogic.callback_Panel_left, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(DailySalaryLogic.view,"Panel_right"), DailySalaryLogic.callback_Panel_right, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(DailySalaryLogic.view,"Button_VipLevelUp"), DailySalaryLogic.callback_Button_VipLevelUp, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(DailySalaryLogic.view,"Button_lingjiang"), DailySalaryLogic.callback_Button_lingjiang, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(DailySalaryLogic.view,"Button_quxiao"), DailySalaryLogic.callback_Button_quxiao, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(DailySalaryLogic.view,"DailySalaryLogic#Panel_127"), DailySalaryLogic.callback_Panel_127, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(DailySalaryLogic.view,"DailySalaryLogic#Panel_left"), DailySalaryLogic.callback_Panel_left, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(DailySalaryLogic.view,"DailySalaryLogic#Panel_right"), DailySalaryLogic.callback_Panel_right, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(DailySalaryLogic.view,"DailySalaryLogic#Button_VipLevelUp"), DailySalaryLogic.callback_Button_VipLevelUp, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(DailySalaryLogic.view,"DailySalaryLogic#Button_lingjiang"), DailySalaryLogic.callback_Button_lingjiang, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(DailySalaryLogic.view,"DailySalaryLogic#Button_quxiao"), DailySalaryLogic.callback_Button_quxiao, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
     },
     
     setModuleLayer:function(moduleLayer){

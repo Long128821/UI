@@ -1,5 +1,13 @@
 var profile_user= {
     UserTable:{},//账户列表,存储一些基本数据
+    mnRemainCount:-1,//当天剩余破产送金次数
+    //UserID
+    getMNRemainCount:function(){
+        return this.mnRemainCount;
+    },
+    setMNRemainCount:function(remainCount){
+        this.mnRemainCount= remainCount== undefined?-1:remainCount;
+    },
     //UserID
     getSelfUserID:function(){
         var value= this.UserTable["SelfInfo"].UserID;
@@ -139,6 +147,14 @@ var profile_user= {
     setSelfLevelExpMax:function(levelExpMax){
         this.UserTable["SelfInfo"].LevelExpMax= levelExpMax;
     },
+    //获取用户充值金额
+    getSelfEnchargeAmount:function(){
+        var value= this.UserTable["SelfInfo"].EnchargeAmount;
+        return (value== undefined?0:value);
+    },
+    setSelfEnchargeAmount:function(enchargeAmount){
+        this.UserTable["SelfInfo"].EnchargeAmount= enchargeAmount;
+    },
 
     //初始化账户数据，登录或者注册时，切换账户
     initUserInfo:function(userID){
@@ -202,6 +218,90 @@ var profile_user= {
 //        dataTable["commendationCnt"]= nmBaseMessage.readInt();
 //        //djqPieces  兑奖券碎片
 //        dataTable["djqPieces"]= nmBaseMessage.readInt();
+    },
+    //获取用户充值信息(GIFTBAGID_USER_ENCHARGE_INFO)
+    slot_GIFTBAGID_USER_ENCHARGE_INFO:function(dataTable){
+        profile_user.UserTable["SelfInfo"].EnchargeAmount = dataTable["EnchargeAmount"];
+    },
+    //更新用户状态
+    readDBID_USER_INFO:function(dataTable){
+        if(dataTable["UserID"] == this.UserTable["SelfInfo"].UserID) {
+            //接收自己的信息
+            this.UserTable["SelfInfo"].UserID = dataTable["UserID"];
+            // NickName text 昵称
+            this.UserTable["SelfInfo"].NickName = dataTable["NickName"];
+            // Sex byte 性别 1男 2女
+            this.UserTable["SelfInfo"].Sex = dataTable["Sex"];
+            // Age byte 年龄
+            this.UserTable["SelfInfo"].Age = dataTable["age"];
+            // City text 城市 如 :北京-海淀
+            this.UserTable["SelfInfo"].City = dataTable["city"];
+            // PhotoUrl text 头像URL
+            this.UserTable["SelfInfo"].PhotoUrl = dataTable["photourl"];
+            // Sign text 个性签名
+            this.UserTable["SelfInfo"].sign = dataTable["sign"];
+            // Coin long 金币
+            this.UserTable["SelfInfo"].Coin = dataTable["coin"];
+            // YuanBao int 元宝
+            this.UserTable["SelfInfo"].yuanBao = dataTable["yuanbao"];
+            // TaoJin int 荣誉值
+            this.UserTable["SelfInfo"].Honor = dataTable["honor"];
+            // DuiJiangQuan int 兑奖券 MsgVer >= 1时发送
+            this.UserTable["SelfInfo"].DuiJiangQuan = dataTable["duijiang"];
+            // commendationCnt int 奖状数 MsgVer >= 1时发送
+            this.UserTable["SelfInfo"].commendationCnt = dataTable["commendationCnt"];
+            //VipLevel int VIP等级
+            this.UserTable["SelfInfo"].VipLevel = dataTable["mnVipLevel"];
+            //LawLimitRemind text 法律风险相关提示语 亲，您今天已经累计输掉3000万金币了，达到单日上限，无法继续游戏了。
+            this.UserTable["SelfInfo"].lawLimitRemind = dataTable["lawLimitRemind"];
+            //DjqPieces int 兑奖券碎片数量
+            this.UserTable["SelfInfo"].djqPieces = dataTable["djqPieces"];
+            //HistoryMaxCoin long 历史最高金币数
+            this.UserTable["SelfInfo"].historyMaxCoin = dataTable["historyMaxCoin"];
+            //游戏相关
+            this.UserTable["SelfInfo"].WinGameNum = dataTable["WinGameNum"];
+            this.UserTable["SelfInfo"].LoseGameNum = dataTable["LoseGameNum"];
+            this.UserTable["SelfInfo"].MaxShoupai = dataTable["MaxShoupai"];
+            this.UserTable["SelfInfo"].luckyIcon = dataTable["luckyIcon"];
+        }else {
+            // NickName text 昵称
+            this.UserTable["OtherInfo"].UserID = dataTable["UserID"];
+            // NickName text 昵称
+            this.UserTable["OtherInfo"].NickName = dataTable["NickName"];
+            // Sex byte 性别 1男 2女
+            this.UserTable["OtherInfo"].Sex = dataTable["Sex"];
+            // Age byte 年龄
+            this.UserTable["OtherInfo"].Age = dataTable["age"];
+            // City text 城市 如 :北京-海淀
+            this.UserTable["OtherInfo"].City = dataTable["city"];
+            // PhotoUrl text 头像URL
+            this.UserTable["OtherInfo"].PhotoUrl = dataTable["photourl"];
+            // Sign text 个性签名
+            this.UserTable["OtherInfo"].sign = dataTable["sign"];
+            // Coin long 金币
+            this.UserTable["OtherInfo"].Coin = dataTable["coin"];
+            // YuanBao int 元宝
+            this.UserTable["OtherInfo"].yuanBao = dataTable["yuanbao"];
+            // TaoJin int 荣誉值
+            this.UserTable["OtherInfo"].Honor = dataTable["honor"];
+            // DuiJiangQuan int 兑奖券 MsgVer >= 1时发送
+            this.UserTable["OtherInfo"].DuiJiangQuan = dataTable["duijiang"];
+            // commendationCnt int 奖状数 MsgVer >= 1时发送
+            this.UserTable["OtherInfo"].commendationCnt = dataTable["commendationCnt"];
+            //VipLevel int VIP等级
+            this.UserTable["OtherInfo"].VipLevel = dataTable["mnVipLevel"];
+            //LawLimitRemind text 法律风险相关提示语 亲，您今天已经累计输掉3000万金币了，达到单日上限，无法继续游戏了。
+            this.UserTable["OtherInfo"].lawLimitRemind = dataTable["lawLimitRemind"];
+            //DjqPieces int 兑奖券碎片数量
+            this.UserTable["OtherInfo"].djqPieces = dataTable["djqPieces"];
+            //HistoryMaxCoin long 历史最高金币数
+            this.UserTable["OtherInfo"].historyMaxCoin = dataTable["historyMaxCoin"];
+
+            //游戏相关
+            this.UserTable["OtherInfo"].WinGameNum = dataTable["WinGameNum"];
+            this.UserTable["OtherInfo"].LoseGameNum = dataTable["LoseGameNum"];
+            this.UserTable["OtherInfo"].MaxShoupai = dataTable["MaxShoupai"];
+        }
     }
 //    //第三方平台ID
 //    setUserThirdPartPlatId:function(thirdPartPlatId){
@@ -215,3 +315,7 @@ var profile_user= {
 
 profile_user.UserTable["SelfInfo"]= {};
 profile_user.UserTable["OtherInfo"]= {};
+//请求个人充值信息
+Frameworks.addSlot2Signal(GIFTBAGID_USER_ENCHARGE_INFO, profile_user.slot_GIFTBAGID_USER_ENCHARGE_INFO);
+
+//Todo:退出游戏时，清空数据

@@ -26,17 +26,17 @@ var MonthCardController = BaseController.extend({
 	},
     //添加监听
     addCallback:function(){
-		Frameworks.bindEventCallback(CocoStudio.getComponent(MonthCardLogic.view,"Button_weixin"), MonthCardLogic.callback_Button_weixin, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(MonthCardLogic.view,"Button_guanbi"), MonthCardLogic.callback_Button_guanbi, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(MonthCardLogic.view,"Button_goumai"), MonthCardLogic.callback_Button_goumai, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(MonthCardLogic.view,"Panel_afterbuy"), MonthCardLogic.callback_Panel_afterbuy, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.bindEventCallback("MonthCardLogic#", CocoStudio.getComponent(MonthCardLogic.view,"Button_weixin"), MonthCardLogic.callback_Button_weixin, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("MonthCardLogic#", CocoStudio.getComponent(MonthCardLogic.view,"Button_guanbi"), MonthCardLogic.callback_Button_guanbi, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("MonthCardLogic#", CocoStudio.getComponent(MonthCardLogic.view,"Button_goumai"), MonthCardLogic.callback_Button_goumai, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("MonthCardLogic#", CocoStudio.getComponent(MonthCardLogic.view,"Panel_afterbuy"), MonthCardLogic.callback_Panel_afterbuy, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
     },
     //移除监听
     removeCallback:function(){
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(MonthCardLogic.view,"Button_weixin"), MonthCardLogic.callback_Button_weixin, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(MonthCardLogic.view,"Button_guanbi"), MonthCardLogic.callback_Button_guanbi, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(MonthCardLogic.view,"Button_goumai"), MonthCardLogic.callback_Button_goumai, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(MonthCardLogic.view,"Panel_afterbuy"), MonthCardLogic.callback_Panel_afterbuy, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(MonthCardLogic.view,"MonthCardLogic#Button_weixin"), MonthCardLogic.callback_Button_weixin, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(MonthCardLogic.view,"MonthCardLogic#Button_guanbi"), MonthCardLogic.callback_Button_guanbi, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(MonthCardLogic.view,"MonthCardLogic#Button_goumai"), MonthCardLogic.callback_Button_goumai, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(MonthCardLogic.view,"MonthCardLogic#Panel_afterbuy"), MonthCardLogic.callback_Panel_afterbuy, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
     },
     
     setModuleLayer:function(moduleLayer){

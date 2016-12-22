@@ -26,11 +26,11 @@ var GameHelpController = BaseController.extend({
 	},
     //添加监听
     addCallback:function(){
-		Frameworks.bindEventCallback(CocoStudio.getComponent(GameHelpLogic.view,"btn_close1"), GameHelpLogic.callback_btn_close, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("GameHelpLogic#", CocoStudio.getComponent(GameHelpLogic.view,"btn_close1"), GameHelpLogic.callback_btn_close1, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
     },
     //移除监听
     removeCallback:function(){
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(GameHelpLogic.view,"btn_close1"), GameHelpLogic.callback_btn_close, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(GameHelpLogic.view,"GameHelpLogic#btn_close1"), GameHelpLogic.callback_btn_close1, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
     },
     
     setModuleLayer:function(moduleLayer){

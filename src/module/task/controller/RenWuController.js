@@ -26,15 +26,15 @@ var RenWuController = BaseController.extend({
 	},
     //添加监听
     addCallback:function(){
-		Frameworks.bindEventCallback(CocoStudio.getComponent(RenWuLogic.view,"Image_AchievementTask"), RenWuLogic.callback_Image_AchievementTask, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(RenWuLogic.view,"Image_EverDayTask"), RenWuLogic.callback_Image_EverDayTask, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.bindEventCallback(CocoStudio.getComponent(RenWuLogic.view,"btn_Close"), RenWuLogic.callback_btn_Close, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("RenWuLogic#", CocoStudio.getComponent(RenWuLogic.view,"Image_AchievementTask"), RenWuLogic.callback_Image_AchievementTask, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.bindEventCallback("RenWuLogic#", CocoStudio.getComponent(RenWuLogic.view,"Image_EverDayTask"), RenWuLogic.callback_Image_EverDayTask, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.bindEventCallback("RenWuLogic#", CocoStudio.getComponent(RenWuLogic.view,"btn_Close"), RenWuLogic.callback_btn_Close, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
     },
     //移除监听
     removeCallback:function(){
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(RenWuLogic.view,"Image_AchievementTask"), RenWuLogic.callback_Image_AchievementTask, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(RenWuLogic.view,"Image_EverDayTask"), RenWuLogic.callback_Image_EverDayTask, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(RenWuLogic.view,"btn_Close"), RenWuLogic.callback_btn_Close, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(RenWuLogic.view,"RenWuLogic#Image_AchievementTask"), RenWuLogic.callback_Image_AchievementTask, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(RenWuLogic.view,"RenWuLogic#Image_EverDayTask"), RenWuLogic.callback_Image_EverDayTask, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(RenWuLogic.view,"RenWuLogic#btn_Close"), RenWuLogic.callback_btn_Close, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
     },
     
     setModuleLayer:function(moduleLayer){

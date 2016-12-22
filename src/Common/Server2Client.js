@@ -468,3 +468,27 @@ function read80680013(nmBaseMessage){
     
     return dataTable;
 }
+
+//金花请求破产送金信息(JINHUA_MGR_REVIVE_INFO)
+function read80680001(nMBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JINHUA_MGR_REVIVE_INFO;
+    dataTable["messageName"] = "JINHUA_MGR_REVIVE_INFO";
+
+    //hasRelive	Byte	是否有破产礼包
+    dataTable["hasRelive"] = nMBaseMessage.readByte();
+    //Time	Long	礼包领取剩余时间	如果为0则可以马上领取
+    dataTable["Time"] = parseInt(nMBaseMessage.readLong());
+    return dataTable
+}
+
+//金花请求破产送金信息(JINHUA_MGR_REVIVE)
+function read80680002(nMBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JINHUA_MGR_REVIVE;
+    dataTable["messageName"] = "JINHUA_MGR_REVIVE";
+
+    //Coin	int	破产金
+    dataTable["Coin"] = nMBaseMessage.readInt();
+    return dataTable
+}

@@ -1,6 +1,9 @@
 /**金花**/
 function sendJINHUA_MGR_USER_INFO(userID)
 {
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
     var nmBaseMessage= new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ+ JINHUA_MGR_USER_INFO);
 
@@ -20,6 +23,9 @@ function sendJINHUA_MGR_USER_INFO(userID)
 
 //金花VIP等级信息 (JINHUA_MGR_VIP_INFO)
 function sendJINHUA_MGR_VIP_INFO(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
     var nmBaseMessage = new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + JINHUA_MGR_VIP_INFO);
     nmBaseMessage.writeStart();
@@ -33,6 +39,9 @@ function sendJINHUA_MGR_VIP_INFO(){
 
 //金花在线人数 (JINHUA_MGR_SETTING)
 function sendJINHUA_MGR_SETTING(Timestamp){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
     var nmBaseMessage = new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + JINHUA_MGR_SETTING);
     nmBaseMessage.writeStart();
@@ -50,6 +59,9 @@ function sendJINHUA_MGR_SETTING(Timestamp){
 
 //获取游戏公告JINHUA_MGR_NOTICE
 function sendJINHUA_MGR_NOTICE(Timestamp){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
     var nmBaseMessage = new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + JINHUA_MGR_NOTICE);
     nmBaseMessage.writeStart();
@@ -67,6 +79,9 @@ function sendJINHUA_MGR_NOTICE(Timestamp){
 
 //3.46金花背包V2(JINHUA_MGR_BACKPACK_ITEMS_V2）
 function sendJINHUA_MGR_BACKPACK_ITEMS_V2(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
     var nmBaseMessage = new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + JINHUA_MGR_BACKPACK_ITEMS_V2);
     nmBaseMessage.writeStart();
@@ -80,9 +95,10 @@ function sendJINHUA_MGR_BACKPACK_ITEMS_V2(){
 
 //保险箱info (JHID_STRONG_BOX_INFO)
 function sendJHID_STRONG_BOX_INFO(){
-    console.log("保险箱");
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
     var nmBaseMessage = new NMBaseMessage();
-    console.log(JHID_STRONG_BOX_INFO);
     nmBaseMessage.setMessageType(REQ + JHID_STRONG_BOX_INFO);
     nmBaseMessage.writeStart();
 
@@ -95,6 +111,9 @@ function sendJHID_STRONG_BOX_INFO(){
 
 //保险箱存钱(JHID_SAVE_TAKE_STRONG_BOX_COIN)
 function sendJHID_SAVE_TAKE_STRONG_BOX_COIN(Coin,Type){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
     var nmBaseMessage = new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + JHID_SAVE_TAKE_STRONG_BOX_COIN);
     nmBaseMessage.writeStart();
@@ -114,6 +133,9 @@ function sendJHID_SAVE_TAKE_STRONG_BOX_COIN(Coin,Type){
 
 //扎金花工资面板 (JINHUA_MGR_DAILY_SALARY）
 function sendJINHUA_MGR_DAILY_SALARY(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
     var nmBaseMessage = new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + JINHUA_MGR_DAILY_SALARY);
     nmBaseMessage.writeStart();
@@ -130,6 +152,9 @@ function sendJINHUA_MGR_DAILY_SALARY(){
 }
 //获取每日工资
 function sendJINHUA_MGR_GET_SALARY(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
     var nmBaseMessage = new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + JINHUA_MGR_GET_SALARY);
     nmBaseMessage.writeStart();
@@ -147,6 +172,9 @@ function sendJINHUA_MGR_GET_SALARY(){
 
 //获取好友列表
 function sendJINHUA_MGR_FRIEND_LIST(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
     var nmBaseMessage = new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + JINHUA_MGR_FRIEND_LIST);
     nmBaseMessage.writeStart();
@@ -164,6 +192,9 @@ function sendJINHUA_MGR_FRIEND_LIST(){
 
 //获取追踪列表(JINHUA_MGR_TRACE_LIST)
 function sendJINHUA_MGR_TRACE_LIST(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
     var nmBaseMessage = new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + JINHUA_MGR_TRACE_LIST);
     nmBaseMessage.writeStart();
@@ -181,6 +212,9 @@ function sendJINHUA_MGR_TRACE_LIST(){
 
 //获取陌生人列表(JINHUA_MGR_STRANGER_LIST)
 function sendJINHUA_MGR_STRANGER_LIST(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
     var nmBaseMessage = new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + JINHUA_MGR_STRANGER_LIST);
     nmBaseMessage.writeStart();
@@ -196,8 +230,11 @@ function sendJINHUA_MGR_STRANGER_LIST(){
     delete nmBaseMessage;
 }
 
-//金花
+//领取好友送金
 function sendJINHUA_MGR_SIGN_FRIEND_REWARD(userID, index){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
     var nmBaseMessage = new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + JINHUA_MGR_SIGN_FRIEND_REWARD);
     nmBaseMessage.writeStart();
@@ -207,6 +244,46 @@ function sendJINHUA_MGR_SIGN_FRIEND_REWARD(userID, index){
     nmBaseMessage.writeInt(userID);
     //index		好友在列表中的位置
     nmBaseMessage.writeInt(index);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//金花请求破产送金信息(JINHUA_MGR_REVIVE_INFO)
+function sendJINHUA_MGR_REVIVE_INFO(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JINHUA_MGR_REVIVE_INFO);
+    nmBaseMessage.writeStart();
+
+    nmBaseMessage.writeStart();
+    //GameID	byte	ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//金花请求破产送金 (JINHUA_MGR_REVIVE)
+function sendJINHUA_MGR_REVIVE(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JINHUA_MGR_REVIVE);
+    nmBaseMessage.writeStart();
+
+    nmBaseMessage.writeStart();
+    //GameID	byte	ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
 
     nmBaseMessage.writeOver();
 
