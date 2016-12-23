@@ -1,11 +1,11 @@
 //数据图标集
 var ProfileHall= {
-//    //大厅初始化-获取玩家数据
-//    slot_BASEID_GET_BASEINFO:function(dataTable){
-//        profile_user.readBASEID_GET_BASEINFO(dataTable);
-//        //更新大厅数据
-//        HallLogic.updateHallData();
-//    },
+    //大厅初始化-获取玩家数据
+    slot_BASEID_GET_BASEINFO:function(dataTable){
+        profile_user.readBASEID_GET_BASEINFO(dataTable);
+        //初始化大厅基本数据
+        HallLogic.initHallBaseData();
+    },
     //获取玩家本身数据
     slot_JINHUA_MGR_USER_INFO:function(dataTable){
         //获取玩家本身数据
@@ -14,9 +14,9 @@ var ProfileHall= {
 
         MvcEngine.createModule(GUI_OTHERUSERINFO);
     },
-    //DBID_USER_INFO, ProfileHall.slot_DBID_USER_INFO
-    //更新玩家用户信息
+    //更新玩家用户信息(DBID_USER_INFO)
     slot_DBID_USER_INFO:function(dataTable){
+        console.log(dataTable);
         profile_user.readDBID_USER_INFO(dataTable);
         //更新大厅数据
         HallLogic.updateHallData();
@@ -25,9 +25,12 @@ var ProfileHall= {
     slot_JINHUA_MGR_SETTING:function(dataTable){
         //设置金花数据
         Profile_JinHuaSetting.readJINHUA_MGR_SETTING(dataTable);
+        //设置VIP等级
+        HallLogic.setUserTitle();
         //设置同时在线人数
         HallLogic.setOnlinePlayerNumber();
-        //设置是否显示首充翻倍
+        //Todo:首充翻倍 可以在JINHUA_MGR_SETTING中，也可以单独的获取(JINHUA_MGR_RECHARGE_REBATE_INFO)
+        //显示首充翻倍
         HallLogic.setShouChongFanBei();
     },
     //游戏公告
@@ -42,5 +45,83 @@ var ProfileHall= {
         if(dataTable["CanReceive"]== 1){
             MvcEngine.createModule(GUI_DAILYSALARY);
         }
+    },
+    //初始化图片列表
+    slot_MANAGERID_GET_INIT_PIC:function(dataTable){
+        console.log("Todo:MANAGERID_GET_INIT_PIC");
+        console.log(dataTable);
+    },
+    //金花玩家登录请求领节日礼物
+    slot_JINHUA_MGR_JH_ACTIVITY:function(dataTable){
+        console.log("Todo:JINHUA_MGR_JH_ACTIVITY");
+        console.log(dataTable);
+        //Todo:mvcEngine.logicModuleIsShow(GUI_DAILYSALARY)
+        //mvcEngine.createModule(GUI_SYSTEMPROMPTDIALOG)
+    },
+    //请求进入聊天室
+    slot_IMID_ENTER_CHAT_ROOM:function(dataTable){
+        console.log("Todo:IMID_ENTER_CHAT_ROOM");
+        console.log(dataTable);
+    },
+    //请求进入聊天室
+    slot_MANAGERID_GET_MINIGAME_PROMOTION:function(dataTable){
+        console.log("Todo:MANAGERID_GET_MINIGAME_PROMOTION");
+        console.log(dataTable);
+//        GameArmature.hideHallBtnArmature()
+//        showHallAnimation()
+    },
+    //聊天室发言
+    slot_IMID_CHAT_ROOM_SPEAK:function(dataTable){
+        console.log("Todo:IMID_CHAT_ROOM_SPEAK");
+        console.log(dataTable);
+        //TQJinHuaForLua\cached_res\script\module\hall\logic
+        //HallMiniChatLayer.addOneChat()
+    },
+    //扎金花主页活动
+    slot_JINHUA_MGR_INDEX_ACTIVITY:function(dataTable){
+        console.log("Todo:JINHUA_MGR_INDEX_ACTIVITY");
+        console.log(dataTable);
+//        local activityTable = profile.Activity.getJinHuaActivityTable()
+//        if activityTable.ActivityList == nil or #activityTable.ActivityList == 0 then
+//        --没数据
+//        else
+//        --有数据
+//        HallActivityLayer.initData(activityTable.ActivityList)
+//        end
+    },
+    //扎金花好友是否有红点 (JINHUA_MGR_FRIEND_HAVE_REDP）
+    slot_JINHUA_MGR_FRIEND_HAVE_REDP:function(dataTable){
+        console.log("JINHUA_MGR_FRIEND_HAVE_REDP");
+        if(dataTable== undefined) return;
+        //toDo:添加Profile_HongDian
+        console.log(dataTable);
+        console.log(HallLogic.friendRedMark);
+        if(HallLogic.friendRedMark){
+            HallLogic.friendRedMark.setVisible(dataTable["Result"]== 1);
+        }
+    },
+    //MAIL_SYSTEM_MESSGE_LIST
+    slot_MAIL_SYSTEM_MESSGE_LIST:function(dataTable){
+        if(dataTable== undefined) return;
+
+        Profile_Message.setSystemMessageLisTable(dataTable);
+        if(HallLogic.emailRedMark){
+            HallLogic.emailRedMark.setVisible(Profile_Message.getSystemMessageIsShowRedPoint());
+        }
+    },
+    //MANAGERID_HINT_BIND_WECHAT
+    slot_MANAGERID_HINT_BIND_WECHAT:function(dataTable){
+        console.log("Todo:微信MANAGERID_HINT_BIND_WECHAT");
+        console.log(dataTable);
+//        local isHint = profileCommon.BindWechat.isHintBindWeChat()
+//        if isHint then
+//        mvcEngine.createModule(GUI_BINDWECHAT);
+//        end
+    },
+    //首充翻倍
+    slot_JINHUA_MGR_RECHARGE_REBATE_INFO:function(dataTable){
+        console.log("Todo:首充翻倍JINHUA_MGR_RECHARGE_REBATE_INFO");
+        console.log(dataTable);
+        //Todo:profilePay.PayChannelData.IsRechargeRebate()
     }
 };

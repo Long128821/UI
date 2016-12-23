@@ -82,8 +82,10 @@ var ProfileLogin= {
         console.log("登录:"+ result+" "+ resultText);
 
         if(result== 0){
+            //玩家登陆信息已经改变
+            ProfileLogin.isChangeAccount= true;
             //初始化账户数据
-            ProfileLogin.initAllGameData(ProfileLogin.isChangeAccount);
+            ProfileLogin.initAllGameData(dataTable["UserID"]);
             //存储本地对应的密码
             profile_user.setSelfPassword(ProfileLogin.getLoginPassword());
             //设置一些基本数据
@@ -103,8 +105,10 @@ var ProfileLogin= {
         var resultText= dataTable["ResultTxt"];
 
         if(result== 0){
+            //玩家登陆信息已经改变
+            ProfileLogin.isChangeAccount= true;
             //初始化账户数据
-            ProfileLogin.initAllGameData(ProfileLogin.isChangeAccount);
+            ProfileLogin.initAllGameData(dataTable["UserID"]);
 
             //设置一些基本数据
             profile_user.readBASEID_REGISTER(dataTable);

@@ -159,7 +159,6 @@ function sendJINHUA_MGR_GET_SALARY(){
     nmBaseMessage.setMessageType(REQ + JINHUA_MGR_GET_SALARY);
     nmBaseMessage.writeStart();
 
-    nmBaseMessage.writeStart();
     //游戏ID
     nmBaseMessage.writeByte(GameConfig.GAME_ID);
 
@@ -179,7 +178,6 @@ function sendJINHUA_MGR_FRIEND_LIST(){
     nmBaseMessage.setMessageType(REQ + JINHUA_MGR_FRIEND_LIST);
     nmBaseMessage.writeStart();
 
-    nmBaseMessage.writeStart();
     //游戏ID
     nmBaseMessage.writeByte(GameConfig.GAME_ID);
 
@@ -199,7 +197,6 @@ function sendJINHUA_MGR_TRACE_LIST(){
     nmBaseMessage.setMessageType(REQ + JINHUA_MGR_TRACE_LIST);
     nmBaseMessage.writeStart();
 
-    nmBaseMessage.writeStart();
     //游戏ID
     nmBaseMessage.writeByte(GameConfig.GAME_ID);
 
@@ -219,7 +216,6 @@ function sendJINHUA_MGR_STRANGER_LIST(){
     nmBaseMessage.setMessageType(REQ + JINHUA_MGR_STRANGER_LIST);
     nmBaseMessage.writeStart();
 
-    nmBaseMessage.writeStart();
     //游戏ID
     nmBaseMessage.writeByte(GameConfig.GAME_ID);
 
@@ -239,7 +235,6 @@ function sendJINHUA_MGR_SIGN_FRIEND_REWARD(userID, index){
     nmBaseMessage.setMessageType(REQ + JINHUA_MGR_SIGN_FRIEND_REWARD);
     nmBaseMessage.writeStart();
 
-    nmBaseMessage.writeStart();
     //userId	好友id
     nmBaseMessage.writeInt(userID);
     //index		好友在列表中的位置
@@ -261,7 +256,6 @@ function sendJINHUA_MGR_REVIVE_INFO(){
     nmBaseMessage.setMessageType(REQ + JINHUA_MGR_REVIVE_INFO);
     nmBaseMessage.writeStart();
 
-    nmBaseMessage.writeStart();
     //GameID	byte	ID
     nmBaseMessage.writeByte(GameConfig.GAME_ID);
 
@@ -281,9 +275,98 @@ function sendJINHUA_MGR_REVIVE(){
     nmBaseMessage.setMessageType(REQ + JINHUA_MGR_REVIVE);
     nmBaseMessage.writeStart();
 
-    nmBaseMessage.writeStart();
     //GameID	byte	ID
     nmBaseMessage.writeByte(GameConfig.GAME_ID);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//金花玩家登录请求领节日礼物 (JINHUA_MGR_JH_ACTIVITY）
+function sendJINHUA_MGR_JH_ACTIVITY(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JINHUA_MGR_JH_ACTIVITY);
+    nmBaseMessage.writeStart();
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+
+//扎金花好友是否有红点(JINHUA_MGR_FRIEND_HAVE_REDP)
+function sendJINHUA_MGR_FRIEND_HAVE_REDP(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JINHUA_MGR_JH_ACTIVITY);
+    nmBaseMessage.writeStart();
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//扎金花房间列表
+function sendJINHUA_ROOMID_ROOM_LIST(time){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JINHUA_ROOMID_ROOM_LIST);
+    nmBaseMessage.writeStart();
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//扎金花首充翻倍消息 (JINHUA_MGR_FIRST_RECHARGE_DOUBLE）
+function sendJINHUA_MGR_RECHARGE_REBATE_INFO(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JINHUA_MGR_RECHARGE_REBATE_INFO);
+    nmBaseMessage.writeStart();
+    //客户端版本号
+    nmBaseMessage.writeInt(Common.getVersion() + Common.getChannelID());
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//快速开始
+function sendJHID_QUICK_START_REQ(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JINHUA_MGR_RECHARGE_REBATE_INFO);
+    //Todo:预留字段
+    //nmBaseMessage.setExtData(3);
+    nmBaseMessage.writeStart();
+
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+    nmBaseMessage.writeByte(0);
+    //ScriptVerCode	Int	脚本版本号	(游戏版本号+渠道号)
+    nmBaseMessage.writeInt(Common.getVersion() + Common.getChannelID());
 
     nmBaseMessage.writeOver();
 

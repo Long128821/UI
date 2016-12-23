@@ -66,6 +66,10 @@ var HallLogic= {
 	Panel_Commend:null,
 	Image_light:null,
 	Panel_miniChat:null,
+
+    /**************自定义私有成员********************/
+    friendRedMark:null,//好友按钮右上角的小红点
+    emailRedMark:null,//邮件按钮右上角的小红点
 	
     createView:function(){
         cc.spriteFrameCache.addSpriteFrames("res/co_desk.plist","res/co_desk.png");
@@ -81,10 +85,24 @@ var HallLogic= {
         this.initTable();
         //发送公共消息
         this.sendGameCommonMessage();
-
+        //小游戏列表
         this.initMiniGameList();
-
+        //活动列表
         this.initActivityLists();
+        //新手引导
+        if(0){
+
+        }else{
+            //每日工资
+            sendJINHUA_MGR_DAILY_SALARY();
+            //是否显示大厅好友按钮的小红点
+            sendJINHUA_MGR_FRIEND_HAVE_REDP();
+            //获取站内信列表  主要需要数据来检测是否需要显示小红点
+            sendMAIL_SYSTEM_MESSGE_LIST(0,100);
+        }
+
+        //初始化比赛时钟
+
     },
     
 	initView:function(){
@@ -504,15 +522,36 @@ var HallLogic= {
         Frameworks.addSlot2Signal(JINHUA_MGR_SETTING, ProfileHall.slot_JINHUA_MGR_SETTING);//在线人数
         Frameworks.addSlot2Signal(JINHUA_MGR_NOTICE, ProfileHall.slot_JINHUA_MGR_NOTICE);//游戏公告
         Frameworks.addSlot2Signal(JINHUA_MGR_DAILY_SALARY, ProfileHall.slot_JINHUA_MGR_DAILY_SALARY);//每日工资面板
+        Frameworks.addSlot2Signal(MANAGERID_GET_INIT_PIC, ProfileHall.slot_MANAGERID_GET_INIT_PIC);//初始化图片列表
+        Frameworks.addSlot2Signal(JINHUA_MGR_JH_ACTIVITY, ProfileHall.slot_JINHUA_MGR_JH_ACTIVITY);//金花玩家登录请求领节日礼物
+        Frameworks.addSlot2Signal(MANAGERID_GET_MINIGAME_PROMOTION, ProfileHall.slot_MANAGERID_GET_MINIGAME_PROMOTION);//金花玩家登录请求领节日礼物
+        Frameworks.addSlot2Signal(IMID_ENTER_CHAT_ROOM, ProfileHall.slot_IMID_ENTER_CHAT_ROOM);//进入聊天室
+        Frameworks.addSlot2Signal(IMID_CHAT_ROOM_SPEAK, ProfileHall.slot_IMID_CHAT_ROOM_SPEAK);//聊天室发言
+        Frameworks.addSlot2Signal(JINHUA_MGR_INDEX_ACTIVITY, ProfileHall.slot_JINHUA_MGR_INDEX_ACTIVITY);//扎金花主页活动
+        Frameworks.addSlot2Signal(JINHUA_MGR_FRIEND_HAVE_REDP, ProfileHall.slot_JINHUA_MGR_FRIEND_HAVE_REDP);//扎金花好友是否有红点
+        Frameworks.addSlot2Signal(MAIL_SYSTEM_MESSGE_LIST, ProfileHall.slot_MAIL_SYSTEM_MESSGE_LIST);//扎金花好友是否有红点
+        Frameworks.addSlot2Signal(MANAGERID_HINT_BIND_WECHAT, ProfileHall.slot_MANAGERID_HINT_BIND_WECHAT);//获取微信绑定
+        Frameworks.addSlot2Signal(JINHUA_MGR_RECHARGE_REBATE_INFO, ProfileHall.slot_JINHUA_MGR_RECHARGE_REBATE_INFO);//首充翻倍
     },
     //移除信号
     removeSlot:function(){
+        //Todo:推荐系统(JINHUA_MGR_SHARING_INFO)
         Frameworks.removeSlotFromSignal(BASEID_GET_BASEINFO, ProfileHall.slot_BASEID_GET_BASEINFO);
         Frameworks.removeSlotFromSignal(JINHUA_MGR_USER_INFO, ProfileHall.slot_JINHUA_MGR_USER_INFO);
         Frameworks.removeSlotFromSignal(DBID_USER_INFO, ProfileHall.slot_DBID_USER_INFO);
         Frameworks.removeSlotFromSignal(JINHUA_MGR_SETTING, ProfileHall.slot_JINHUA_MGR_SETTING);
         Frameworks.removeSlotFromSignal(JINHUA_MGR_NOTICE, ProfileHall.slot_JINHUA_MGR_NOTICE);
         Frameworks.removeSlotFromSignal(JINHUA_MGR_DAILY_SALARY, ProfileHall.slot_JINHUA_MGR_DAILY_SALARY);
+        Frameworks.removeSlotFromSignal(MANAGERID_GET_INIT_PIC, ProfileHall.slot_MANAGERID_GET_INIT_PIC);//初始化图片列表
+        Frameworks.removeSlotFromSignal(JINHUA_MGR_JH_ACTIVITY, ProfileHall.slot_JINHUA_MGR_JH_ACTIVITY);//金花玩家登录请求领节日礼物
+        Frameworks.removeSlotFromSignal(MANAGERID_GET_MINIGAME_PROMOTION, ProfileHall.slot_MANAGERID_GET_MINIGAME_PROMOTION);//金花玩家登录请求领节日礼物
+        Frameworks.removeSlotFromSignal(IMID_ENTER_CHAT_ROOM, ProfileHall.slot_IMID_ENTER_CHAT_ROOM);//进入聊天室
+        Frameworks.removeSlotFromSignal(IMID_CHAT_ROOM_SPEAK, ProfileHall.slot_IMID_CHAT_ROOM_SPEAK);//聊天室发言
+        Frameworks.removeSlotFromSignal(JINHUA_MGR_INDEX_ACTIVITY, ProfileHall.slot_JINHUA_MGR_INDEX_ACTIVITY);//扎金花主页活动
+        Frameworks.removeSlotFromSignal(JINHUA_MGR_FRIEND_HAVE_REDP, ProfileHall.slot_JINHUA_MGR_FRIEND_HAVE_REDP);//扎金花好友是否有红点
+        Frameworks.removeSlotFromSignal(MAIL_SYSTEM_MESSGE_LIST, ProfileHall.slot_MAIL_SYSTEM_MESSGE_LIST);//扎金花好友是否有红点
+        Frameworks.removeSlotFromSignal(MANAGERID_HINT_BIND_WECHAT, ProfileHall.slot_MANAGERID_HINT_BIND_WECHAT);//扎金花好友是否有红点
+        Frameworks.removeSlotFromSignal(JINHUA_MGR_RECHARGE_REBATE_INFO, ProfileHall.slot_JINHUA_MGR_RECHARGE_REBATE_INFO);//首充翻倍
     },
     
     //释放界面的私有数据
@@ -543,18 +582,25 @@ var HallLogic= {
             this.sendEnterChatRoom();
             //Todo:摇钱树,找不到消息ID
             //sendOPERID_MONEY_SHAKE_TIME_CD();
-            //每日工资
-            sendJINHUA_MGR_DAILY_SALARY();
         }
         //在大厅界面是否发送公共消息请求
         if(!GameConfig.getMNHallInitSendMsg()){
-
             GameConfig.setMNHallInitSendMsg(true);
+            //Todo:需要从本地数据中，读取初始化图片
+            //sendMANAGERID_GET_INIT_PIC(profileCommon.InitImageList.getInitImageListTimestamp());
+            sendJINHUA_MGR_JH_ACTIVITY();//活动奖励
+            //sendDBID_GET_SMS_NUMBER();//短信通知
         }
+
+        //获取微信绑定信息
+        sendMANAGERID_HINT_BIND_WECHAT();
     },
     //初始化界面(昵称、头像、Vip、称号、元宝数、金币数、按钮)
     initTable:function(){
         GameConfig.setCurBaseLayer(GUI_HALL);
+
+        sendJINHUA_MGR_RECHARGE_REBATE_INFO();
+
         //按钮的各种动画
         this.showAnimation();
         //分割线的动画
@@ -563,7 +609,7 @@ var HallLogic= {
         //添加小红点
         this.addRedMark();
     },
-    updateHallData:function(){
+    initHallBaseData:function(){
         this.Label_NickName.setString(profile_user.getSelfNickName());//昵称
         //判断金币数，金币数
         var myCoin= GamePub.convertCoin(profile_user.getSelfCoin());
@@ -571,65 +617,43 @@ var HallLogic= {
 
         //当前玩家的称谓等级
         Common.setUserChengWei(profile_user.getSelfCoin(), this.Image_chengwei);
-        //加载网络头像
-        Common.setTextureByNet(profile_user.getSelfPhotoUrl(), this.Image_touxiang_default);
 
-        //Todo:因为Vip等级，如果是在UI工程里做的话，可以写成通用的
         //Vip等级
-        var userVipLevel = profile_user.getSelfVipLevel();
-        if(userVipLevel >= 0) {
-            var texture = VipElementsUtils.getVipBgFromVipLevel(userVipLevel);
-            if (texture != null) {
-                this.btn_vip.loadTextures(Common.getResourcePath(texture), Common.getResourcePath(texture),"");
-            }else{
-                this.btn_vip.loadTexture(Common.getResourcePath("ic_vip_0.png"),Common.getResourcePath("ic_vip_0.png"),"");
-            }
-
-            if(userVipLevel == 0){
-                this.AtlasLabel_vip_level.setVisible(false);
-                this.Image_vip_highsign.setVisible(false);
-                this.Image_vip_lowsignbg.setVisible(false);
-                this.AtlasLabel_lowsign.setVisible(false);
-            }else if(userVipLevel > 0 && userVipLevel < 10){
-                this.AtlasLabel_vip_level.setVisible(true);
-                this.Image_vip_highsign.setVisible(false);
-                this.Image_vip_lowsignbg.setVisible(true);
-                this.AtlasLabel_lowsign.setVisible(true);
-                this.AtlasLabel_vip_level.setStringValue(":"+userVipLevel);
-                this.AtlasLabel_lowsign.setStringValue(userVipLevel);
-            }else if(userVipLevel >= 10){
-                this.AtlasLabel_vip_level.setVisible(true);
-                this.Image_vip_highsign.setVisible(true);
-                this.Image_vip_lowsignbg.setVisible(false);
-                this.AtlasLabel_lowsign.setVisible(false);
-                this.AtlasLabel_vip_level.setStringValue(":"+userVipLevel);
-                var signTexture = VipElementsUtils.getVipHighSignFromVipLevel(userVipLevel);
-                if(signTexture == null){
-                    this.Image_vip_highsign.setVisible(false);
-                }else{
-                    this.Image_vip_highsign.loadTexture(signTexture,1);
-                }
-            }
-        }
+        this.setUserTitle();
 
         //元宝
         var myYuanBao = GamePub.convertCoin(profile_user.getSelfYuanBao());
         this.Label_YuanBao.setString(myYuanBao);//元宝数
     },
+    //可以舍弃BASEID_GET_BASEINFO，设置基本数据，只需要一次即可，因为DBID_USER_INFO消息，已经全部获取了
+    //更新头像，用户信息
+    updateHallData:function(){
+        this.initHallBaseData();
+
+        if(profile_user.getSelfPhotoUrl()!= null){
+            //加载网络头像
+            //Todo:圆形头像(裁切节点)
+            Common.setTextureByNet(profile_user.getSelfPhotoUrl(), this.Image_touxiang_default);
+        }
+    },
     //添加小红点
     addRedMark:function(){
-        var friendRedMark= ccui.ImageView.create();
-        friendRedMark.loadTexture(Common.getResourcePath("gift_tan_hao.png"));
+        this.friendRedMark= ccui.ImageView.create();
+        this.friendRedMark.loadTexture(Common.getResourcePath("gift_tan_hao.png"));
         var parentSize= this.btn_friend.getContentSize();
-        friendRedMark.setPosition(cc.p(20+ parentSize.width* 0.5, 23+ parentSize.height*0.5));
-        this.btn_friend.addChild(friendRedMark);
+        this.friendRedMark.setPosition(cc.p(20+ parentSize.width* 0.5, 23+ parentSize.height*0.5));
+        this.btn_friend.addChild(this.friendRedMark);
 
         //系统邮件小红点
-        var emailRedMark= ccui.ImageView.create();
-        emailRedMark.loadTexture(Common.getResourcePath("gift_tan_hao.png"));
+        this.emailRedMark= ccui.ImageView.create();
+        this.emailRedMark.loadTexture(Common.getResourcePath("gift_tan_hao.png"));
         parentSize= this.btn_message.getContentSize();
-        emailRedMark.setPosition(cc.p(20+ parentSize.width* 0.5, 23+ parentSize.height*0.5));
-        this.btn_message.addChild(emailRedMark);
+        this.emailRedMark.setPosition(cc.p(20+ parentSize.width* 0.5, 23+ parentSize.height*0.5));
+        this.btn_message.addChild(this.emailRedMark);
+
+        //默认将其隐藏，在slot_JINHUA_MGR_FRIEND_HAVE_REDP和slot_MAIL_SYSTEM_MESSGE_LIST消息中，根据后台数据显示或者隐藏
+        this.friendRedMark.setVisible(false);
+        this.emailRedMark.setVisible(false);
     },
     //执行动画
     showAnimation:function(){
@@ -728,9 +752,50 @@ var HallLogic= {
         this.Label_online.setColor(cc.color(255,0,0));
         this.Label_online.setText("当前在线:"+Profile_JinHuaSetting.getOnlinePlayerNumber()+"人");
     },
+    //更新Vip等级
+    setUserTitle:function(){
+        //Todo:因为Vip等级，如果是在UI工程里做的话，可以写成通用的
+        //Vip等级
+        var userVipLevel = profile_user.getSelfVipLevel();
+        if(userVipLevel >= 0) {
+            var texture = VipElementsUtils.getVipBgFromVipLevel(userVipLevel);
+            if (texture != null) {
+                this.btn_vip.loadTextures(Common.getResourcePath(texture), Common.getResourcePath(texture),"");
+            }else{
+                this.btn_vip.loadTexture(Common.getResourcePath("ic_vip_0.png"),Common.getResourcePath("ic_vip_0.png"),"");
+            }
+
+            if(userVipLevel == 0){
+                this.AtlasLabel_vip_level.setVisible(false);
+                this.Image_vip_highsign.setVisible(false);
+                this.Image_vip_lowsignbg.setVisible(false);
+                this.AtlasLabel_lowsign.setVisible(false);
+            }else if(userVipLevel > 0 && userVipLevel < 10){
+                this.AtlasLabel_vip_level.setVisible(true);
+                this.Image_vip_highsign.setVisible(false);
+                this.Image_vip_lowsignbg.setVisible(true);
+                this.AtlasLabel_lowsign.setVisible(true);
+                this.AtlasLabel_vip_level.setStringValue(":"+userVipLevel);
+                this.AtlasLabel_lowsign.setStringValue(userVipLevel);
+            }else if(userVipLevel >= 10){
+                this.AtlasLabel_vip_level.setVisible(true);
+                this.Image_vip_highsign.setVisible(true);
+                this.Image_vip_lowsignbg.setVisible(false);
+                this.AtlasLabel_lowsign.setVisible(false);
+                this.AtlasLabel_vip_level.setStringValue(":"+userVipLevel);
+                var signTexture = VipElementsUtils.getVipHighSignFromVipLevel(userVipLevel);
+                if(signTexture == null){
+                    this.Image_vip_highsign.setVisible(false);
+                }else{
+                    this.Image_vip_highsign.loadTexture(signTexture,1);
+                }
+            }
+        }
+    },
     //切换首充翻倍动画
     setShouChongFanBei:function(){
         var self= this;
+
         if(!Profile_JinHuaSetting.getIsRecharged()){
             //首充翻倍
             self.btn_chongzhi.setOpacity(0);
@@ -773,10 +838,38 @@ var HallLogic= {
         dataTable["IsFirstEnter"] = 1;
         dataTable["ChatRoomName"] = "";
         sendIMID_ENTER_CHAT_ROOM(dataTable);
+    },
+    //唤醒大厅，主要是这期间如果有了新的好友和消息
+    refreshHall:function(){
+        //是否显示大厅好友按钮的小红点
+        sendJINHUA_MGR_FRIEND_HAVE_REDP();
+        //获取站内信列表  主要需要数据来检测是否需要显示小红点
+        sendMAIL_SYSTEM_MESSGE_LIST(0,100);
     }
 };
 
+//var data= cc.loader._loadTxtSync("Name.json");
+//console.log(JSON.parse(data).dub);
 //Todo:公告
 //Todo:没有做礼包数据的原因是:没有应用版本号和版本名
 //Todo:没有做活动的原因是:GameLoadModuleConfig.getTaskGameConfigList()活动文件列表不知道
 //Todo:在Logic中，添加各种setBaseLayer
+//Todo:小红点
+//Todo:Toast
+//Todo:webView
+//Todo:新手引导
+//Todo:动画
+//Todo:sendJHID_QUICK_START_REQ() --扎金花快速开始
+
+//Todo:MINI_COMMON_WINNING_RECORD 小游戏公告 不知道读写数据内容
+//Todo:MANAGERID_GET_JINHUA_USER_GUIDE_PRIZE
+//Todo:MANAGERID_GET_JINHUA_USER_GUIDE_INFO
+//Todo:MANAGERID_GET_SERVER_CONFIG_V2
+//Todo:JINHUA_MGR_SHARING_INPUT_CDKEY
+//Todo:OPERID_SEND_ALL_BUGLE
+//Todo:JINHUA_MGR_BUY_VIP
+//Todo:MANAGERID_GET_MINIGAME_PROMOTION
+//Todo:MANAGERID_MINIGAME_LIST_TYPE_V3
+//Todo:OPERID_MONEY_SHAKE_TIME_CD
+//Todo:小红点回调
+//Todo:MANAGERID_HINT_BIND_WECHAT

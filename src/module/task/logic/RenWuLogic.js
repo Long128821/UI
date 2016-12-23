@@ -94,6 +94,7 @@ var RenWuLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
+            console.log("修改");
             MvcEngine.destroyModule(GUI_RENWU);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消

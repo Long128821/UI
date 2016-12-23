@@ -158,7 +158,8 @@ var profile_user= {
 
     //初始化账户数据，登录或者注册时，切换账户
     initUserInfo:function(userID){
-        if(userID== this.getSelfUserID()){
+        console.log(userID+" "+ this.getSelfUserID());
+        if(userID!= this.getSelfUserID()){
             this.UserTable["SelfInfo"]= {};
             this.UserTable["OtherInfo"]= {};
         }
@@ -178,6 +179,7 @@ var profile_user= {
     },
     //登录成功
     readBASEID_LOGIN:function(dataTable){
+        this.setSelfUserID(dataTable["UserID"]);
         this.setSelfNickName(dataTable["NickName"]);
         this.setSelfCoin(dataTable["Coin"]);
         this.setSelfYuanBao(dataTable["yuanbao"]);

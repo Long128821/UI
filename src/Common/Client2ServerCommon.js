@@ -86,6 +86,8 @@ function sendBASEID_LOGIN(nickName, password){
     nmBaseMessage.writeString(nickName);//昵称
     nmBaseMessage.writeString(password);//密码
 
+    console.log(nickName+" "+ password);
+
     nmBaseMessage.writeInt(Common.getVersion());//版本号
 
     nmBaseMessage.writeString("ChangeID");//注册渠道号
@@ -119,7 +121,7 @@ function sendMANAGERID_USERLIST_FROM_IMIE(){
     nmBaseMessage.writeString("html5_"+ "357523056663693");//IMEI
 
     //VersionCode	Int	游戏版本号+渠道号
-    nmBaseMessage.writeInt(Common.getVersion()+ Common.getChangeID());
+    nmBaseMessage.writeInt(Common.getVersion()+ Common.getChannelID());
 
     nmBaseMessage.writeByte(GameConfig.GAME_ID);//发起注册的游戏ID
 
@@ -445,7 +447,7 @@ function sendMANAGERID_GET_MINIGAME_PROMOTION(userid){
     //GameID byte  游戏ID
     nmBaseMessage.writeByte(GameConfig.GAME_ID);
     //GameVersionCode  int 游戏版本号
-    nmBaseMessage.writeInt(Common.getVersion() + Common.getChangeID());
+    nmBaseMessage.writeInt(Common.getVersion() + Common.getChannelID());
 
     nmBaseMessage.writeOver();
 
@@ -464,7 +466,7 @@ function sendIMID_ENTER_CHAT_ROOM(dataTable){
 
     nMBaseMessage.writeStart();
 
-    //ChatRoomID  聊天室ID（目前填写游戏ID即可）
+    //GameID	Byte	游戏ID
 	nMBaseMessage.writeInt(GameConfig.GAME_ID);
     //NickName  昵称
     nMBaseMessage.writeString(dataTable["NickName"]);
@@ -472,6 +474,78 @@ function sendIMID_ENTER_CHAT_ROOM(dataTable){
     nMBaseMessage.writeByte(dataTable["IsFirstEnter"]);
     //ChatRoomName  聊天室标识（与ChatRoomID共同做Key）
 	nMBaseMessage.writeString(dataTable["ChatRoomName"]);
+
+    nMBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nMBaseMessage);
+
+    delete nMBaseMessage;
+}
+
+//获取初始化图片
+function sendMANAGERID_GET_INIT_PIC(TimeStamp)
+{
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nMBaseMessage= new NMBaseMessage();
+    nMBaseMessage.setMessageType(REQ + MANAGERID_GET_INIT_PIC);
+
+    nMBaseMessage.writeStart();
+
+    //GameID	Byte	游戏ID
+    nMBaseMessage.writeInt(GameConfig.GAME_ID);
+    //TimeStamp	Long	时间戳
+    nMBaseMessage.writeLong(TimeStamp);
+    //version	Int	版本号
+    nMBaseMessage.writeInt(Common.getVersion()+ Common.getChannelID());
+
+    nMBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nMBaseMessage);
+
+    delete nMBaseMessage;
+}
+
+//首页活动推广(JINHUA_MGR_INDEX_ACTIVITY)
+function sendJINHUA_MGR_INDEX_ACTIVITY(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nMBaseMessage= new NMBaseMessage();
+    nMBaseMessage.setMessageType(REQ + JINHUA_MGR_INDEX_ACTIVITY);
+
+    nMBaseMessage.writeStart();
+
+    //GameID	Byte	游戏ID
+    nMBaseMessage.writeInt(GameConfig.GAME_ID);
+    //TimeStamp	Long	时间戳
+    nMBaseMessage.writeLong(TimeStamp);
+    //version	Int	版本号
+    nMBaseMessage.writeInt(Common.getVersion()+ Common.getChannelID());
+
+    nMBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nMBaseMessage);
+
+    delete nMBaseMessage;
+}
+
+//获取用户绑定微信信息(MANAGERID_HINT_BIND_WECHAT)
+function sendMANAGERID_HINT_BIND_WECHAT(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nMBaseMessage= new NMBaseMessage();
+    nMBaseMessage.setMessageType(REQ + MANAGERID_HINT_BIND_WECHAT);
+
+    nMBaseMessage.writeStart();
+    //IMIE	text	IMIE，动态获取的手机IMEI
+    nMBaseMessage.writeString("html5_"+ "357523056663693");
+    //VersionCode	Int	游戏版本号+渠道号
+    nMBaseMessage.writeInt(Common.getVersion()+ Common.getChannelID());
+    //GameID	Byte	游戏ID
+    nMBaseMessage.writeInt(GameConfig.GAME_ID);
 
     nMBaseMessage.writeOver();
 

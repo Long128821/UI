@@ -5,7 +5,7 @@ var Common= {
     isDebugState:function(){
         return this.debugState;
     },
-    getChangeID:function(){
+    getChannelID:function(){
         return this.changeID;
     },
     setChangeID:function(changeID){

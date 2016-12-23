@@ -47,7 +47,7 @@ var MessageServerLogic= {
 //			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL);
 //		}
 	},
-    
+
 	callback_Panel_Content:function(pSender, event){
 		if(event == ccui.Widget.TOUCH_BEGAN){
 			//按下

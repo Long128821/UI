@@ -190,15 +190,15 @@ function read8007009d(nmBaseMessage){
 
 //获取用户绑定微信信息(MANAGERID_HINT_BIND_WECHAT)
 function read8007009e(nmBaseMessage){
-    var dataTable= new Map();
+    var dataTable= {};
     //存放消息类型和消息名
-    dataTable.put("messageType", ACK + MANAGERID_HINT_BIND_WECHAT);
-    dataTable.put("messageName", "MANAGERID_HINT_BIND_WECHAT");
+    dataTable["messageType"]= ACK + MANAGERID_HINT_BIND_WECHAT;
+    dataTable["messageName"]= "MANAGERID_HINT_BIND_WECHAT";
 
     //isHint	byte	是否需要提示用户绑定微信
-    dataTable.put("isHint", nmBaseMessage.readByte());
+    dataTable["isHint"]= nmBaseMessage.readByte();
     //AwardCoin	text	绑定微信提示信息
-    dataTable.put("AwardCoin", nmBaseMessage.getString());
+    dataTable["AwardCoin"]= nmBaseMessage.readString();
     return dataTable;
 }
 
@@ -317,8 +317,6 @@ function read80050003(nmBaseMessage){
     dataTable["ActionId"] = nmBaseMessage.readInt();
     //ActionString
     dataTable["ActionParam"] = nmBaseMessage.readInt();
-    console.log("聊天室发言.");
-    console.log(dataTable);
     return dataTable;
 }
 
@@ -502,7 +500,7 @@ function read80510001(nMBaseMessage){
     return dataTable;
 }
 
-//解析获取用户充值信息
+//解析进入聊天室
 function read80050001(nMBaseMessage){
     var dataTable= {};
     dataTable["messageType"]= ACK + IMID_ENTER_CHAT_ROOM;
@@ -589,6 +587,9 @@ function read8007009c(nMBaseMessage){
     //Url	String	小游戏图标	本地没有的时候使用
     dataTable["Url"] = nMBaseMessage.readString();
 
+    console.log("Todo:MANAGERID_GET_MINIGAME_PROMOTION");
+    console.log(dataTable);
+
     return dataTable;
 }
 
@@ -640,6 +641,65 @@ function read80060002(nMBaseMessage){
     dataTable["djqPieces"] = nMBaseMessage.readInt();
     //HistoryMaxCoin long 历史最高金币数
     dataTable["historyMaxCoin"] = parseInt(nMBaseMessage.readLong());
+
+    return dataTable;
+}
+
+//获取初始化图片
+function read8007001c(nMBaseMessage)
+{
+    var dataTable= {};
+    dataTable["messageType"]= ACK + MANAGERID_GET_INIT_PIC;
+    dataTable["messageName"]= "MANAGERID_GET_INIT_PIC";
+
+    //TimeStamp	Long	时间戳
+    dataTable["TimeStamp"] = parseInt(nMBaseMessage.readLong());
+
+    //picList	Int	图片列表	Loop
+    //GiftBagCnt  礼包数量
+    dataTable["picList"] = {};
+    var picListCnt = nMBaseMessage.readInt();
+    dataTable["picListCnt"]= picListCnt;
+    for(var i=0; i< picListCnt; ++i){
+        dataTable["picList"][i] = {};
+        nMBaseMessage.startReadLoop();
+
+        //…picUrl	Text	图片url
+        dataTable["picList"][i].picUrl = nMBaseMessage.readString();
+    }
+
+    //礼包列表中第一个礼包的结束时间OverTime
+    dataTable["OverTime"] = parseInt(nMBaseMessage.readLong());
+
+    return dataTable;
+}
+
+//扎金花主页活动 (JINHUA_MGR_INDEX_ACTIVITY）
+function read82680030(nMBaseMessage)
+{
+    var dataTable= {};
+    dataTable["messageType"]= ACK + JINHUA_MGR_INDEX_ACTIVITY;
+    dataTable["messageName"]= "JINHUA_MGR_INDEX_ACTIVITY";
+
+    //TimeStamp	Long	时间戳
+    dataTable["TimeStamp"] = parseInt(nMBaseMessage.readLong());
+
+    //ShopList	LoopMsg
+    //GiftBagCnt  礼包数量
+    dataTable["ActivityList"] = {};
+    var ActivityListCnt = nMBaseMessage.readInt();
+    dataTable["ActivityListCnt"]= ActivityListCnt;
+    for(var i=0; i< ActivityListCnt; ++i){
+        dataTable["picList"][i] = {};
+        nMBaseMessage.startReadLoop();
+
+        // ...type	Byte	类型	1活动，2礼包
+        dataTable["ActivityList"][i].type = nMBaseMessage.readByte();
+        // ...activityId	Int	活动ID或者礼包ID	跟上面类型相关
+        dataTable["ActivityList"][i].activityId = nMBaseMessage.readInt();
+        // ...imgURL	Text	图片
+        dataTable["ActivityList"][i].imgURL = nMBaseMessage.readString();
+    }
 
     return dataTable;
 }

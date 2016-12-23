@@ -90,6 +90,7 @@ var HallController = BaseController.extend({
 		HallLogic.view.setTouchEnabled(false);
         HallLogic.setListenerEnabled(false);
 		this.removeCallback();
+        HallLogic.refreshHall();
 		Frameworks.emit(SignalCommon.Signal_SleepModule_Done);
     },
     //唤醒

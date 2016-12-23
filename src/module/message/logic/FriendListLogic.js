@@ -547,7 +547,7 @@ var FriendListLogic= {
         var userID= ProfileFriendList.m_friendListTable["FriendList"][id]["userID"];
         if(userID== 1001){//同趣小妹
             //隐藏列表
-
+            FriendListLogic.m_tableView.setVisible(false);
             MvcEngine.createModule(GUI_XIAOMEIINFO);
         }else{
             //其他玩家列表
@@ -556,6 +556,7 @@ var FriendListLogic= {
     },
     //切换按钮状态
     changeBtnState:function(index){
+        console.log("ID:"+ index);
         var button= ProfileFriendList.m_arrFriendButton[index];
         button.setOpacity(120);
         button.setTexture(Common.getResourcePath("ui_yilingqu.png"));

@@ -492,3 +492,44 @@ function read80680002(nMBaseMessage){
     dataTable["Coin"] = nMBaseMessage.readInt();
     return dataTable
 }
+
+//金花玩家登录请求领节日礼物 (JINHUA_MGR_JH_ACTIVITY)
+function read80680011(nMBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JINHUA_MGR_JH_ACTIVITY;
+    dataTable["messageName"] = "JINHUA_MGR_JH_ACTIVITY";
+
+    //Result	Byte	结果	1有奖2没奖励
+    dataTable["Result"] = nMBaseMessage.readByte();
+    //Title	Text	标题
+    dataTable["Title"] = nMBaseMessage.readString();
+    //Content	Text	内容
+    dataTable["Content"] = nMBaseMessage.readString();
+    //Toast	Text	提示文本
+    dataTable["Toast"] = nMBaseMessage.readString();
+    return dataTable
+}
+
+//扎金花好友是否有红点 (JINHUA_MGR_FRIEND_HAVE_REDP）
+function read80680021(nMBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JINHUA_MGR_FRIEND_HAVE_REDP;
+    dataTable["messageName"] = "JINHUA_MGR_FRIEND_HAVE_REDP";
+
+    //Result	Byte	1有红点0没有红点
+    dataTable["Result"] = nMBaseMessage.readByte();
+    return dataTable
+}
+
+//扎金花充值返利相关信息 (JINHUA_MGR_RECHARGE_REBATE_INFO）
+function read8068001c(nMBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JINHUA_MGR_RECHARGE_REBATE_INFO;
+    dataTable["messageName"] = "JINHUA_MGR_RECHARGE_REBATE_INFO";
+
+    //IsFirstRecharge	Byte	是否为首充翻倍	1:是 0不是
+    dataTable["IsFirstRecharge"] = nMBaseMessage.readByte();
+    //VipAddingPercent	int	玩家当前VIP的加送百分比
+    dataTable["VipAddingPercent"] = nMBaseMessage.readInt();
+    return dataTable
+}

@@ -75,6 +75,9 @@ var FriendListController = BaseController.extend({
     	//Frameworks.setOnKeypadEventListener(FriendListLogic.view, FriendListLogic.onKeypad);
         FriendListLogic.view.setTouchEnabled(true);
         this.addCallback();
+        if(FriendListLogic.m_tableView!= null&& FriendListLogic.m_tableView!= undefined){
+            FriendListLogic.m_tableView.setVisible(true);
+        }
     },
     //销毁
     destroyModule:function(destroyType){

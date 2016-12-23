@@ -63,9 +63,9 @@ var Frameworks= {
      * js私有成员变量，如果仅仅在table中按照key访问，不确切
      */
     bindEventCallback:function(logicName,component, callback, event, btnEffectEvent){
+        if(component== null) return;
         var map= {};
-        var key= logicName+ component._name;
-        component._name= key;
+        component._name= logicName+ component._name;
         if(!this.m_callbackEventTable.hasOwnProperty(component._name)||this.m_callbackEventTable[component._name]== null){
             this.m_callbackEventTable[component._name]= map;
         }
@@ -84,6 +84,7 @@ var Frameworks= {
      * @param btnEffectEvent 特效(点击时，是否有特效，是否音效)
      */
     unbindEventCallback:function(component, callback, event, btnEffectEvent){
+        if(component== null) return;
         var self= Frameworks;
         if(self.m_callbackEventTable.hasOwnProperty(component._name)) {
             var contain = self.m_callbackEventTable[component._name];
@@ -106,6 +107,9 @@ var Frameworks= {
         //原因是:Map中，除了监听事件之外，还有两个对象btnEffectEvent、name
         if(count== 1){
             this.m_callbackEventTable[component._name]= null;
+            //还原控件名
+            var name= component._name;
+            component._name= name.substring(name.indexOf("#")+ 1, name.length);
             //console.log("事件解绑成功！");
         }
     },
