@@ -13,6 +13,10 @@ function NMBaseMessage(arraybuffer){
         this.m_msgVer=((ver== undefined)?0:ver);
     };
 
+    this.setExtData= function(extData){//设置预留字段
+        this.m_extData=((extData== undefined)?0:extData);
+    };
+
     //获取ArrayBuffer
     this.getArrayBuffer= function(){
         return this.m_arrayBuffer;

@@ -17,7 +17,8 @@ var UserAgreementLogic= {
 
         this.initView();
 
-        this.showWebView();
+        //用户协议(WebView)
+        Common.showWebView(webViewURL, this.Panel_webview.getPosition(), this.Panel_webview.getContentSize(), this.view);
     },
     
 	initView:function(){
@@ -42,19 +43,6 @@ var UserAgreementLogic= {
 //			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL);
 //		}
 	},
-    //显示WebView
-    showWebView:function(){
-        var webView = new ccui.WebView(webViewURL);
-        var size= this.Panel_webview.getContentSize();
-        webView.setContentSize(size);
-        webView.setPosition(cc.p(cc.winSize.width* 0.5, cc.winSize.height* 0.5));
-        //移除原有的webView
-        //获取bgColor(this.Panel_webview._color)
-        //设置背景色
-        webView._renderCmd._div.style["background"]= "rgb(56, 0, 38)";
-
-        this.view.addChild(webView);
-    },
     
 	callback_btn_close:function(pSender, event){
 		if(event == ccui.Widget.TOUCH_BEGAN){

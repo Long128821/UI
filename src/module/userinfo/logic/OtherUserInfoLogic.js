@@ -74,9 +74,9 @@ var OtherUserInfoLogic= {
     m_webView:null,//魅力值的WebView
 	
     createView:function(){
-        cc.spriteFrameCache.addSpriteFrames("res/co_desk.plist","res/co_desk.png");
-        cc.spriteFrameCache.addSpriteFrames("res/userinfo_mine.plist","res/userinfo_mine.png");
-        cc.spriteFrameCache.addSpriteFrames("res/table_elements.plist","res/table_elements.png");
+        cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("co_desk.plist"),Common.getResourcePath("co_desk.png"));
+        cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("userinfo_mine.plist"),Common.getResourcePath("userinfo_mine.png"));
+        cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("table_elements.plist"),Common.getResourcePath("table_elements.png"));
     	this.initLayer();
         
         this.view.setTag(ModuleTable["OtherUserInfo"]["Layer"]);
@@ -639,23 +639,9 @@ var OtherUserInfoLogic= {
     },
     //显示WebView
     showWebView:function(){
-        var x = this.Panel_dingwei.getPosition().x;
-        var y = this.Panel_dingwei.getPosition().y;
-        var w = this.Panel_dingwei.getSize().width;
-        var h = this.Panel_dingwei.getSize().height;
         var userCharm= Profile_JinHuaOtherUserInfo.getUserInfoTable()["Charm"];
-        var webView = new ccui.WebView("http://f.99sai.com/jinhua/charm/jhCharm.html?meili="+ userCharm);
-        var size= this.Panel_dingwei.getContentSize();
-        webView.setContentSize(size);
-        webView.setPosition(cc.p(w* 0.5, h* 0.4));
-        webView.setAnchorPoint(0.5, 0);
-        //移除原有的webView
-        //获取bgColor(this.Panel_webview._color)
-        //设置背景色
-        webView._renderCmd._div.style["background"]= "rgb(56, 0, 38)";
-        this.Panel_dingwei.addChild(webView);
-
-        this.m_webView= webView;
+        var webViewUrl= "http://f.99sai.com/jinhua/charm/jhCharm.html?meili="+ userCharm;
+        this.m_webView= Common.showWebView(webViewUrl, this.Panel_dingwei.getPosition(), this.Panel_dingwei.getContentSize(), this.view);
     }
 };
 

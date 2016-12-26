@@ -86,8 +86,6 @@ function sendBASEID_LOGIN(nickName, password){
     nmBaseMessage.writeString(nickName);//昵称
     nmBaseMessage.writeString(password);//密码
 
-    console.log(nickName+" "+ password);
-
     nmBaseMessage.writeInt(Common.getVersion());//版本号
 
     nmBaseMessage.writeString("ChangeID");//注册渠道号

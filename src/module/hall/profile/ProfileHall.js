@@ -91,11 +91,8 @@ var ProfileHall= {
     },
     //扎金花好友是否有红点 (JINHUA_MGR_FRIEND_HAVE_REDP）
     slot_JINHUA_MGR_FRIEND_HAVE_REDP:function(dataTable){
-        console.log("JINHUA_MGR_FRIEND_HAVE_REDP");
         if(dataTable== undefined) return;
         //toDo:添加Profile_HongDian
-        console.log(dataTable);
-        console.log(HallLogic.friendRedMark);
         if(HallLogic.friendRedMark){
             HallLogic.friendRedMark.setVisible(dataTable["Result"]== 1);
         }

@@ -1,5 +1,5 @@
 /**
- * Func:服务器//>客户端的消息
+ * Func.服务器//>客户端的消息
  */
 //获取用户列表(JINHUA_MGR_USER_INFO)
 function read8268000a(nmBaseMessage){
@@ -67,7 +67,7 @@ function read8268000a(nmBaseMessage){
     dataTable["winningStreak"]=nmBaseMessage.readInt();
     //targetUserId	 Int
     dataTable["targetUserId"]=nmBaseMessage.readInt();
-    //isTrack	byte	是否追踪了该用户	1:已追踪 0:未追踪
+    //isTrack	byte	是否追踪了该用户	1.已追踪 0.未追踪
     dataTable["isTrack"]=nmBaseMessage.readByte();
     //luckyIcon	Byte	是否有分享称谓	1有0无
     dataTable["luckyIcon"]=nmBaseMessage.readByte();
@@ -270,7 +270,7 @@ function read8268001a(nmBaseMessage){
     dataTable["messageType"] = ACK + JINHUA_MGR_DAILY_SALARY;
     dataTable["messageName"] = "JINHUA_MGR_DAILY_SALARY";
 
-    //CanReceive	Byte	是否可以领取奖励	1:可领取 0不可领取
+    //CanReceive	Byte	是否可以领取奖励	1.可领取 0不可领取
     dataTable["CanReceive"] = nmBaseMessage.readByte();
     //Coin	Int	用户金币数
     dataTable["Coin"] = nmBaseMessage.readLong();
@@ -303,7 +303,7 @@ function read8068001b(nmBaseMessage){
     dataTable["messageType"] = ACK + JINHUA_MGR_GET_SALARY;
     dataTable["messageName"] = "JINHUA_MGR_GET_SALARY";
 
-    //Success	Byte	是否领取成功	1:成功 0不成功
+    //Success	Byte	是否领取成功	1.成功 0不成功
     dataTable["Success"] = nmBaseMessage.readByte();
     //Msg	String	提示信息
     dataTable["Msg"] = nmBaseMessage.readString();
@@ -527,9 +527,268 @@ function read8068001c(nMBaseMessage){
     dataTable["messageType"] = ACK + JINHUA_MGR_RECHARGE_REBATE_INFO;
     dataTable["messageName"] = "JINHUA_MGR_RECHARGE_REBATE_INFO";
 
-    //IsFirstRecharge	Byte	是否为首充翻倍	1:是 0不是
+    //IsFirstRecharge	Byte	是否为首充翻倍	1.是 0不是
     dataTable["IsFirstRecharge"] = nMBaseMessage.readByte();
     //VipAddingPercent	int	玩家当前VIP的加送百分比
     dataTable["VipAddingPercent"] = nMBaseMessage.readInt();
     return dataTable
+}
+
+//快速开始
+function read80210007(nMBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JHID_QUICK_START;
+    dataTable["messageName"] = "JHID_QUICK_START";
+
+    //Result  byte  是否成功  1成功 0失败
+    dataTable["Result"] = nMBaseMessage.readByte();
+    //ResultTxt text  提示语内容
+    dataTable["ResultTxt"] = nMBaseMessage.readString();
+    console.log(dataTable);
+    return dataTable;
+}
+
+function read82200001(nMBaseMessage){
+    console.log(JHID_TABLE_SYNC);
+    console.log("read82200001");
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JHID_TABLE_SYNC;
+    dataTable["messageName"] = "JHID_TABLE_SYNC";
+    //  房间ID
+    dataTable["roomId"] = nMBaseMessage.readInt();
+    //  牌桌ID
+    dataTable["tableId"] = nMBaseMessage.readInt();
+    //  牌桌状态
+    dataTable["status"] = nMBaseMessage.readByte();
+    //   庄家位置
+    dataTable["dealerSSID"] = nMBaseMessage.readInt();
+    //  单注金额
+    dataTable["singleCoin"] = parseInt(nMBaseMessage.readLong());
+    //  总注
+    dataTable["totalPoolCoin"] = parseInt(nMBaseMessage.readLong());
+    //  轮数
+    dataTable["round"] = nMBaseMessage.readInt();
+    //下一个玩家, 这里是游戏开始的第一个玩家
+    var nextPlayerCnt = nMBaseMessage.readInt();
+    dataTable["nextPlayerCnt"]= nextPlayerCnt;
+    if(nextPlayerCnt!=0) {
+        dataTable["currentPlayer"] = {};
+        nMBaseMessage.startReadLoop();
+        //下一个玩家位置
+        dataTable["currentPlayer"]["SSID"] = nMBaseMessage.readInt();
+        //跟注金额，如果为-1则按钮不可用
+        dataTable["currentPlayer"]["callCoin"] = parseInt(nMBaseMessage.readLong());
+        // 加注列表
+        dataTable["currentPlayer"]["raiseCoin"] = {};
+
+        var currentPlayerCnt = nMBaseMessage.readInt();
+        dataTable["currentPlayerCnt"]= currentPlayerCnt;
+        for(var i=0; i< currentPlayerCnt; ++i){
+            dataTable["currentPlayer"]["raiseCoin"][i] = {};
+
+            //加注列表的加注的金额
+            dataTable["currentPlayer"]["raiseCoin"][i].raiseValue = tonumber(nMBaseMessage.readLong());
+            //加注列表中加注金额的状态 0 此金额不可加注 1 此金额可加注
+            dataTable["currentPlayer"]["raiseCoin"][i].raiseStatus = nMBaseMessage.readByte();
+        }
+        //0 不能操作，1 比牌 2 开牌
+        dataTable["currentPlayer"]["compareCard"] = nMBaseMessage.readInt();
+        //0不能看牌， 1可以看牌
+        dataTable["currentPlayer"]["lookCard"] = nMBaseMessage.readInt();
+    }
+    //牌桌总座位数
+    dataTable["seatCnt"] = nMBaseMessage.readInt();
+    //玩家信息
+    dataTable["players"] = {};
+    //玩家数量
+    var playersCnt = nMBaseMessage.readInt();
+    dataTable["playersCnt"]= playersCnt;
+
+    for(var i=0;i< playersCnt; ++i){
+        dataTable["players"][i] = {};
+
+        nMBaseMessage.startReadLoop();
+        //玩家ID
+        dataTable["players"][i].userId = nMBaseMessage.readInt();
+        //昵称
+        dataTable["players"][i].nickName = nMBaseMessage.readString();
+        //照片URL
+        dataTable["players"][i].photoUrl = nMBaseMessage.readString();
+        //服务端座位号
+        dataTable["players"][i].SSID = nMBaseMessage.readInt();
+        //已下注金额
+        dataTable["players"][i].betCoins = parseInt(nMBaseMessage.readLong());
+        //剩余金币
+        dataTable["players"][i].remainCoins = parseInt(nMBaseMessage.readLong());
+        //状态
+        dataTable["players"][i].status = nMBaseMessage.readByte();
+        //Vip等级
+        dataTable["players"][i].vipLevel = nMBaseMessage.readInt();
+        //性别
+        dataTable["players"][i].sex = nMBaseMessage.readByte();
+
+        //禁比状态
+        dataTable["players"][i].noPK= (nMBaseMessage.readByte()== 1);
+
+        //牌数
+        var cardCnt = nMBaseMessage.readInt();
+        dataTable["players"][i]["cardCnt"] = cardCnt;
+
+        dataTable["players"][i]["cardValues"] = {};
+        for(var j=0; j< cardCnt; ++j){
+            dataTable["players"][i]["cardValues"][j] = {};
+            nMBaseMessage.startReadLoop();
+            //牌值
+            dataTable["players"][i]["cardValues"][j] = nMBaseMessage.readInt();
+        }
+        // 牌型
+        dataTable["players"][i].cardType = nMBaseMessage.readByte();
+        // ...level	Int	用户等级
+        dataTable["players"][i].level = nMBaseMessage.readInt();
+        // ...exp	Int	经验
+        dataTable["players"][i].exp = nMBaseMessage.readInt();
+        // ...expText	Text	经验Text	暂不使用的无效字段
+        dataTable["players"][i].expText = nMBaseMessage.readString();
+        // ...isCert	Byte	是否真人认证	1已认证0未认证
+        dataTable["players"][i].isCert = nMBaseMessage.readByte();
+        //...Clover	Byte	幸运草成就图标	1有0无
+        dataTable["players"][i].Clover = nMBaseMessage.readByte();
+    }
+
+    //下注明细列表数
+    var chipCnt = nMBaseMessage.readInt();
+    dataTable["chipCnt"] = chipCnt;
+    dataTable["chips"] = {};
+    for(var i=0;i< chipCnt; ++i){
+        nMBaseMessage.startReadLoop();
+
+        dataTable["chips"][i] = {};
+        //是否看牌 0否， 1看牌
+        dataTable["chips"][i].lookCard = nMBaseMessage.readByte();
+        //是否押满 0 否， 1押满
+        dataTable["chips"][i].allIn = nMBaseMessage.readByte();
+        //押注金币
+        dataTable["chips"][i].coins = tonumber(nMBaseMessage.readLong());
+    }
+
+    // isShowlockedTableBtn	Byte	1显示锁定按钮，0不显示锁定按钮
+    dataTable["isShowlockedTableBtn"] = nMBaseMessage.readByte();
+    //enterRoomEffectMinVipLevel	Int	进场特效最低VIP等级
+    dataTable["enterRoomEffectMinVipLevel"] = nMBaseMessage.readInt();
+    //Exp	Int	当前经验
+    dataTable["Exp"] = nMBaseMessage.readInt();
+    //levelUpExp	Int	升级需要的总经验
+    dataTable["levelUpExp"] = nMBaseMessage.readInt();
+    //level	Int	当前等级
+    dataTable["level"] = nMBaseMessage.readInt();
+    //allRound	Int	每局游戏的总轮数
+    dataTable["allRound"] = nMBaseMessage.readInt();
+
+    //看牌条件列表
+    dataTable["lookCardCondition"] = {};
+    var lookCardConditionCnt= nMBaseMessage.readInt();
+    dataTable["lookCardConditionCnt"]= lookCardConditionCnt;
+
+    for(var i=0;i< lookCardConditionCnt; ++i){
+        nMBaseMessage.startReadLoop();
+        dataTable["lookCardCondition"][i]= {};
+
+        //...coinCondition	Int	可以看牌金币数	本房间可以设置的下注N金币后才可以看牌。这个字段是每一个可以设置的N
+        dataTable["lookCardCondition"][i].coinCondition = parseInt(nMBaseMessage.readLong());
+    }
+    //currentLockCoin	Int	当前看牌要求金币
+    dataTable["currentLockCoin"] = parseInt(nMBaseMessage.readLong());
+    //islockedTable	Byte	锁定状态	1加锁，0解锁
+    dataTable["islockedTable"] = nMBaseMessage.readByte();
+    //lockCoinVipLevel	Int	使用看牌底注vip等级限制
+    dataTable["lockCoinVipLevel"] = nMBaseMessage.readInt();
+    //matchInstanceId	text	比赛实例ID	比赛专用
+    dataTable["matchInstanceId"] = nMBaseMessage.readString();
+    //CompareRound	int	可比手数	多少轮之后可以比牌
+    dataTable["CompareRound"] = nMBaseMessage.readInt();
+    //baseChips	int	筹码基数	比赛用到
+    dataTable["baseChips"] = nMBaseMessage.readInt();
+    // luckyPoint	Int	幸运点	牌桌用到
+    dataTable["luckyPoint"] = parseInt(nMBaseMessage.readLong());
+    // Clover	Byte	幸运草成就图标	1有2无
+    dataTable["Clover"] = nMBaseMessage.readByte();
+    // BUILDTableId	Int 	自建房间ID	如果不是自建房间，返回0
+    dataTable["BUILDTableId"] = nMBaseMessage.readInt();
+    // BUILDRoomType	Int	房间类型1经典2千王
+    dataTable["BUILDRoomType"] = nMBaseMessage.readInt();
+    // BUILDPlayerName	Text	房主昵称
+    dataTable["BUILDPlayerName"] = nMBaseMessage.readString();
+    // BUILDMinCoin	Long	最少携带金币数
+    dataTable["BUILDMinCoin"] = parseInt(nMBaseMessage.readLong());
+    // BUILDOverTime	Long	创建房间距离关闭时间
+    dataTable["BUILDOverTime"] = parseInt(nMBaseMessage.readLong());
+    //matchTitle	Text	比赛是哪个场	比赛专用
+    dataTable["matchTitle"] = nMBaseMessage.readString();
+
+    console.log(dataTable);
+    return dataTable;
+}
+
+//解析房间列表
+function read82210001(nMBaseMessage){
+    var  dataTable = {};
+    dataTable["messageType"] = ACK + JINHUA_ROOMID_ROOM_LIST;
+    dataTable["messageName"] = "JINHUA_ROOMID_ROOM_LIST";
+
+    //解析List<房间列表>
+    dataTable["Rooms"] = {};
+    var  RoomsCnt = nMBaseMessage.readInt();
+    dataTable["RoomsCnt"]= RoomsCnt;
+    for(var i=0;i< RoomsCnt; ++i){
+        dataTable["Rooms"][i] = {};
+
+        nMBaseMessage.startReadLoop();
+
+        //…roomID	int	房间ID
+        dataTable["Rooms"][i].roomID = nMBaseMessage.readInt();
+        //…title	Text	房间标题	String
+        dataTable["Rooms"][i].title = nMBaseMessage.readString();
+        //…roomPic	Text	房间图片	String
+        dataTable["Rooms"][i].roomPic = nMBaseMessage.readString();
+        //…tableFee	int	桌费
+        dataTable["Rooms"][i].tableFee = nMBaseMessage.readInt();
+        //…minCoin	Long	房间携带最小金币
+        dataTable["Rooms"][i].minCoin = parseInt(nMBaseMessage.readLong());
+        //…maxCoin	Long	房间携带最大金币
+        dataTable["Rooms"][i].maxCoin = parseInt(nMBaseMessage.readLong());
+        //…betMinCoin	Long	单注最小金币
+        dataTable["Rooms"][i].betMinCoin = parseInt(nMBaseMessage.readLong());
+        //…betMaxCoin	Long	单注最大金币
+        dataTable["Rooms"][i].betMaxCoin = parseInt(nMBaseMessage.readLong());
+
+        //解析加注列表
+        var jzCnt = nMBaseMessage.readInt();
+        dataTable["Rooms"][i]["jzCnt"]= jzCnt;
+        for(var j=0;j< jzCnt; ++j){
+            nMBaseMessage.startReadLoop();
+
+            dataTable["Rooms"][i]["jizhanTable"] = {};
+            dataTable["Rooms"][i]["jizhanTable"][j] = {};
+            dataTable["Rooms"][i]["jizhanTable"][j].jzNum = parseInt(nMBaseMessage.readLong());
+        }
+
+        //解析 最大局数
+        dataTable["Rooms"][i].maxRound = nMBaseMessage.readInt();
+        //解析 是否可换牌
+        dataTable["Rooms"][i].changeCards = nMBaseMessage.readByte();
+        //解析 是否可亮牌
+        dataTable["Rooms"][i].showCards = nMBaseMessage.readByte();
+        //解析 房间类型， 1经典场 2千王场
+        dataTable["Rooms"][i].roomType = nMBaseMessage.readInt();
+        //房间金币图片
+        dataTable["Rooms"][i].roomCoinImg = nMBaseMessage.readString();
+        //...lastStartTime	Long	还剩N秒开放	0表示开放中
+        dataTable["Rooms"][i].lastStartTime = parseInt(nMBaseMessage.readLong());
+        //…isTiming	byte	是否是限时场	0不是限时场1是限时场
+        dataTable["Rooms"][i].isTiming = nMBaseMessage.readByte();
+    }
+    //解析 时间戳
+    dataTable["timestamp"] = parseInt(nMBaseMessage.readLong());
+
+    return dataTable;
 }

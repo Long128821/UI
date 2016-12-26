@@ -31,6 +31,8 @@ var SettingLogic= {
         
         this.initView();
 
+        GameConfig.setCurBaseLayer(GUI_HALL);
+
         this.initBaseData();
     },
     

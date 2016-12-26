@@ -23,7 +23,7 @@ var ProfileFriendList= {
     slot_JINHUA_MGR_SIGN_FRIEND_REWARD:function(dataTable){
         console.log(dataTable);
         if(dataTable["Result"]== 1){
-            FriendListLogic.changeBtnState(dataTable["Flag"]);
+            FriendListLogic.changeBtnState(dataTable["Flag"]- 1);
         }
     },
     //清空数据

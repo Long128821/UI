@@ -22,6 +22,7 @@ var NetworkConfig= {
     },
     setCurIP:function(ip){
         this.IP= ip;
+        this.URL= this.IP+":"+this.Port;
     },
     getCurUrlID:function(){
         return this.curUrlID;

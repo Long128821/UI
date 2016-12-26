@@ -286,7 +286,6 @@ var FriendListLogic= {
         var tableSize= this.Panel_TableView.getContentSize();
         //左下角位置
         var leftBottomPos= this.Panel_TableView.getPosition();
-        console.log(this.Panel_TableView.getAnchorPoint());
         //预加载资源
         var arrPath= [
             Common.getResourcePath("btn_xuanzhong_l.png"),
@@ -556,7 +555,6 @@ var FriendListLogic= {
     },
     //切换按钮状态
     changeBtnState:function(index){
-        console.log("ID:"+ index);
         var button= ProfileFriendList.m_arrFriendButton[index];
         button.setOpacity(120);
         button.setTexture(Common.getResourcePath("ui_yilingqu.png"));

@@ -308,7 +308,7 @@ function sendJINHUA_MGR_FRIEND_HAVE_REDP(){
     if(!Network.getInstance().getWebSocketConnecting()) return;
 
     var nmBaseMessage = new NMBaseMessage();
-    nmBaseMessage.setMessageType(REQ + JINHUA_MGR_JH_ACTIVITY);
+    nmBaseMessage.setMessageType(REQ + JINHUA_MGR_FRIEND_HAVE_REDP);
     nmBaseMessage.writeStart();
 
     nmBaseMessage.writeOver();
@@ -325,7 +325,15 @@ function sendJINHUA_ROOMID_ROOM_LIST(time){
 
     var nmBaseMessage = new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + JINHUA_ROOMID_ROOM_LIST);
+    nmBaseMessage.setExtData(3);
     nmBaseMessage.writeStart();
+
+    //TimeStamp  时间戳
+    nmBaseMessage.writeLong(time);
+    //gameID	Byte	游戏id
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+    //gameVersion	Int	扎金花游戏主版本号
+    nmBaseMessage.writeInt(Common.getVersion() + Common.getChannelID());
 
     nmBaseMessage.writeOver();
 
@@ -353,14 +361,13 @@ function sendJINHUA_MGR_RECHARGE_REBATE_INFO(){
 }
 
 //快速开始
-function sendJHID_QUICK_START_REQ(){
+function sendJHID_QUICK_START(){
     //断网状态
     if(!Network.getInstance().getWebSocketConnecting()) return;
 
     var nmBaseMessage = new NMBaseMessage();
-    nmBaseMessage.setMessageType(REQ + JINHUA_MGR_RECHARGE_REBATE_INFO);
-    //Todo:预留字段
-    //nmBaseMessage.setExtData(3);
+    nmBaseMessage.setMessageType(REQ + JHID_QUICK_START);
+    nmBaseMessage.setExtData(3);
     nmBaseMessage.writeStart();
 
     nmBaseMessage.writeByte(GameConfig.GAME_ID);

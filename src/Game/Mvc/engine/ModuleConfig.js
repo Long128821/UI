@@ -393,3 +393,51 @@ ModuleTable["XiaoMeiInfo"]["resLists"] = [
     "res/ui_lianxi.png",
     "res/btn_item_close.png",
     "res/XiaoMeiInfo.json"];
+
+ModuleTable["SystemPromptDialog"] = {};
+ModuleTable["SystemPromptDialog"]["jsLists"] = [
+    "src/module/commondialog/profile/ProfileSystemPromptDialog.js",
+    "src/module/commondialog/logic/SystemPromptDialogLogic.js",
+    "src/module/commondialog/controller/SystemPromptDialogController.js"];
+ModuleTable["SystemPromptDialog"]["Layer"] = Layer.Third_Layer;
+ModuleTable["SystemPromptDialog"]["resLists"] = [
+    "res/bg_tongyongdi.png",
+    "res/btn_zuoceanniudi.png",
+    "res/ic_xitongtishi.png",
+    "res/SystemPromptDialog.json"];
+
+ModuleTable["JinHuaTable"] = {};
+ModuleTable["JinHuaTable"]["jsLists"] = [
+    "src/module/table/profile/ProfileJinHuaTable.js",
+    "src/module/table/logic/JinHuaTableLogic.js",
+    "src/module/table/controller/JinHuaTableController.js"];
+ModuleTable["JinHuaTable"]["Layer"] = Layer.Base_Layer;
+ModuleTable["JinHuaTable"]["resLists"] = [
+    "res/chat_popup.png",
+    "res/chat_popup.plist",
+    "res/desk.png",
+    "res/desk.plist",
+    "res/pic_jinbishu.png",
+    "res/table_elements.plist",
+    "res/table_elements.png",
+    "res/ui_bisai_paizhuo_daojishi.png",
+    "res/ui_bisai_paizhuo_paimingshuzi.png",
+    "res/ui_daojishi0-9.png",
+    "res/ui_jiazhushuzi.png",
+    "res/ui_jinbishu.png",
+    "res/ui_lvshuzi.png",
+    "res/ui_paizhuo_jindudiao.png",
+    "res/JinHuaTable.json"];
+
+ModuleTable["RoomList"] = {};
+ModuleTable["RoomList"]["jsLists"] = [
+    "src/module/hall/profile/ProfileRoomList.js",
+    "src/module/hall/logic/RoomListLogic.js",
+    "src/module/hall/controller/RoomListController.js"];
+ModuleTable["RoomList"]["Layer"] = Layer.Second_Layer;
+ModuleTable["RoomList"]["resLists"] = [
+    "res/ic_jingdianchang.png",
+    "res/btn_item_close.png",
+    "res/btn_zuoceanniudi.png",
+    "res/btn_weixinzhifu3.png",
+    "res/RoomList.json"];

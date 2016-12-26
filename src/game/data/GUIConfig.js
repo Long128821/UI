@@ -57,3 +57,12 @@ GUI_FRIENDLIST= "FriendList";
 
 //大厅-好友-同趣小妹
 GUI_XIAOMEIINFO= "XiaoMeiInfo";
+
+//系统通知
+GUI_SYSTEMPROMPTDIALOG= "SystemPromptDialog";
+
+//金花-牌桌
+GUI_JINHUATABLE= "JinHuaTable";
+
+//大厅-房间列表
+GUI_ROOMLIST= "RoomList";

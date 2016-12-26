@@ -51,7 +51,7 @@ var GamePub= {
         var tmp = cc.Sprite.createWithSpriteFrameName(imageNamePath);
         var tmpSize = tmp.getContentSize();
         var rectInsets = cc.size(insetWidth,insetHeight,tmpSize.width-insetWidth*2,tmpSize.height-insetHeight*2);
-        var winRect = cc.size(ScaleWidth, ScaleHeight);//设置要拉伸后的的大小
+        var winRect = cc.size(ScaleWidth, ScaleHeight==undefined?tmpSize.height:ScaleHeight);//设置要拉伸后的的大小
         var m_pNextBG  = cc.Scale9Sprite.createWithSpriteFrameName(imageNamePath, rectInsets);
         m_pNextBG.setContentSize(winRect);
         return m_pNextBG;

@@ -35,8 +35,25 @@ var MessageCenter= {
     unConnect:function(){
         //拒绝接受和转发消息
         this.setIsWebSocketPause(true);
+        //断开了连接，更新文本
+        this.updateSign();
         //断线重连
-        //Network.getInstance().initNetwork();
+        //this.reConnect();
+    },
+    //WebSocket断线重连
+    reConnect:function(){
+        //先关闭，再执行重连操作
+        Network.getInstance().closeWebSocket();
+        //因为关闭和重连是同步的,所以，需要等到关闭之后，再进行连接
+        //而且仅执行一次，所有使用标志位，标记一下
+        var bReconnect= false;
+        var closeTimer= setInterval(function(){
+            if(!bReconnect&&!Network.getWebSocketConnecting()){
+                Network.getInstance().initNetwork();
+                bReconnect= false;
+                clearInterval(closeTimer);
+            }
+        },100);
     },
     /*********消息缓存***************/
     /**

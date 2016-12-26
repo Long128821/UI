@@ -89,6 +89,7 @@ var HallLogic= {
         this.initMiniGameList();
         //活动列表
         this.initActivityLists();
+
         //新手引导
         if(0){
 
@@ -172,8 +173,8 @@ var HallLogic= {
 		this.Panel_miniChat = CocoStudio.getComponent(this.view, "Panel_miniChat");//Panel
         /*********初始操作*************/
         this.Panel_leftday.setVisible(false);
-        this.Button_match.setVisible(false);
-        this.Button_yaoqianshu.setVisible(false);
+//        this.Button_match.setVisible(false);
+//        this.Button_yaoqianshu.setVisible(false);
         //隐藏掉《摇钱树》和《比赛场》按钮，根据后台传送的数据 判断是否显示
 
         //APP的非评审阶段
@@ -214,7 +215,7 @@ var HallLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            console.log("立即游戏");
+            sendJHID_QUICK_START();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -474,7 +475,8 @@ var HallLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            Profile_JinHuaRoomData.setCurRoomType(Profile_JinHuaRoomData.TYPE_JINGDIAN);
+            MvcEngine.createModule(GUI_ROOMLIST);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -487,7 +489,8 @@ var HallLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            Profile_JinHuaRoomData.setCurRoomType(Profile_JinHuaRoomData.TYPE_QIANWANG);
+            MvcEngine.createModule(GUI_ROOMLIST);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -848,18 +851,14 @@ var HallLogic= {
     }
 };
 
-//var data= cc.loader._loadTxtSync("Name.json");
-//console.log(JSON.parse(data).dub);
 //Todo:公告
 //Todo:没有做礼包数据的原因是:没有应用版本号和版本名
 //Todo:没有做活动的原因是:GameLoadModuleConfig.getTaskGameConfigList()活动文件列表不知道
 //Todo:在Logic中，添加各种setBaseLayer
 //Todo:小红点
 //Todo:Toast
-//Todo:webView
 //Todo:新手引导
 //Todo:动画
-//Todo:sendJHID_QUICK_START_REQ() --扎金花快速开始
 
 //Todo:MINI_COMMON_WINNING_RECORD 小游戏公告 不知道读写数据内容
 //Todo:MANAGERID_GET_JINHUA_USER_GUIDE_PRIZE
@@ -871,5 +870,5 @@ var HallLogic= {
 //Todo:MANAGERID_GET_MINIGAME_PROMOTION
 //Todo:MANAGERID_MINIGAME_LIST_TYPE_V3
 //Todo:OPERID_MONEY_SHAKE_TIME_CD
-//Todo:小红点回调
 //Todo:MANAGERID_HINT_BIND_WECHAT
+//Todo:预加载Toast所需要的资源

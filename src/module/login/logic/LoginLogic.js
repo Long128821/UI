@@ -34,6 +34,8 @@ var LoginLogic= {
 
         this.initView();
 
+        GameConfig.setCurBaseLayer(GUI_LOGIN);
+
         //显示连接状态
         this.initTextLabel();
 
@@ -150,7 +152,7 @@ var LoginLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            LoginLogic.onSetIp();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -258,6 +260,30 @@ var LoginLogic= {
         }
     },
 
+    //设置IP
+    onSetIp:function(){
+        if(!this.edit_ip.isVisible()) return;
+        var ip= this.edit_ip.getString();
+        ip= Common.deleteAllSpace(ip);
+        var temp= ip;
+        var length= 0;
+        while(temp.indexOf(".")!= -1){
+            length++;
+            var str= temp.substring(0, temp.indexOf("."));
+            if(str.length== 0) return 0;
+            temp= temp.substring(temp.indexOf(".")+ 1, temp.length);
+        }
+        //IP地址为4端，3个"."(10.10.0.119)
+        if(3== length){
+            NetworkConfig.setCurIP(ip);
+        }
+        console.log(NetworkConfig.getCurIP());
+        MessageCenter.reConnect();
+    },
+    //获取某个字符串的数量
+    getCharCnt:function(){
+
+    },
     //设置显示IP
     setIPLabel:function(){
         var ip= "";
@@ -370,21 +396,20 @@ var LoginLogic= {
     },
     //登录
     onLogin:function(){
-        ProfileLogin.setLoginUserName(this.edit_username.getString());
-        ProfileLogin.setLoginPassword(this.edit_password.getString());
+        ProfileLogin.setLoginUserName(Common.deleteAllSpace(this.edit_username.getString()));
+        ProfileLogin.setLoginPassword(Common.deleteAllSpace(this.edit_password.getString()));
 
         if(this.check_agree.getSelectedState()){
             //粗鲁检测一下是否为空
-            if(Common.judgeValueIsEffect(ProfileLogin.getLoginUserName())&&(Common.judgeValueIsEffect(ProfileLogin.getLoginPassword()))){
+            if(ProfileLogin.getLoginUserName().length!= 0&&ProfileLogin.getLoginPassword().length!= 0){
                 console.log(ProfileLogin.getLoginUserName());
                 console.log(ProfileLogin.getLoginPassword());
-                console.log("发送用户列表！");
                 sendBASEID_LOGIN(ProfileLogin.getLoginUserName(), ProfileLogin.getLoginPassword());
             }else{
-                alert("用户名和密码不能为空！");
+                Common.showToast("用户名和密码不能为空！");
             }
         }else{
-            alert("请先同意同趣游戏用户协议！");
+            Common.showToast("请先同意同趣游戏用户协议！");
         }
     }
 };

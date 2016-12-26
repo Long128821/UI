@@ -9,7 +9,6 @@ var Network= {
     },
     //初始化网络配置
     initNetwork:function(){
-
         this.clearData();
 
         console.log('network initSocket...');
@@ -22,7 +21,7 @@ var Network= {
     },
     //初始化WebSocket
     initWebSocket:function(){
-        var self= this;
+        var self= Network;
         var host= "ws://"+ NetworkConfig.getCurURL();//默认为列表中的第一个
         self.webSocket = new WebSocket(host);//创建目标WebSocket服务器
         self.webSocket.binaryType="arraybuffer";//以二进制传递方式传输数据
@@ -72,11 +71,15 @@ var Network= {
         var self= this;
         self.webSocket= null;
     },
+    //关闭连接
+    closeWebSocket:function(){
+        this.webSocket.close();
+        this.clearData();
+    },
     //获取webSocket状态
     getWebSocketConnecting:function(){
         return (this.webSocket&&(this.webSocket.readyState== WebSocket.OPEN));
     },
-
     /**
      * Func:发送信息，以二进制数组的方式传送
      * @param data 要发送的二进制数组(ArrayBuffer)

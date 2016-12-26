@@ -114,7 +114,7 @@ function read80010003(nmBaseMessage){
 
 //读取用户属性变更(ACK+ GAMEID_USER_ATTR)
 function read80040006(nmBaseMessage){
-    var dataTable= new Map();
+    var dataTable= {};
     //存放消息类型和消息名
     dataTable["messageType"]= ACK + GAMEID_USER_ATTR;
     dataTable["messageName"]= "GAMEID_USER_ATTR";
@@ -140,26 +140,26 @@ function read80040006(nmBaseMessage){
 
 //请求送金DBID_V2_REQUEST_COIN
 function read8006002d(nmBaseMessage){
-    var dataTable= new Map();
+    var dataTable= {};
     //存放消息类型和消息名
-    dataTable.put("messageType", ACK + DBID_V2_REQUEST_COIN);
-    dataTable.put("messageName", "BASEID_REGISTER");
+    dataTable["messageType"]= ACK + DBID_V2_REQUEST_COIN;
+    dataTable["messageName"]= "BASEID_REGISTER";
 
-    dataTable.put("Coin", nmBaseMessage.readInt());//金币数
-    dataTable.put("ResultMsg", nmBaseMessage.readString());//提示语
-    dataTable.put("PopupWindowsNum", nmBaseMessage.readByte());//弹出框编号
+    dataTable["Coin"]= nmBaseMessage.readInt();//金币数
+    dataTable["ResultMsg"]= nmBaseMessage.readString();//提示语
+    dataTable["PopupWindowsNum"]= nmBaseMessage.readByte();//弹出框编号
     return dataTable
 }
 
 //获取站内信
 function read80670006(nmBaseMessage){
-    var dataTable= new Map();
+    var dataTable= {};
     //存放消息类型和消息名
-    dataTable.put("messageType", ACK + MAIL_UNREAD_SEND);
-    dataTable.put("messageName", "MAIL_UNREAD_SEND");
+    dataTable["messageType"]= ACK + MAIL_UNREAD_SEND;
+    dataTable["messageName"]= "MAIL_UNREAD_SEND";
 
     //未读消息类型.1系统消息，2个人消息
-    dataTable.put("Type", nmBaseMessage.readByte());
+    dataTable["Type"]= nmBaseMessage.readByte();
     return dataTable;
 }
 
@@ -204,29 +204,29 @@ function read8007009e(nmBaseMessage){
 
 //找回密码(DBID_FIND_PASSWORD)
 function read8006000c(nmBaseMessage){
-    var dataTable= new Map();
+    var dataTable= {};
 
-    dataTable.put("messageType", ACK + DBID_FIND_PASSWORD);
-    dataTable.put("messageName", "DBID_FIND_PASSWORD");
+    dataTable["messageType"]= ACK + DBID_FIND_PASSWORD;
+    dataTable["messageName"]= "DBID_FIND_PASSWORD";
 
     //Result	Byte	是否成功	0 否 1 是
-    dataTable.put("Result", nmBaseMessage.readByte());
+    dataTable["Result"]= nmBaseMessage.readByte();
     //ResultTxt	Text	结果提示语
-    dataTable.put("ResultTxt", nmBaseMessage.readString());
+    dataTable["ResultTxt"]= nmBaseMessage.readString();
     //NewPassword	Text	新密码
-    dataTable.put("NewPassword", nmBaseMessage.readString());
+    dataTable["NewPassword"]= nmBaseMessage.readString();
     return dataTable;
 }
 
 //游戏公告(BASEID_GET_NOTICE)
 function read8001000a(nmBaseMessage){
-    var dataTable= new Map();
+    var dataTable= {};
 
-    dataTable.put("messageType", ACK + BASEID_GET_NOTICE);
-    dataTable.put("messageName", "BASEID_GET_NOTICE");
+    dataTable["messageType"]= ACK + BASEID_GET_NOTICE;
+    dataTable["messageName"]= "BASEID_GET_NOTICE";
 
     //NoticeCnt	Byte	公告数量
-    dataTable.put("Result", nmBaseMessage.readByte());
+    dataTable["Result"]= nmBaseMessage.readByte();
     return dataTable;
 }
 //解析修改基本信息
@@ -705,12 +705,3 @@ function read82680030(nMBaseMessage)
 }
 
 //Todo:领取工资之后，GAMEID_IMAGE_TOAST
-
-
-//Todo.强制退出
-//var dataTable= {};
-//dataTable["messageType"]= ACK + GIFTBAGID_PUSH_DUAL_GIFTBAG;
-//dataTable["messageName"]= "GIFTBAGID_PUSH_DUAL_GIFTBAG";
-//
-//console.log(dataTable);
-//return dataTable;
