@@ -326,6 +326,9 @@ var FriendListLogic= {
             tableView.setTouchEnabled(true);
             tableView.setPosition(leftBottomPos);
 
+            //重新加载数据
+            tableView.reloadData();
+
             self.m_tableView= tableView;
             //在view中，添加节点，zOrder为2
             self.view.addChild(self.m_tableView, self.Panel_TableView.getLocalZOrder());
@@ -557,7 +560,7 @@ var FriendListLogic= {
     changeBtnState:function(index){
         var button= ProfileFriendList.m_arrFriendButton[index];
         button.setOpacity(120);
-        button.setTexture(Common.getResourcePath("ui_yilingqu.png"));
+        button.loadTextures(Common.getResourcePath("ui_yilingqu.png"), Common.getResourcePath("ui_yilingqu.png"), null);
     },
     //添加上限
     onLimit:function(flag){

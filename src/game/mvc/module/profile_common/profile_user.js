@@ -158,7 +158,6 @@ var profile_user= {
 
     //初始化账户数据，登录或者注册时，切换账户
     initUserInfo:function(userID){
-        console.log(userID+" "+ this.getSelfUserID());
         if(userID!= this.getSelfUserID()){
             this.UserTable["SelfInfo"]= {};
             this.UserTable["OtherInfo"]= {};

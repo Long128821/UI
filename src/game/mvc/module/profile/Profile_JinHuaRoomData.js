@@ -10,10 +10,50 @@ var Profile_JinHuaRoomData= {
     TYPE_JINGDIAN : 1, //显示经典场模式
     TYPE_QIANWANG : 2,//显示千王场模式
     m_curRoomType:0,
+    JinHuaRoomListTable:null,//房间列表(JINHUA_ROOMID_ROOM_LIST)
+    JingDianRoomList:null,//经典场列表
+    QianWangRoomList:null,//千王场列表
     getCurRoomType:function(){
         return this.m_curRoomType;
     },
     setCurRoomType:function(type){
         this.m_curRoomType= type==undefined?0:type;
+    },
+    //获取经典场列表
+    getJingDianRoomList:function(){
+        return this.JingDianRoomList;
+    },
+    //获取经典场列表
+    getQianWangRoomList:function(){
+        return this.QianWangRoomList;
+    },
+    //获取当前房间列表
+    getCurActiveRoomList:function(){
+        if(this.m_curRoomType== 0){
+            return null;
+        }else if(this.TYPE_JINGDIAN== this.m_curRoomType){
+            return this.JingDianRoomList;
+        }else{
+            return this.QianWangRoomList;
+        }
+    },
+    //获取房间列表(JINHUA_ROOMID_ROOM_LIST)
+    readJINHUA_ROOMID_ROOM_LIST:function(dataTable){
+        this.JinHuaRoomListTable= dataTable;
+        this.JingDianRoomList = {};
+        this.QianWangRoomList = {};
+
+        for(var i=0;i< dataTable["RoomsCnt"]; ++i){
+            var roomType= dataTable["Rooms"][i].roomType;
+            if(roomType== this.TYPE_JINGDIAN){//经典场
+                this.JingDianRoomList[i]= dataTable["Rooms"][i];
+            }else if(roomType== this.TYPE_QIANWANG){//千王场
+                this.QianWangRoomList[i]= dataTable["Rooms"][i];
+            }
+        }
+    },
+    //获取金花房间Data
+    getJinHuaRoomData:function(){
+        return ((this.JinHuaRoomListTable["Rooms"]== undefined||this.JinHuaRoomListTable["Rooms"]== null)?null:this.JinHuaRoomListTable["Rooms"]);
     }
 };

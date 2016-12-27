@@ -3,7 +3,7 @@ var ManageConfig= {
         ManageConfig.openTable();
     },
     slot_JINHUA_ROOMID_ROOM_LIST:function(dataTable){
-        console.log(dataTable);
+        //console.log(dataTable);
     },
     //进入牌桌
     openTable:function(){

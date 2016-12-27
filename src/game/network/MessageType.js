@@ -56,3 +56,5 @@ JHID_TABLE_SYNC = JINHUA_GAME_ID_V4 + 1;
 
 /**************金花房间列表********************/
 JINHUA_ROOMID_ROOM_LIST = JINHUA_ROOM_ID_V4 + 1;
+//进入房间
+JHID_ENTER_ROOM = JINHUA_ROOM_ID + 2;

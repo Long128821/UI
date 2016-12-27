@@ -792,3 +792,17 @@ function read82210001(nMBaseMessage){
 
     return dataTable;
 }
+
+//解析EnterRoomRespBean
+function read80210002(nMBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JHID_ENTER_ROOM;
+    dataTable["messageName"] = "JHID_ENTER_ROOM";
+
+    //解析 是否成功 0 失败，1 成功
+    dataTable["result"] = nMBaseMessage.readByte();
+    //解析 回复消息
+    dataTable["message"] = nMBaseMessage.readString();
+
+    return dataTable;
+}

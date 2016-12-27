@@ -381,3 +381,27 @@ function sendJHID_QUICK_START(){
 
     delete nmBaseMessage;
 }
+
+//进入房间
+function sendJHID_ENTER_ROOM(roomID){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JHID_ENTER_ROOM);
+    nmBaseMessage.setExtData(3);
+    nmBaseMessage.writeStart();
+    //房间ID
+    nmBaseMessage.writeInt(roomID);
+    nmBaseMessage.writeInt(-1);
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+    nmBaseMessage.writeByte(0);
+    //ScriptVerCode	Int	脚本版本号	(游戏版本号+渠道号)
+    nmBaseMessage.writeInt(Common.getVersion() + Common.getChannelID());
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}

@@ -704,4 +704,16 @@ function read82680030(nMBaseMessage)
     return dataTable;
 }
 
+//图文Toast
+function read80040008(nMBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + GAMEID_IMAGE_TOAST;
+    dataTable["messageName"] = "GAMEID_IMAGE_TOAST";
+    //toastMsg	Text	提示文字
+    dataTable["ToastMsg"] = nMBaseMessage.readString();
+    //imageUrl	Text	图片地址
+    dataTable["ImageUrl"] = nMBaseMessage.readString();
+    return dataTable;
+}
+
 //Todo:领取工资之后，GAMEID_IMAGE_TOAST

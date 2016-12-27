@@ -79,8 +79,6 @@ var ProfileLogin= {
         var result= dataTable["result"];
         var resultText= dataTable["ResultTxt"];
 
-        console.log("登录:"+ result+" "+ resultText);
-
         if(result== 0){
             //玩家登陆信息已经改变
             ProfileLogin.isChangeAccount= true;
@@ -96,7 +94,7 @@ var ProfileLogin= {
             MvcEngine.createModule(GUI_HALL);
         }else{
             //Todo:Toast:登录失败提示
-            alert(resultText);
+            Common.showToast(resultText);
         }
     },
     //界面收到注册信息后处理
