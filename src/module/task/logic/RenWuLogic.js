@@ -15,6 +15,9 @@ var RenWuLogic= {
 	Label_go:null,
 	btn_Close:null,
 	Label_FinishMark:null,
+
+    /******自定义*********/
+    m_tableView:null,//TableView列表
 	
     createView:function(){
     	this.initLayer();
@@ -94,7 +97,6 @@ var RenWuLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            console.log("修改");
             MvcEngine.destroyModule(GUI_RENWU);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
@@ -124,7 +126,10 @@ var RenWuLogic= {
     
     //释放界面的私有数据
     releaseData:function(){
-    
+        if(this.m_tableView!= null){
+            this.m_tableView.removeFromParent(true);
+            delete  this.m_tableView;
+        }
     },
     
     requestMsg:function(){
@@ -202,7 +207,9 @@ var RenWuLogic= {
     tableCellAtIndex:function (table, idx) {
         var cell = table.dequeueCell();
         cell = new cc.TableViewCell();
-        return this.createItem(cell, idx);
+        //为了和App保持一致，
+        var taskNum= ProfileRenWu.getActiveTaskListTable()["taskNum"]- 1;
+        return this.createItem(cell, taskNum- idx);
     },
     //创建某一个右邮件项
     createItem:function(cell, idx){
@@ -282,7 +289,7 @@ var RenWuLogic= {
         return cell;
     },
     //单元数量-重写TableView的tableCellAtIndex函数
-    numberOfCellsInTableView:function (table) {
+    numberOfCellsInTableView:function(table) {
         return ProfileRenWu.getActiveTaskListTable()["taskNum"];
     },
     //按钮的回调哈数，利用Tag来区分是列表中的第几个

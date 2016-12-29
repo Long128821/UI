@@ -182,6 +182,9 @@ function NMBaseMessage(arraybuffer){
             return this.m_binaryStream.readUnicode(len);
         }else{
             console.warn("BOM的格式不对！Bom= "+ new Uint8Array(arrayBuffer).join("-"));
+            var arrayBuffe= this.m_binaryStream.arrayBuffer.slice(0, -1);
+            console.log(new Uint8Array(arrayBuffe).join("-"));
+            return "ERROR";
         }
     }
 } 

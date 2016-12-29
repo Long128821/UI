@@ -259,6 +259,20 @@ if(typeof g_DataType== "undefined"){
             return this.binaryArrayToStringByUTFT6(binary);
         },
         /**
+         * 方法二:使用Unit16Array方法-中文(大端字节-FE FF)
+         * 从缓冲区的position位置按UTF8的格式读取字符串,position往后移指定的长度
+         * @returns {String} 读取的字符串
+         */
+        readUTF8: function (len) {
+            //其中，2个是后台传递前台时，多传了两个字符串结束符(EOF)
+            //BOM =  FE FF(65279)
+            //小端字节和大端字节的转换，EOF放在字节流的前面
+            //将arrayBuffer按照DataView视图读取方式读取
+            var binary= new Uint8Array(this.arrayBuffer.slice(this.readPos, this.readPos+ len- 1));
+            this.readPos+= len;
+            return this.binaryArrayToStringByUnicode(binary);
+        },
+        /**
          * 方法二:使用Unit8Array方法-中文(Unicode编码——小端字节 FF FE)
          * 从缓冲区的position位置按UTF8的格式读取字符串,position往后移指定的长度
          * @returns {String} 读取的字符串

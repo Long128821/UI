@@ -17,6 +17,10 @@ var GameConfig= {
     URL_TABLE_CUSTOMSERVICE_HELP:"http://f.99sai.com/jinhua/html/comm_help.html",//设置--帮助
     m_curBaseLayer:null,//当前底层界面
     mnHallInitSendMsg:false,//在大厅界面是否发送公共消息请求
+    GOODS_ID_SUPERIORFACE:12,//高级表情包物品ID
+    GOODS_ID_CHANGECARD:24,//换牌道具物品ID
+    GOODS_ID_NO_PK:25,//禁比道具物品ID
+    remainSuperiorFaceTime:0,//高级表情使用剩余时间
 
     getMNHallInitSendMsg:function(){
         return this.mnHallInitSendMsg;
@@ -28,6 +32,7 @@ var GameConfig= {
     //初始化游戏公共数据
     initGameCommonData:function(){
         this.mnHallInitSendMsg= false;
+        this.remainSuperiorFaceTime= 0;
     },
 
     getGameMusicOff:function(){

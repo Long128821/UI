@@ -549,8 +549,6 @@ function read80210007(nMBaseMessage){
 }
 
 function read82200001(nMBaseMessage){
-    console.log(JHID_TABLE_SYNC);
-    console.log("read82200001");
     var dataTable = {};
     dataTable["messageType"] = ACK + JHID_TABLE_SYNC;
     dataTable["messageName"] = "JHID_TABLE_SYNC";
@@ -793,11 +791,12 @@ function read82210001(nMBaseMessage){
     return dataTable;
 }
 
+//Todo:解析UTF16
 //解析EnterRoomRespBean
 function read80210002(nMBaseMessage){
     var dataTable = {};
     dataTable["messageType"] = ACK + JHID_ENTER_ROOM;
-    dataTable["messageName"] = "JHID_ENTER_ROOM";
+    dataTable["messageName"] = "EnterRoomRespBean";
 
     //解析 是否成功 0 失败，1 成功
     dataTable["result"] = nMBaseMessage.readByte();
@@ -805,4 +804,168 @@ function read80210002(nMBaseMessage){
     dataTable["message"] = nMBaseMessage.readString();
 
     return dataTable;
+}
+
+//3.43扎金花自建房间信息(JINHUA_MGR_BUILD_TABLE_INFO）
+function read8068002b(nMBaseMessage){
+    var  dataTable = {};
+    dataTable["messageType"] = ACK + JINHUA_MGR_BUILD_TABLE_INFO;
+    dataTable["messageName"] = "JINHUA_MGR_BUILD_TABLE_INFO";
+    dataTable["RoomTypeList"] = {};
+    //roomTypeloop	Loop
+    var RoomTypeCnt = nMBaseMessage.readInt();
+    dataTable["RoomTypeCnt"]= RoomTypeCnt;
+    for(var i=0; i<RoomTypeCnt; ++i){
+        dataTable["RoomTypeList"][i] = {};
+        nMBaseMessage.startReadLoop();
+
+        //...roomType	Byte	1经典房间2千王房间
+        dataTable["RoomTypeList"][i].roomType = nMBaseMessage.readByte();
+        //...minCoinLoop	Loop	自建房间loop
+        dataTable["RoomTypeList"][i]["MinCoinList"] = {};
+
+        var MinCoinCnt = nMBaseMessage.readInt();
+        dataTable["RoomTypeList"][i]["MinCoinCnt"]= MinCoinCnt;
+        for(var j=0; j< MinCoinCnt; ++j){
+            nMBaseMessage.startReadLoop();
+            dataTable["RoomTypeList"][i]["MinCoinList"][j] = {};
+            //......minCoin	Long	最小携带金币数
+            dataTable["RoomTypeList"][i]["MinCoinList"][j].minCoin = parseInt(nMBaseMessage.readLong());
+            //......antecoin	Int	底注金币
+            dataTable["RoomTypeList"][i]["MinCoinList"][j].antecoin = nMBaseMessage.readInt();
+            //......charm	Int	对应消耗魅力数
+            dataTable["RoomTypeList"][i]["MinCoinList"][j].charm = nMBaseMessage.readInt();
+        }
+    }
+
+    dataTable["OpenTableTimeList"] = {};
+    //openTableTimeLoop	Loop	开发时间列表
+    var OpenTableTimeCnt = nMBaseMessage.readInt();
+
+    for(var i=0; i<RoomTypeCnt; ++i) {
+        dataTable["OpenTableTimeList"][i] = {};
+        nMBaseMessage.startReadLoop();
+
+        //...hour	Int	连续几小时
+        dataTable["OpenTableTimeList"][i].hour = nMBaseMessage.readInt();
+        //...charm	Int	对应消耗魅力数
+        dataTable["OpenTableTimeList"][i].charm = nMBaseMessage.readInt();
+    }
+
+    //playerCharm	Int	玩家总魅力值
+    dataTable["playerCharm"] = nMBaseMessage.readInt();
+
+    return dataTable;
+}
+
+//解析背包商品数量
+function read80060049(nMBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + DBID_BACKPACK_GOODS_COUNT;
+    dataTable["messageName"] = "DBID_BACKPACK_GOODS_COUNT";
+
+    //Type  0时效型 1数量型
+    dataTable["Type"] = nMBaseMessage.readByte();
+    //Num  时效型单位（秒）,数量型单位（个）
+	dataTable["Num"] = parseInt(nMBaseMessage.readLong());
+    //ItemID  商品类型ID
+    dataTable["ItemID"] = nMBaseMessage.readInt();
+
+    return dataTable
+}
+
+//退出牌桌
+function read80210005(nMBaseMessage){
+    var  dataTable = {};
+    dataTable["messageType"] = ACK + JHID_QUIT_TABLE;
+    dataTable["messageName"] = "QuitTableRespBean";
+
+    //解析 请求结果，0 失败 1成功
+    dataTable["result"] = nMBaseMessage.readByte();
+    //解析 返回消息
+    dataTable["message"] = nMBaseMessage.readString();
+    console.log(dataTable);
+    return dataTable
+}
+
+//坐下
+function read82210003(nMBaseMessage){
+    var dataTable = {}
+    dataTable["messageType"] = ACK + JHID_SIT_DOWN;
+    dataTable["messageName"] = "SitDownRespBean";
+    //解析 结果 0 失败 1 成功
+    dataTable["result"] = nMBaseMessage.readByte();
+    //解析 返回结果
+    dataTable["message"] = nMBaseMessage.readString();
+    if(dataTable["result"] == 0){
+        return dataTable;
+    }
+    //解析Bean 玩家信息，广播时候发
+    dataTable["playerInfo"] = {};
+    //解析坐下的玩家
+    var sitCnt = nMBaseMessage.readInt();
+    dataTable["sitCnt"]= sitCnt;
+    /*******Loop*********/
+    if(sitCnt!= 0){
+        nMBaseMessage.startReadLoop();
+        //解析 UserID
+        dataTable["playerInfo"].userId = nMBaseMessage.readInt();
+        //解析 昵称
+        dataTable["playerInfo"].nickName = nMBaseMessage.readString();
+        //解析 照片URL
+        dataTable["playerInfo"].photoUrl = nMBaseMessage.readString();
+        //解析 座位号
+        dataTable["playerInfo"].SSID = nMBaseMessage.readInt();
+        //解析 已下注金额
+        dataTable["playerInfo"].betCoins = tonumber(nMBaseMessage.readLong());
+        //解析 剩余金币
+        dataTable["playerInfo"].remainCoins = tonumber(nMBaseMessage.readLong());
+        //解析 状态
+        dataTable["playerInfo"].status = nMBaseMessage.readByte();
+        //解析 Vip等级
+        dataTable["playerInfo"].vipLevel = nMBaseMessage.readInt();
+        //性别
+        dataTable["playerInfo"].sex = nMBaseMessage.readByte();
+        //禁比
+        dataTable["playerInfo"].noPK= nMBaseMessage.readByte()== 1;
+
+        //牌数
+        var cardCnt = nMBaseMessage.readInt();
+        dataTable["playerInfo"].cardCnt= cardCnt;
+        dataTable["playerInfo"]["cardValues"] = {};
+        //牌值
+        for(i=0; i< cardCnt; ++i){
+            nMBaseMessage.startReadLoop();
+
+            dataTable["playerInfo"]["cardValues"][i]= nMBaseMessage.readInt();
+        }
+        // 牌型
+        dataTable["playerInfo"].cardType = nMBaseMessage.readByte();
+        //…level	Int	用户等级
+        dataTable["playerInfo"].level = nMBaseMessage.readInt();
+        //…exp	Int	经验
+        dataTable["playerInfo"].exp = nMBaseMessage.readInt();
+        //...expText	Text	经验Text	暂不使用的无效字段
+        dataTable["playerInfo"].expText = nMBaseMessage.readString();
+        //...isCert	Byte	是否真人认证	1已认证0未认证
+        dataTable["playerInfo"].isCert = nMBaseMessage.readByte();
+        // ...Clover	Byte	幸运草成就图标	1有2无
+        dataTable["playerInfo"].Clover = nMBaseMessage.readByte();
+    }
+    return dataTable;
+}
+
+//站起
+function read80210004(nMBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JHID_STAND_UP;
+    dataTable["messageName"] = "StandUpRespBean";
+    //解析 座位号
+    dataTable["SSID"] = nMBaseMessage.readInt();
+    //解析 结果 0失败 1成功
+    dataTable["result"] = nMBaseMessage.readByte();
+    //解析 结果信息
+    //Todo:使用readUtf
+    dataTable["message"] = nMBaseMessage.readString();
+    return dataTable
 }

@@ -102,7 +102,7 @@ var RoomListLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            sendJINHUA_MGR_BUILD_TABLE_INFO();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -120,11 +120,13 @@ var RoomListLogic= {
     addSlot:function(){
     	Frameworks.addSlot2Signal(JINHUA_ROOMID_ROOM_LIST, ProfileRoomList.slot_JINHUA_ROOMID_ROOM_LIST);
     	Frameworks.addSlot2Signal(JHID_ENTER_ROOM, ProfileRoomList.slot_JHID_ENTER_ROOM);
+    	Frameworks.addSlot2Signal(JINHUA_MGR_BUILD_TABLE_INFO, ProfileRoomList.slot_JINHUA_MGR_BUILD_TABLE_INFO);
     },
     //移除信号
     removeSlot:function(){
     	Frameworks.removeSlotFromSignal(JINHUA_ROOMID_ROOM_LIST, ProfileRoomList.slot_JINHUA_ROOMID_ROOM_LIST);
     	Frameworks.removeSlotFromSignal(JHID_ENTER_ROOM, ProfileRoomList.slot_JHID_ENTER_ROOM);
+    	Frameworks.removeSlotFromSignal(JINHUA_MGR_BUILD_TABLE_INFO, ProfileRoomList.slot_JINHUA_MGR_BUILD_TABLE_INFO);
     },
     
     //释放界面的私有数据

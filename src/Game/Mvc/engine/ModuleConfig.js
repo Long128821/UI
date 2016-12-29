@@ -408,6 +408,9 @@ ModuleTable["SystemPromptDialog"]["resLists"] = [
 
 ModuleTable["JinHuaTable"] = {};
 ModuleTable["JinHuaTable"]["jsLists"] = [
+    "src/module/table/logic/JinHuaTableMyOperation.js",
+    "src/module/table/table_elements/JinHuaTableCard.js",
+    "src/module/table/table_elements/JinHuaTablePlayer.js",
     "src/module/table/profile/ProfileJinHuaTable.js",
     "src/module/table/logic/JinHuaTableLogic.js",
     "src/module/table/controller/JinHuaTableController.js"];
@@ -441,3 +444,64 @@ ModuleTable["RoomList"]["resLists"] = [
     "res/btn_zuoceanniudi.png",
     "res/btn_weixinzhifu3.png",
     "res/RoomList.json"];
+
+ModuleTable["JinHuaTableMore"] = {};
+ModuleTable["JinHuaTableMore"]["jsLists"] = [
+    "src/module/table/profile/ProfileJinHuaTableMore.js",
+    "src/module/table/logic/JinHuaTableMoreLogic.js",
+    "src/module/table/controller/JinHuaTableMoreController.js"];
+ModuleTable["JinHuaTableMore"]["Layer"] = Layer.Second_Layer;
+ModuleTable["JinHuaTableMore"]["resLists"] = [
+    "res/desk_leftmenu.plist",
+    "res/desk_leftmenu.png",
+    "res/JinHuaTableMore.json"];
+
+ModuleTable["JinHuaTableExit"] = {};
+ModuleTable["JinHuaTableExit"]["jsLists"] = [
+    "src/module/jinhuapop/profile/ProfileJinHuaTableExit.js",
+    "src/module/jinhuapop/logic/JinHuaTableExitLogic.js",
+    "src/module/jinhuapop/controller/JinHuaTableExitController.js"];
+ModuleTable["JinHuaTableExit"]["Layer"] = Layer.Second_Layer;
+ModuleTable["JinHuaTableExit"]["resLists"] = [
+    "res/ic_xitongtishi.png",
+    "res/promotion_icon.png",
+    "res/ui_querebtuichu.png",
+    "res/co_desk.png",
+    "res/co_desk.plist",
+    "res/ui_xiazaiwanahengban.png",
+    "res/JinHuaTableExit.json"];
+
+ModuleTable["JinHuaTableConfirmPop"] = {};
+ModuleTable["JinHuaTableConfirmPop"]["jsLists"] = [
+    "src/module/tablepop/profile/ProfileJinHuaTableConfirmPop.js",
+    "src/module/tablepop/logic/JinHuaTableConfirmPopLogic.js",
+    "src/module/tablepop/controller/JinHuaTableConfirmPopController.js"];
+ModuleTable["JinHuaTableConfirmPop"]["Layer"] = Layer.Second_Layer;
+ModuleTable["JinHuaTableConfirmPop"]["resLists"] = [
+    "res/btn_tichupaizhuo.png",
+    "res/btn_gongyongchangguiniu.png",
+    "res/JinHuaTableConfirmPop.json"];
+
+ModuleTable["JinHuaTableCardTypePop"] = {};
+ModuleTable["JinHuaTableCardTypePop"]["jsLists"] = [
+    "src/module/tablepop/profile/ProfileJinHuaTableCardTypePop.js",
+    "src/module/tablepop/logic/JinHuaTableCardTypePopLogic.js",
+    "src/module/tablepop/controller/JinHuaTableCardTypePopController.js"];
+ModuleTable["JinHuaTableCardTypePop"]["Layer"] = Layer.Second_Layer;
+ModuleTable["JinHuaTableCardTypePop"]["resLists"] = [
+    "res/ui_paixingzhanshi.png",
+    "res/JinHuaTableCardTypePop.json"];
+
+ModuleTable["JinHuaTableSetPop"] = {};
+ModuleTable["JinHuaTableSetPop"]["jsLists"] = [
+    "src/module/tablepop/profile/ProfileJinHuaTableSetPop.js",
+    "src/module/tablepop/logic/JinHuaTableSetPopLogic.js",
+    "src/module/tablepop/controller/JinHuaTableSetPopController.js"];
+ModuleTable["JinHuaTableSetPop"]["Layer"] = Layer.Second_Layer;
+ModuleTable["JinHuaTableSetPop"]["resLists"] = [
+    "res/ic_text_zhendongtishi.png",
+    "res/ic_text_youxiyinxiao.png",
+    "res/btn_item_close.png",
+    "res/ic_text_beijingyinyue.png",
+    "res/ic_xitongshezhi.png",
+    "res/JinHuaTableSetPop.json"];

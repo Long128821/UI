@@ -359,7 +359,7 @@ var MvcEngine= {
         return destroyModuleTable;
     },
     //要打开的界面
-    createModule:function(moduleName){
+    createModule:function(moduleName, callback){
         //console.log("createModule");
         Frameworks.releaseClick();//释放当前按钮
 
@@ -367,6 +367,7 @@ var MvcEngine= {
         //加载该页面中所使用的js文件
         //Todo:返回controller
         Load.LoadResOfTable(moduleName, function(msg){
+            if(callback!= undefined) callback();
             //添加信号， 监听该页面的销毁和休眠
             Frameworks.addSlot2Signal(SignalCommon.Signal_SleepModule_Done, self.slot_Destroy_Sleep_Done);
             Frameworks.addSlot2Signal(SignalCommon.Signal_DestroyModule_Done, self.slot_Destroy_Sleep_Done);

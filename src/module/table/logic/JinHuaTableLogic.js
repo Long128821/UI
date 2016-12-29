@@ -217,12 +217,15 @@ var JinHuaTableLogic= {
 	Button_quickMatch:null,
 	Button_matchRank:null,
 	AtlasLabel_myMatchRank:null,
-	
+
+    /********自定义**********/
+    labelNotice:null,//公告
+    updateTimer:null,//更新系统时间-定时器
     createView:function(){
         cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("chat_popup.plist"),Common.getResourcePath("chat_popup.png"));
         cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("desk.plist"),Common.getResourcePath("desk.png"));
         cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("table_elements.plist"),Common.getResourcePath("table_elements.png"));
-
+        cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("poker_cards.plist"), Common.getResourcePath("poker_cards.png"));
     	this.initLayer();
         
         this.view.setTag(ModuleTable["JinHuaTable"]["Layer"]);
@@ -1164,7 +1167,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            MvcEngine.createModule(GUI_RENWU);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1190,7 +1193,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            MvcEngine.createModule(GUI_JINHUATABLEMORE);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1284,16 +1287,34 @@ var JinHuaTableLogic= {
     },
     //添加信号
     addSlot:function(){
-    	
+    	Frameworks.addSlot2Signal(DBID_BACKPACK_GOODS_COUNT, ProfileJinHuaTable.slot_DBID_BACKPACK_GOODS_COUNT);//更新背包数量
+    	Frameworks.addSlot2Signal(JHID_QUIT_TABLE, ProfileJinHuaTable.slot_JHID_QUIT_TABLE);//退出牌桌
+    	Frameworks.addSlot2Signal(JINHUA_MGR_NOTICE, ProfileJinHuaTable.slot_JINHUA_MGR_NOTICE);//更新公告信息
+    	Frameworks.addSlot2Signal(JHID_STAND_UP, ProfileJinHuaTable.slot_JHID_STAND_UP);//站起
+    	Frameworks.addSlot2Signal(JHID_SIT_DOWN, ProfileJinHuaTable.slot_JHID_STAND_UP);//坐下
     },
     //移除信号
     removeSlot:function(){
-    	
+    	Frameworks.removeSlotFromSignal(DBID_BACKPACK_GOODS_COUNT, ProfileJinHuaTable.slot_DBID_BACKPACK_GOODS_COUNT);
+    	Frameworks.removeSlotFromSignal(JHID_QUIT_TABLE, ProfileJinHuaTable.slot_JHID_QUIT_TABLE);
+    	Frameworks.removeSlotFromSignal(JINHUA_MGR_NOTICE, ProfileJinHuaTable.slot_JINHUA_MGR_NOTICE);
+    	Frameworks.removeSlotFromSignal(JHID_STAND_UP, ProfileJinHuaTable.slot_JHID_STAND_UP);
+    	Frameworks.removeSlotFromSignal(JHID_SIT_DOWN, ProfileJinHuaTable.slot_JHID_SIT_DOWN);
     },
     
     //释放界面的私有数据
     releaseData:function(){
-    
+        cc.spriteFrameCache.removeSpriteFramesFromFile(Common.getResourcePath("chat_popup.plist"));
+        cc.spriteFrameCache.removeSpriteFramesFromFile(Common.getResourcePath("desk.plist"));
+        cc.spriteFrameCache.removeSpriteFramesFromFile(Common.getResourcePath("table_elements.plist"));
+        cc.spriteFrameCache.removeSpriteFramesFromFile(Common.getResourcePath("poker_cards.plist"));
+        //关闭更新系统时间-定时器
+        clearInterval(this.updateTimer);
+        delete this.updateTimer;
+        if(this.labelNotice!= null){
+            this.labelNotice.stopAllActions();
+            delete this.labelNotice;
+        }
     },
     
     requestMsg:function(){
@@ -1301,7 +1322,205 @@ var JinHuaTableLogic= {
     },
     //初始化界面
     initData:function(){
+        //更新背包道具数量
+        this.updateBACKPACK_GOODS_COUNT();
+        //初始化牌桌背景
+        this.initBg();
+        //更新牌桌时间
+        this.startUpdateTimeAndBatteryScheduler();
+
         this.Panel_buttonGroup_right.setVisible(true);
         this.btn_renwu.setVisible(true);
+    },
+    //更新背包道具数量
+    updateBACKPACK_GOODS_COUNT:function(){
+        sendDBID_BACKPACK_GOODS_COUNT(GameConfig.GOODS_ID_SUPERIORFACE);
+        sendDBID_BACKPACK_GOODS_COUNT(GameConfig.GOODS_ID_CHANGECARD);
+        sendDBID_BACKPACK_GOODS_COUNT(GameConfig.GOODS_ID_NO_PK);
+    },
+    //初始化背包(禁比、换牌、高级表情)
+    initBackpackGoods:function(){
+        var backPackGoodsCountData= Profile_JinHuaGameData.getBackPackGoodsCountData();
+        if(backPackGoodsCountData.ItemID== GameConfig.GOODS_ID_CHANGECARD){//换牌
+            var GameData= Profile_JinHuaGameData.getGameData();
+            var roomInfo= Profile_JinHuaRoomData.getRoomByID(GameData.roomId);
+            //是否为千王场(换牌卡)
+
+            if(((roomInfo&&roomInfo.roomType== Profile_JinHuaRoomData.TYPE_QIANWANG)
+                ||(GameData.BUILDRoomType!=null&&GameData.BUILDRoomType== Profile_JinHuaRoomData.TYPE_QIANWANG))){
+                //更新换牌卡个数
+                this.updateChangeCardCountText();
+                //更新换牌卡数量
+                this.updateChangeCardCount(Profile_JinHuaGameData.getIsMatch());
+            }else{
+                //更新换牌卡个数
+                this.updateChangeCardCountText();
+                //更新换牌卡数量
+                this.updateChangeCardCount(Profile_JinHuaGameData.getIsMatch());
+                //不可点击状态
+                this.Button_changeCard.setOpacity(80);
+                this.Image_huanpai.setOpacity(80);
+                this.Image_huanpaikahongdian.setOpacity(80);
+                this.Label_changeCardNum.setOpacity(80);
+            }
+        }else if(backPackGoodsCountData.ItemID== GameConfig.GOODS_ID_NO_PK){//禁比
+            this.updateNoPkCountText();
+        }
+    },
+    //根据是否为比赛，更新换牌卡的数量
+    updateChangeCardCount:function(isMatch){
+        if(isMatch){
+            this.Button_changeCard.setVisible(true);
+            this.Button_changeCard.setTouchEnabled(true);
+        }
+    },
+    //更新换牌卡个数
+    updateChangeCardCountText:function(){
+        //获取位数
+        var digitCount= Profile_JinHuaTableConfig.remainChangeCardCnt.toString().length;
+
+        if(digitCount> 2){
+            JinHuaTableLogic.Label_changeCardNum.setString("99+");
+        }else{
+            JinHuaTableLogic.Label_changeCardNum.setString(Profile_JinHuaTableConfig.remainChangeCardCnt);
+        }
+    },
+    //更新禁比卡的数量
+    updateNoPkCountText:function(){
+        //获取位数
+        var digitCount= Profile_JinHuaTableConfig.remainNoPKCnt.toString().length;
+        if(digitCount> 2){
+            JinHuaTableLogic.Label_noCompareNum.setString("99+");
+        }else{
+            JinHuaTableLogic.Label_noCompareNum.setString(Profile_JinHuaTableConfig.remainNoPKCnt);
+        }
+    },
+    //初始化背景
+    initBg:function(){
+        var GameData= Profile_JinHuaGameData.getGameData();
+        switch (GameData.roomId){
+            case Profile_JinHuaRoomData.ROOMID_BASIC_LOW:
+                this.Image_title_left.loadTexture("ui_jingdianchang.png",1);
+                this.Image_title_right.loadTexture("ui_chujichang.png",1);
+                break;
+            case Profile_JinHuaRoomData.ROOMID_BASIC_MID:
+                this.Image_title_left.loadTexture("ui_jingdianchang.png",1);
+                this.Image_title_right.loadTexture("ui_zhongjichang.png",1);
+                break;
+            case Profile_JinHuaRoomData.ROOMID_BASIC_HIGH:
+                this.Image_title_left.loadTexture("ui_jingdianchang.png",1);
+                this.Image_title_right.loadTexture("ui_gaojichang.png",1);
+                break;
+            case Profile_JinHuaRoomData.ROOMID_SHARK_LOW:
+                this.Image_title_left.loadTexture("ui_qianchangwang.png",1);
+                this.Image_title_right.loadTexture("ui_zhongjichang.png",1);
+                break;
+            case Profile_JinHuaRoomData.ROOMID_SHARK_MID:
+                this.Image_title_left.loadTexture("ui_qianchangwang.png",1);
+                this.Image_title_right.loadTexture("ui_gaojichang.png",1);
+                break;
+            case Profile_JinHuaRoomData.ROOMID_SHARK_HIGH:
+                this.Image_title_left.loadTexture("ui_qianchangwang.png",1);
+                this.Image_title_right.loadTexture("ui_fuhaochang.png",1);
+                break;
+        }
+        //非比赛场
+        this.Panel_buttonGroup_right.setVisible(true);
+        this.Panel_EXP.setVisible(true);
+        this.Panel_match.setVisible(false);
+        this.Button_matchRank.setTouchEnabled(false);
+        this.Button_barrage.setTouchEnabled(false);
+        this.Image_barragelock.setTouchEnabled(false);
+        this.Button_gift.setVisible(true);
+        this.Button_gift.setTouchEnabled(true);
+        this.btn_libao.setVisible(true);
+        this.btn_libao.setTouchEnabled(true);
+        this.Button_tequan.setVisible(true);
+        this.Button_tequan.setTouchEnabled(true);
+        this.Button_changeCard.setVisible(true);
+        this.Button_changeCard.setTouchEnabled(true);
+        this.Button_tableChat.setTouchEnabled(true);
+        this.Button_tableChat.setVisible(true);
+        this.Button_noCompare.setVisible(true);
+        this.Button_noCompare.setTouchEnabled(true);
+        this.Image_title_left.setVisible(true);
+        this.Image_title_right.setVisible(true);
+        this.Panel_PrivateRoom.setVisible(false);
+
+
+
+        this.view.addChild(JinHuaTablePlayer.create(), 100);
+    },
+    //显示系统公告
+    showNotice:function(){
+        //利用文本是否为空，判断是否进行中
+        if(this.labelNotice!= null) return;
+
+        //获取系统公告
+        var noticeTable= Profile_JinHuaNotice.getOneNotice();
+        if(noticeTable== null||noticeTable== undefined||noticeTable==""){
+            //重新获取公告
+            return;
+        }
+
+        var ImageNoticeSize= this.ImageView_Notice.getContentSize();
+        var chatPanelSize= this.panel_chat.getContentSize();
+        var chatPanelPoint= this.panel_chat.getPosition();
+
+        var textNotice = noticeTable.content;
+        //创建系统公告文本
+        this.createSystemNoticeLabel(textNotice, cc.color(noticeTable.colorR, noticeTable.colorG, noticeTable.colorB));
+
+        if(this.labelNotice== null) return;
+        //设置初始位置
+        this.labelNotice.setPosition(cc.p(chatPanelSize.width + chatPanelPoint.x + ImageNoticeSize.width / 2,0));
+        //播放系统公告
+        var moveBy =  cc.MoveBy.create(GameConfig.NOTICE_MOVE_TIME*(this.labelNotice.width + chatPanelSize.width), cc.p(-chatPanelPoint.x -this.labelNotice.width -chatPanelSize.width*2,0));
+        var self= this;
+        var seq = cc.Sequence.create(moveBy,cc.callFunc(function(){
+            self.hideNotice();
+        }));
+        this.labelNotice.runAction(cc.RepeatForever.create(seq));
+    },
+    //隐藏系统公告
+    hideNotice:function(){
+        if(this.labelNotice!= null&&this.panel_chat!= null){
+            this.labelNotice.stopAllActions();
+            this.labelNotice.removeFromParent(true);
+            this.labelNotice= null;
+        }
+        this.showNotice();
+    },
+    //系统公告文本
+    createSystemNoticeLabel:function(systemNotice,color) {
+        var chatPanelSize = this.panel_chat.getContentSize();
+        var chatPanelPoint = this.panel_chat.getPosition();
+        var ImageNoticeSize = this.ImageView_Notice.getContentSize();
+
+        this.labelNotice = cc.LabelTTF.create(systemNotice.toString(), "微软雅黑", 20);
+        this.labelNotice.setAnchorPoint(cc.p(0, 0));
+        this.labelNotice.setPosition(cc.p(chatPanelSize.width + chatPanelPoint.x + ImageNoticeSize.width / 2, 0));
+        this.labelNotice.setColor(color);
+        this.panel_chat.addChild(this.labelNotice);
+    },
+    //启动计时器
+    startUpdateTimeAndBatteryScheduler:function(){
+        //初始时，更新一次，系统时间
+        this.updateTime();
+        //不能及时更新系统时间,60s更新一次
+        this.updateTimer= setInterval(this.updateTime, 60000);
+    },
+    updateTime:function(){
+        //更新系统时间
+        var date= new Date();
+        JinHuaTableLogic.Label_time.setString(date.getHours() + ":"+ date.getMinutes());
+    },
+    //设置底部面板是否可见
+    setBotPanelVisible:function(visible){
+        this.Panel_dibu.setVisible(visible);
+        this.Panel_dibu.setTouchEnabled(visible);
+        this.Button_tableChat.setTouchEnabled(visible);
     }
 };
+
+//Todo:大喇叭

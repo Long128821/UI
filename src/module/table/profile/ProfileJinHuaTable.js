@@ -1,4 +1,31 @@
 //数据图标集
 var ProfileJinHuaTable= {
-    
+    //剩余换牌道具个数
+    //解析背包商品数量
+    slot_DBID_BACKPACK_GOODS_COUNT:function(dataTable){
+        Profile_JinHuaGameData.readDBID_BACKPACK_GOODS_COUNT(dataTable);
+        JinHuaTableLogic.initBackpackGoods();
+    },
+    //退出房间
+    slot_JHID_QUIT_TABLE:function(dataTable){
+        Profile_JinHuaGameData.readJHID_QUIT_TABLE(dataTable);
+        console.log("退出房间！");
+        console.log(dataTable);
+    },
+    //更新系统公告
+    slot_JINHUA_MGR_NOTICE:function(dataTable){
+        //牌桌公告
+        Profile_JinHuaNotice.readJINHUA_MGR_NOTICE(dataTable);
+        JinHuaTableLogic.showNotice();
+    },
+    //站起
+    slot_JHID_STAND_UP:function(dataTable){
+        console.log("站起");
+        console.log(dataTable);
+    },
+    //坐下
+    slot_JHID_SIT_DOWN:function(dataTable){
+        console.log("坐下");
+        console.log(dataTable);
+    }
 };

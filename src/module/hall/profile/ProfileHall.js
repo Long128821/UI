@@ -35,7 +35,7 @@ var ProfileHall= {
     },
     //游戏公告
     slot_JINHUA_MGR_NOTICE:function(dataTable){
-        HallLogic.createSystemNoticeLabel(dataTable["RecordList"][0].content,0, cc.color(dataTable["RecordList"][0].colorR, dataTable["RecordList"][0].colorG, dataTable["RecordList"][0].colorB));
+        HallLogic.createSystemNoticeLabel(dataTable["RecordList"][0].content, cc.color(dataTable["RecordList"][0].colorR, dataTable["RecordList"][0].colorG, dataTable["RecordList"][0].colorB));
     },
     //金花每日工资
     slot_JINHUA_MGR_DAILY_SALARY:function(dataTable){

@@ -99,7 +99,7 @@ var Network= {
     },
 
     //发送消息
-    sendMessage:function(nmBaseMessage, callback){
+    sendMessage:function(nmBaseMessage){
         if(typeof nmBaseMessage!= "object") return;
         //将要发送的消息，添加到消息缓冲池中
         MessageCenter.addBaseMessage(MessageControlType.Send, nmBaseMessage);

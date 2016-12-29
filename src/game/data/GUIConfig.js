@@ -66,3 +66,18 @@ GUI_JINHUATABLE= "JinHuaTable";
 
 //大厅-房间列表
 GUI_ROOMLIST= "RoomList";
+
+//牌桌-菜单
+GUI_JINHUATABLEMORE= "JinHuaTableMore";
+
+//牌桌-下载
+GUI_JINHUATABLEEXIT= "JinHuaTableExit";
+
+//牌桌-退出
+GUI_JINHUATABLECONFIRMPOP= "JinHuaTableConfirmPop";
+
+//牌桌-牌型
+GUI_JINHUATABLECARDTYPEPOP= "JinHuaTableCardTypePop";
+
+//牌桌-设置
+GUI_JINHUATABLESETPOP= "JinHuaTableSetPop";

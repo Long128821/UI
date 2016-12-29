@@ -527,7 +527,6 @@ var FriendListLogic= {
         if(TaskListLoop[idx]["visibility"]== 0){//按钮状态
             button1.setOpacity(120);
         }
-
         ProfileFriendList.m_arrFriendButton[idx]= button1;
 
         return cell;
@@ -558,9 +557,9 @@ var FriendListLogic= {
     },
     //切换按钮状态
     changeBtnState:function(index){
-        var button= ProfileFriendList.m_arrFriendButton[index];
+        var button= ProfileFriendList.m_arrFriendButton[index].getChildren()[1];
         button.setOpacity(120);
-        button.loadTextures(Common.getResourcePath("ui_yilingqu.png"), Common.getResourcePath("ui_yilingqu.png"), null);
+        button.setTexture(Common.getResourcePath("ui_yilingqu.png"));
     },
     //添加上限
     onLimit:function(flag){

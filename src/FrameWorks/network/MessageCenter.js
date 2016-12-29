@@ -144,5 +144,4 @@ var MessageCenter= {
         }
     }
 };
-
 //Todo:同一个按钮，可以发送多个消息

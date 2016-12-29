@@ -61,7 +61,7 @@ var FrameWorkDataPool= {
             var map= element[i];
             if(map["Signal"]== key){//判断key值是否相等
                 element.splice(i, 1);
-                i--;
+                break;
             }
         }
     },

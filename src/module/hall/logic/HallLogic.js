@@ -101,7 +101,8 @@ var HallLogic= {
             //获取站内信列表  主要需要数据来检测是否需要显示小红点
             sendMAIL_SYSTEM_MESSGE_LIST(0,100);
         }
-
+        //获取房间列表
+        sendJINHUA_ROOMID_ROOM_LIST(0);
         //初始化比赛时钟
 
     },
@@ -819,7 +820,7 @@ var HallLogic= {
         }
     },
     //系统公告文本
-    createSystemNoticeLabel:function(systemNotice,textLenWidth,color){
+    createSystemNoticeLabel:function(systemNotice,color){
         var chatPanelSize= this.panel_chat.getContentSize();
         var chatPanelPoint= this.panel_chat.getPosition();
         var ImageNoticeSize= this.ImageView_Notice.getContentSize();

@@ -8,5 +8,9 @@ var ProfileRoomList= {
     //进入房间
     slot_JHID_ENTER_ROOM:function(dataTable){
         console.log(dataTable);
+    },
+    //创建房间
+    slot_JINHUA_MGR_BUILD_TABLE_INFO:function(dataTable){
+        console.log(dataTable);
     }
 };

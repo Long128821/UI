@@ -405,3 +405,94 @@ function sendJHID_ENTER_ROOM(roomID){
 
     delete nmBaseMessage;
 }
+
+//创建房间
+function sendJINHUA_MGR_BUILD_TABLE_INFO(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JINHUA_MGR_BUILD_TABLE_INFO);
+    nmBaseMessage.writeStart();
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//请求背包商品数量
+function sendDBID_BACKPACK_GOODS_COUNT(itemID){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + DBID_BACKPACK_GOODS_COUNT);
+    nmBaseMessage.writeStart();
+
+    //ItemID
+    nmBaseMessage.writeInt(itemID);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//金花退出牌桌
+function sendJHID_QUIT_TABLE(roomId,tableId){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JHID_QUIT_TABLE);
+    nmBaseMessage.setExtData(3);
+    nmBaseMessage.writeStart();
+    console.log(roomId+" "+ tableId);
+    nmBaseMessage.writeInt(roomId);
+    nmBaseMessage.writeInt(tableId);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//站起
+function sendJHID_STAND_UP(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JHID_STAND_UP);
+    nmBaseMessage.setExtData(3);
+    nmBaseMessage.writeStart();
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//坐下
+function sendJHID_SIT_DOWN(roomId,tableId,seatId){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JHID_SIT_DOWN);
+    nmBaseMessage.setExtData(3);
+    nmBaseMessage.writeStart();
+    nmBaseMessage.writeInt(roomId);
+    nmBaseMessage.writeInt(tableId);
+    nmBaseMessage.writeInt(seatId);
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}

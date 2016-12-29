@@ -37,6 +37,19 @@ var Profile_JinHuaRoomData= {
             return this.QianWangRoomList;
         }
     },
+    //根据当前ID获取房间
+    getRoomByID:function(roomID){
+        if(this.JinHuaRoomListTable== null) return null;
+        if(!this.JinHuaRoomListTable["Rooms"].hasOwnProperty(roomID)) return null;
+        //遍历房间
+        for(var key in this.JinHuaRoomListTable["Rooms"]){
+            var room= this.JinHuaRoomListTable["Rooms"][key];
+            if(room.roomID== roomID){
+                return room;
+            }
+        }
+        return null;
+    },
     //获取房间列表(JINHUA_ROOMID_ROOM_LIST)
     readJINHUA_ROOMID_ROOM_LIST:function(dataTable){
         this.JinHuaRoomListTable= dataTable;
