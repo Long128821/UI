@@ -1322,8 +1322,11 @@ var JinHuaTableLogic= {
     },
     //初始化界面
     initData:function(){
+        //Todo:清理数据
         //更新背包道具数量
         this.updateBACKPACK_GOODS_COUNT();
+        //初始化牌桌(玩家、筹码)
+        Profile_JinHuaTableConfig.initTableElmentsCoordinate();
         //初始化牌桌背景
         this.initBg();
         //更新牌桌时间
@@ -1520,6 +1523,117 @@ var JinHuaTableLogic= {
         this.Panel_dibu.setVisible(visible);
         this.Panel_dibu.setTouchEnabled(visible);
         this.Button_tableChat.setTouchEnabled(visible);
+    },
+    //隐藏所有快捷聊天按钮极其点击效果
+    hideAllQuickChatButton:function(){
+        this.Panel_quickchat.setVisible(false);
+        this.Panel_waiting.setVisible(false);
+        this.Panel_afterfold.setVisible(false);
+        this.Panel_win.setVisible(false);
+        this.Panel_lose.setVisible(false);
+
+        this.Button_geweihao.setVisible(false);
+        this.Button_geweihao.setTouchEnabled(false);
+        this.Button_wolaishouqian.setVisible(false);
+        this.Button_wolaishouqian.setTouchEnabled(false);
+        this.Button_guarenlaile.setVisible(false);
+        this.Button_guarenlaile.setTouchEnabled(false);
+        this.Button_waiting_emo1.setVisible(false);
+        this.Button_waiting_emo1.setTouchEnabled(false);
+        this.Button_waiting_emo2.setVisible(false);
+        this.Button_waiting_emo2.setTouchEnabled(false);
+
+        this.Button_ptcl.setVisible(false);
+        this.Button_ptcl.setTouchEnabled(false);
+        this.Button_snh.setVisible(false);
+        this.Button_snh.setTouchEnabled(false);
+        this.Button_xfnym.setVisible(false);
+        this.Button_xfnym.setTouchEnabled(false);
+        this.Button_afterfold_emo1.setVisible(false);
+        this.Button_afterfold_emo1.setTouchEnabled(false);
+        this.Button_afterfold_emo2.setVisible(false);
+        this.Button_afterfold_emo2.setTouchEnabled(false);
+
+        this.Button_xiexie.setVisible(false);
+        this.Button_xiexie.setTouchEnabled(false);
+        this.Button_zhunixiaju.setVisible(false);
+        this.Button_zhunixiaju.setTouchEnabled(false);
+        this.Button_laozi.setVisible(false);
+        this.Button_laozi.setTouchEnabled(false);
+        this.Button_win_emo1.setVisible(false);
+        this.Button_win_emo1.setTouchEnabled(false);
+        this.Button_win_emo2.setVisible(false);
+        this.Button_win_emo2.setTouchEnabled(false);
+
+        this.Button_yunqicha.setVisible(false);
+        this.Button_yunqicha.setTouchEnabled(false);
+        this.Button_dadebucuo.setVisible(false);
+        this.Button_dadebucuo.setTouchEnabled(false);
+        this.Button_nizabushangtian.setVisible(false);
+        this.Button_nizabushangtian.setTouchEnabled(false);
+        this.Button_lose_emo1.setVisible(false);
+        this.Button_lose_emo1.setTouchEnabled(false);
+        this.Button_lose_emo2.setVisible(false);
+        this.Button_lose_emo2.setTouchEnabled(false);
+    },
+    //显示相对类型的快捷聊天按钮
+    showQuickChatButton:function(type){
+        //比赛
+        if(Profile_JinHuaGameData.getIsMatch()) return;
+        //首先隐藏所有的
+        this.hideAllQuickChatButton();
+
+        //Todo:金花新手引导
+        if(type == STATUS_QUICK_CHAT_WAITING){
+            this.Panel_waiting.setVisible(true);
+            this.Button_geweihao.setVisible(true);
+            this.Button_geweihao.setTouchEnabled(true);
+            this.Button_wolaishouqian.setVisible(true);
+            this.Button_wolaishouqian.setTouchEnabled(true);
+            this.Button_guarenlaile.setVisible(true);
+            this.Button_guarenlaile.setTouchEnabled(true);
+            this.Button_waiting_emo1.setVisible(true);
+            this.Button_waiting_emo1.setTouchEnabled(true);
+            this.Button_waiting_emo2.setVisible(true);
+            this.Button_waiting_emo2.setTouchEnabled(true);
+        }else if(type == STATUS_QUICK_CHAT_FOLD) {
+            this.Panel_afterfold.setVisible(true);
+            this.Button_ptcl.setVisible(true);
+            this.Button_ptcl.setTouchEnabled(true);
+            this.Button_snh.setVisible(true);
+            this.Button_snh.setTouchEnabled(true);
+            this.Button_xfnym.setVisible(true);
+            this.Button_xfnym.setTouchEnabled(true);
+            this.Button_afterfold_emo1.setVisible(true);
+            this.Button_afterfold_emo1.setTouchEnabled(true);
+            this.Button_afterfold_emo2.setVisible(true);
+            this.Button_afterfold_emo2.setTouchEnabled(true);
+        }else if(type == STATUS_QUICK_CHAT_WIN) {
+            this.Panel_win.setVisible(true);
+            this.Button_xiexie.setVisible(true);
+            this.Button_xiexie.setTouchEnabled(true);
+            this.Button_zhunixiaju.setVisible(true);
+            this.Button_zhunixiaju.setTouchEnabled(true);
+            this.Button_laozi.setVisible(true);
+            this.Button_laozi.setTouchEnabled(true);
+            this.Button_win_emo1.setVisible(true);
+            this.Button_win_emo1.setTouchEnabled(true);
+            this.Button_win_emo2.setVisible(true);
+            this.Button_win_emo2.setTouchEnabled(true);
+        }else if(type == STATUS_QUICK_CHAT_LOSE){
+            this.Panel_lose.setVisible(true);
+            this.Button_yunqicha.setVisible(true);
+            this.Button_yunqicha.setTouchEnabled(true);
+            this.Button_dadebucuo.setVisible(true);
+            this.Button_dadebucuo.setTouchEnabled(true);
+            this.Button_nizabushangtian.setVisible(true);
+            this.Button_nizabushangtian.setTouchEnabled(true);
+            this.Button_lose_emo1.setVisible(true);
+            this.Button_lose_emo1.setTouchEnabled(true);
+            this.Button_lose_emo2.setVisible(true);
+            this.Button_lose_emo2.setTouchEnabled(true);
+        }
+        this.Panel_quickchat.setVisible(true);
     }
 };
 

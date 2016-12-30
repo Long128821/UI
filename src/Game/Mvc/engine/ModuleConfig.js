@@ -411,6 +411,7 @@ ModuleTable["JinHuaTable"]["jsLists"] = [
     "src/module/table/logic/JinHuaTableMyOperation.js",
     "src/module/table/table_elements/JinHuaTableCard.js",
     "src/module/table/table_elements/JinHuaTablePlayer.js",
+    "src/module/table/table_entity/JinHuaTablePlayerEntity.js",
     "src/module/table/profile/ProfileJinHuaTable.js",
     "src/module/table/logic/JinHuaTableLogic.js",
     "src/module/table/controller/JinHuaTableController.js"];

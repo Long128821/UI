@@ -95,6 +95,9 @@ var JinHuaTablePlayer= {
         //初始化
         //如果我在牌桌上并且有牌，更新我的操作按钮
         //addTimerSprite();
+
+        this.initPlayerSprites(true);
+
         return this.JinHuaTablePlayerLayer;
     },
     //初始化用户信息显示界面
@@ -107,13 +110,16 @@ var JinHuaTablePlayer= {
         //绘制人物
         this.tablePlayerEntitys = {};
         if(tablePlayersData== null) return;
-        console.log(tablePlayersData);
+
         //是否为玩家自身
         var isMe= false;
         for(var i=0; i< Profile_JinHuaTableConfig.playerCnt; ++i){
             if(tablePlayersData.hasOwnProperty(i) && tablePlayersData[i]!= null){
-
-
+                console.log(tablePlayersData[i]);
+                //添加头像框
+                var tablePlayerEntity = JinHuaTablePlayerEntity.create(tablePlayersData[i]);
+                JinHuaTablePlayerEntity.addPlayerElementToLayer(this.JinHuaTablePlayerLayer);
+                //
                 if(tablePlayersData.isMe== true){
                     isMe= true;
                 }
@@ -121,8 +127,25 @@ var JinHuaTablePlayer= {
             }
         }
 
-        if(isMe== true && Profile_JinHuaGameData.get){
-
+        if(isMe== true && Profile_JinHuaGameData.isMePlayingThisRound()){
+            //在座位上並且并且在打牌
+            JinHuaTableLogic.setBotPanelVisible(true);
+            JinHuaTableLogic.hideAllQuickChatButton();
+        }else if(isMe== true &&(!Profile_JinHuaGameData.isMePlayingThisRound())){
+            //在座位上並且并且在打牌
+            JinHuaTableLogic.setBotPanelVisible(true);
+            JinHuaTableLogic.showQuickChatButton(STATUS_QUICK_CHAT_WAITING);
+        }else{
+            //在座位上並且并且在打牌
+            JinHuaTableLogic.setBotPanelVisible(false);
+            JinHuaTableLogic.hideAllQuickChatButton();
         }
+    },
+    getJinHuaTablePlayerLayer:function(){
+        if(this.JinHuaTablePlayerLayer== null){
+            this.JinHuaTablePlayerLayer= cc.Layer.create();
+            this.JinHuaTablePlayerLayer.setZOrder(3);
+        }
+        return this.JinHuaTablePlayerLayer;
     }
 };
