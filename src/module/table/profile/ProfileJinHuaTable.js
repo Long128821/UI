@@ -20,12 +20,23 @@ var ProfileJinHuaTable= {
     },
     //站起
     slot_JHID_STAND_UP:function(dataTable){
-        console.log("站起");
-        console.log(dataTable);
+
     },
     //坐下
     slot_JHID_SIT_DOWN:function(dataTable){
-        console.log("坐下");
+
+    },
+    //准备
+    slot_JHID_READY:function(dataTable){
+        //tODO:GameData中，读取数据
+        //设置准备
+        JinHuaTablePlayer.updateTableAfterPlayerReadyServerBack(dataTable);
+    },
+    //牌桌在线奖励
+    slot_JHID_GET_BAOHE_STEP_INFO:function(dataTable){
+        console.log("牌桌在线奖励");
         console.log(dataTable);
+        //Todo:BaoheStepInfoTable = JinHuaLoadProfile.JinHuaOnlineReward.getBaoheStepInfoTable()
+        JinHuaTableLogic.updateJHID_GET_BAOHE_STEP_INFO(dataTable);
     }
 };

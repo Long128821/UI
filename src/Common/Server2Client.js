@@ -969,3 +969,33 @@ function read80210004(nMBaseMessage){
     dataTable["message"] = nMBaseMessage.readString();
     return dataTable
 }
+
+//准备
+function read80200002(nMBaseMessage){
+    var  dataTable = {};
+    dataTable["messageType"] = ACK + JHID_READY;
+    dataTable["messageName"] = "JHID_READY";
+    //服务端座位号
+    dataTable["SSID"] = nMBaseMessage.readInt();
+    //Result  byte  准备是否成功  1成功 0失败
+    dataTable["result"] = nMBaseMessage.readByte();
+
+    //ResultTxt text  提示语内容
+    dataTable["message"] = nMBaseMessage.readString();
+    return dataTable
+}
+
+//金花房间消息—查看宝盒进度信息
+function read80200028(nMBaseMessage){
+    var  dataTable = {}
+    dataTable["messageType"] = ACK + JHID_GET_BAOHE_STEP_INFO
+    dataTable["messageName"] = "JHID_GET_BAOHE_STEP_INFO"
+
+    //nowNumber	Int	当前进度
+    dataTable["nowNumber"] = nMBaseMessage.readInt();
+    //nowNumberMax	Int	进度上限
+    dataTable["nowNumberMax"] = nMBaseMessage.readInt();
+    //IncrBaoheRound	Int	增加进度轮数条件
+    dataTable["IncrBaoheRound"] = nMBaseMessage.readInt();
+    return dataTable
+}

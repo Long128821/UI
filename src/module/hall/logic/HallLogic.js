@@ -860,6 +860,7 @@ var HallLogic= {
 //Todo:Toast
 //Todo:新手引导
 //Todo:动画
+//Todo:领取金币toast(图片)
 
 //Todo:MINI_COMMON_WINNING_RECORD 小游戏公告 不知道读写数据内容
 //Todo:MANAGERID_GET_JINHUA_USER_GUIDE_PRIZE

@@ -221,6 +221,16 @@ var JinHuaTableLogic= {
     /********自定义**********/
     labelNotice:null,//公告
     updateTimer:null,//更新系统时间-定时器
+    sitButtonGroup:{},//坐下按钮table
+    pkButtonGroup:{},//pk按钮table
+    remainingTime:0,//房间剩余时间
+    onlineRewardTime:0,//在线奖励
+    buttonCheckIsShow:false,
+    lastStatus:null,//最新状态
+    CanRaise:true,
+    canGetOnlinebonus:null,
+    IncrBaoheRound:null,//宝盒奖励,几轮以后算一局
+
     createView:function(){
         cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("chat_popup.plist"),Common.getResourcePath("chat_popup.png"));
         cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("desk.plist"),Common.getResourcePath("desk.png"));
@@ -1291,8 +1301,10 @@ var JinHuaTableLogic= {
     	Frameworks.addSlot2Signal(JHID_QUIT_TABLE, ProfileJinHuaTable.slot_JHID_QUIT_TABLE);//退出牌桌
     	Frameworks.addSlot2Signal(JINHUA_MGR_NOTICE, ProfileJinHuaTable.slot_JINHUA_MGR_NOTICE);//更新公告信息
     	Frameworks.addSlot2Signal(JHID_STAND_UP, ProfileJinHuaTable.slot_JHID_STAND_UP);//站起
-    	Frameworks.addSlot2Signal(JHID_SIT_DOWN, ProfileJinHuaTable.slot_JHID_STAND_UP);//坐下
-    },
+    	Frameworks.addSlot2Signal(JHID_SIT_DOWN, ProfileJinHuaTable.slot_JHID_SIT_DOWN);//坐下
+    	Frameworks.addSlot2Signal(JHID_READY, ProfileJinHuaTable.slot_JHID_READY);//准备
+    	Frameworks.addSlot2Signal(JHID_GET_BAOHE_STEP_INFO, ProfileJinHuaTable.slot_JHID_GET_BAOHE_STEP_INFO);//获取在线奖励
+},
     //移除信号
     removeSlot:function(){
     	Frameworks.removeSlotFromSignal(DBID_BACKPACK_GOODS_COUNT, ProfileJinHuaTable.slot_DBID_BACKPACK_GOODS_COUNT);
@@ -1300,6 +1312,8 @@ var JinHuaTableLogic= {
     	Frameworks.removeSlotFromSignal(JINHUA_MGR_NOTICE, ProfileJinHuaTable.slot_JINHUA_MGR_NOTICE);
     	Frameworks.removeSlotFromSignal(JHID_STAND_UP, ProfileJinHuaTable.slot_JHID_STAND_UP);
     	Frameworks.removeSlotFromSignal(JHID_SIT_DOWN, ProfileJinHuaTable.slot_JHID_SIT_DOWN);
+    	Frameworks.removeSlotFromSignal(JHID_READY, ProfileJinHuaTable.slot_JHID_READY);
+    	Frameworks.removeSlotFromSignal(JHID_GET_BAOHE_STEP_INFO, ProfileJinHuaTable.slot_JHID_GET_BAOHE_STEP_INFO);
     },
     
     //释放界面的私有数据
@@ -1323,14 +1337,20 @@ var JinHuaTableLogic= {
     //初始化界面
     initData:function(){
         //Todo:清理数据
+        JinHuaTableTips.clear();
+
         //更新背包道具数量
         this.updateBACKPACK_GOODS_COUNT();
         //初始化牌桌(玩家、筹码)
         Profile_JinHuaTableConfig.initTableElmentsCoordinate();
+
+        var GameData= Profile_JinHuaGameData.getGameData();
+        //请求在线奖励信息
+        if(GameData.roomId != null){
+            sendJHID_GET_BAOHE_STEP_INFO(GameData.roomId);
+        }
         //初始化牌桌背景
         this.initBg();
-        //更新牌桌时间
-        this.startUpdateTimeAndBatteryScheduler();
 
         this.Panel_buttonGroup_right.setVisible(true);
         this.btn_renwu.setVisible(true);
@@ -1400,6 +1420,131 @@ var JinHuaTableLogic= {
     },
     //初始化背景
     initBg:function(){
+        //初始化<坐下>按钮
+        this.initSitBtn();
+        //初始化<Pk>按钮
+        this.initPkBtn();
+        //牌桌标题
+        this.initTableTitle();
+        //牌桌类型
+        this.initTableType();
+        //桌面上的玩家
+        this.view.addChild(JinHuaTablePlayer.create(), 100);
+        //坐下提示模块
+        this.view.addChild(JinHuaTableTips.getTableTipsLayer());
+
+        //设置牌桌数据
+        this.createLayerFarm();
+        //进入牌桌提示
+        this.enterTablePrompt();
+    },
+    //初始化坐下按钮
+    initSitBtn:function(){
+        if(this.sitButtonGroup== null||this.sitButtonGroup== undefined) this.sitButtonGroup= {};
+        for(var i=0; i< Profile_JinHuaTableConfig.playerCnt; ++i){
+            this.sitButtonGroup[i] = cc.MenuItemImage.create(Common.getResourcePath("ui_weizuoren.png"),Common.getResourcePath("ui_weizuoren.png"),this.onClick_BtnSit, this);
+            this.sitButtonGroup[i].setAnchorPoint(cc.p(0, 0));
+            var menu = cc.Menu.create(this.sitButtonGroup[i]);
+            menu.setPosition(Profile_JinHuaTableConfig.spritePlayers[i].locX,Profile_JinHuaTableConfig.spritePlayers[i].locY);
+            JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(menu);
+            this.sitButtonGroup[i].setVisible(false);
+            this.sitButtonGroup[i].setZOrder(3);
+            this.sitButtonGroup[i].setTag(i);
+        }
+    },
+    //坐下按钮响应事件
+    onClick_BtnSit:function(pSender){
+        console.log("ID:"+ pSender.getTag()+"坐下");
+    },
+    //按钮：PK
+    initPkBtn:function(){
+        this.pkButtonGroup[1] = cc.MenuItemImage.create(Common.getResourcePath("table_pk_collimation.png"),Common.getResourcePath("table_pk_collimation.png"),this.onClick_btnPK, this);
+        var menu1 = cc.Menu.create(this.pkButtonGroup[1]);
+        menu1.setPosition(Profile_JinHuaTableConfig.spritePlayers[1].pkX,Profile_JinHuaTableConfig.spritePlayers[1].pkY);
+        menu1.setZOrder(12);
+        JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(menu1);
+
+        this.pkButtonGroup[2] = cc.MenuItemImage.create(Common.getResourcePath("table_pk_collimation.png"),Common.getResourcePath("table_pk_collimation.png"),this.onClick_btnPK, this);
+        var menu2 = cc.Menu.create(this.pkButtonGroup[2]);
+        menu2.setPosition(Profile_JinHuaTableConfig.spritePlayers[2].pkX,Profile_JinHuaTableConfig.spritePlayers[2].pkY);
+        menu2.setZOrder(12);
+        JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(menu2);
+
+        this.pkButtonGroup[3] = cc.MenuItemImage.create(Common.getResourcePath("table_pk_collimation.png"),Common.getResourcePath("table_pk_collimation.png"),this.onClick_btnPK, this);
+        var menu3 = cc.Menu.create(this.pkButtonGroup[3]);
+        menu3.setPosition(Profile_JinHuaTableConfig.spritePlayers[3].pkX,Profile_JinHuaTableConfig.spritePlayers[3].pkY);
+        menu3.setZOrder(12);
+        JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(menu3);
+
+        this.pkButtonGroup[4] = cc.MenuItemImage.create(Common.getResourcePath("table_pk_collimation.png"),Common.getResourcePath("table_pk_collimation.png"),this.onClick_btnPK, this);
+        var menu4 = cc.Menu.create(this.pkButtonGroup[4]);
+        menu4.setPosition(Profile_JinHuaTableConfig.spritePlayers[4].pkX,Profile_JinHuaTableConfig.spritePlayers[4].pkY);
+        menu4.setZOrder(12);
+        JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(menu4);
+
+        this.pkButtonGroup[1].setVisible(false);
+        this.pkButtonGroup[2].setVisible(false);
+        this.pkButtonGroup[3].setVisible(false);
+        this.pkButtonGroup[4].setVisible(false);
+
+        this.pkButtonGroup[1].setTag(1);
+        this.pkButtonGroup[2].setTag(2);
+        this.pkButtonGroup[3].setTag(3);
+        this.pkButtonGroup[4].setTag(4);
+
+        this.blinkPK(this.pkButtonGroup[1]);
+        this.blinkPK(this.pkButtonGroup[2]);
+        this.blinkPK(this.pkButtonGroup[3]);
+        this.blinkPK(this.pkButtonGroup[4]);
+    },
+    onClick_btnPK:function(pSender){
+        console.log("PK:"+ pSender.getTag());
+    },
+    //放大缩小PK按钮
+    blinkPK:function(button){
+        var seq= cc.sequence(cc.scaleTo(0.5, 0.8),cc.scaleTo(0.5, 1));
+        button.runAction(seq.repeatForever());
+    },
+    //显示隐藏Pk按钮
+    showPkButton:function(id){
+        this.pkButtonGroup[id].setVisible(true);
+        this.pkButtonGroup[id].setEnabled(true);
+    },
+    //显示隐藏Pk按钮
+    hidePkButton:function(){
+        //除了玩家本身 全部隐藏
+        for(var i=1; i< Profile_JinHuaTableConfig.playerCnt; ++i){
+            this.pkButtonGroup[i].setVisible(false);
+            this.pkButtonGroup[i].setEnabled(false);
+        }
+    },
+    //显示某个下标的坐下按钮
+    showSitButton:function(index){
+        if(this.sitButtonGroup[index]){
+            this.sitButtonGroup[index].setVisible(true);
+//            if not mvcEngine.logicModuleIsSleep(GUI_JINHUA_TABLE) then
+//            sitButtonGroup[pos]:setEnabled(true)
+//            end
+        }
+    },
+    //隐藏某个下标的坐下按钮
+    hideSitButton:function(index){
+        if(this.sitButtonGroup[index]){
+            this.sitButtonGroup[index].setVisible(false);
+            this.sitButtonGroup[index].setEnable(false);
+        }
+    },
+    //隐藏所有的坐下按钮
+    hideAllSitButton:function(){
+        for(var i=0; i< Profile_JinHuaTableConfig.playerCnt; ++i){
+            if(this.sitButtonGroup[i]){
+                this.sitButtonGroup[i].setVisible(false);
+                this.sitButtonGroup[i].setEnable(false);
+            }
+        }
+    },
+    //初始化牌桌名
+    initTableTitle:function(){
         var GameData= Profile_JinHuaGameData.getGameData();
         switch (GameData.roomId){
             case Profile_JinHuaRoomData.ROOMID_BASIC_LOW:
@@ -1427,32 +1572,133 @@ var JinHuaTableLogic= {
                 this.Image_title_right.loadTexture("ui_fuhaochang.png",1);
                 break;
         }
-        //非比赛场
-        this.Panel_buttonGroup_right.setVisible(true);
-        this.Panel_EXP.setVisible(true);
-        this.Panel_match.setVisible(false);
-        this.Button_matchRank.setTouchEnabled(false);
-        this.Button_barrage.setTouchEnabled(false);
-        this.Image_barragelock.setTouchEnabled(false);
-        this.Button_gift.setVisible(true);
-        this.Button_gift.setTouchEnabled(true);
-        this.btn_libao.setVisible(true);
-        this.btn_libao.setTouchEnabled(true);
-        this.Button_tequan.setVisible(true);
-        this.Button_tequan.setTouchEnabled(true);
-        this.Button_changeCard.setVisible(true);
-        this.Button_changeCard.setTouchEnabled(true);
-        this.Button_tableChat.setTouchEnabled(true);
-        this.Button_tableChat.setVisible(true);
-        this.Button_noCompare.setVisible(true);
-        this.Button_noCompare.setTouchEnabled(true);
-        this.Image_title_left.setVisible(true);
-        this.Image_title_right.setVisible(true);
-        this.Panel_PrivateRoom.setVisible(false);
+    },
+    //初始化牌桌类型(有可能是房间,比赛以及自建牌桌)
+    initTableType:function(){
+        var GameData= Profile_JinHuaGameData.getGameData();
+        
+        if(Profile_JinHuaGameData.getIsMatch()){
+            //如果是比赛牌桌
+            this.Panel_EXP.setVisible(false);
+            this.Panel_match.setVisible(true);
+            this.Button_matchRank.setTouchEnabled(true);
+            this.Button_gift.setVisible(false);
+            this.Button_gift.setTouchEnabled(false)
+            this.btn_libao.setVisible(false)
+            this.btn_libao.setTouchEnabled(false)
+            this.Button_tequan.setVisible(false)
+            this.Button_tequan.setTouchEnabled(false)
+            this.Button_changeCard.setVisible(false)
+            this.Button_changeCard.setTouchEnabled(false)
+            this.btn_renwu.setVisible(false)
+            this.btn_renwu.setTouchEnabled(false)
+            this.Button_noCompare.setVisible(false)
+            this.Button_noCompare.setTouchEnabled(false)
+            this.Image_title_left.setVisible(false)
+            this.Image_title_right.setVisible(false)
+            this.Panel_PrivateRoom.setVisible(false)
+            //Todo:sendJINHUA_ALLOW_REBUY(GameData["matchInstanceId"])
+            if(GameData.mySSID!= null){
+                this.Button_barrage.setTouchEnabled(false)
+                this.Button_barrage.setVisible(false)
+                this.Button_tableChat.setTouchEnabled(false)
+                this.Button_tableChat.setVisible(false)
+                this.Image_barragelock.setTouchEnabled(true)
+                this.Image_barragelock.setVisible(true)
+                //Todo:
+//                if JinHuaBarrage.getSwitch() == true then
+//                JinHuaBarrage.setSwitch(true)
+//            else
+//                JinHuaBarrage.setSwitch(false)
+//                end
+            }else{
+                this.Button_barrage.setTouchEnabled(true)
+                this.Button_barrage.setVisible(true)
+                this.Image_barragelock.setTouchEnabled(false)
+                this.Image_barragelock.setVisible(false)
+            }
+            if(GameData["matchInstanceId"]!= null||GameData["matchInstanceId"]!= ""){
+                //Todo:sendJINHUA_RANK_CHANGE(GameData["matchInstanceId"])
+            }
+            if(GameData["tableId"] == 0){
+                this.Label_waiting.setVisible(true);
+            }
+        }else{
+            //非比赛场
+            this.Panel_buttonGroup_right.setVisible(true);
+            this.Panel_EXP.setVisible(true);
+            this.Panel_match.setVisible(false);
+            this.Button_matchRank.setTouchEnabled(false);
+            this.Button_barrage.setTouchEnabled(false);
+            this.Image_barragelock.setTouchEnabled(false);
+            this.Button_gift.setVisible(true);
+            this.Button_gift.setTouchEnabled(true);
+            this.btn_libao.setVisible(true);
+            this.btn_libao.setTouchEnabled(true);
+            this.Button_tequan.setVisible(true);
+            this.Button_tequan.setTouchEnabled(true);
+            this.Button_changeCard.setVisible(true);
+            this.Button_changeCard.setTouchEnabled(true);
+            this.Button_tableChat.setTouchEnabled(true);
+            this.Button_tableChat.setVisible(true);
+            this.btn_renwu.setVisible(GameConfig.GAME_ID!= GameConfig.JINHUA_GAME_ID);
+            this.btn_renwu.setTouchEnabled(GameConfig.GAME_ID!= GameConfig.JINHUA_GAME_ID);
+            this.Button_noCompare.setVisible(true);
+            this.Button_noCompare.setTouchEnabled(true);
+            this.Image_title_left.setVisible(true);
+            this.Image_title_right.setVisible(true);
+            this.Panel_PrivateRoom.setVisible(false);
 
+            if(GameData.BUILDTableId!= null&&GameData.BUILDTableId!= 0){
+                //如果是自建房间
+                this.Image_title_left.setVisible(false);
+                this.Image_title_right.setVisible(false);
+                this.Panel_PrivateRoom.setVisible(true);
+                this.Label_RoomNumber.setString("自建房间("+ GameData.BUILDTableId+"):");
+                if(GameData.BUILDRoomType== Profile_JinHuaTableConfig.TYPE_JINGDIAN){
+                    this.Label_RoomNumber.setString("经典场");
+                }else if(GameData.BUILDRoomType== Profile_JinHuaTableConfig.TYPE_QIANWANG){
+                    this.Label_RoomNumber.setString("千王场");
+                }
+                this.Label_MinCoin.setString(GameData.BUILDMinCoin+"金币");
+                this.Label_HolderName.setString(GameData.BUILDPlayerName);
+                //初始化房间剩余时间
+                this.initBuildTableRemainingTime();
+            }
+        }
+    },
+    //初始化房间剩余时间
+    initBuildTableRemainingTime:function(){
+        var GameData= Profile_JinHuaGameData.getGameData();
+        this.remainingTime= parseInt(GameData.BUILDOverTime);
+        var self= this;
+        if(this.remainingTime!= null&& this.remainingTime>0){
+            var seq= cc.sequence(cc.delayTime(1), cc.callFunc(function(pSender){
+                self.setBuildTableRemainingTime();
+            }));
+            this.Label_CountDownTime.runAction(seq.repeatForever());
+        }
+    },
+    //设置房间剩余时间
+    setBuildTableRemainingTime:function(){
+        if(this.remainingTime> 0){
+            this.remainingTime--;
+            //剩余小时
+            var timeHour= Math.floor(this.remainingTime/ 3600);
+            //剩余分钟
+            var timeMin= Math.floor((this.remainingTime/ 60)% 60);
+            //剩余秒数
+            var timeSec= Math.floor(this.remainingTime% 60);
 
-
-        this.view.addChild(JinHuaTablePlayer.create(), 100);
+            timeHour= timeHour<10?"0"+timeHour:timeHour;
+            timeMin= timeMin<10?"0"+timeMin:timeMin;
+            timeSec= timeSec<10?"0"+timeSec:timeSec;
+            //剩余时间
+            var time= timeHour+":"+timeMin+":"+timeSec;
+            this.Label_CountDownTime.setString(time);
+        }else{
+            this.Label_CountDownTime.stopAllActions();
+        }
     },
     //显示系统公告
     showNotice:function(){
@@ -1513,8 +1759,8 @@ var JinHuaTableLogic= {
         //不能及时更新系统时间,60s更新一次
         this.updateTimer= setInterval(this.updateTime, 60000);
     },
+    //更新系统时间
     updateTime:function(){
-        //更新系统时间
         var date= new Date();
         JinHuaTableLogic.Label_time.setString(date.getHours() + ":"+ date.getMinutes());
     },
@@ -1634,6 +1880,351 @@ var JinHuaTableLogic= {
             this.Button_lose_emo2.setTouchEnabled(true);
         }
         this.Panel_quickchat.setVisible(true);
+    },
+    //初始化看牌按钮
+    initCheckBtn:function(){
+        //Todo:封装看牌按钮
+//        JinHuaTableCheckButton.createCheckButton();
+//        JinHuaTableCheckButton.setSpriteVisible(buttonCheckIsShow);
+    },
+    //初始化牌桌数据
+    createLayerFarm:function(){
+        //开启定时器，更新系统时间
+        this.startUpdateTimeAndBatteryScheduler();
+
+        var GameData= Profile_JinHuaGameData.getGameData();
+
+        if(Profile_JinHuaGameData.getIsMatch()){
+            //更新比赛底注
+            this.Label_matchBaseCoin.setString(GameData.singleCoin);
+            this.Label_match_name.setVisible(true);
+            this.Label_match_name.setString(GameData.matchTitle);
+        }
+        //Todo:金币堆模块
+        //JinHuaTableCoin.createTableCoins(GameData.chips);
+        //更新牌桌基本信息显示
+        this.updateTableTitle();
+        //设置总轮数
+        this.initAllRound();
+        //设置经验
+        this.initExpProgressBar();
+        //设置特权特权按钮是否显示
+        this.initRule();
+    },
+    //更新牌桌基本信息显示
+    updateTableTitle:function(){
+        var GameData= Profile_JinHuaGameData.getGameData();
+        if(Profile_JinHuaGameData.getIsMatch()){
+            //更新比赛基本信息
+            this.Label_matchBaseNum.setString(GameData.baseChips);
+            this.Label_matchRound.setString(GameData.round +"/"+ GameData.allRound);
+            this.Label_matchPkRound.setString(GameData.CompareRound);
+            this.Label_sumCoin.setString(GameData.totalPoolCoin);
+        }else{
+            //更新牌桌基本信息
+            this.Label_baseCoin.setString(GameData.singleCoin);
+            this.Label_sumCoin.setString(GameData.totalPoolCoin);
+            this.Label_round.setString(GameData.round);
+        }
+    },
+    //设置总轮数
+    initAllRound:function(){
+        var GameData= Profile_JinHuaGameData.getGameData();
+        if(GameData["allRound"]!= null){
+            this.Label_allRound.setString(GameData["allRound"]);
+        }
+    },
+    //设置经验条
+    initExpProgressBar:function(){
+        var GameData= Profile_JinHuaGameData.getGameData();
+        if(GameData["Exp"]!= null&&GameData["levelUpExp"]!= null&&GameData["level"]!= null){
+            //初始化锁定牌桌按钮
+            this.Panel_EXP.setVisible(true);
+            this.Label_level.setString("Lv."+ GameData["level"]);
+            this.Label_exp.setString("经验:"+ GameData["Exp"] + "/" + GameData["levelUpExp"]);
+            this.ProgressBar_exp.setPercent(GameData["Exp"]/GameData["levelUpExp"]);
+        }else{
+            this.Panel_EXP.setVisible(false);
+        }
+    },
+    //设置特权
+    initRule:function(){
+        if(!Profile_JinHuaGameData.getIsMatch()){
+            this.Button_tequan.setVisible(true);
+            this.Button_tequan.setTouchEnabled(true);
+        }
+    },
+    //进入牌桌提示
+    enterTablePrompt:function(){
+        var GameData= Profile_JinHuaGameData.getGameData();
+        if(GameData.status!=  STATUS_TABLE_WAITTING&&GameData.status!= STATUS_TABLE_READY){
+            //没有在打牌
+            if(!Profile_JinHuaGameData.isMePlayingThisRound()){
+                this.showBotButton(STATUS_BUTTON_WAIT);
+            }
+        }else{
+            this.showBotButton(STATUS_BUTTON_WAIT);
+            this.onReady();
+        }
+
+        //如果断线重连 看牌按钮是否显示
+        var playerTable = GameData["players"];
+        if(playerTable== null) return;
+        for(var i=0; i< GameData["playersCnt"];++i){
+            if(playerTable[i]!= null && playerTable[i].userId== profile_user.getSelfUserID){
+                if(playerTable[i]["cardCnt"]== 0){
+                    this.buttonCheckIsShow= true;
+                    //Todo:JinHuaTableCheckButton.setSpriteVisible(true);
+                }else{
+                    this.buttonCheckIsShow= false;
+                    //Todo:JinHuaTableCheckButton.setSpriteVisible(false);
+                }
+            }
+        }
+    },
+    //显示相对类型的下排操作按钮
+    showBotButton:function(type){
+        //隐藏所有下排操作按钮极其点击效果
+        this.hideAllBotButton();
+        this.lastStatus= type;
+        console.log(type);
+        switch (type){
+            case STATUS_BUTTON_WAIT://等待
+                //Todo:JinHuaTableCheckButton.setSpriteVisible(false)
+                this.buttonCheckIsShow= false;
+                this.Panel_wait.setVisible(true)
+
+                this.Button_wait_fold.setVisible(true)
+                this.Button_wait_fold.setTouchEnabled(true)
+                this.Button_wait_pk.setVisible(true)
+                this.Button_wait_pk.setTouchEnabled(true)
+                this.Button_wait_raise.setVisible(true)
+                this.Button_wait_raise.setTouchEnabled(true)
+                this.Button_wait_alwaysbet.setVisible(true)
+                this.Button_wait_alwaysbet.setTouchEnabled(true)
+                break;
+            case STATUS_BUTTON_OTHERTURN://等待
+                this.Panel_otherturn.setVisible(true)
+
+                this.Button_otherturn_fold.setVisible(true)
+                this.Button_otherturn_fold.setTouchEnabled(true)
+                this.Button_otherturn_pk.setVisible(true)
+                this.Button_otherturn_pk.setTouchEnabled(true)
+                this.Button_otherturn_raise.setVisible(true)
+                this.Button_otherturn_raise.setTouchEnabled(true)
+                this.Button_otherturn_alwaysbet.setVisible(true)
+                this.Button_otherturn_alwaysbet.setTouchEnabled(true)
+                break;
+            case STATUS_BUTTON_MYTURN://等待
+                this.Panel_myturn.setVisible(true)
+
+                this.Button_mine_fold.setVisible(true)
+                this.Button_mine_fold.setTouchEnabled(true)
+                this.Button_mine_pk.setVisible(true)
+                this.Button_mine_pk.setTouchEnabled(true)
+                this.Button_mine_raise.setVisible(true)
+                this.Button_mine_raise.setTouchEnabled(true)
+                this.Button_mine_call.setVisible(true)
+                this.Button_mine_call.setTouchEnabled(true)
+                if(this.CanRaise){
+                    this.Button_mine_raise.setTouchEnabled(false)
+                    this.Button_mine_raise.setOpacity(ALPHA_CAN_NOT_TOUCH)
+                    this.Image_mine_raise.setOpacity(ALPHA_CAN_NOT_TOUCH)
+                }else{
+                    this.Button_mine_raise.setOpacity(ALPHA_CAN_TOUCH)
+                    this.Image_mine_raise.setOpacity(ALPHA_CAN_TOUCH)
+                }
+                break;
+            case STATUS_BUTTON_RAISE://等待
+                this.Panel_raise.setVisible(true)
+
+                this.Button_raise_one.setVisible(true)
+                this.Button_raise_one.setTouchEnabled(true)
+                this.Button_raise_two.setVisible(true)
+                this.Button_raise_two.setTouchEnabled(true)
+                this.Button_raise_three.setVisible(true)
+                this.Button_raise_three.setTouchEnabled(true)
+                this.Button_raise_cancel.setVisible(true)
+                this.Button_raise_cancel.setTouchEnabled(true)
+                break;
+            case STATUS_BUTTON_ALLIN:
+                this.Panel_allin.setVisible(true)
+
+                this.Button_allin_fold.setVisible(true)
+                this.Button_allin_fold.setTouchEnabled(true)
+                this.Button_allin_pk.setVisible(true)
+                this.Button_allin_pk.setTouchEnabled(true)
+                this.Button_allin_allin.setVisible(true)
+                this.Button_allin_allin.setTouchEnabled(true)
+                this.Button_allin_call.setVisible(true)
+                this.Button_allin_call.setTouchEnabled(true)
+                break;
+            case STATUS_BUTTON_CANPK:
+                this.Panel_canpk.setVisible(true)
+
+                this.Button_canpk_fold.setVisible(true)
+                this.Button_canpk_fold.setTouchEnabled(true)
+                this.Button_canpk_pk.setVisible(true)
+                this.Button_canpk_pk.setTouchEnabled(true)
+                this.Button_canpk_raise.setVisible(true)
+                this.Button_canpk_raise.setTouchEnabled(true)
+                this.Button_canpk_call.setVisible(true)
+                this.Button_canpk_call.setTouchEnabled(true)
+                if(this.CanRaise){
+                    this.Button_canpk_raise.setTouchEnabled(false)
+                    this.Button_canpk_raise.setOpacity(ALPHA_CAN_NOT_TOUCH)
+                    this.Image_canpk_raise.setOpacity(ALPHA_CAN_NOT_TOUCH)
+                }else{
+                    this.Button_canpk_raise.setOpacity(ALPHA_CAN_TOUCH)
+                    this.Image_canpk_raise.setOpacity(ALPHA_CAN_TOUCH)
+                }
+                break;
+            case STATUS_BUTTON_GUIDE_ONLY_CHECK:
+                //Todo:JinHuaTableCheckButton.setSpriteVisible(true)
+
+                this.Panel_wait.setVisible(true)
+
+                this.Button_wait_fold.setVisible(true)
+                this.Button_wait_fold.setTouchEnabled(true)
+                this.Button_wait_pk.setVisible(true)
+                this.Button_wait_pk.setTouchEnabled(true)
+                this.Button_wait_raise.setVisible(true)
+                this.Button_wait_raise.setTouchEnabled(true)
+                this.Button_wait_alwaysbet.setVisible(true)
+                this.Button_wait_alwaysbet.setTouchEnabled(true)
+                break;
+            case STATUS_BUTTON_GUIDE_ONLY_RAISE:
+                this.Panel_onlyraise.setVisible(true)
+                this.Button_onlyraise_raise.setTouchEnabled(true)
+                break;
+            case STATUS_BUTTON_GUIDE_ONLY_CALL:
+                this.Panel_onlycall.setVisible(true)
+                this.Button_onlycall_call.setTouchEnabled(true)
+                break;
+            case STATUS_BUTTON_GUIDE_ONLY_PK:
+                this.Panel_onlypk.setVisible(true)
+                this.Button_onlypk_pk.setTouchEnabled(true)
+                break;
+        }
+        //Todo:
+//        if GameConfig.GAME_ID == GameConfig.JINHUA_GAME_ID then
+//        if UserGuideUtil.isUserGuide == false then
+//        if buttonCheckIsShow == false then
+//        JinHuaTableCheckButton.setSpriteVisible(false)
+//        else
+//        JinHuaTableCheckButton.setSpriteVisible(true)
+//        end
+//        end
+//        else
+//        if buttonCheckIsShow == false then
+//        JinHuaTableCheckButton.setSpriteVisible(false)
+//        else
+//        JinHuaTableCheckButton.setSpriteVisible(true)
+//        end
+//        end
+    },
+    //隐藏所有下排操作按钮极其点击效果
+    hideAllBotButton:function(){
+        this.Panel_wait.setVisible(false)
+        this.Panel_otherturn.setVisible(false)
+        this.Panel_myturn.setVisible(false)
+        this.Panel_raise.setVisible(false)
+        this.Panel_allin.setVisible(false)
+        this.Panel_onlyraise.setVisible(false)
+        this.Panel_onlycall.setVisible(false)
+        this.Panel_onlypk.setVisible(false)
+        this.Panel_canpk.setVisible(false)
+
+        this.Button_wait_fold.setVisible(false)
+        this.Button_wait_fold.setTouchEnabled(false)
+        this.Button_wait_pk.setVisible(false)
+        this.Button_wait_pk.setTouchEnabled(false)
+        this.Button_wait_raise.setVisible(false)
+        this.Button_wait_raise.setTouchEnabled(false)
+        this.Button_wait_alwaysbet.setVisible(false)
+        this.Button_wait_alwaysbet.setTouchEnabled(false)
+
+        this.Button_otherturn_fold.setVisible(false)
+        this.Button_otherturn_fold.setTouchEnabled(false)
+        this.Button_otherturn_pk.setVisible(false)
+        this.Button_otherturn_pk.setTouchEnabled(false)
+        this.Button_otherturn_raise.setVisible(false)
+        this.Button_otherturn_raise.setTouchEnabled(false)
+        this.Button_otherturn_alwaysbet.setVisible(false)
+        this.Button_otherturn_alwaysbet.setTouchEnabled(false)
+
+        this.Button_mine_fold.setVisible(false)
+        this.Button_mine_fold.setTouchEnabled(false)
+        this.Button_mine_pk.setVisible(false)
+        this.Button_mine_pk.setTouchEnabled(false)
+        this.Button_mine_raise.setVisible(false)
+        this.Button_mine_raise.setTouchEnabled(false)
+        this.Button_mine_call.setVisible(false)
+        this.Button_mine_call.setTouchEnabled(false)
+
+        this.Button_raise_one.setVisible(false)
+        this.Button_raise_one.setTouchEnabled(false)
+        this.Button_raise_two.setVisible(false)
+        this.Button_raise_two.setTouchEnabled(false)
+        this.Button_raise_three.setVisible(false)
+        this.Button_raise_three.setTouchEnabled(false)
+        this.Button_raise_cancel.setVisible(false)
+        this.Button_raise_cancel.setTouchEnabled(false)
+
+        this.Button_allin_fold.setVisible(false)
+        this.Button_allin_fold.setTouchEnabled(false)
+        this.Button_allin_pk.setVisible(false)
+        this.Button_allin_pk.setTouchEnabled(false)
+        this.Button_allin_allin.setVisible(false)
+        this.Button_allin_allin.setTouchEnabled(false)
+        this.Button_allin_call.setVisible(false)
+        this.Button_allin_call.setTouchEnabled(false)
+
+        this.Button_onlyraise_raise.setTouchEnabled(false)
+        this.Button_onlycall_call.setTouchEnabled(false)
+        this.Button_onlypk_pk.setTouchEnabled(false)
+
+        this.Button_canpk_fold.setVisible(false)
+        this.Button_canpk_fold.setTouchEnabled(false)
+        this.Button_canpk_pk.setVisible(false)
+        this.Button_canpk_pk.setTouchEnabled(false)
+        this.Button_canpk_raise.setVisible(false)
+        this.Button_canpk_raise.setTouchEnabled(false)
+        this.Button_canpk_call.setVisible(false)
+        this.Button_canpk_call.setTouchEnabled(false)
+    },
+    //准备
+    onReady:function(){
+        var GameData= Profile_JinHuaGameData.getGameData();
+        console.log("坐下请求");
+        if(GameData.status== STATUS_TABLE_READY||GameData.status== STATUS_TABLE_WAITTING){
+            //发送准备请求
+            sendJHID_READY();
+        }
+    },
+    //当前宝盒进度
+    updateJHID_GET_BAOHE_STEP_INFO:function(BaoheStepInfoTable){
+        // BaoheStepInfoTable = JinHuaLoadProfile.JinHuaOnlineReward.getBaoheStepInfoTable()
+        var GameData= Profile_JinHuaGameData.getGameData();
+        if(BaoheStepInfoTable["nowNumberMax"]== null||BaoheStepInfoTable["nowNumberMax"]== 0|| GameData.mySSID){
+            this.btn_onlinebonus.setVisible(false);
+            this.btn_onlinebonus.setTouchEnabled(false);
+            return;
+        }
+        this.btn_onlinebonus.setVisible(true);
+        this.btn_onlinebonus.setTouchEnabled(true);
+        this.Label_onlinebonus_daojishi.setText(BaoheStepInfoTable["nowNumber"]+ "/" +BaoheStepInfoTable["nowNumberMax"])
+        if(BaoheStepInfoTable["nowNumber"] >= BaoheStepInfoTable["nowNumberMax"]){
+            this.canGetOnlinebonus = 0;
+            this.Label_onlinebonus_daojishi.setVisible(false);
+            this.Image_onlinebonus_lingqu.setVisible(true);
+            this.Image_onlinebonus_shine.setVisible(true);
+            this.btn_onlinebonus.stopAllActions();
+            GamePub.showShakeAnimate(this.btn_onlinebonus);
+        }else{
+            this.canGetOnlinebonus = BaoheStepInfoTable["nowNumberMax"] - BaoheStepInfoTable["nowNumber"]
+        }
+        this.IncrBaoheRound = BaoheStepInfoTable["IncrBaoheRound"]
     }
 };
 

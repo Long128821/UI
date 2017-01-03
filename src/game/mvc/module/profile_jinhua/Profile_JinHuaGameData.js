@@ -66,5 +66,14 @@ var Profile_JinHuaGameData= {
     //退出房间
     readJHID_QUIT_TABLE:function(dataTable){
         console.log("退出房间");
+    },
+    //获取用户客户端座位号（服务端座位号）
+    getUserCSID:function(ssid){
+        if(ssid== undefined) return;
+        if(this.GameData.mySSID){
+            return (ssid - this.GameData.mySSID + Profile_JinHuaTableConfig.playerCnt)%Profile_JinHuaTableConfig.playerCnt;
+        }else{
+            return ssid;
+        }
     }
 };

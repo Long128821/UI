@@ -210,6 +210,8 @@ var Profile_JinHuaTableConfig= {
     TableScaleY:1,//牌桌缩放比例y
     playerWidth:0,//玩家的宽度
     playerHeight:0,//玩家的高度
+    playerBGWidth:GameConfig.ScreenWidth * 70 / 1136,
+    playerBGHeight:GameConfig.ScreenHeight * 70 / 640,
     sendCardsSpritePositionX:0,//牌堆位置 x轴
     sendCardsSpritePositionY:0,//牌堆位置 y轴
     cardsSpriteStartPositionX:0,//发牌的起始位置

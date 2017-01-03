@@ -496,3 +496,37 @@ function sendJHID_SIT_DOWN(roomId,tableId,seatId){
 
     delete nmBaseMessage;
 }
+
+//准备
+function sendJHID_READY(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JHID_READY);
+    nmBaseMessage.setExtData(3);
+    nmBaseMessage.writeStart();
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//扎金花房间在线奖励
+function sendJHID_GET_BAOHE_STEP_INFO(roomId){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JHID_GET_BAOHE_STEP_INFO);
+    nmBaseMessage.writeStart();
+    //roomId	Int	房间ID
+    nmBaseMessage.writeInt(roomId);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
