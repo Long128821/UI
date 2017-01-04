@@ -536,5 +536,9 @@ var Profile_JinHuaTableConfig= {
     initOtherPosition:function(){
         this.enterTablePromptX = this.spritePlayers[0].cards[0].locX;
         this.enterTablePromptY = this.spritePlayers[0].cards[0].locY;
+    },
+    //获取牌桌上的所有玩家精灵
+    getSpritePlayers:function(){
+        return this.spritePlayers;
     }
 };

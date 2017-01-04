@@ -1,21 +1,22 @@
-//牌桌提示标记
+/**
+ * Func:牌桌提示标记
+ * @type {{isShowTipPK: boolean, isShowTipOpenCard: boolean, sitTipSprites: {}, JinHuaTableTipsLayer: null, clear: JinHuaTableTips.clear, getTableTipsLayer: JinHuaTableTips.getTableTipsLayer, createSitTips: JinHuaTableTips.createSitTips, removeAllSitTips: JinHuaTableTips.removeAllSitTips}}
+ */
 var JinHuaTableTips= {
-    //显示pkTip
-    isShowTipPK:true,
-    //显示开牌tip
-    isShowTipOpenCard:true,
-    //坐下提示tip
-    sitTipSprites:{},
-    //提示层
-    JinHuaTableTipsLayer:null,
+    isShowTipPK:true,//显示pkTips
+    isShowTipOpenCard:true,//显示开牌tip
+    sitTipSprites:{},//坐下提示tip
+    JinHuaTableTipsLayer:null,//提示层(父节点)
+    //清空数据
     clear:function(){
         this.isShowTipPK= true;
         this.isShowTipOpenCard= true;
         this.sitTipSprites= {};
+        //因为提示标记,添加到该父节点上,所以移除父节点,就是移除了子节点
         (this.JinHuaTableTipsLayer!=null&&this.JinHuaTableTipsLayer.removeFromParent(true));
-        delete this.JinHuaTableTipsLayer;
+        this.JinHuaTableTipsLayer= null;
     },
-    //获取提示层
+    //获取提示层(父节点[cc.Layer])
     getTableTipsLayer:function(){
         if(this.JinHuaTableTipsLayer==null||this.JinHuaTableTipsLayer==undefined){
             this.JinHuaTableTipsLayer= cc.Layer.create();
@@ -23,41 +24,56 @@ var JinHuaTableTips= {
         }
         return this.JinHuaTableTipsLayer;
     },
-    //坐下Tips
-    createSitTips:function(SSID){
-        if(this.sitTipSprites[SSID]){
-            this.sitTipSprites[SSID].setVisible(true);
-        }else if(Profile_JinHuaTableConfig.spritePlayers[SSID]!= null){
-            var tipSprite;
-            if(SSID>= 3){
-                tipSprite= cc.Sprite.create("#desk_sit_tip_left.png");
-                tipSprite.setAnchorPoint(cc.p(1, 0));
-                tipSprite.setPosition(Profile_JinHuaTableConfig.spritePlayers[SSID].locX, Profile_JinHuaTableConfig.spritePlayers[SSID].locY);
+    /**
+     * Func:坐下Tips
+     * @param CSID 客户端上的座位ID,玩家本身的ID为0,逆时针增加
+     */
+    createSitTips:function(CSID){
+        //有效性判断
+        if(this.sitTipSprites== null||this.sitTipSprites== undefined) return;
+        //如果已经创建完该座位上的坐下提示,直接显示即可。
+        //否则,判断该座位上,是否有玩家,如果没有玩家,再创建坐下提示
+
+        var spritePlayers= Profile_JinHuaTableConfig.getSpritePlayers();
+        if(this.sitTipSprites[CSID]){
+            this.sitTipSprites[CSID].setVisible(true);
+        }else if(spritePlayers[CSID]!= null){
+            var sitTipSprite;//坐下提示标识
+            if(CSID>= 3){//右边的两个玩家(此版 炸金花一共5个座位,玩家本身的CSID一定为0)
+                sitTipSprite= cc.Sprite.create("#desk_sit_tip_left.png");
+                sitTipSprite.setAnchorPoint(cc.p(1, 0));
+                sitTipSprite.setPosition(spritePlayers[CSID].locX, spritePlayers[CSID].locY);
             }else{
-                tipSprite= cc.Sprite.create("#desk_sit_tip_right.png");
-                tipSprite.setAnchorPoint(cc.p(0, 0));
-                tipSprite.setPosition(Profile_JinHuaTableConfig.spritePlayers[SSID].locX+ tipSprite.getContentSize().width * 2, Profile_JinHuaTableConfig.spritePlayers[SSID].locY);
-                if(SSID== 0){
-                    tipSprite.setPosition(Profile_JinHuaTableConfig.spritePlayers[SSID].locX+ 70+ Profile_JinHuaTableConfig.playerBGWidth, Profile_JinHuaTableConfig.spritePlayers[SSID].locY+70+ Profile_JinHuaTableConfig.playerBGHeight);
+                sitTipSprite= cc.Sprite.create("#desk_sit_tip_right.png");
+                sitTipSprite.setAnchorPoint(cc.p(0, 0));
+                //自身玩家,位置比较特殊
+                if(CSID== 0){
+                    sitTipSprite.setPosition(spritePlayers[CSID].locX+ 70+ Profile_JinHuaTableConfig.playerBGWidth, spritePlayers[CSID].locY+70+ Profile_JinHuaTableConfig.playerBGHeight);
+                }else{
+                    sitTipSprite.setPosition(spritePlayers[CSID].locX+ sitTipSprite.getContentSize().width * 2, spritePlayers[CSID].locY);
                 }
             }
-            //做动画
-            if(tipSprite){
+            //提示标识动作(暂停2s-缩小-放大-还原 循环播放)
+            if(sitTipSprite){
                 var seq= cc.sequence(cc.delayTime(2), cc.scaleTo(0.3, 0), cc.scaleTo(0.3, 1.2), cc.scaleTo(0.05, 1));
-                tipSprite.runAction(seq.repeatForever());
-
-                this.sitTipSprites[SSID]= tipSprite;
-                tipSprite.setZOrder(4);
-
-                this.getTableTipsLayer().addChild(tipSprite);
+                sitTipSprite.runAction(seq.repeatForever());
+                //添加到Table中去,便于统一管理(显示、隐藏、释放)
+                this.sitTipSprites[CSID]= sitTipSprite;
+                sitTipSprite.setZOrder(4);
+                //添加到view中,显示
+                //使用getTableTipsLayer(),而不使用this.JinHuaTableTipsLayer的原因是:
+                //this.JinHuaTableTipsLayer没有初始化,不是cc.Layer类型。
+                this.getTableTipsLayer().addChild(sitTipSprite);
             }
         }
     },
-    //移除所有的Tips
+    //移除所有的坐下Tips
     removeAllSitTips:function(){
-        for(var i in this.sitTipSprites){
-            this.sitTipSprites[i].stopAllActions();
-            this.sitTipSprites[i].removeFromParent(true);
+        for(var key in this.sitTipSprites){
+            if(this.sitTipSprites[key]== null || this.sitTipSprites[key]== undefined) continue;
+            this.sitTipSprites[key].stopAllActions();//停止所有动作
+            this.sitTipSprites[key].removeFromParent(true);//从父节点上删除
         }
+        this.sitTipSprites= {};
     }
 };
