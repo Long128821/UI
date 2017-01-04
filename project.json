@@ -39,6 +39,7 @@
         "src/game/mvc/module/profile_jinhua/Profile_JinHuaOtherUserInfo.js",
         "src/game/mvc/module/profile_jinhua/Profile_JinHuaGameData.js",
         "src/game/mvc/module/profile_jinhua/Profile_JinHuaTableConfig.js",
+        "src/game/mvc/module/profile_jinhua/Profile_JinHuaOnlineReward.js",
         "src/game/mvc/module/signal/SignalCommon.js",
         "src/game/mvc/engine/MvcEngine.js",
         "src/game/mvc/view/ButtonEffectEvent.js",

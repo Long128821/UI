@@ -14,7 +14,6 @@ var Profile_JinHuaSetting= {
     },
     //读取消息体
     readJINHUA_MGR_SETTING:function(dataTable){
-        //console.log(dataTable);
         if(dataTable== undefined||dataTable== null){
             this.Timestamp=0;//时间戳
             this.JinHuaSettingTable= null;//金花settingsTable
@@ -56,5 +55,3 @@ var Profile_JinHuaSetting= {
         return [titleName, level];
     }
 };
-
-//Todo:当前在线人数为-1

@@ -11,7 +11,6 @@ var JinHuaTableTips= {
     clear:function(){
         this.isShowTipPK= true;
         this.isShowTipOpenCard= true;
-        delete this.sitTipSprites;
         this.sitTipSprites= {};
         (this.JinHuaTableTipsLayer!=null&&this.JinHuaTableTipsLayer.removeFromParent(true));
         delete this.JinHuaTableTipsLayer;
@@ -52,6 +51,13 @@ var JinHuaTableTips= {
 
                 this.getTableTipsLayer().addChild(tipSprite);
             }
+        }
+    },
+    //移除所有的Tips
+    removeAllSitTips:function(){
+        for(var i in this.sitTipSprites){
+            this.sitTipSprites[i].stopAllActions();
+            this.sitTipSprites[i].removeFromParent(true);
         }
     }
 };

@@ -23,6 +23,7 @@ var ProfileHall= {
     },
     //在线时长
     slot_JINHUA_MGR_SETTING:function(dataTable){
+        console.log("金花");
         //设置金花数据
         Profile_JinHuaSetting.readJINHUA_MGR_SETTING(dataTable);
         //设置VIP等级

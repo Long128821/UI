@@ -2,6 +2,7 @@
 var Load= {
     m_index:0,//加载完毕项
     m_callBack:null,//加载回调
+    m_totalJSCnt:0,//需要加载的数量
     //加载某一个页面的所需要的JS文件
     LoadResOfTable:function(needCreateModuleName, callback){
         this.m_index= 0;
@@ -14,6 +15,8 @@ var Load= {
     LoadJsOfTable:function(needCreateModuleName){
         //没有校验的原因是，有些场景可能已经加载过了
         var jsLists= ModuleTable[needCreateModuleName]["jsLists"];
+
+        this.m_totalJSCnt= jsLists.length;
 
         var self= this;
         //所需要的文件，异步下载，所以只能等到加载完毕之后

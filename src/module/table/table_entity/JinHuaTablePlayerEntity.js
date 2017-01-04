@@ -53,7 +53,7 @@ var JinHuaTablePlayerEntity= {
         }
         //创建禁比图标
         this.createJinbiSprite();
-        //Todo:创建已压金币数label, 没有加到mPlayerSprite,直接加到了layer上面
+        //已压金币数
         this.createBetedCoinLabel();
         //创建准备图标k
         this.createReadyIcon();
@@ -66,47 +66,49 @@ var JinHuaTablePlayerEntity= {
     createPlayerTips:function(){
         if(this.mPlayerSprite== null) return;
 
-        var sizeBg = this.mPlayerSprite.getContentSize();
-        var coin = this.remainCoins;
+        this.tips = cc.Sprite.create(null);
+        this.tips.setColor(cc.color(255, 255, 255));
+        this.tips.setPosition(0, this.goldSpriteBg.getPositionY() + this.goldSpriteBg.getContentSize().height / 5);
+        this.mPlayerSprite.addChild(this.tips);
+
+        this.updatePlayerTips();
+    },
+    updatePlayerTips:function(){
+        var coin = this.player.remainCoins;
         var tipLevel = Profile_JinHuaSetting.getUserTitle(coin);
         var url =  "";
-        switch (tipLevel){
+        switch (tipLevel[1]){
             case 1:
-                url = "ui_xiaoqigai.png";
+                url += "ui_xiaoqigai.png";
                 break;
             case 2:
-                url = "ui_pingmin.png";
+                url += "ui_pingmin.png";
                 break;
             case 3:
-                url = "ui_xiaokang.png";
+                url += "ui_xiaokang.png";
                 break;
             case 4:
-                url = "ui_caizhu.png";
+                url += "ui_caizhu.png";
                 break;
             case 5:
-                url = "ui_tuhao.png";
+                url += "ui_tuhao.png";
                 break;
             case 6:
-                url = "ui_yidaijujia.png";
+                url += "ui_yidaijujia.png";
                 break;
             case 7:
-                url = "ui_fujiatianxia.png";
+                url += "ui_fujiatianxia.png";
                 break;
             case 8:
-                url = "ui_fukediguo.png";
+                url += "ui_fukediguo.png";
                 break;
             case 9:
-                url = "ui_guominlaogong.png";
+                url += "ui_guominlaogong.png";
                 break;
             default :
-                url= "ui_xiaoqigai.png";
+                url+= "ui_xiaoqigai.png";
         }
-
-        this.tips = cc.Sprite.create("#" + url);
-        this.tips.setColor(cc.color(255, 255, 255));
-
-        this.tips.setPosition(sizeBg.width / 6, this.goldSpriteBg.getPositionY() + this.goldSpriteBg.getContentSize().height / 4);
-        this.mPlayerSprite.addChild(this.tips);
+        this.tips.setSpriteFrame(url);
     },
     //玩家精灵
     createPlayerSprite:function(){
@@ -134,8 +136,7 @@ var JinHuaTablePlayerEntity= {
         }else{
             this.spritePic= cc.Sprite.create(Common.getResourcePath("desk_playerhead_mine.png"));
         }
-        //Todo:测试为什么(0.75, 0.25 就是居中)
-        this.spritePic.setPosition(bgSize.width* 0.75, bgSize.height * 0.25);
+        this.spritePic.setPosition(bgSize.width* 0.5, bgSize.height * 0.5);
         this.mPlayerSprite.addChild(this.spritePic);
     },
     //蒙灰遮挡
@@ -257,7 +258,6 @@ var JinHuaTablePlayerEntity= {
                 var AtlasLabel_vip_level = cc.LabelAtlas.create("0", Common.getResourcePath("ui_vip_lvshuzi_gaoji.png"), 14, 20, "0");
                 AtlasLabel_vip_level.setString("."+ vipLevel);
                 AtlasLabel_vip_level.setAnchorPoint(cc.p(0.5, 0.5));
-                console.log(this.vipLevelPic.getContentSize());
                 AtlasLabel_vip_level.setPosition(this.vipLevelPic.getContentSize().width / 2, this.vipLevelPic.getContentSize().height / 2);
                 this.vipLevelPic.addChild(AtlasLabel_vip_level);
 
@@ -488,19 +488,43 @@ var JinHuaTablePlayerEntity= {
     //设置玩家头像
     setPortrait:function(path){
         var texture;
+        var self= this;
         if(path== null||path== undefined){
             texture= this.getHeadPhotoTextureBySex();
-        }else{
-            texture= cc.textureCache.addImage(path);
-            if(texture== null){
-                texture= this.getHeadPhotoTextureBySex();
+            if(this.mPlayerSprite!=null&&texture!=null&&this.spritePic!= null){
+                this.spritePic.setTexture(texture);
             }
-        }
-        if(this.mPlayerSprite!=null&&texture!=null&&this.spritePic!= null){
-            this.spritePic.setTexture(texture);
-        }
+        }else{
+            //头像可能会加载失败
+            cc.loader.loadImg(path, function(){}, function(err){
+                if(err== null){//加载成功
+                    texture= cc.textureCache.addImage(path);
+                }else{
+                    texture= self.getHeadPhotoTextureBySex();
+                }
+                if(self.mPlayerSprite!=null&&texture!=null&&self.spritePic!= null){
+                    self.spritePic.setTexture(texture);
+                }
+            });
+       }
+
     },
+    //是否为玩家本身
     isMe:function(){
         return this.player.userId== profile_user.getSelfUserID();
+    },
+    //移除牌
+    removeCard:function(layer){
+        if(this.cardSprites){
+            for(var key in this.cardSprites){
+                layer.removeChild(this.cardSprites[key], true);
+                delete this.cardSprites[key];
+            }
+        }
+
+        if(this.cardTypeSprite){
+            JinHuaTablePlayer.getJinHuaTablePlayerLayer().removeChild(this.cardTypeSprite, true);
+            delete  this.cardTypeSprite;
+        }
     }
 };

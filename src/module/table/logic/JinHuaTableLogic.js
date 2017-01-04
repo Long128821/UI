@@ -579,7 +579,8 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            sendJHID_CHAT_REQ(TYPE_CHAT_TEXT,JinHuaTableLogic.Label_geweihao.getStringValue());
+            JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -592,7 +593,8 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            sendJHID_CHAT_REQ(TYPE_CHAT_TEXT,JinHuaTableLogic.Label_wolaishouqian.getStringValue());
+            JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -605,7 +607,8 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            sendJHID_CHAT_REQ(TYPE_CHAT_TEXT,JinHuaTableLogic.Label_guarenlaile.getStringValue());
+            JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -618,7 +621,8 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            sendJHID_CHAT_REQ(TYPE_CHAT_COMMON_V2,3);
+            JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -631,7 +635,8 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            sendJHID_CHAT_REQ(TYPE_CHAT_COMMON_V2,4);
+            JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -644,7 +649,8 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            sendJHID_CHAT_REQ(TYPE_CHAT_TEXT,JinHuaTableLogic.Label_ptcl.getStringValue());
+            JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -657,7 +663,8 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            sendJHID_CHAT_REQ(TYPE_CHAT_TEXT,JinHuaTableLogic.Label_snh.getStringValue());
+            JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -670,7 +677,8 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            sendJHID_CHAT_REQ(TYPE_CHAT_TEXT,JinHuaTableLogic.Label_xfnym.getStringValue());
+            JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -683,7 +691,8 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            sendJHID_CHAT_REQ(TYPE_CHAT_COMMON_V2,2);
+            JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -696,7 +705,8 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            sendJHID_CHAT_REQ(TYPE_CHAT_COMMON_V2,14);
+            JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -709,7 +719,8 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            sendJHID_CHAT_REQ(TYPE_CHAT_TEXT,JinHuaTableLogic.Label_xiexie.getStringValue());
+            JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -722,7 +733,8 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            sendJHID_CHAT_REQ(TYPE_CHAT_TEXT,JinHuaTableLogic.Label_zhunixiaju.getStringValue());
+            JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -735,7 +747,8 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            sendJHID_CHAT_REQ(TYPE_CHAT_TEXT,JinHuaTableLogic.Label_laozi.getStringValue());
+            JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -748,7 +761,8 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            sendJHID_CHAT_REQ(TYPE_CHAT_COMMON_V2,10);
+            JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -761,7 +775,8 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            sendJHID_CHAT_REQ(TYPE_CHAT_COMMON_V2,3);
+            JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -774,7 +789,8 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            sendJHID_CHAT_REQ(TYPE_CHAT_TEXT,JinHuaTableLogic.Label_yunqicha.getStringValue());
+            JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -787,7 +803,8 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            sendJHID_CHAT_REQ(TYPE_CHAT_TEXT,JinHuaTableLogic.Label_dadebucuo.getStringValue());
+            JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -800,7 +817,8 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            sendJHID_CHAT_REQ(TYPE_CHAT_TEXT,JinHuaTableLogic.Label_nizabushangtian.getStringValue());
+            JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -813,7 +831,8 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            sendJHID_CHAT_REQ(TYPE_CHAT_COMMON_V2,8);
+            JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -826,7 +845,8 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            sendJHID_CHAT_REQ(TYPE_CHAT_COMMON_V2,6);
+            JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1190,7 +1210,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            JinHuaTableLogic.onLineBonus();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1304,6 +1324,10 @@ var JinHuaTableLogic= {
     	Frameworks.addSlot2Signal(JHID_SIT_DOWN, ProfileJinHuaTable.slot_JHID_SIT_DOWN);//坐下
     	Frameworks.addSlot2Signal(JHID_READY, ProfileJinHuaTable.slot_JHID_READY);//准备
     	Frameworks.addSlot2Signal(JHID_GET_BAOHE_STEP_INFO, ProfileJinHuaTable.slot_JHID_GET_BAOHE_STEP_INFO);//获取在线奖励
+    	Frameworks.addSlot2Signal(JHID_GET_ONLINE_REWARD, ProfileJinHuaTable.slot_JHID_GET_ONLINE_REWARD);//获取在线奖励
+    	Frameworks.addSlot2Signal(JHID_BET, ProfileJinHuaTable.slot_JHID_BET);//下注押注
+    	Frameworks.addSlot2Signal(JHID_CHAT, ProfileJinHuaTable.slot_JHID_CHAT);//聊天
+        Frameworks.addSlot2Signal(JINHUA_MGR_SETTING, ProfileJinHuaTable.slot_JINHUA_MGR_SETTING);
 },
     //移除信号
     removeSlot:function(){
@@ -1314,6 +1338,9 @@ var JinHuaTableLogic= {
     	Frameworks.removeSlotFromSignal(JHID_SIT_DOWN, ProfileJinHuaTable.slot_JHID_SIT_DOWN);
     	Frameworks.removeSlotFromSignal(JHID_READY, ProfileJinHuaTable.slot_JHID_READY);
     	Frameworks.removeSlotFromSignal(JHID_GET_BAOHE_STEP_INFO, ProfileJinHuaTable.slot_JHID_GET_BAOHE_STEP_INFO);
+    	Frameworks.removeSlotFromSignal(JHID_GET_ONLINE_REWARD, ProfileJinHuaTable.slot_JHID_GET_ONLINE_REWARD);
+    	Frameworks.removeSlotFromSignal(JHID_BET, ProfileJinHuaTable.slot_JHID_BET);
+    	Frameworks.removeSlotFromSignal(JHID_CHAT, ProfileJinHuaTable.slot_JHID_CHAT);
     },
     
     //释放界面的私有数据
@@ -1762,7 +1789,9 @@ var JinHuaTableLogic= {
     //更新系统时间
     updateTime:function(){
         var date= new Date();
-        JinHuaTableLogic.Label_time.setString(date.getHours() + ":"+ date.getMinutes());
+        var hour= date.getHours()<10?"0"+ date.getHours():date.getHours();
+        var minute= date.getMinutes()<10?"0"+ date.getMinutes():date.getMinutes();
+        JinHuaTableLogic.Label_time.setString(hour + ":"+ minute);
     },
     //设置底部面板是否可见
     setBotPanelVisible:function(visible){
@@ -1987,7 +2016,6 @@ var JinHuaTableLogic= {
         //隐藏所有下排操作按钮极其点击效果
         this.hideAllBotButton();
         this.lastStatus= type;
-        console.log(type);
         switch (type){
             case STATUS_BUTTON_WAIT://等待
                 //Todo:JinHuaTableCheckButton.setSpriteVisible(false)
@@ -2082,28 +2110,28 @@ var JinHuaTableLogic= {
             case STATUS_BUTTON_GUIDE_ONLY_CHECK:
                 //Todo:JinHuaTableCheckButton.setSpriteVisible(true)
 
-                this.Panel_wait.setVisible(true)
+                this.Panel_wait.setVisible(true);
 
-                this.Button_wait_fold.setVisible(true)
-                this.Button_wait_fold.setTouchEnabled(true)
-                this.Button_wait_pk.setVisible(true)
-                this.Button_wait_pk.setTouchEnabled(true)
-                this.Button_wait_raise.setVisible(true)
-                this.Button_wait_raise.setTouchEnabled(true)
-                this.Button_wait_alwaysbet.setVisible(true)
-                this.Button_wait_alwaysbet.setTouchEnabled(true)
+                this.Button_wait_fold.setVisible(true);
+                this.Button_wait_fold.setTouchEnabled(true);
+                this.Button_wait_pk.setVisible(true);
+                this.Button_wait_pk.setTouchEnabled(true);
+                this.Button_wait_raise.setVisible(true);
+                this.Button_wait_raise.setTouchEnabled(true);
+                this.Button_wait_alwaysbet.setVisible(true);
+                this.Button_wait_alwaysbet.setTouchEnabled(true);
                 break;
             case STATUS_BUTTON_GUIDE_ONLY_RAISE:
-                this.Panel_onlyraise.setVisible(true)
-                this.Button_onlyraise_raise.setTouchEnabled(true)
+                this.Panel_onlyraise.setVisible(true);
+                this.Button_onlyraise_raise.setTouchEnabled(true);
                 break;
             case STATUS_BUTTON_GUIDE_ONLY_CALL:
-                this.Panel_onlycall.setVisible(true)
-                this.Button_onlycall_call.setTouchEnabled(true)
+                this.Panel_onlycall.setVisible(true);
+                this.Button_onlycall_call.setTouchEnabled(true);
                 break;
             case STATUS_BUTTON_GUIDE_ONLY_PK:
-                this.Panel_onlypk.setVisible(true)
-                this.Button_onlypk_pk.setTouchEnabled(true)
+                this.Panel_onlypk.setVisible(true);
+                this.Button_onlypk_pk.setTouchEnabled(true);
                 break;
         }
         //Todo:
@@ -2125,86 +2153,85 @@ var JinHuaTableLogic= {
     },
     //隐藏所有下排操作按钮极其点击效果
     hideAllBotButton:function(){
-        this.Panel_wait.setVisible(false)
-        this.Panel_otherturn.setVisible(false)
-        this.Panel_myturn.setVisible(false)
-        this.Panel_raise.setVisible(false)
-        this.Panel_allin.setVisible(false)
-        this.Panel_onlyraise.setVisible(false)
-        this.Panel_onlycall.setVisible(false)
-        this.Panel_onlypk.setVisible(false)
-        this.Panel_canpk.setVisible(false)
+        this.Panel_wait.setVisible(false);
+        this.Panel_otherturn.setVisible(false);
+        this.Panel_myturn.setVisible(false);
+        this.Panel_raise.setVisible(false);
+        this.Panel_allin.setVisible(false);
+        this.Panel_onlyraise.setVisible(false);
+        this.Panel_onlycall.setVisible(false);
+        this.Panel_onlypk.setVisible(false);
+        this.Panel_canpk.setVisible(false);
 
-        this.Button_wait_fold.setVisible(false)
-        this.Button_wait_fold.setTouchEnabled(false)
-        this.Button_wait_pk.setVisible(false)
-        this.Button_wait_pk.setTouchEnabled(false)
-        this.Button_wait_raise.setVisible(false)
-        this.Button_wait_raise.setTouchEnabled(false)
-        this.Button_wait_alwaysbet.setVisible(false)
-        this.Button_wait_alwaysbet.setTouchEnabled(false)
+        this.Button_wait_fold.setVisible(false);
+        this.Button_wait_fold.setTouchEnabled(false);
+        this.Button_wait_pk.setVisible(false);
+        this.Button_wait_pk.setTouchEnabled(false);
+        this.Button_wait_raise.setVisible(false);
+        this.Button_wait_raise.setTouchEnabled(false);
+        this.Button_wait_alwaysbet.setVisible(false);
+        this.Button_wait_alwaysbet.setTouchEnabled(false);
 
-        this.Button_otherturn_fold.setVisible(false)
-        this.Button_otherturn_fold.setTouchEnabled(false)
-        this.Button_otherturn_pk.setVisible(false)
-        this.Button_otherturn_pk.setTouchEnabled(false)
-        this.Button_otherturn_raise.setVisible(false)
-        this.Button_otherturn_raise.setTouchEnabled(false)
-        this.Button_otherturn_alwaysbet.setVisible(false)
-        this.Button_otherturn_alwaysbet.setTouchEnabled(false)
+        this.Button_otherturn_fold.setVisible(false);
+        this.Button_otherturn_fold.setTouchEnabled(false);
+        this.Button_otherturn_pk.setVisible(false);
+        this.Button_otherturn_pk.setTouchEnabled(false);
+        this.Button_otherturn_raise.setVisible(false);
+        this.Button_otherturn_raise.setTouchEnabled(false);
+        this.Button_otherturn_alwaysbet.setVisible(false);
+        this.Button_otherturn_alwaysbet.setTouchEnabled(false);
 
-        this.Button_mine_fold.setVisible(false)
-        this.Button_mine_fold.setTouchEnabled(false)
-        this.Button_mine_pk.setVisible(false)
-        this.Button_mine_pk.setTouchEnabled(false)
-        this.Button_mine_raise.setVisible(false)
-        this.Button_mine_raise.setTouchEnabled(false)
-        this.Button_mine_call.setVisible(false)
-        this.Button_mine_call.setTouchEnabled(false)
+        this.Button_mine_fold.setVisible(false);
+        this.Button_mine_fold.setTouchEnabled(false);
+        this.Button_mine_pk.setVisible(false);
+        this.Button_mine_pk.setTouchEnabled(false);
+        this.Button_mine_raise.setVisible(false);
+        this.Button_mine_raise.setTouchEnabled(false);
+        this.Button_mine_call.setVisible(false);
+        this.Button_mine_call.setTouchEnabled(false);
 
-        this.Button_raise_one.setVisible(false)
-        this.Button_raise_one.setTouchEnabled(false)
-        this.Button_raise_two.setVisible(false)
-        this.Button_raise_two.setTouchEnabled(false)
-        this.Button_raise_three.setVisible(false)
-        this.Button_raise_three.setTouchEnabled(false)
-        this.Button_raise_cancel.setVisible(false)
-        this.Button_raise_cancel.setTouchEnabled(false)
+        this.Button_raise_one.setVisible(false);
+        this.Button_raise_one.setTouchEnabled(false);
+        this.Button_raise_two.setVisible(false);
+        this.Button_raise_two.setTouchEnabled(false);
+        this.Button_raise_three.setVisible(false);
+        this.Button_raise_three.setTouchEnabled(false);
+        this.Button_raise_cancel.setVisible(false);
+        this.Button_raise_cancel.setTouchEnabled(false);
 
-        this.Button_allin_fold.setVisible(false)
-        this.Button_allin_fold.setTouchEnabled(false)
-        this.Button_allin_pk.setVisible(false)
-        this.Button_allin_pk.setTouchEnabled(false)
-        this.Button_allin_allin.setVisible(false)
-        this.Button_allin_allin.setTouchEnabled(false)
-        this.Button_allin_call.setVisible(false)
-        this.Button_allin_call.setTouchEnabled(false)
+        this.Button_allin_fold.setVisible(false);
+        this.Button_allin_fold.setTouchEnabled(false);
+        this.Button_allin_pk.setVisible(false);
+        this.Button_allin_pk.setTouchEnabled(false);
+        this.Button_allin_allin.setVisible(false);
+        this.Button_allin_allin.setTouchEnabled(false);
+        this.Button_allin_call.setVisible(false);
+        this.Button_allin_call.setTouchEnabled(false);
 
         this.Button_onlyraise_raise.setTouchEnabled(false)
-        this.Button_onlycall_call.setTouchEnabled(false)
-        this.Button_onlypk_pk.setTouchEnabled(false)
+        this.Button_onlycall_call.setTouchEnabled(false);
+        this.Button_onlypk_pk.setTouchEnabled(false);
 
-        this.Button_canpk_fold.setVisible(false)
-        this.Button_canpk_fold.setTouchEnabled(false)
-        this.Button_canpk_pk.setVisible(false)
-        this.Button_canpk_pk.setTouchEnabled(false)
-        this.Button_canpk_raise.setVisible(false)
-        this.Button_canpk_raise.setTouchEnabled(false)
-        this.Button_canpk_call.setVisible(false)
-        this.Button_canpk_call.setTouchEnabled(false)
+        this.Button_canpk_fold.setVisible(false);
+        this.Button_canpk_fold.setTouchEnabled(false);
+        this.Button_canpk_pk.setVisible(false);
+        this.Button_canpk_pk.setTouchEnabled(false);
+        this.Button_canpk_raise.setVisible(false);
+        this.Button_canpk_raise.setTouchEnabled(false);
+        this.Button_canpk_call.setVisible(false);
+        this.Button_canpk_call.setTouchEnabled(false);
     },
     //准备
     onReady:function(){
         var GameData= Profile_JinHuaGameData.getGameData();
-        console.log("坐下请求");
         if(GameData.status== STATUS_TABLE_READY||GameData.status== STATUS_TABLE_WAITTING){
             //发送准备请求
             sendJHID_READY();
         }
     },
     //当前宝盒进度
-    updateJHID_GET_BAOHE_STEP_INFO:function(BaoheStepInfoTable){
-        // BaoheStepInfoTable = JinHuaLoadProfile.JinHuaOnlineReward.getBaoheStepInfoTable()
+    updateJHID_GET_BAOHE_STEP_INFO:function(){
+        var BaoheStepInfoTable = Profile_JinHuaOnlineReward.getBaoheStepInfoTable()
         var GameData= Profile_JinHuaGameData.getGameData();
         if(BaoheStepInfoTable["nowNumberMax"]== null||BaoheStepInfoTable["nowNumberMax"]== 0|| GameData.mySSID){
             this.btn_onlinebonus.setVisible(false);
@@ -2225,6 +2252,79 @@ var JinHuaTableLogic= {
             this.canGetOnlinebonus = BaoheStepInfoTable["nowNumberMax"] - BaoheStepInfoTable["nowNumber"]
         }
         this.IncrBaoheRound = BaoheStepInfoTable["IncrBaoheRound"]
+    },
+    //在线礼包
+    onLineBonus:function(){
+        if(this.canGetOnlinebonus== 0){
+            sendJHID_GET_ONLINE_REWARD();
+        }else{
+            if(this.IncrBaoheRound== null||this.IncrBaoheRound== 0){
+                Common.showToast("亲，再打" + this.canGetOnlinebonus + "盘才能打开金币福袋哦！",3);
+            }else{
+                Common.showToast("亲，再打" + this.canGetOnlinebonus + "盘才能打开金币福袋哦！(" + this.IncrBaoheRound + "轮以上算一局)",3)
+            }
+        }
+    },
+    //牌桌领取在线时长奖励
+    updateJHID_GET_ONLINE_REWARD:function(){
+        var JinGetOnlineRewardTable = Profile_JinHuaOnlineReward.getGetOnlineRewardTable();
+        if(JinGetOnlineRewardTable== null|| JinGetOnlineRewardTable["result"]== null){
+            Common.showToast("领取奖励出错",2);
+            return;
+        }
+
+        if(JinGetOnlineRewardTable["result"] == 1){
+            //领取在线时长奖励成功
+            this.btn_onlinebonus.stopAllActions();
+            this.btn_onlinebonus.setRotation(0);
+            this.Label_onlinebonus_daojishi.setVisible(true);
+            this.Image_onlinebonus_shine.setVisible(false);
+            this.Image_onlinebonus_lingqu.setVisible(false);
+            Common.showToast(JinGetOnlineRewardTable["message"],3);
+            if(JinGetOnlineRewardTable["nowNumberMax"]!= null&&JinGetOnlineRewardTable["nowNumberMax"]!= 0){
+                this.canGetOnlinebonus = JinGetOnlineRewardTable["nowNumberMax"] - JinGetOnlineRewardTable["nowNumber"]
+                this.btn_onlinebonus.setVisible(true);
+                this.btn_onlinebonus.setTouchEnabled(true);
+                this.Label_onlinebonus_daojishi.setText(JinGetOnlineRewardTable["nowNumber"] + "/" +JinGetOnlineRewardTable["nowNumberMax"]);
+            }else{
+                this.btn_onlinebonus.setVisible(false);
+                this.btn_onlinebonus.setTouchEnabled(false);
+            }
+            //设置我当前的金币
+            var playerTable = Profile_JinHuaGameData.getPlayers();
+            var GameData= Profile_JinHuaGameData.getGameData();
+            for(var key in playerTable){
+                if(playerTable[key]!= null
+                    &&playerTable[key].userId!= null
+                    &&playerTable[key].userId == GameData["players"][key].userId == profile_user.getSelfUserID()
+                    &&GameData.mySSID!= null){
+                    playerTable[key].changeCoinNumOnView(JinGetOnlineRewardTable["nowCoin"]);
+                }
+            }
+        }else {
+            //领取在线时长奖励失败
+            Common.showToast(JinGetOnlineRewardTable["message"], 3)
+        }
+    },
+    //加注
+    updateJHID_BET:function(){
+
+    },
+    //聊天
+    updateJHID_CHAT:function(){
+        var chatMsg= Profile_JinHuaGameData.getChatMsg();
+        JinHuaTablePlayer.updateTableAfterPlayerChatServerBack(chatMsg);
+    },
+    //设置坐下按钮是否可用
+    setSitButtonEnabled:function(enabled){
+        for(var key in this.sitButtonGroup){
+            this.sitButtonGroup[key].setEnabled(enabled==undefined?false:enabled);
+        }
+    },
+    //站起
+    updateJHID_STAND_UP:function(){
+        var standUpData = Profile_JinHuaGameData.getStandUpData();
+        JinHuaTablePlayer.updateTableAfterStandUpByServer(standUpData)
     }
 };
 

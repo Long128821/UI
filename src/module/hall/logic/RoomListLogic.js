@@ -229,7 +229,7 @@ var RoomListLogic= {
     },
     //触摸结束-重写TableView的tableCellAtIndex函数
     tableCellTouched:function (table, cell){
-        //var roomData= Profile_JinHuaRoomData.getJinHuaRoomData();
+        console.log("进入房间"+ cell.getTag());
         sendJHID_ENTER_ROOM(cell.getTag());
     }
 };

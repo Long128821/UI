@@ -507,7 +507,7 @@ var OtherUserInfoLogic= {
         if(userInfoTable["LevelExp"]== 0||userInfoTable["LevelExpMax"]){
             this.Image_jindu.setScaleX(0);
         }else{
-            this.Image_jindu.setScaleX(userInfoTable["LevelExp"] + "/" + userInfoTable["LevelExpMax"]);
+            this.Image_jindu.setScaleX(userInfoTable["LevelExp"]/userInfoTable["LevelExpMax"]);
         }
         //是否绑定手机
         if(Common.judgeValueIsEffect(userInfoTable["isBindTel"])&&(userInfoTable["isBindTel"]== 1)){

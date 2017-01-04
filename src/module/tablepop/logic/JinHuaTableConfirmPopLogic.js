@@ -81,11 +81,11 @@ var JinHuaTableConfirmPopLogic= {
     },
     //添加信号
     addSlot:function(){
-    	Frameworks.addSlot2Signal(JHID_QUIT_TABLE, JinHuaTableConfirmPopLogic.requestMsg);
+
     },
     //移除信号
     removeSlot:function(){
-        Frameworks.removeSlotFromSignal(JHID_QUIT_TABLE, JinHuaTableConfirmPopLogic.requestMsg);
+
     },
     
     //释放界面的私有数据
@@ -105,7 +105,7 @@ var JinHuaTableConfirmPopLogic= {
                 sendJHID_QUIT_TABLE(GameData.roomId,GameData.tableId);
                 break;
             case TableConfirmPopTag.TAG_STANDUP:
-
+                JinHuaTablePlayer.selfStandUp();
                 break;
             case TableConfirmPopTag.TAG_NOPK:
 

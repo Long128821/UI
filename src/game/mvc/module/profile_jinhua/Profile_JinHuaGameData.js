@@ -8,10 +8,18 @@ var Profile_JinHuaGameData= {
     GameData:null,
     mySelf:null,
     isMatch:false,//是否在比赛
+    betChipData:null,//加注
+    readyData:null,
+    chatMsg:null,//聊天
+    standUpData:null,//站起
     clearData:function(){
-        delete this.backPackGoodsCountData;
-        delete this.GameData;
-        delete this.mySelf;
+        this.backPackGoodsCountData= {};
+        this.GameData= {};
+        this.mySelf= {};
+        this.betChipData= {};
+        this.readyData= {};
+        this.chatMsg= {};
+        this.standUpData= {};
     },
     getBackPackGoodsCountData:function(){
         return this.backPackGoodsCountData;
@@ -67,6 +75,41 @@ var Profile_JinHuaGameData= {
     readJHID_QUIT_TABLE:function(dataTable){
         console.log("退出房间");
     },
+    //准备
+    readJHID_READY:function(dataTable){
+        this.readyData= dataTable;
+        this.readyData.CSID = this.getUserCSID(this.readyData.SSID);
+        if(this.GameData["players"]&&this.GameData["players"][this.readyData.CSID]&&this.readyData.result == 1){
+            this.GameData["players"][this.readyData.CSID].status= STATUS_PLAYER_READY;
+        }
+    },
+    //准备
+    readJHID_CHAT:function(dataTable){
+        this.chatMsg= dataTable;
+        this.chatMsg.CSID = this.getUserCSID(this.chatMsg.SSID);
+    },
+    //加注(JHID_BET)
+    readJHID_BET:function(dataTable){
+        this.betChipData= dataTable;
+
+        var CSID= this.getUserCSID(this.betChipData.SSID);
+        this.betChipData.CSID = CSID;
+        if(this.GameData["players"]&&this.GameData["players"][CSID]){
+            this.GameData["players"][CSID].betCoins = dataTable["betCoins"];
+            this.GameData["players"][CSID].remainCoins = dataTable["remainCoins"];
+            this.GameData["round"] = dataTable["round"];
+            this.GameData["totalPoolCoin"] = dataTable["totalPoolCoin"];
+            this.GameData["singleCoin"] = dataTable["singleCoin"];
+
+            if(this.betChipData["currentPlayer"]){
+                this.betChipData["currentPlayer"].CSID = this.getUserCSID(this.betChipData["currentPlayer"].SSID);
+            }
+            if(this.betChipData.type == TYPE_BET_ANTE&& this.betChipData.dealerSSID){
+                this.GameData.dealerSSID = this.betChipData.dealerSSID;
+                this.setDealerCSID();
+            }
+        }
+    },
     //获取用户客户端座位号（服务端座位号）
     getUserCSID:function(ssid){
         if(ssid== undefined) return;
@@ -75,5 +118,32 @@ var Profile_JinHuaGameData= {
         }else{
             return ssid;
         }
+    },
+    //设置当前庄家客户端座位号
+    setDealerCSID:function(){
+        this.GameData.dealerCSID = this.getUserCSID(this.GameData.dealerSSID);
+    },
+    getChatMsg:function(){
+        return this.chatMsg;
+    },
+    //准备
+    getReadyData:function(){
+        return this.readyData;
+    },
+    //站起
+    readJHID_STAND_UP:function(dataTable){
+        this.standUpData= dataTable;
+        this.standUpData.CSID = this.getUserCSID(this.standUpData.SSID);
+        //如果是我 并且我主动要求站起（不考虑站起失败）
+//        if(this.mySelf.SSID&& this.mySelf.SSID == this.standUpData.SSID&& this.mySelf.status == STATUS_PLAYER_WATCH){
+//            this.mySelf.SSID= null;
+//        }
+    },
+    getStandUpData:function(){
+        return this.standUpData;
+    },
+    //获取玩家数据
+    getMySelf:function(){
+        return this.mySelf;
     }
 };

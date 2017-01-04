@@ -73,7 +73,7 @@ var Network= {
     },
     //关闭连接
     closeWebSocket:function(){
-        this.webSocket.close();
+        (this.webSocket!=null)&&this.webSocket.close();
         this.clearData();
     },
     //获取webSocket状态

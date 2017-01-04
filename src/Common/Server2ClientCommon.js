@@ -134,7 +134,6 @@ function read80040006(nmBaseMessage){
         //value Text 属性值
         dataTable["UserAttrLoop"][i]["value"] = nmBaseMessage.readString();
     }
-    console.log(dataTable);
     return dataTable;
 }
 

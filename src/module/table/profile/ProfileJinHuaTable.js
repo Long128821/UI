@@ -20,23 +20,45 @@ var ProfileJinHuaTable= {
     },
     //站起
     slot_JHID_STAND_UP:function(dataTable){
-
+        Profile_JinHuaGameData.readJHID_STAND_UP(dataTable);
+        JinHuaTableLogic.updateJHID_STAND_UP();
     },
     //坐下
     slot_JHID_SIT_DOWN:function(dataTable){
-
+        console.log("坐下");
+        console.log(dataTable);
     },
     //准备
     slot_JHID_READY:function(dataTable){
-        //tODO:GameData中，读取数据
+        Profile_JinHuaGameData.readJHID_READY(dataTable);
         //设置准备
-        JinHuaTablePlayer.updateTableAfterPlayerReadyServerBack(dataTable);
+        JinHuaTablePlayer.updateTableAfterPlayerReadyServerBack();
     },
-    //牌桌在线奖励
+    //请求牌桌在线奖励
     slot_JHID_GET_BAOHE_STEP_INFO:function(dataTable){
-        console.log("牌桌在线奖励");
+        Profile_JinHuaOnlineReward.readJHID_GET_BAOHE_STEP_INFO(dataTable);
+        JinHuaTableLogic.updateJHID_GET_BAOHE_STEP_INFO();
+    },
+    //领取在线时长奖励
+    slot_JHID_GET_ONLINE_REWARD:function(dataTable){
+        Profile_JinHuaOnlineReward.readJHID_GET_ONLINE_REWARD(dataTable);
+        JinHuaTableLogic.updateJHID_GET_ONLINE_REWARD();
+    },
+    //加注(JHID_BET)
+    slot_JHID_BET:function(dataTable){
+        console.log("加注");
         console.log(dataTable);
-        //Todo:BaoheStepInfoTable = JinHuaLoadProfile.JinHuaOnlineReward.getBaoheStepInfoTable()
-        JinHuaTableLogic.updateJHID_GET_BAOHE_STEP_INFO(dataTable);
+        Profile_JinHuaGameData.readJHID_BET(dataTable);
+    },
+    //聊天
+    slot_JHID_CHAT:function(dataTable){
+        Profile_JinHuaGameData.readJHID_CHAT(dataTable);
+        JinHuaTableLogic.updateJHID_CHAT();
+    },
+    //在线时长
+    slot_JINHUA_MGR_SETTING:function(dataTable){
+        //设置金花数据
+        Profile_JinHuaSetting.readJINHUA_MGR_SETTING(dataTable);
+        JinHuaTablePlayer.updateAllPlayersLevel();
     }
 };

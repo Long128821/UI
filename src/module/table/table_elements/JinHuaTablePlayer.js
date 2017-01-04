@@ -117,17 +117,14 @@ var JinHuaTablePlayer= {
         var tablePlayersData= Profile_JinHuaGameData.getPlayers();
         //隐藏UI工程的底部面板
         JinHuaTableLogic.setBotPanelVisible(false);
-        console.log("初始化用户信息");
         //绘制人物
         this.tablePlayerEntitys = {};
         if(tablePlayersData== null) return;
 
         //是否为玩家自身
         var isMe= false;
-        console.log(tablePlayersData);
         for(var i=0; i< Profile_JinHuaTableConfig.playerCnt; ++i){
             if(tablePlayersData.hasOwnProperty(i) && tablePlayersData[i]!= null){
-                console.log(tablePlayersData[i]);
                 //添加头像框
                 var tablePlayerEntity = JinHuaTablePlayerEntity.create(tablePlayersData[i]);
                 JinHuaTablePlayerEntity.addPlayerElementToLayer(this.JinHuaTablePlayerLayer);
@@ -169,7 +166,7 @@ var JinHuaTablePlayer= {
             }else if(GameData.mySSID == null){//没有玩家，并且自己并没有坐下
                 if(Profile_JinHuaGameData.getIsMatch()== null || Profile_JinHuaGameData.getIsMatch()== false){
                     JinHuaTableLogic.showSitButton(i);
-                    JinHuaTableTips.createSitTips(i)
+                    JinHuaTableTips.createSitTips(i);
                 }
             }
         }
@@ -182,7 +179,6 @@ var JinHuaTablePlayer= {
             JinHuaTableLogic.setBotPanelVisible(true);
             JinHuaTableLogic.showQuickChatButton(STATUS_QUICK_CHAT_WAITING);
         }else{
-
             JinHuaTableLogic.setBotPanelVisible(false);
             JinHuaTableLogic.hideAllQuickChatButton();
         }
@@ -196,29 +192,30 @@ var JinHuaTablePlayer= {
     },
     //绘制玩家状态
     showPlayerStatus:function(tablePlayerEntity){
-        if(tablePlayerEntity&&tablePlayerEntity.status){
-            switch (tablePlayerEntity.status){
+        if(tablePlayerEntity&&tablePlayerEntity.player.status){
+            switch (tablePlayerEntity.player.status){
                 case STATUS_PLAYER_READY://坐下
                     tablePlayerEntity.showReadyIcon();
                     break;
                 case STATUS_PLAYER_PK_FAILURE://比牌
-                    this.addPlayerStateIcon(this.TYPE_ICON_FAILED, tablePlayerEntity.SSID);
+                    this.addPlayerStateIcon(this.TYPE_ICON_FAILED, tablePlayerEntity.player.SSID);
                     tablePlayerEntity.setPlayerDarkCoverVisible();
                     break;
                 case STATUS_PLAYER_DISCARD://
-                    this.addPlayerStateIcon(this.TYPE_ICON_FOLD, tablePlayerEntity.SSID);
+                    this.addPlayerStateIcon(this.TYPE_ICON_FOLD, tablePlayerEntity.player.SSID);
                     tablePlayerEntity.setPlayerDarkCoverVisible();
                     break;
                 case STATUS_PLAYER_PLAYING://
                     break;
                 case STATUS_PLAYER_LOOKCARD://看牌
-                    this.addPlayerStateIcon(this.TYPE_ICON_CHECK, tablePlayerEntity.SSID);
+                    this.addPlayerStateIcon(this.TYPE_ICON_CHECK, tablePlayerEntity.player.SSID);
                     break;
                 default :
                     tablePlayerEntity.setPlayerDarkCoverVisible();
             }
         }
     },
+    //
     //设置玩家头像
     setPlayerPhoto:function(tablePlayerEntity){
         if(tablePlayerEntity!=null
@@ -341,9 +338,9 @@ var JinHuaTablePlayer= {
         this.currentCSID= -10;
     },
     //玩家准备消息回来后更新界面
-    updateTableAfterPlayerReadyServerBack:function(readyData){
-        console.log(readyData);
+    updateTableAfterPlayerReadyServerBack:function(){
         var GameData= Profile_JinHuaGameData.getGameData();
+        var readyData= Profile_JinHuaGameData.getReadyData();
         //本人准备失败之后再发一次准备
         if(readyData.SSID== 1
             && GameData.mySSID
@@ -363,7 +360,83 @@ var JinHuaTablePlayer= {
                 this.tablePlayerEntitys[key].showReadyIcon();
                 //取消遮蔽
                 this.tablePlayerEntitys[key].setPlayerDarkCoveredDone();
+
+                if(this.tablePlayerEntitys[key].player.userId== profile_user.getSelfUserID()){
+                    JinHuaTableTips.removeAllSitTips();
+                    JinHuaTableLogic.setSitButtonEnabled(false);
+                }
             }
         }
+    },
+    //玩家聊天消息返回后更新界面
+    updateTableAfterPlayerChatServerBack:function(chatMsg){
+        if(chatMsg.result == 0){
+            Common.showToast(chatMsg.message, 2);
+            return;
+        }
+        if(this.tablePlayerEntitys[chatMsg.CSID]){
+            this.tablePlayerEntitys[chatMsg.CSID].remainCoins = chatMsg.remainCoins;
+            this.tablePlayerEntitys[chatMsg.CSID].setCoin();
+        }
+        //Todo:JinHuaTableChat
+        switch (chatMsg.type){
+            case TYPE_CHAT_TEXT:
+                console.log(chatMsg.msg);
+//                JinHuaTableChat.checkAndPlayerChatSound(chatMsg.CSID, chatMsg.msg)
+//                JinHuaTableChat.showChatText(chatMsg.CSID, chatMsg.msg)
+                break;
+            case TYPE_CHAT_COMMON_V2:
+                console.log(chatMsg.msg);
+//                JinHuaTableChat.playChatCommonEmotion(chatMsg.CSID, chatMsg.msg)
+//                JinHuaTableChat.checkAndPlayCommonSound(chatMsg.msg)
+                break;
+        }
+    },
+    //更新所有的人等级
+    updateAllPlayersLevel:function(){
+        for(var i in this.tablePlayerEntitys){
+            this.tablePlayerEntitys[i].updatePlayerTips();
+        }
+    },
+    //收到服务器站起
+    updateTableAfterStandUpByServer:function(standUpData){
+        var  mySelf = Profile_JinHuaGameData.getMySelf();
+        if(standUpData.result == 1){
+            if(mySelf.SSID&& mySelf.SSID == standUpData.SSID){//自己站起
+                sendDBID_USER_INFO(mySelf.userId);
+                this.updateTableAfterStandUpMe(standUpData.CSID);
+                mySelf.SSID= null;
+            }else{//别人站起
+                if(standUpData.CSID!= null){
+                    this.updateTableAfterStandUpOther(standUpData.CSID);
+                }
+            }
+        }
+    },
+    //别人站起
+    updateTableAfterStandUpOther:function(CSID){
+        var GameData= Profile_JinHuaGameData.getGameData();
+        //清除牌桌站起玩家
+        if(this.tablePlayerEntitys[CSID]){
+            this.tablePlayerEntitys[CSID].removePlayerElementFromLayer(this.JinHuaTablePlayerLayer);
+            //Todo:JinHuaTableRealFace.removeRealFaceIcon(tablePlayerEntitys[CSID]);
+            //Todo:JinHuaTableOccupyHead.createOccupyHead(CSID);
+            this.tablePlayerEntitys[CSID].dismissJinbiIcon();
+            //清除手牌
+            if(this.tablePlayerEntitys[CSID].cardSprites[0]){
+                this.tablePlayerEntitys[CSID].removeCard(this.CardBatchNode);
+            }
+            this.tablePlayerEntitys[CSID]= null;
+        }
+        //显示坐下按钮
+        if(!GameData.mySSID){
+            JinHuaTableLogic.showSitButton(CSID);
+            JinHuaTableTips.createSitTips(CSID);
+        }
+    },
+    //自己站起
+    selfStandUp:function(){
+        //发起站起
+        sendJHID_STAND_UP();
     }
 };

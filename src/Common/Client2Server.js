@@ -450,7 +450,6 @@ function sendJHID_QUIT_TABLE(roomId,tableId){
     nmBaseMessage.setMessageType(REQ + JHID_QUIT_TABLE);
     nmBaseMessage.setExtData(3);
     nmBaseMessage.writeStart();
-    console.log(roomId+" "+ tableId);
     nmBaseMessage.writeInt(roomId);
     nmBaseMessage.writeInt(tableId);
 
@@ -523,6 +522,65 @@ function sendJHID_GET_BAOHE_STEP_INFO(roomId){
     nmBaseMessage.writeStart();
     //roomId	Int	房间ID
     nmBaseMessage.writeInt(roomId);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//金花牌桌消息—领取在线时长奖励(JHID_GET_ONLINE_REWARD)
+function sendJHID_GET_ONLINE_REWARD(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JHID_GET_ONLINE_REWARD);
+
+    nmBaseMessage.writeStart();
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//下注、押注
+function sendJHID_BET(betCoin, betType){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JHID_BET);
+
+    nmBaseMessage.writeStart();
+    //下注金额
+    nmBaseMessage.writeLong(betCoin);
+    //下注类型
+    nmBaseMessage.writeLong(betType);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//聊天
+function sendJHID_CHAT_REQ(type,msg){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JHID_CHAT);
+    nmBaseMessage.setExtData(3);
+
+    nmBaseMessage.writeStart();
+    //类型
+    nmBaseMessage.writeByte(type);
+    //发言内容
+    nmBaseMessage.writeString(msg);
 
     nmBaseMessage.writeOver();
 

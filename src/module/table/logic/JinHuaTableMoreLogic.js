@@ -244,6 +244,15 @@ var JinHuaTableMoreLogic= {
     //旁观
     look:function(){
         MvcEngine.destroyModule(GUI_JINHUATABLEMORE);
+        if(Profile_JinHuaGameData.getIsMatch()){
+            Common.showToast("比赛中禁止旁观",3);
+            return;
+        }
+
+        MvcEngine.createModule(GUI_JINHUATABLECONFIRMPOP, function(){
+            //站起
+            ProfileJinHuaTableConfirmPop.setMsg(TableConfirmPopTag.TAG_STANDUP);
+        });
     },
     //下局旁观
     lookForNext:function(){
