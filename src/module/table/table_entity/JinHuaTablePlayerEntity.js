@@ -573,5 +573,15 @@ var JinHuaTablePlayerEntity= {
             JinHuaTablePlayer.getJinHuaTablePlayerLayer().removeChild(this.cardTypeSprite, true);
             delete  this.cardTypeSprite;
         }
+    },
+    //获取中心点X坐标
+    getCenterX:function(){
+        if(this.player== null||this.mPlayerSprite== null) return 0;
+        return this.mPlayerSprite.getPositionX()+ this.mPlayerSprite.getContentSize().width* 0.5;
+    },
+    //获取中心点Y坐标
+    getCenterY:function(){
+        if(this.player== null||this.mPlayerSprite== null) return 0;
+        return this.mPlayerSprite.getPositionY()+ this.mPlayerSprite.getContentSize().height* 0.5;
     }
 };

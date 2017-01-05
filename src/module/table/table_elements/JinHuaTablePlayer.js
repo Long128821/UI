@@ -603,5 +603,8 @@ var JinHuaTablePlayer= {
             //Todo:下注筹码
             //JinHuaTableCoin.betCoinAnim(betChipData, false)
         }
+    },
+    getPlayers:function(){
+        return this.tablePlayerEntitys;
     }
 };
