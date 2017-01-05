@@ -1,33 +1,52 @@
 //玩家实体
 var JinHuaTablePlayerEntity= {
-    player:null,
-    mPlayerSprite: null, // 玩家精灵
-    spritePic:null, // 头像
-    labelNameBg:null, // 名字
-    levelPic:null, // 等级图标
-    atlasLevelNum:null, // 等级数
-    labelName:null, // 名字
-    labelCoin:null, // 金币
-    playerDarkCover:null, //蒙黑
-    jinbiSprite:null, // 禁比精灵
-    betedCoinLabel:null, // 下的金币数
-    readyIcon:null, // 准备
-    cardTypeSprite:null, // 玩家牌型背景
-    cardTypeLabel:null, // 玩家牌型label
-    goldSpriteBg:null, //金币底
-    goldSprite:null, //金币
+    player:null,//玩家属性数据(昵称、性别、头像url、客户端座位号、服务器端座位号)
+    mPlayerSprite:null,//玩家头像框-精灵
+    spritePic:null,//玩家头像
+    labelNameBg:null,//昵称背景
+    levelPic:null,//等级图标
+    atlasLevelNum:null,//等级数
+    labelName:null,//玩家昵称
+    labelCoin:null,//玩家所拥有的金币数
+    playerDarkCover:null,//头像上的遮蔽层(蒙黑)
+    jinbiSprite:null,//禁比精灵
+    betedCoinLabel:null,//下的金币数
+    readyIcon:null,//准备Icon
+    cardTypeSprite:null,//玩家牌型背景
+    cardTypeLabel:null,//玩家牌型label
+    goldSpriteBg:null,//玩家金币背景
+    goldSprite:null,//玩家金币Icon
     tipsBg:null,//称谓背景图
     tips:null,//等级和称谓
     luckyTip:null,//幸运点成就图标
-    vipLevelPic:null, //vip等级图片
+    vipLevelPic:null,//vip等级图片
     luckyBg:null,//幸运点低
     LuckyIcon:null,//幸运点图标
     luckyLable:null,//幸运点label
     luckyValue:null,//幸运点数  用来在牌桌结算时 计算转换幸运点的差值
     cardSprites:{},// 牌精灵
+    //清理数据
     clearData:function(){
-        delete this;
+        this.playerDarkCover.removeFromParent(true);
+        this.spritePic.removeFromParent(true);
+        this.labelName.removeFromParent(true);
+        this.labelNameBg.removeFromParent(true);
+        this.goldSprite.removeFromParent(true);
+        this.goldSpriteBg.removeFromParent(true);
+        this.labelCoin.removeFromParent(true);
+        this.mPlayerSprite.removeFromParent(true);
+
+        this.player= null;
+        this.playerDarkCover= null;
+        this.spritePic= null;
+        this.labelName= null;
+        this.labelNameBg= null;
+        this.goldSprite= null;
+        this.goldSpriteBg=null;
+        this.labelCoin= null;
+        this.mPlayerSprite= null;
     },
+    //创建
     create:function(player){
         this.player= player;
 
@@ -35,14 +54,15 @@ var JinHuaTablePlayerEntity= {
         return this;
     },
     createPlayerView:function(){
+        //创建-玩家头像框-精灵
         this.createPlayerSprite();
-        //初始化头像
+        //创建头像,添加到头像框上
         this.createPlayerPhoto();
-        //遮蔽层
+        //创建-头像上的蒙灰遮蔽层(默认不显示,进入牌桌时显示,准备后,移除)
         this.createPlayerDarkCover();
-        //昵称
+        //创建-玩家背景、昵称(截取)
         this.createPlayerLabelName();
-        //自己拥有的金币数label
+        //创建-自己拥有的金币数、背景、图标
         this.createPlayerLabelCoin();
         //Vip等级图
         this.createPlayerVipPic();
@@ -110,110 +130,123 @@ var JinHuaTablePlayerEntity= {
         }
         this.tips.setSpriteFrame(url);
     },
-    //玩家精灵
+    /**
+     * Func:创建-玩家头像框-精灵
+     */
     createPlayerSprite:function(){
-        if(this.player.userId!= profile_user.getSelfUserID){
+        if(this.isMe()){//是否为玩家本身
             this.mPlayerSprite= cc.Sprite.create("#table_kuang.png");
+            this.mPlayerSprite.setPosition(Profile_JinHuaTableConfig.mySelfLocX, Profile_JinHuaTableConfig.mySelfLocY)
         }else{
             this.mPlayerSprite= cc.Sprite.create("#table_mine_kuang.png");
+            //客户端中对应ID的玩家的位置
+            var player= Profile_JinHuaTableConfig.getSpritePlayers()[this.player.CSID];
+            this.mPlayerSprite.setPosition(player.locX, player.locY);
         }
         this.mPlayerSprite.setAnchorPoint(cc.p(0, 0));
         this.mPlayerSprite.setZOrder(11);
-        if(this.player.userId!= profile_user.getSelfUserID()){
-            this.mPlayerSprite.setPosition(Profile_JinHuaTableConfig.spritePlayers[this.player.SSID].locX, Profile_JinHuaTableConfig.spritePlayers[this.player.SSID].locY);
-        }else{
-            this.mPlayerSprite.setPosition(Profile_JinHuaTableConfig.mySelfLocX, Profile_JinHuaTableConfig.mySelfLocY)
-        }
     },
-    //头像
+    /**
+     * Func:初始化头像,添加到头像框上(居中)
+     */
     createPlayerPhoto:function(){
+        //头像框不能为空
         if(this.mPlayerSprite== null) return;
-
+        //获取头像框的尺寸
         var bgSize= this.mPlayerSprite.getContentSize();
-        //头像
-        if(this.player.userId!= profile_user.getSelfUserID()){
-            this.spritePic= cc.Sprite.create(Common.getResourcePath("desk_playerhead.png"));
-        }else{
-            this.spritePic= cc.Sprite.create(Common.getResourcePath("desk_playerhead_mine.png"));
-        }
-        this.spritePic.setPosition(bgSize.width* 0.5, bgSize.height * 0.5);
+        //头像url
+        var initPortraitPath= this.isMe()?"desk_playerhead.png":"desk_playerhead_mine.png";
+        //初始化头像
+        //Todo:反正也是初始化的,不如设置为空?
+        this.spritePic= cc.Sprite.create(Common.getResourcePath(initPortraitPath));
+        this.spritePic.setPosition(bgSize.width* 0.5, bgSize.height* 0.5);//居中
         this.mPlayerSprite.addChild(this.spritePic);
     },
-    //蒙灰遮挡
+    /**
+     * Func:创建-头像上的蒙灰遮蔽层(默认不显示,进入牌桌时显示,准备后,移除)
+     *      头像框居中
+     */
     createPlayerDarkCover:function(){
+        //头像框不能为空
         if(this.mPlayerSprite== null) return;
-
+        //获取头像框的尺寸
         var bgSize= this.mPlayerSprite.getContentSize();
-        //头像
-        if(this.player.userId!= profile_user.getSelfUserID()){
-            this.playerDarkCover= cc.Sprite.create("#desk_player_cover.png");
-        }else{
-            this.playerDarkCover= cc.Sprite.create("#desk_player_cover_mine.png");
-        }
+        //在plist中
+        var darkCoverPath= this.isMe()?"#desk_player_cover_mine.png":"#desk_player_cover.png";
+        //头像上的蒙灰遮蔽层
+        this.playerDarkCover= cc.Sprite.create(darkCoverPath);
         this.playerDarkCover.setPosition(bgSize.width / 2, bgSize.height / 2);
-        this.playerDarkCover.setVisible(false);
+        this.playerDarkCover.setVisible(false);//默认不显示
+
         this.mPlayerSprite.addChild(this.playerDarkCover);
     },
-    //玩家昵称
+    /**
+     * Func:创建-玩家背景、昵称(截取)
+     */
     createPlayerLabelName:function(){
+        //头像框不能为空
         if(this.mPlayerSprite== null) return;
-
+        //获取头像框的尺寸
         var sizeBg= this.mPlayerSprite.getContentSize();
-        var nickName= this.nickName;
 
+        var nickName= this.player.nickName;//玩家昵称
+        //昵称背景
         this.labelNameBg = cc.Sprite.create("#ui_paizhuo_xingmingkuang.png");
-        this.mPlayerSprite.addChild(this.labelNameBg);
         this.labelNameBg.setPosition(sizeBg.width / 2,sizeBg.height);
+        this.mPlayerSprite.addChild(this.labelNameBg);
 
         //名字的最大长度（超出最大长度截取+..）
         this.labelName = cc.LabelTTF.create(nickName, "Arial", 17);
         this.labelName.setColor(cc.color(240, 229, 232));
-        var nameMaxWidth = this.labelNameBg.getContentSize().width * 3 / 4;
-        //截取固定长度的字符串
-        while (this.labelName.width> nameMaxWidth){
-            nickName= nickName.substring(0, nickName- 2);
-            this.labelName.setString(nickName+"..");
-        }
-
         this.labelName.setPosition(sizeBg.width / 2 + this.labelNameBg.getContentSize().width / 10, sizeBg.height);
-
         this.mPlayerSprite.addChild(this.labelName);
 
-        if(this.player.userId== profile_user.getSelfUserID()){
+        //玩家自身 隐藏昵称
+        if(this.isMe()){
             this.labelNameBg.setVisible(false);
             this.labelName.setVisible(false);
         }
-    },
-    //自己拥有的金币数label
-    createPlayerLabelCoin:function(){
-        if(this.mPlayerSprite== null) return;
 
-        var sizeBg = this.mPlayerSprite.getContentSize();
+        //玩家的昵称= 小雨昵称背景*0.75的文本+ (超出部分使用'..'代替）
+        var nameMaxWidth = this.labelNameBg.getContentSize().width * 3 / 4;
+        //截取固定长度的字符串
+        while (this.labelName.width> nameMaxWidth){
+            nickName= nickName.substring(0, nickName.length- 2);
+            this.labelName.setString(nickName+"..");
+        }
+    },
+    /**
+     * Func:创建-自己拥有的金币数、背景、图标
+     */
+    createPlayerLabelCoin:function(){
+        //头像框不能为空
+        if(this.mPlayerSprite== null) return;
+        //获取头像框的尺寸
+        var sizeBg= this.mPlayerSprite.getContentSize();
+
         //金币条背景
         this.goldSpriteBg = cc.Sprite.create("#ui_paizhuo_yonghuxinxidikuang.png");
-        if(this.player.userId != profile_user.getSelfUserID()) {
-            this.goldSpriteBg.setPosition(sizeBg.width / 2, 13);
-        }else {
-            this.goldSpriteBg.setPosition(sizeBg.width / 2, 33);
-        }
         this.mPlayerSprite.addChild(this.goldSpriteBg);
+
         //金币图标
-        if(Profile_JinHuaGameData.getIsMatch() == true) {
-            this.goldSprite = cc.Sprite.create("#ic_jinbi_fenshu.png");
-        }else {
-            this.goldSprite = cc.Sprite.create("#desk_coin_logo.png");
-        }
-        if(this.player.userId != profile_user.getSelfUserID()) {
-            this.goldSprite.setPosition(sizeBg.width / 2 - 59, 0);
-        }else {
-            this.goldSprite.setPosition(sizeBg.width / 2 - 59, 19);
-        }
+        var goldIconPath= Profile_JinHuaGameData.getIsMatch()?"#ic_jinbi_fenshu.png":"#desk_coin_logo.png";
+        this.goldSprite = cc.Sprite.create(goldIconPath);
         this.mPlayerSprite.addChild(this.goldSprite);
+        //金币背景位置
+        var goldBgPos= this.isMe()?cc.p(sizeBg.width / 2, 33):cc.p(sizeBg.width / 2, 13);
+        var goldPos= this.isMe()?cc.p(sizeBg.width / 2 - 59, 19):cc.p(sizeBg.width / 2 - 59, 0);
+
+        this.goldSpriteBg.setPosition(goldBgPos);
+        this.goldSprite.setPosition(goldPos);
+
+        //金币背景的尺寸
+        var goldBgSize= this.goldSpriteBg.getContentSize();
+
         //金币数
         this.labelCoin = cc.LabelAtlas.create("0", Common.getResourcePath("pic_jinbishu.png"), 13, 20, "0");
-        this.labelCoin.setPosition(this.goldSpriteBg.getPositionX() + this.goldSprite.getContentSize().width / 2, this.goldSpriteBg.getPositionY() - this.goldSpriteBg.getContentSize().height / 5);
+        this.labelCoin.setPosition(goldBgPos.x + goldBgSize.width / 2, goldBgPos.y - goldBgSize.height / 5);
         this.labelCoin.setAnchorPoint(cc.p(0.5,0.5));
-        this.mPlayerSprite.addChild(this.labelCoin)
+        this.mPlayerSprite.addChild(this.labelCoin);
     },
     //vip等级图
     createPlayerVipPic:function(){
@@ -509,9 +542,11 @@ var JinHuaTablePlayerEntity= {
        }
 
     },
-    //是否为玩家本身
+    /**
+     * Func:是否为玩家本身
+     */
     isMe:function(){
-        return this.player.userId== profile_user.getSelfUserID();
+        return ((this.player)&&(this.player.userId== profile_user.getSelfUserID()));
     },
     //移除牌
     removeCard:function(layer){

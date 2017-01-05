@@ -1,26 +1,26 @@
 //数据图标集
 var ProfileJinHuaTable= {
-    //剩余换牌道具个数
-    //解析背包商品数量
+    //解析背包商品数量(禁比卡、换牌卡、高级表情)
     slot_DBID_BACKPACK_GOODS_COUNT:function(dataTable){
         Profile_JinHuaGameData.readDBID_BACKPACK_GOODS_COUNT(dataTable);
-        JinHuaTableLogic.initBackpackGoods();
+        //更新背包物品
+        JinHuaTableLogic.updateDBID_BACKPACK_GOODS_COUNT();
     },
     //退出房间
     slot_JHID_QUIT_TABLE:function(dataTable){
         Profile_JinHuaGameData.readJHID_QUIT_TABLE(dataTable);
-        console.log("退出房间！");
-        console.log(dataTable);
+        //Todo:需要联调-没有下行
     },
     //更新系统公告
     slot_JINHUA_MGR_NOTICE:function(dataTable){
-        //牌桌公告
         Profile_JinHuaNotice.readJINHUA_MGR_NOTICE(dataTable);
+        //显示牌桌公告
         JinHuaTableLogic.showNotice();
     },
-    //站起
+    //站起(超时站起、旁观)
     slot_JHID_STAND_UP:function(dataTable){
         Profile_JinHuaGameData.readJHID_STAND_UP(dataTable);
+        //更新<站起>操作
         JinHuaTableLogic.updateJHID_STAND_UP();
     },
     //坐下
@@ -28,20 +28,22 @@ var ProfileJinHuaTable= {
         console.log("坐下");
         console.log(dataTable);
     },
-    //准备
+    //准备(玩家进入牌桌时、别人准备时)
     slot_JHID_READY:function(dataTable){
         Profile_JinHuaGameData.readJHID_READY(dataTable);
-        //设置准备
+        //服务器收到准备消息,更新牌桌
         JinHuaTablePlayer.updateTableAfterPlayerReadyServerBack();
     },
     //请求牌桌在线奖励
     slot_JHID_GET_BAOHE_STEP_INFO:function(dataTable){
         Profile_JinHuaOnlineReward.readJHID_GET_BAOHE_STEP_INFO(dataTable);
+        //请求牌桌在线奖励,显示牌桌上的左上角的领取礼包
         JinHuaTableLogic.updateJHID_GET_BAOHE_STEP_INFO();
     },
     //领取在线时长奖励
     slot_JHID_GET_ONLINE_REWARD:function(dataTable){
         Profile_JinHuaOnlineReward.readJHID_GET_ONLINE_REWARD(dataTable);
+        //领取在线时长奖励(领取成功与否)
         JinHuaTableLogic.updateJHID_GET_ONLINE_REWARD();
     },
     //加注(JHID_BET)
@@ -50,15 +52,16 @@ var ProfileJinHuaTable= {
         console.log(dataTable);
         Profile_JinHuaGameData.readJHID_BET(dataTable);
     },
-    //聊天
+    //聊天(初始化的快速聊天、)
     slot_JHID_CHAT:function(dataTable){
         Profile_JinHuaGameData.readJHID_CHAT(dataTable);
+        //更新牌桌上的快速聊天信息
         JinHuaTableLogic.updateJHID_CHAT();
     },
-    //在线时长
+    //获取金花游戏数据(vip等级界限)
     slot_JINHUA_MGR_SETTING:function(dataTable){
-        //设置金花数据
         Profile_JinHuaSetting.readJINHUA_MGR_SETTING(dataTable);
+        //更新牌桌上的所有玩家的等级(目的是:登录成功之后,立即游戏,此时还没有vip等级界限)
         JinHuaTablePlayer.updateAllPlayersLevel();
     }
 };

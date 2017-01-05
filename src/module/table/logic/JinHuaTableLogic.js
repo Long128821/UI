@@ -1388,14 +1388,14 @@ var JinHuaTableLogic= {
         sendDBID_BACKPACK_GOODS_COUNT(GameConfig.GOODS_ID_CHANGECARD);
         sendDBID_BACKPACK_GOODS_COUNT(GameConfig.GOODS_ID_NO_PK);
     },
-    //初始化背包(禁比、换牌、高级表情)
-    initBackpackGoods:function(){
+    //更新背包(禁比、换牌、高级表情)
+    updateDBID_BACKPACK_GOODS_COUNT:function(){
         var backPackGoodsCountData= Profile_JinHuaGameData.getBackPackGoodsCountData();
         if(backPackGoodsCountData.ItemID== GameConfig.GOODS_ID_CHANGECARD){//换牌
             var GameData= Profile_JinHuaGameData.getGameData();
             var roomInfo= Profile_JinHuaRoomData.getRoomByID(GameData.roomId);
-            //是否为千王场(换牌卡)
 
+            //是否为千王场(换牌卡)
             if(((roomInfo&&roomInfo.roomType== Profile_JinHuaRoomData.TYPE_QIANWANG)
                 ||(GameData.BUILDRoomType!=null&&GameData.BUILDRoomType== Profile_JinHuaRoomData.TYPE_QIANWANG))){
                 //更新换牌卡个数

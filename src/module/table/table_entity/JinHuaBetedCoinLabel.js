@@ -1,5 +1,5 @@
 /**
- * Func:金花加注文本、背景
+ * Func:牌桌上的每个玩家头像旁边的下注金额(背景、金币图标、金币数量)
  * 继承cc.Node
  */
 var JinHuaBetedCoinLabel= cc.Node.extend({
@@ -8,7 +8,7 @@ var JinHuaBetedCoinLabel= cc.Node.extend({
     coinLabel:null,//已加注金额文本
     /**
      * Func:构造函数(缺省)
-     * @param pos 坐标X或者坐标
+     * @param pos 坐标X或者坐标cc.p
      * @param y 坐标Y
      */
     ctor:function(pos,y){

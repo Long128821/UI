@@ -11,6 +11,3 @@ var JinHuaTableCard= {
         var players = JinHuaTablePlayer.getPlayers()
     }
 };
-
-
-//Todo:在profile文件中，添加要加载的文件列表
