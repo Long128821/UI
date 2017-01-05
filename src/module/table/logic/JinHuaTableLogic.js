@@ -1327,7 +1327,8 @@ var JinHuaTableLogic= {
     	Frameworks.addSlot2Signal(JHID_GET_ONLINE_REWARD, ProfileJinHuaTable.slot_JHID_GET_ONLINE_REWARD);//获取在线奖励
     	Frameworks.addSlot2Signal(JHID_BET, ProfileJinHuaTable.slot_JHID_BET);//下注押注
     	Frameworks.addSlot2Signal(JHID_CHAT, ProfileJinHuaTable.slot_JHID_CHAT);//聊天
-        Frameworks.addSlot2Signal(JINHUA_MGR_SETTING, ProfileJinHuaTable.slot_JINHUA_MGR_SETTING);
+        Frameworks.addSlot2Signal(JINHUA_MGR_SETTING, ProfileJinHuaTable.slot_JINHUA_MGR_SETTING);//金花游戏数据
+        Frameworks.addSlot2Signal(DBID_USER_INFO, ProfileJinHuaTable.slot_DBID_USER_INFO);//更新用户数据（自己或者玩家）
 },
     //移除信号
     removeSlot:function(){
@@ -1341,6 +1342,8 @@ var JinHuaTableLogic= {
     	Frameworks.removeSlotFromSignal(JHID_GET_ONLINE_REWARD, ProfileJinHuaTable.slot_JHID_GET_ONLINE_REWARD);
     	Frameworks.removeSlotFromSignal(JHID_BET, ProfileJinHuaTable.slot_JHID_BET);
     	Frameworks.removeSlotFromSignal(JHID_CHAT, ProfileJinHuaTable.slot_JHID_CHAT);
+    	Frameworks.removeSlotFromSignal(JINHUA_MGR_SETTING, ProfileJinHuaTable.slot_JINHUA_MGR_SETTING);
+    	Frameworks.removeSlotFromSignal(DBID_USER_INFO, ProfileJinHuaTable.slot_DBID_USER_INFO);
     },
     
     //释放界面的私有数据
@@ -1455,8 +1458,12 @@ var JinHuaTableLogic= {
         this.initTableTitle();
         //牌桌类型
         this.initTableType();
-        //桌面上的玩家
-        this.view.addChild(JinHuaTablePlayer.create(), 100);
+        //桌面上的玩家(自身玩家重新坐下)
+        if(ProfileJinHuaTable.JinHuaTablePlayer){
+            ProfileJinHuaTable.JinHuaTablePlayer.removeFromParent(true);
+        }
+        ProfileJinHuaTable.JinHuaTablePlayer= JinHuaTablePlayer.create();
+        this.view.addChild(ProfileJinHuaTable.JinHuaTablePlayer, 100);
         //坐下提示模块
         this.view.addChild(JinHuaTableTips.getTableTipsLayer());
 
@@ -1469,7 +1476,7 @@ var JinHuaTableLogic= {
     initSitBtn:function(){
         if(this.sitButtonGroup== null||this.sitButtonGroup== undefined) this.sitButtonGroup= {};
         for(var i=0; i< Profile_JinHuaTableConfig.playerCnt; ++i){
-            this.sitButtonGroup[i] = cc.MenuItemImage.create(Common.getResourcePath("ui_weizuoren.png"),Common.getResourcePath("ui_weizuoren.png"),this.onClick_BtnSit, this);
+            this.sitButtonGroup[i] = cc.MenuItemImage.create(Common.getResourcePath("ui_weizuoren.png"),Common.getResourcePath("ui_weizuoren.png"),this.onSitDown, this);
             this.sitButtonGroup[i].setAnchorPoint(cc.p(0, 0));
             var menu = cc.Menu.create(this.sitButtonGroup[i]);
             menu.setPosition(Profile_JinHuaTableConfig.spritePlayers[i].locX,Profile_JinHuaTableConfig.spritePlayers[i].locY);
@@ -1479,9 +1486,11 @@ var JinHuaTableLogic= {
             this.sitButtonGroup[i].setTag(i);
         }
     },
-    //坐下按钮响应事件
-    onClick_BtnSit:function(pSender){
+    //响应事件- 坐下
+    onSitDown:function(pSender){
+        //其中pSender.getTag()就是服务器端的座位号(CSID)
         console.log("ID:"+ pSender.getTag()+"坐下");
+        JinHuaTablePlayer.sitDownMe(pSender.getTag());
     },
     //按钮：PK
     initPkBtn:function(){
@@ -1546,19 +1555,17 @@ var JinHuaTableLogic= {
         }
     },
     //显示某个下标的坐下按钮
-    showSitButton:function(index){
-        if(this.sitButtonGroup[index]){
-            this.sitButtonGroup[index].setVisible(true);
-//            if not mvcEngine.logicModuleIsSleep(GUI_JINHUA_TABLE) then
-//            sitButtonGroup[pos]:setEnabled(true)
-//            end
+    showSitButton:function(CSID){
+        if(this.sitButtonGroup[CSID]){
+            this.sitButtonGroup[CSID].setVisible(true);
+            this.sitButtonGroup[CSID].setEnabled(true);
         }
     },
     //隐藏某个下标的坐下按钮
-    hideSitButton:function(index){
-        if(this.sitButtonGroup[index]){
-            this.sitButtonGroup[index].setVisible(false);
-            this.sitButtonGroup[index].setEnable(false);
+    hideSitButton:function(CSID){
+        if(this.sitButtonGroup[CSID]){
+            this.sitButtonGroup[CSID].setVisible(false);
+            this.sitButtonGroup[CSID].setEnabled(false);
         }
     },
     //隐藏所有的坐下按钮
@@ -1566,7 +1573,7 @@ var JinHuaTableLogic= {
         for(var i=0; i< Profile_JinHuaTableConfig.playerCnt; ++i){
             if(this.sitButtonGroup[i]){
                 this.sitButtonGroup[i].setVisible(false);
-                this.sitButtonGroup[i].setEnable(false);
+                this.sitButtonGroup[i].setEnabled(false);
             }
         }
     },
@@ -1798,6 +1805,12 @@ var JinHuaTableLogic= {
         this.Panel_dibu.setVisible(visible);
         this.Panel_dibu.setTouchEnabled(visible);
         this.Button_tableChat.setTouchEnabled(visible);
+    },
+    //设置在线时长礼包是否可领取
+    setOnLineBonusVisible:function(visible){
+        this.Label_onlinebonus_daojishi.setVisible(visible);
+        this.btn_onlinebonus.setVisible(visible);
+        this.btn_onlinebonus.setTouchEnabled(visible);
     },
     //隐藏所有快捷聊天按钮极其点击效果
     hideAllQuickChatButton:function(){
@@ -2306,7 +2319,9 @@ var JinHuaTableLogic= {
             Common.showToast(JinGetOnlineRewardTable["message"], 3)
         }
     },
-    //加注
+    /**
+     * Func:下注应答
+     */
     updateJHID_BET:function(){
 
     },
@@ -2323,8 +2338,19 @@ var JinHuaTableLogic= {
     },
     //站起
     updateJHID_STAND_UP:function(){
-        var standUpData = Profile_JinHuaGameData.getStandUpData();
-        JinHuaTablePlayer.updateTableAfterStandUpByServer(standUpData)
+        JinHuaTablePlayer.updateTableAfterStandUpByServer()
+    },
+    //坐下
+    updateJHID_SIT_DOWN:function(){
+        JinHuaTablePlayer.updateTableSitDownByServer();
+    },
+    //隐藏座位
+    hideSit:function(CSID){
+        var GameData= Profile_JinHuaGameData.getGameData();
+        if(!GameData.mySSID){
+            this.hideSitButton(CSID);
+            JinHuaTableTips.removeSitTip(CSID);
+        }
     }
 };
 

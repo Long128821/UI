@@ -49,7 +49,7 @@ var JinHuaTablePlayerEntity= {
     //创建
     create:function(player){
         this.player= player;
-
+        console.log(this.player);
         this.createPlayerView();
         return this;
     },
@@ -89,7 +89,7 @@ var JinHuaTablePlayerEntity= {
         this.tips = cc.Sprite.create(null);
         this.tips.setColor(cc.color(255, 255, 255));
         this.tips.setPosition(0, this.goldSpriteBg.getPositionY() + this.goldSpriteBg.getContentSize().height / 5);
-        this.mPlayerSprite.addChild(this.tips);
+        this.mPlayerSprite.addChild(this.tips, 2);
 
         this.updatePlayerTips();
     },
@@ -154,13 +154,17 @@ var JinHuaTablePlayerEntity= {
         if(this.mPlayerSprite== null) return;
         //获取头像框的尺寸
         var bgSize= this.mPlayerSprite.getContentSize();
-        //头像url
-        var initPortraitPath= this.isMe()?"desk_playerhead.png":"desk_playerhead_mine.png";
         //初始化头像
-        //Todo:反正也是初始化的,不如设置为空?
-        this.spritePic= cc.Sprite.create(Common.getResourcePath(initPortraitPath));
-        this.spritePic.setPosition(bgSize.width* 0.5, bgSize.height* 0.5);//居中
-        this.mPlayerSprite.addChild(this.spritePic);
+        var self= this;
+        Common.addSpriteByNet(self.player.photoUrl, function(sprite){
+            self.spritePic= ((sprite== "ERROR")?self.getHeadPhotoSpriteBySex():sprite);
+            self.spritePic.setPosition(bgSize.width* 0.5, bgSize.height* 0.5);//居中
+            self.mPlayerSprite.addChild(self.spritePic, 1);
+            if(sprite!= "ERROR"){//网络图片放大
+                self.spritePic.setScale(1.2);
+                //Todo：裁切节点-圆形
+            }
+        });
     },
     /**
      * Func:创建-头像上的蒙灰遮蔽层(默认不显示,进入牌桌时显示,准备后,移除)
@@ -178,7 +182,7 @@ var JinHuaTablePlayerEntity= {
         this.playerDarkCover.setPosition(bgSize.width / 2, bgSize.height / 2);
         this.playerDarkCover.setVisible(false);//默认不显示
 
-        this.mPlayerSprite.addChild(this.playerDarkCover);
+        this.mPlayerSprite.addChild(this.playerDarkCover, 3);
     },
     /**
      * Func:创建-玩家背景、昵称(截取)
@@ -193,13 +197,13 @@ var JinHuaTablePlayerEntity= {
         //昵称背景
         this.labelNameBg = cc.Sprite.create("#ui_paizhuo_xingmingkuang.png");
         this.labelNameBg.setPosition(sizeBg.width / 2,sizeBg.height);
-        this.mPlayerSprite.addChild(this.labelNameBg);
+        this.mPlayerSprite.addChild(this.labelNameBg, 2);
 
         //名字的最大长度（超出最大长度截取+..）
         this.labelName = cc.LabelTTF.create(nickName, "Arial", 17);
         this.labelName.setColor(cc.color(240, 229, 232));
         this.labelName.setPosition(sizeBg.width / 2 + this.labelNameBg.getContentSize().width / 10, sizeBg.height);
-        this.mPlayerSprite.addChild(this.labelName);
+        this.mPlayerSprite.addChild(this.labelName, 2);
 
         //玩家自身 隐藏昵称
         if(this.isMe()){
@@ -226,12 +230,12 @@ var JinHuaTablePlayerEntity= {
 
         //金币条背景
         this.goldSpriteBg = cc.Sprite.create("#ui_paizhuo_yonghuxinxidikuang.png");
-        this.mPlayerSprite.addChild(this.goldSpriteBg);
+        this.mPlayerSprite.addChild(this.goldSpriteBg, 2);
 
         //金币图标
         var goldIconPath= Profile_JinHuaGameData.getIsMatch()?"#ic_jinbi_fenshu.png":"#desk_coin_logo.png";
         this.goldSprite = cc.Sprite.create(goldIconPath);
-        this.mPlayerSprite.addChild(this.goldSprite);
+        this.mPlayerSprite.addChild(this.goldSprite, 2);
         //金币背景位置
         var goldBgPos= this.isMe()?cc.p(sizeBg.width / 2, 33):cc.p(sizeBg.width / 2, 13);
         var goldPos= this.isMe()?cc.p(sizeBg.width / 2 - 59, 19):cc.p(sizeBg.width / 2 - 59, 0);
@@ -246,7 +250,7 @@ var JinHuaTablePlayerEntity= {
         this.labelCoin = cc.LabelAtlas.create("0", Common.getResourcePath("pic_jinbishu.png"), 13, 20, "0");
         this.labelCoin.setPosition(goldBgPos.x + goldBgSize.width / 2, goldBgPos.y - goldBgSize.height / 5);
         this.labelCoin.setAnchorPoint(cc.p(0.5,0.5));
-        this.mPlayerSprite.addChild(this.labelCoin);
+        this.mPlayerSprite.addChild(this.labelCoin, 2);
     },
     //vip等级图
     createPlayerVipPic:function(){
@@ -309,7 +313,7 @@ var JinHuaTablePlayerEntity= {
             this.vipLevelPic.setScale(0.9)
         }
         this.vipLevelPic.setPosition(sizeBg.width * 5 / 6, this.goldSpriteBg.getPositionY() + this.goldSpriteBg.getContentSize().height / 4);
-        this.mPlayerSprite.addChild(this.vipLevelPic);
+        this.mPlayerSprite.addChild(this.vipLevelPic, 2);
     },
     //创建禁比图标
     createJinbiSprite:function(){
@@ -363,7 +367,8 @@ var JinHuaTablePlayerEntity= {
     createReadyIcon:function(){
         this.readyIcon = cc.Sprite.create("#desk_icon_ready.png");
         this.readyIcon.setZOrder(12);
-        this.readyIcon.setPosition(Profile_JinHuaTableConfig.spritePlayers[this.player.SSID].pkX, Profile_JinHuaTableConfig.spritePlayers[this.player.SSID].pkY)
+        var player= Profile_JinHuaTableConfig.spritePlayers[this.player.CSID];
+        this.readyIcon.setPosition(player.pkX, player.pkY);
         this.readyIcon.setVisible(false);
     },
     //等级
@@ -518,6 +523,14 @@ var JinHuaTablePlayerEntity= {
             return cc.textureCache.addImage(Common.getResourcePath("desk_playerhead_mine.png"));
         }
     },
+    //根据性别获取默认的头像图片
+    getHeadPhotoSpriteBySex:function(){
+        if(this.player.userId!= profile_user.getSelfUserID()){
+            return cc.Sprite.create(Common.getResourcePath("desk_playerhead.png"));
+        }else{
+            return cc.Sprite.create(Common.getResourcePath("desk_playerhead_mine.png"));
+        }
+    },
     //设置玩家头像
     setPortrait:function(path){
         var texture;
@@ -540,7 +553,6 @@ var JinHuaTablePlayerEntity= {
                 }
             });
        }
-
     },
     /**
      * Func:是否为玩家本身

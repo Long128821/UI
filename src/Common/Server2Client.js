@@ -891,9 +891,9 @@ function read80210005(nMBaseMessage){
 
 //坐下
 function read82210003(nMBaseMessage){
-    var dataTable = {}
+    var dataTable = {};
     dataTable["messageType"] = ACK + JHID_SIT_DOWN;
-    dataTable["messageName"] = "SitDownRespBean";
+    dataTable["messageName"] = "JHID_SIT_DOWN";
     //解析 结果 0 失败 1 成功
     dataTable["result"] = nMBaseMessage.readByte();
     //解析 返回结果
@@ -935,7 +935,7 @@ function read82210003(nMBaseMessage){
         dataTable["playerInfo"].cardCnt= cardCnt;
         dataTable["playerInfo"]["cardValues"] = {};
         //牌值
-        for(i=0; i< cardCnt; ++i){
+        for(var i=0; i< cardCnt; ++i){
             nMBaseMessage.startReadLoop();
 
             dataTable["playerInfo"]["cardValues"][i]= nMBaseMessage.readInt();

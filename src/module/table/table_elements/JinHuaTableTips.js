@@ -75,5 +75,30 @@ var JinHuaTableTips= {
             this.sitTipSprites[key].removeFromParent(true);//从父节点上删除
         }
         this.sitTipSprites= {};
+    },
+    //进入牌桌提示
+    showEnterTableTips:function(){
+        //永远在最上层
+        var enterTablePrompt = cc.Sprite.create("#ui_desk_qipao.png");
+        enterTablePrompt.setAnchorPoint(cc.p(0, 0.5));
+        enterTablePrompt.setPosition(Profile_JinHuaTableConfig.enterTablePromptX, Profile_JinHuaTableConfig.enterTablePromptY);
+        enterTablePrompt.setZOrder(4);
+        this.getTableTipsLayer().addChild(enterTablePrompt);
+
+        //延时取消
+        var self= this;
+        var seq= cc.sequence(cc.delayTime(3), cc.callFunc(self.dismissEnterTablePrompt));
+        enterTablePrompt.runAction(seq);
+    },
+    //隐藏进入牌桌提示
+    dismissEnterTablePrompt:function(pSender){
+        pSender.removeFromParent(true);
+    },
+    //移除坐下Tips
+    removeSitTip:function(CSID){
+        console.log("移除Tips:"+ CSID);
+        if(this.sitTipSprites[CSID]){
+            this.sitTipSprites[CSID].setVisible(false);
+        }
     }
 };

@@ -1,5 +1,6 @@
 //数据图标集
 var ProfileJinHuaTable= {
+    JinHuaTablePlayer:null,//金花实例化玩家
     //解析背包商品数量(禁比卡、换牌卡、高级表情)
     slot_DBID_BACKPACK_GOODS_COUNT:function(dataTable){
         Profile_JinHuaGameData.readDBID_BACKPACK_GOODS_COUNT(dataTable);
@@ -27,6 +28,8 @@ var ProfileJinHuaTable= {
     slot_JHID_SIT_DOWN:function(dataTable){
         console.log("坐下");
         console.log(dataTable);
+        Profile_JinHuaGameData.readJHID_SIT_DOWN(dataTable);
+        JinHuaTableLogic.updateJHID_SIT_DOWN();
     },
     //准备(玩家进入牌桌时、别人准备时)
     slot_JHID_READY:function(dataTable){
@@ -49,8 +52,8 @@ var ProfileJinHuaTable= {
     //加注(JHID_BET)
     slot_JHID_BET:function(dataTable){
         console.log("加注");
-        console.log(dataTable);
         Profile_JinHuaGameData.readJHID_BET(dataTable);
+        JinHuaTablePlayer.updateTableAfterBetCoinByServer();
     },
     //聊天(初始化的快速聊天、)
     slot_JHID_CHAT:function(dataTable){
@@ -63,5 +66,11 @@ var ProfileJinHuaTable= {
         Profile_JinHuaSetting.readJINHUA_MGR_SETTING(dataTable);
         //更新牌桌上的所有玩家的等级(目的是:登录成功之后,立即游戏,此时还没有vip等级界限)
         JinHuaTablePlayer.updateAllPlayersLevel();
+    },
+    //更新玩家数据
+    slot_DBID_USER_INFO:function(dataTable){
+        console.log("更新玩家数据");
+        console.log(dataTable);
+        profile_user.readDBID_USER_INFO(dataTable);
     }
 };

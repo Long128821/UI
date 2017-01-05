@@ -61,9 +61,9 @@ var Common= {
         //异步加载头像资源
         cc.loader.loadImg(
             url,
-            function(){
+            function(err){
                 if(callback!= undefined){
-                    callback(cc.Sprite.create(url));
+                    callback(err==null?cc.Sprite.create(url):"ERROR");
                 }
             }
         );
