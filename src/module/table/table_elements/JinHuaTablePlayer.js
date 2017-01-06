@@ -583,21 +583,16 @@ var JinHuaTablePlayer= {
     },
     //服务器返回的下注应答
     updateTableAfterBetCoinByServer:function(){
-        console.log("更新下注");
         var betChipData= Profile_JinHuaGameData.getBetChipData();
         //下注失败
         if(betChipData.result== 0) return;
-        console.log(betChipData);
         //我的下注- 返回且不是下底注且不是比牌
-        if(this.tablePlayerEntitys[betChipData.CSID- 1]&&
-            this.tablePlayerEntitys[betChipData.CSID- 1].isMe()&&
-            betChipData.type!= TYPE_BET_ANTE&&
-            betChipData.type!= TYPE_BET_PK){
+        if(this.tablePlayerEntitys[betChipData.CSID]){
             this.refreshCurrentPlayer(betChipData["currentPlayer"]);
-            this.tablePlayerEntitys[betChipData.CSID- 1].setCoin();
+            this.tablePlayerEntitys[betChipData.CSID].setCoin();
             JinHuaTableLogic.updateTableTitle();
-        }else if(this.tablePlayerEntitys[betChipData.CSID- 1]!= null&&
-            this.tablePlayerEntitys[betChipData.CSID- 1].mPlayerSprite){
+        }else if(this.tablePlayerEntitys[betChipData.CSID]!= null&&
+            this.tablePlayerEntitys[betChipData.CSID].mPlayerSprite){
             //别人下注或下底注或比牌操作
             this.closeOtherTimer();
             //Todo:下注筹码

@@ -1329,6 +1329,7 @@ var JinHuaTableLogic= {
     	Frameworks.addSlot2Signal(JHID_CHAT, ProfileJinHuaTable.slot_JHID_CHAT);//聊天
         Frameworks.addSlot2Signal(JINHUA_MGR_SETTING, ProfileJinHuaTable.slot_JINHUA_MGR_SETTING);//金花游戏数据
         Frameworks.addSlot2Signal(DBID_USER_INFO, ProfileJinHuaTable.slot_DBID_USER_INFO);//更新用户数据（自己或者玩家）
+        Frameworks.addSlot2Signal(JHID_INIT_CARDS, ProfileJinHuaTable.slot_JHID_INIT_CARDS);//发牌
 },
     //移除信号
     removeSlot:function(){
@@ -1344,6 +1345,7 @@ var JinHuaTableLogic= {
     	Frameworks.removeSlotFromSignal(JHID_CHAT, ProfileJinHuaTable.slot_JHID_CHAT);
     	Frameworks.removeSlotFromSignal(JINHUA_MGR_SETTING, ProfileJinHuaTable.slot_JINHUA_MGR_SETTING);
     	Frameworks.removeSlotFromSignal(DBID_USER_INFO, ProfileJinHuaTable.slot_DBID_USER_INFO);
+    	Frameworks.removeSlotFromSignal(JHID_INIT_CARDS, ProfileJinHuaTable.slot_JHID_INIT_CARDS);
     },
     
     //释放界面的私有数据
@@ -2351,6 +2353,9 @@ var JinHuaTableLogic= {
             this.hideSitButton(CSID);
             JinHuaTableTips.removeSitTip(CSID);
         }
+    },
+    updateJHID_INIT_CARDS:function(){
+        //JinHuaTableCard.updateTableAfterSendCardByServer()
     }
 };
 

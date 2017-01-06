@@ -51,7 +51,6 @@ var ProfileJinHuaTable= {
     },
     //加注(JHID_BET)
     slot_JHID_BET:function(dataTable){
-        console.log("加注");
         Profile_JinHuaGameData.readJHID_BET(dataTable);
         JinHuaTablePlayer.updateTableAfterBetCoinByServer();
     },
@@ -72,5 +71,11 @@ var ProfileJinHuaTable= {
         console.log("更新玩家数据");
         console.log(dataTable);
         profile_user.readDBID_USER_INFO(dataTable);
+    },
+    //金花发牌
+    slot_JHID_INIT_CARDS:function(dataTable){
+        console.log("金花发牌");
+        console.log(dataTable);
+        Profile_JinHuaGameData.readJHID_INIT_CARDS(dataTable);
     }
 };

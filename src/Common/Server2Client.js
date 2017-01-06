@@ -1138,4 +1138,49 @@ function read8220000b(nMBaseMessage){
     return dataTable;
 }
 
+//发牌
+function read82200003(nMBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JHID_INIT_CARDS;
+    dataTable["messageName"] = "JHID_INIT_CARDS";
+
+    //解析 庄家位置
+    dataTable["dealerSeatID"] = nMBaseMessage.readInt();
+    //解析 发牌数量
+    dataTable["cardCnt"] = nMBaseMessage.readInt();
+    //解析 轮数
+    dataTable["round"] = nMBaseMessage.readInt();
+    //解析 下一玩家 length是保底方案，数据传输出错时length = 0;
+    var nextPlayerCnt = nMBaseMessage.readInt();
+
+    dataTable["nextPlayerCnt"]= nextPlayerCnt;
+    if(nextPlayerCnt!= 0){
+        dataTable["currentPlayer"] = {};
+        nMBaseMessage.startReadLoop();
+        //下一个玩家位置
+        dataTable["currentPlayer"]["SSID"] = nMBaseMessage.readInt();
+        //跟注金额，如果为-1则按钮不可用
+        dataTable["currentPlayer"]["callCoin"] = parseInt(nMBaseMessage.readLong());
+        //加注列表
+        dataTable["currentPlayer"]["raiseCoin"] = {};
+
+        //牌桌上的玩家数量
+        var currentPlayerCnt= nMBaseMessage.readInt();
+        dataTable["currentPlayer"]["currentPlayerCnt"]= currentPlayerCnt;
+        for(var i=0; i<currentPlayerCnt; ++i){
+            dataTable["currentPlayer"]["raiseCoin"][i] = {};
+            //加注列表的加注的金额
+            dataTable["currentPlayer"]["raiseCoin"][i].raiseValue = parseInt(nMBaseMessage.readLong());
+            //加注列表中加注金额的状态 0 此金额不可加注 1 此金额可加注
+            dataTable["currentPlayer"]["raiseCoin"][i].raiseStatus = nMBaseMessage.readByte();
+        }
+        //0 不能操作，1 比牌 2 开牌
+        dataTable["currentPlayer"]["compareCard"] = nMBaseMessage.readInt();
+        //0不能看牌， 1可以看牌
+        dataTable["currentPlayer"]["lookCard"] = nMBaseMessage.readInt();
+    }
+    //currentLockCoin	Int	当前看牌要求金币
+    dataTable["currentLockCoin"] = parseInt(nMBaseMessage.readLong());
+    return dataTable;
+}
 //需要联调的消息有readUTF(JHID_STAND_UP、JHID_READY、JHID_BET)

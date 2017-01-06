@@ -13,6 +13,7 @@ var Profile_JinHuaGameData= {
     chatMsg:null,//聊天
     standUpData:null,//站起
     sitDownData:null,//坐下
+    initCardData:null,//发牌
     clearData:function(){
         this.backPackGoodsCountData= {};
         this.GameData= {};
@@ -253,5 +254,21 @@ var Profile_JinHuaGameData= {
     //获取坐下消息
     getSitDownData:function(){
         return this.sitDownData;
+    },
+    //金花发牌
+    readJHID_INIT_CARDS:function(dataTable){
+        this.initCardData= dataTable;
+        this.GameData.dealerSSID = this.initCardData.dealerSeatID;
+        this.GameData.round = this.initCardData.round;
+        this.GameData.currentLockCoin = this.initCardData.currentLockCoin;
+        this.setDealerCSID();
+
+        if(this.initCardData["currentPlayer"]){
+            this.initCardData["currentPlayer"].CSID = this.getUserCSID(this.initCardData["currentPlayer"].SSID);
+        }
+    },
+    //获取发牌数据
+    getInitCardData:function(){
+        return this.initCardData;
     }
 };
