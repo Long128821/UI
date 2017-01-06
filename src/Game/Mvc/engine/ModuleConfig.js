@@ -412,7 +412,9 @@ ModuleTable["JinHuaTable"]["jsLists"] = [
     "src/module/table/table_elements/JinHuaTableCard.js",
     "src/module/table/table_elements/JinHuaTablePlayer.js",
     "src/module/table/table_elements/JinHuaTableTips.js",
+    "src/module/table/table_elements/JinHuaTableCoin.js",
     "src/module/table/table_entity/JinHuaBetedCoinLabel.js",
+    "src/module/table/table_entity/JinHuaCardSprite.js",
     "src/module/table/table_entity/JinHuaTablePlayerEntity.js",
     "src/module/table/profile/ProfileJinHuaTable.js",
     "src/module/table/logic/JinHuaTableLogic.js",
@@ -433,6 +435,8 @@ ModuleTable["JinHuaTable"]["resLists"] = [
     "res/ui_jinbishu.png",
     "res/ui_lvshuzi.png",
     "res/ui_paizhuo_jindudiao.png",
+    "res/poker_cards.plist",
+    "res/poker_cards.png",
     "res/JinHuaTable.json"];
 
 ModuleTable["RoomList"] = {};

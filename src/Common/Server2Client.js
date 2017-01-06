@@ -1064,31 +1064,32 @@ function read82200005(nMBaseMessage){
 function read82200006(nMBaseMessage){
     var dataTable = {};
     dataTable["messageType"] = ACK + JHID_BET;
-    dataTable["messageName"] = "BetAck";
+    dataTable["messageName"] = "JHID_BET";
     //座位号
     dataTable["SSID"] = nMBaseMessage.readInt();
     //下注类型 0(NONE 无任何操作)  1 (ANTE 下底注) 2(CALL 跟注) 3(RAISE 加注) 4 (ALLIN 全压) 5(PK 比牌)
     dataTable["type"] = nMBaseMessage.readByte();
     //下注金额
-    dataTable["thisTimeBetCoins"] = parseInt(nMBaseMessage.readLong());
+    dataTable["thisTimeBetCoins"] = nMBaseMessage.readLong();
     //玩家下注总金币
-    dataTable["betCoins"] = parseInt(nMBaseMessage.readLong());
+    dataTable["betCoins"] = nMBaseMessage.readLong();
     //玩家剩余金币
-    dataTable["remainCoins"] = parseInt(nMBaseMessage.readLong());
+    dataTable["remainCoins"] = nMBaseMessage.readLong();
     //轮数
     dataTable["round"] = nMBaseMessage.readInt();
     //单注
-    dataTable["singleCoin"] = parseInt(nMBaseMessage.readLong());
+    dataTable["singleCoin"] = nMBaseMessage.readLong();
     //锅底
-    dataTable["totalPoolCoin"] = parseInt(nMBaseMessage.readLong());
+    dataTable["totalPoolCoin"] = nMBaseMessage.readLong();
     var nextPlayerCnt = nMBaseMessage.readInt();
     dataTable["nextPlayerCnt"]= nextPlayerCnt;
-    if(nextPlayerCnt== 0){
+    if(nextPlayerCnt!= 0){
         dataTable["currentPlayer"] = {};
         nMBaseMessage.startReadLoop();
         //下一个玩家位置
         dataTable["currentPlayer"]["SSID"] = nMBaseMessage.readInt();
-        dataTable["currentPlayer"]["callCoin"] = parseInt(nMBaseMessage.readLong());
+        console.log(dataTable["currentPlayer"]["SSID"]);
+        dataTable["currentPlayer"]["callCoin"] = nMBaseMessage.readLong();
         // 加注列表
         dataTable["currentPlayer"]["raiseCoin"] = {};
         var  raiseCoinCnt = nMBaseMessage.readInt();
@@ -1098,7 +1099,7 @@ function read82200006(nMBaseMessage){
             nMBaseMessage.startReadLoop();
             dataTable["currentPlayer"]["raiseCoin"][i] = {};
             //加注列表的加注的金额
-            dataTable["currentPlayer"]["raiseCoin"][i].raiseValue = parseInt(nMBaseMessage.readLong());
+            dataTable["currentPlayer"]["raiseCoin"][i].raiseValue = nMBaseMessage.readLong();
             //加注列表中加注金额的状态 0 此金额不可加注 1 此金额可加注
             dataTable["currentPlayer"]["raiseCoin"][i].raiseStatus = nMBaseMessage.readByte();
         }
@@ -1110,7 +1111,6 @@ function read82200006(nMBaseMessage){
     dataTable["result"] = nMBaseMessage.readByte();
     dataTable["message"] = nMBaseMessage.readString();
     dataTable["dealerSSID"] = nMBaseMessage.readInt();
-
     return dataTable;
 }
 

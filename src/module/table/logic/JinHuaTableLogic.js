@@ -232,6 +232,9 @@ var JinHuaTableLogic= {
     IncrBaoheRound:null,//宝盒奖励,几轮以后算一局
     changeCardRemainTime:0,
     showCard:false,
+    isAlwaysBetCoin:false,//跟到底
+    betData:null,//我的下注数据
+    vibrateId:null,//震动定时ID(最后几秒)
 
     createView:function(){
         cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("chat_popup.plist"),Common.getResourcePath("chat_popup.png"));
@@ -2037,38 +2040,38 @@ var JinHuaTableLogic= {
             case STATUS_BUTTON_WAIT://等待
                 //Todo:JinHuaTableCheckButton.setSpriteVisible(false)
                 this.buttonCheckIsShow= false;
-                this.Panel_wait.setVisible(true)
+                this.Panel_wait.setVisible(true);
 
-                this.Button_wait_fold.setVisible(true)
-                this.Button_wait_fold.setTouchEnabled(true)
-                this.Button_wait_pk.setVisible(true)
-                this.Button_wait_pk.setTouchEnabled(true)
-                this.Button_wait_raise.setVisible(true)
-                this.Button_wait_raise.setTouchEnabled(true)
-                this.Button_wait_alwaysbet.setVisible(true)
-                this.Button_wait_alwaysbet.setTouchEnabled(true)
+                this.Button_wait_fold.setVisible(true);
+                this.Button_wait_fold.setTouchEnabled(true);
+                this.Button_wait_pk.setVisible(true);
+                this.Button_wait_pk.setTouchEnabled(true);
+                this.Button_wait_raise.setVisible(true);
+                this.Button_wait_raise.setTouchEnabled(true);
+                this.Button_wait_alwaysbet.setVisible(true);
+                this.Button_wait_alwaysbet.setTouchEnabled(true);
                 break;
             case STATUS_BUTTON_OTHERTURN://等待
-                this.Panel_otherturn.setVisible(true)
+                this.Panel_otherturn.setVisible(true);
 
-                this.Button_otherturn_fold.setVisible(true)
-                this.Button_otherturn_fold.setTouchEnabled(true)
-                this.Button_otherturn_pk.setVisible(true)
-                this.Button_otherturn_pk.setTouchEnabled(true)
-                this.Button_otherturn_raise.setVisible(true)
-                this.Button_otherturn_raise.setTouchEnabled(true)
-                this.Button_otherturn_alwaysbet.setVisible(true)
-                this.Button_otherturn_alwaysbet.setTouchEnabled(true)
+                this.Button_otherturn_fold.setVisible(true);
+                this.Button_otherturn_fold.setTouchEnabled(true);
+                this.Button_otherturn_pk.setVisible(true);
+                this.Button_otherturn_pk.setTouchEnabled(true);
+                this.Button_otherturn_raise.setVisible(true);
+                this.Button_otherturn_raise.setTouchEnabled(true);
+                this.Button_otherturn_alwaysbet.setVisible(true);
+                this.Button_otherturn_alwaysbet.setTouchEnabled(true);
                 break;
             case STATUS_BUTTON_MYTURN://等待
-                this.Panel_myturn.setVisible(true)
+                this.Panel_myturn.setVisible(true);
 
-                this.Button_mine_fold.setVisible(true)
-                this.Button_mine_fold.setTouchEnabled(true)
-                this.Button_mine_pk.setVisible(true)
-                this.Button_mine_pk.setTouchEnabled(true)
-                this.Button_mine_raise.setVisible(true)
-                this.Button_mine_raise.setTouchEnabled(true)
+                this.Button_mine_fold.setVisible(true);
+                this.Button_mine_fold.setTouchEnabled(true);
+                this.Button_mine_pk.setVisible(true);
+                this.Button_mine_pk.setTouchEnabled(true);
+                this.Button_mine_raise.setVisible(true);
+                this.Button_mine_raise.setTouchEnabled(true);
                 this.Button_mine_call.setVisible(true)
                 this.Button_mine_call.setTouchEnabled(true)
                 if(this.CanRaise){
@@ -2367,6 +2370,61 @@ var JinHuaTableLogic= {
     updateIsCanChangeCardState:function(){
         var GameData= Profile_JinHuaGameData.getGameData();
         //轮数变更
+    },
+    //设置轮到我操作
+    //return  如果要开启计时器返回true
+    setMyTurnToOperate_ReturnIfNeedMyTimer:function(player){
+        //是否<跟到底>
+        if(this.isAlwaysBetCoin){
+            if(this.betData&&this.betData.callCoin< 0){//All In
+                this.onRaiseAll();
+            }else{//跟注
+                this.onRaise();
+            }
+        }else if(player.status!= STATUS_PLAYER_DISCARD){//没有弃牌
+            if(Profile_JinHuaGameData.getGameData().round>= Profile_JinHuaTableConfig.CAN_PK_ROUND){
+                //是否已经超出一定的轮数，可以比牌
+                this.showBotButton(STATUS_BUTTON_CANPK);
+            }else{
+                this.showBotButton(STATUS_BUTTON_MYTURN);
+            }
+
+            if(!this.vibrateId){
+                //10s之后，震动提醒
+                this.vibrateId= setTimeout(this.callback_vibrate, 10000);
+                //Todo:执行的按钮的点击事件中，移除
+            }
+        }else{
+            this.showBotButton(STATUS_BUTTON_WAIT);
+        }
+    },
+    //All In
+    onRaiseAll:function(){
+
+    },
+    //下注
+    onRaise:function(){
+
+    },
+    //震动提醒
+    callback_vibrate:function(){
+        console.log("震动提醒");
+    },
+    //更新我的操作按钮
+    updateMyOperationBtns:function(currentPlayer){
+        //下注数据
+        this.betData= currentPlayer;
+        this.updateMyPKAndShowCardBtns();
+    },
+    // 更新我的pk和开牌按钮
+    //比牌按钮  0 不能操作，1 比牌 2 开牌
+    updateMyPKAndShowCardBtns:function(){
+        if(!this.betData) return;
+        if(this.betData.compareCard == 2){//比牌
+            this.showCard = true;
+            //显示开牌提示
+            //JinHuaTableTips.showTipOpenCard();
+        }
     }
 };
 

@@ -234,6 +234,11 @@ var Profile_JinHuaTableConfig= {
     enterTablePromptY:0,
     mySelfLocX:527,//自己坐下时X坐标
     mySelfLocY:25,//自己坐下时Y坐标
+    myCard1Rotation:-15,//我的牌的旋转角度
+    myCard2Rotation:0,//我的牌的旋转角度
+    myCard3Rotation:15,//我的牌的旋转角度
+    ROUND_TIME:14,//金花每回合时间
+    CAN_PK_ROUND:3,//几回合后可以比牌
     clearData:function(){
 
     },
