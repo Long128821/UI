@@ -49,7 +49,7 @@ var JinHuaTablePlayerEntity= {
     //创建
     create:function(player){
         this.player= player;
-        console.log(this.player);
+//        console.log(this.player);
         this.createPlayerView();
         return this;
     },
@@ -444,6 +444,7 @@ var JinHuaTablePlayerEntity= {
     createNotBeLookedCard:function(){
         //一定要有，不然会去直接操作元表， 修改的都是同一数据
         this.cardSprites = {};
+        console.log("创建可以");
         //Todo:CardSprite
 //        for(var i= 0; i< 3; ++i){
 //

@@ -37,8 +37,8 @@ var Profile_JinHuaRevive= {
                 Profile_JinHuaRevive.lastTime= dataTable["Time"];
             }
         }
-        console.log("Todo:破产金");
-        console.log(dataTable);
+//        console.log("Todo:破产金");
+//        console.log(dataTable);
     },
     //获取破产金
     slot_JINHUA_MGR_REVIVE:function(dataTable){

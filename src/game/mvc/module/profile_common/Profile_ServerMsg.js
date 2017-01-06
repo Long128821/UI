@@ -39,8 +39,8 @@ var Profile_ServerMsg= {
     readBASEID_TIMESTAMP_SYNC:function(dataTable){
         var serverTime = dataTable["TimeStamp"];
         Profile_ServerMsg.ServerTime["TimeDifference"] = parseInt(Profile_JinHuaSetting.getTimeStamp()) - parseInt(serverTime);
-        console.log("Todo:与服务器同步时间");
-        console.log(dataTable);
+//        console.log("Todo:与服务器同步时间");
+//        console.log(dataTable);
     },
     showMsg:function(){
         var serverMsgTable= this.ServerMsgTable;

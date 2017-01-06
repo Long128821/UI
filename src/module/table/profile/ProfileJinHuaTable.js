@@ -68,14 +68,15 @@ var ProfileJinHuaTable= {
     },
     //更新玩家数据
     slot_DBID_USER_INFO:function(dataTable){
-        console.log("更新玩家数据");
-        console.log(dataTable);
+//        console.log("更新玩家数据");
+//        console.log(dataTable);
         profile_user.readDBID_USER_INFO(dataTable);
     },
     //金花发牌
     slot_JHID_INIT_CARDS:function(dataTable){
-        console.log("金花发牌");
-        console.log(dataTable);
+//        console.log("金花发牌");
+//        console.log(dataTable);
         Profile_JinHuaGameData.readJHID_INIT_CARDS(dataTable);
+        JinHuaTableLogic.updateJHID_INIT_CARDS();
     }
 };

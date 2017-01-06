@@ -586,9 +586,6 @@ function read8007009c(nMBaseMessage){
     //Url	String	小游戏图标	本地没有的时候使用
     dataTable["Url"] = nMBaseMessage.readString();
 
-    console.log("Todo:MANAGERID_GET_MINIGAME_PROMOTION");
-    console.log(dataTable);
-
     return dataTable;
 }
 

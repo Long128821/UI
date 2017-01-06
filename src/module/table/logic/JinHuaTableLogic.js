@@ -230,6 +230,8 @@ var JinHuaTableLogic= {
     CanRaise:true,
     canGetOnlinebonus:null,
     IncrBaoheRound:null,//宝盒奖励,几轮以后算一局
+    changeCardRemainTime:0,
+    showCard:false,
 
     createView:function(){
         cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("chat_popup.plist"),Common.getResourcePath("chat_popup.png"));
@@ -2355,7 +2357,16 @@ var JinHuaTableLogic= {
         }
     },
     updateJHID_INIT_CARDS:function(){
-        //JinHuaTableCard.updateTableAfterSendCardByServer()
+        JinHuaTableCard.updateTableAfterSendCardByServer();
+    },
+    updateDataSendCard:function(){
+        this.changeCardRemainTime = 3;
+        this.showCard = false;
+    },
+    //更新是否可以换牌提示
+    updateIsCanChangeCardState:function(){
+        var GameData= Profile_JinHuaGameData.getGameData();
+        //轮数变更
     }
 };
 

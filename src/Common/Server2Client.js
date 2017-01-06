@@ -544,7 +544,6 @@ function read80210007(nMBaseMessage){
     dataTable["Result"] = nMBaseMessage.readByte();
     //ResultTxt text  提示语内容
     dataTable["ResultTxt"] = nMBaseMessage.readString();
-    console.log(dataTable);
     return dataTable;
 }
 
@@ -876,7 +875,6 @@ function read80060049(nMBaseMessage){
 
 //退出牌桌
 function read80210005(nMBaseMessage){
-    console.log("退出");
     var  dataTable = {};
     dataTable["messageType"] = ACK + JHID_QUIT_TABLE;
     dataTable["messageName"] = "JHID_QUIT_TABLE";
@@ -885,7 +883,6 @@ function read80210005(nMBaseMessage){
     dataTable["result"] = nMBaseMessage.readByte();
     //解析 返回消息
     dataTable["message"] = nMBaseMessage.readString();
-    console.log(dataTable);
     return dataTable
 }
 
@@ -1160,7 +1157,7 @@ function read82200003(nMBaseMessage){
         //下一个玩家位置
         dataTable["currentPlayer"]["SSID"] = nMBaseMessage.readInt();
         //跟注金额，如果为-1则按钮不可用
-        dataTable["currentPlayer"]["callCoin"] = parseInt(nMBaseMessage.readLong());
+        dataTable["currentPlayer"]["callCoin"] = nMBaseMessage.readLong();
         //加注列表
         dataTable["currentPlayer"]["raiseCoin"] = {};
 
@@ -1170,7 +1167,7 @@ function read82200003(nMBaseMessage){
         for(var i=0; i<currentPlayerCnt; ++i){
             dataTable["currentPlayer"]["raiseCoin"][i] = {};
             //加注列表的加注的金额
-            dataTable["currentPlayer"]["raiseCoin"][i].raiseValue = parseInt(nMBaseMessage.readLong());
+            dataTable["currentPlayer"]["raiseCoin"][i].raiseValue = nMBaseMessage.readLong();
             //加注列表中加注金额的状态 0 此金额不可加注 1 此金额可加注
             dataTable["currentPlayer"]["raiseCoin"][i].raiseStatus = nMBaseMessage.readByte();
         }
@@ -1180,7 +1177,7 @@ function read82200003(nMBaseMessage){
         dataTable["currentPlayer"]["lookCard"] = nMBaseMessage.readInt();
     }
     //currentLockCoin	Int	当前看牌要求金币
-    dataTable["currentLockCoin"] = parseInt(nMBaseMessage.readLong());
+    dataTable["currentLockCoin"] = nMBaseMessage.readLong();
     return dataTable;
 }
 //需要联调的消息有readUTF(JHID_STAND_UP、JHID_READY、JHID_BET)
