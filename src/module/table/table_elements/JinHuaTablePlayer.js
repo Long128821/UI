@@ -655,5 +655,8 @@ var JinHuaTablePlayer= {
         }else{
             JinHuaTableMyOperation.updateMyBetBtnsOnOthersTurn()
         }
+    },
+    getPlayers:function(){
+        return this.tablePlayerEntitys;
     }
 };

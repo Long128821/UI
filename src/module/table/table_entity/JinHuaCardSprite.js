@@ -19,9 +19,13 @@ function CardSprite(){
 
         front= cc.Sprite.create("#desk_cardbg.png");
         front.setPosition(front.getContentSize().width* 0.5, front.getContentSize().height* 0.5);
+<<<<<<< HEAD
         front.setVisible(false);
         self.addChild(front);
         return self;
+=======
+        self.addChild(front);
+>>>>>>> origin/master
     }
 
     //设置牌值
@@ -97,5 +101,11 @@ function CardSprite(){
     }
 
     //调用初始化函数
+<<<<<<< HEAD
     return init();
 }
+=======
+    init();
+    return self;
+}
+>>>>>>> origin/master

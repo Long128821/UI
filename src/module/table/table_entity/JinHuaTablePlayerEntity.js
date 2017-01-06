@@ -564,6 +564,7 @@ JinHuaTablePlayerEntity.prototype.createNotBeLookedCard= function(){
     this.cardTypeSprite.setPosition(cardTypePosX, cardTypePosY);
     this.cardTypeSprite.setVisible(false);
 
+<<<<<<< HEAD
     this.cardTypeLabel = cc.LabelTTF.create("散牌", "Arial", 24);
     this.cardTypeLabel.setColor(cc.color(255, 255, 255));
     this.cardTypeLabel.setAnchorPoint(cc.p(0.5, 0.5));
@@ -572,6 +573,22 @@ JinHuaTablePlayerEntity.prototype.createNotBeLookedCard= function(){
 
     for(var key in this.cardSprites){
         JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(this.cardSprites[key]);
+=======
+        if(this.cardTypeSprite){
+            JinHuaTablePlayer.getJinHuaTablePlayerLayer().removeChild(this.cardTypeSprite, true);
+            delete  this.cardTypeSprite;
+        }
+    },
+    //获取中心点X坐标
+    getCenterX:function(){
+        if(this.player== null||this.mPlayerSprite== null) return 0;
+        return this.mPlayerSprite.getPositionX()+ this.mPlayerSprite.getContentSize().width* 0.5;
+    },
+    //获取中心点Y坐标
+    getCenterY:function(){
+        if(this.player== null||this.mPlayerSprite== null) return 0;
+        return this.mPlayerSprite.getPositionY()+ this.mPlayerSprite.getContentSize().height* 0.5;
+>>>>>>> origin/master
     }
 
     this.cardTypeSprite.setZOrder(9);

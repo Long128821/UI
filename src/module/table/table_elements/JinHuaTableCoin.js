@@ -73,10 +73,17 @@ var JinHuaTableCoin= {
             var coins= {};
             for(var key in coinData){
                 //Todo:
+<<<<<<< HEAD
                 //coins= JinHuaTableFunctions.getChipArray(coinData[i].coins);
                 //创建筹码
                 for(var i in coins){
                     //var spriteChips= JinHuaTableCoinEntity.createTableCoinEntity(coins[i], i),);
+=======
+                coins= JinHuaTableFunctions.getChipArray(coinData[i].coins);
+                //创建筹码
+                for(var i in coins){
+                    var spriteChips= JinHuaTableCoinEntity.createTableCoinEntity(coins[i], i),;
+>>>>>>> origin/master
                     for(var j in spriteChips){
                         this.CoinBatchNode.addChild(spriteChips[j]);
                         this.coinArray.push(spriteChips[j]);
@@ -103,6 +110,7 @@ var JinHuaTableCoin= {
         this.addWinPlayerCoinNumByFlyCoin();
         //Todo:resetData()
         JinHuaTableLogic.resetData();
+<<<<<<< HEAD
     },
     //收到服务器押注后，下注动画
     /**
@@ -136,5 +144,7 @@ var JinHuaTableCoin= {
             JinHuaTablePlayer.refreshCurrentPlayer(betChipData["currentPlayer"]);
             JinHuaTableLogic.updateTableTitle();
         }
+=======
+>>>>>>> origin/master
     }
 };
