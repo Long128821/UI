@@ -17,7 +17,6 @@ COIN_TYPE_50W = 15;
 COIN_TYPE_100W = 16;
 COIN_TYPE_200W = 17;
 COIN_TYPE_500W = 18;
-
 /**
  * Func:牌桌上筹码Table
  */
@@ -32,7 +31,7 @@ var JinHuaTableCoinEntity= {
     createTableCoinEntity:function(coinNumber,type) {
         for(var i=0; i< coinNumber; ++i){
             //筹码
-            var spriteChip= cc.Sprite.create("#"+ this.getCoinEntityPath(type));
+            var spriteChip= cc.Sprite.create("#"+this.getCoinEntityPath(type));
             //筹码随机区间
             var xStep= Profile_JinHuaTableConfig.rangRight- Profile_JinHuaTableConfig.rangLeft;
             var yStep= Profile_JinHuaTableConfig.rangTop- Profile_JinHuaTableConfig.rangBottom;

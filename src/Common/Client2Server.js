@@ -558,7 +558,7 @@ function sendJHID_BET(betCoin, betType){
     //下注金额
     nmBaseMessage.writeLong(betCoin);
     //下注类型
-    nmBaseMessage.writeLong(betType);
+    nmBaseMessage.writeByte(betType);
 
     nmBaseMessage.writeOver();
 
@@ -581,6 +581,26 @@ function sendJHID_CHAT_REQ(type,msg){
     nmBaseMessage.writeByte(type);
     //发言内容
     nmBaseMessage.writeString(msg);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//发送弃牌
+function sendJHID_DISCARD(foldCase){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JHID_DISCARD);
+    nmBaseMessage.setExtData(3);
+
+    nmBaseMessage.writeStart();
+    //弃牌原因
+    nmBaseMessage.writeInt(foldCase);
 
     nmBaseMessage.writeOver();
 

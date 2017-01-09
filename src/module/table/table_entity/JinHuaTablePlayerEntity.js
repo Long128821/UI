@@ -555,28 +555,28 @@ JinHuaTablePlayerEntity.prototype.createNotBeLookedCard= function(){
 
     //发的牌 初始无论是谁，都放在屏幕中间位置
     for(var i= 0; i< 3; ++i){
-        this.cardSprites[i]= CardSprite();
-        this.cardSprites[i].setAnchorPoint(cc.p(0.5, 0));
+        this.cardSprites[i]= new CardSprite();
+        this.cardSprites[i].getCardSprite().setAnchorPoint(cc.p(0.5, 0));
         if(!this.isMe()){
             var player= Profile_JinHuaTableConfig.getSpritePlayers()[this.player.CSID];
-            this.cardSprites[i].setPosition(player.cards[i].locX+ 15, player.cards[i].locY- 5);
+            this.cardSprites[i].getCardSprite().setPosition(player.cards[i].locX, player.cards[i].locY);
         }else{
-            this.cardSprites[i].setPosition(573 + 26 * i, 120);
+            this.cardSprites[i].getCardSprite().setPosition(558 + 26 * i, 125);
         }
-        this.cardSprites[i].setScale(Profile_JinHuaTableConfig.cardScale);
+        this.cardSprites[i].getCardSprite().setScale(Profile_JinHuaTableConfig.cardScale);
     }
     var cardTypePosX, cardTypePosY;
     if(this.isMe()){
         cardTypePosX = 740;
         cardTypePosY = 110;
         //自己de牌的话有角度和大小特殊显示
-        JinHuaTableCard.setMyCardScaleAndRotation(this.cardSprites[0], this.cardSprites[1], this.cardSprites[2]);
+        //JinHuaTableCard.setMyCardScaleAndRotation(this.cardSprites[0].getCardSprite(), this.cardSprites[1].getCardSprite(), this.cardSprites[2].getCardSprite());
     }else{
         var player= Profile_JinHuaTableConfig.getSpritePlayers()[this.player.CSID];
         if(player.CSID< 3){
-            cardTypePosX = player.cards[2].locX+this.cardSprites[0].getContentSize().width/4;
+            cardTypePosX = player.cards[2].locX+this.cardSprites[0].getCardSprite().getContentSize().width/4;
         }else{
-            cardTypePosX = player.cards[2].locX-this.cardSprites[0].getContentSize().width/4;
+            cardTypePosX = player.cards[2].locX-this.cardSprites[0].getCardSprite().getContentSize().width/4;
         }
         cardTypePosY = player.cards[2].locY- 10*Profile_JinHuaTableConfig.TableScaleY;
     }
@@ -593,7 +593,7 @@ JinHuaTablePlayerEntity.prototype.createNotBeLookedCard= function(){
     this.cardTypeSprite.addChild(this.cardTypeLabel);
 
     for(var key in this.cardSprites){
-        JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(this.cardSprites[key]);
+        JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(this.cardSprites[key].getCardSprite());
     }
 
     this.cardTypeSprite.setZOrder(9);

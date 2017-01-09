@@ -235,14 +235,16 @@ var JinHuaTableLogic= {
     isAlwaysBetCoin:false,//跟到底
     betData:null,//我的下注数据
     vibrateId:null,//震动定时ID(最后几秒)
+    GameData:null,//牌桌数据
 
     createView:function(){
         cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("chat_popup.plist"),Common.getResourcePath("chat_popup.png"));
         cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("desk.plist"),Common.getResourcePath("desk.png"));
         cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("table_elements.plist"),Common.getResourcePath("table_elements.png"));
         cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("poker_cards.plist"), Common.getResourcePath("poker_cards.png"));
+        cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("table_chips.plist"), Common.getResourcePath("table_chips.png"));
     	this.initLayer();
-        
+
         this.view.setTag(ModuleTable["JinHuaTable"]["Layer"]);
         
         this.initView();
@@ -877,7 +879,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            JinHuaTableLogic.onFold();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -903,7 +905,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            JinHuaTableLogic.onFold();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -929,7 +931,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            JinHuaTableLogic.onRaise();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -942,7 +944,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            JinHuaTableLogic.onFold();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -955,7 +957,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            console.log("pk");
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -968,7 +970,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            console.log("raise");
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -981,7 +983,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            JinHuaTableLogic.onRaise();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1046,7 +1048,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            JinHuaTableLogic.onFold();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1335,6 +1337,8 @@ var JinHuaTableLogic= {
         Frameworks.addSlot2Signal(JINHUA_MGR_SETTING, ProfileJinHuaTable.slot_JINHUA_MGR_SETTING);//金花游戏数据
         Frameworks.addSlot2Signal(DBID_USER_INFO, ProfileJinHuaTable.slot_DBID_USER_INFO);//更新用户数据（自己或者玩家）
         Frameworks.addSlot2Signal(JHID_INIT_CARDS, ProfileJinHuaTable.slot_JHID_INIT_CARDS);//发牌
+        Frameworks.addSlot2Signal(JHID_DISCARD, ProfileJinHuaTable.slot_JHID_DISCARD);//弃牌
+        Frameworks.addSlot2Signal(JHID_GAME_RESULT, ProfileJinHuaTable.slot_JHID_GAME_RESULT);//本局结算
 },
     //移除信号
     removeSlot:function(){
@@ -1351,6 +1355,8 @@ var JinHuaTableLogic= {
     	Frameworks.removeSlotFromSignal(JINHUA_MGR_SETTING, ProfileJinHuaTable.slot_JINHUA_MGR_SETTING);
     	Frameworks.removeSlotFromSignal(DBID_USER_INFO, ProfileJinHuaTable.slot_DBID_USER_INFO);
     	Frameworks.removeSlotFromSignal(JHID_INIT_CARDS, ProfileJinHuaTable.slot_JHID_INIT_CARDS);
+    	Frameworks.removeSlotFromSignal(JHID_DISCARD, ProfileJinHuaTable.slot_JHID_DISCARD);
+    	Frameworks.removeSlotFromSignal(JHID_GAME_RESULT, ProfileJinHuaTable.slot_JHID_GAME_RESULT);
     },
     
     //释放界面的私有数据
@@ -1359,6 +1365,7 @@ var JinHuaTableLogic= {
         cc.spriteFrameCache.removeSpriteFramesFromFile(Common.getResourcePath("desk.plist"));
         cc.spriteFrameCache.removeSpriteFramesFromFile(Common.getResourcePath("table_elements.plist"));
         cc.spriteFrameCache.removeSpriteFramesFromFile(Common.getResourcePath("poker_cards.plist"));
+        cc.spriteFrameCache.removeSpriteFramesFromFile(Common.getResourcePath("table_chips.plist"));
         //关闭更新系统时间-定时器
         clearInterval(this.updateTimer);
         delete this.updateTimer;
@@ -1381,10 +1388,10 @@ var JinHuaTableLogic= {
         //初始化牌桌(玩家、筹码)
         Profile_JinHuaTableConfig.initTableElmentsCoordinate();
 
-        var GameData= Profile_JinHuaGameData.getGameData();
+        this.GameData= Profile_JinHuaGameData.getGameData();
         //请求在线奖励信息
-        if(GameData.roomId != null){
-            sendJHID_GET_BAOHE_STEP_INFO(GameData.roomId);
+        if(this.GameData.roomId != null){
+            sendJHID_GET_BAOHE_STEP_INFO(this.GameData.roomId);
         }
         //初始化牌桌背景
         this.initBg();
@@ -1469,10 +1476,13 @@ var JinHuaTableLogic= {
         if(ProfileJinHuaTable.JinHuaTablePlayer){
             ProfileJinHuaTable.JinHuaTablePlayer.removeFromParent(true);
         }
-        ProfileJinHuaTable.JinHuaTablePlayer= JinHuaTablePlayer.create();
-        this.view.addChild(ProfileJinHuaTable.JinHuaTablePlayer, 100);
+        //筹码
+        this.view.addChild(JinHuaTableCoin.getJinHuaTableCoinLayer());
         //坐下提示模块
         this.view.addChild(JinHuaTableTips.getTableTipsLayer());
+
+        ProfileJinHuaTable.JinHuaTablePlayer= JinHuaTablePlayer.create();
+        this.view.addChild(ProfileJinHuaTable.JinHuaTablePlayer, 100);
 
         //设置牌桌数据
         this.createLayerFarm();
@@ -2036,6 +2046,7 @@ var JinHuaTableLogic= {
         //隐藏所有下排操作按钮极其点击效果
         this.hideAllBotButton();
         this.lastStatus= type;
+        console.log("下排操作按钮类型:"+ type);
         switch (type){
             case STATUS_BUTTON_WAIT://等待
                 //Todo:JinHuaTableCheckButton.setSpriteVisible(false)
@@ -2051,7 +2062,7 @@ var JinHuaTableLogic= {
                 this.Button_wait_alwaysbet.setVisible(true);
                 this.Button_wait_alwaysbet.setTouchEnabled(true);
                 break;
-            case STATUS_BUTTON_OTHERTURN://等待
+            case STATUS_BUTTON_OTHERTURN://别人
                 this.Panel_otherturn.setVisible(true);
 
                 this.Button_otherturn_fold.setVisible(true);
@@ -2063,7 +2074,7 @@ var JinHuaTableLogic= {
                 this.Button_otherturn_alwaysbet.setVisible(true);
                 this.Button_otherturn_alwaysbet.setTouchEnabled(true);
                 break;
-            case STATUS_BUTTON_MYTURN://等待
+            case STATUS_BUTTON_MYTURN://轮到自己
                 this.Panel_myturn.setVisible(true);
 
                 this.Button_mine_fold.setVisible(true);
@@ -2072,64 +2083,63 @@ var JinHuaTableLogic= {
                 this.Button_mine_pk.setTouchEnabled(true);
                 this.Button_mine_raise.setVisible(true);
                 this.Button_mine_raise.setTouchEnabled(true);
-                this.Button_mine_call.setVisible(true)
-                this.Button_mine_call.setTouchEnabled(true)
-                if(this.CanRaise){
-                    this.Button_mine_raise.setTouchEnabled(false)
-                    this.Button_mine_raise.setOpacity(ALPHA_CAN_NOT_TOUCH)
-                    this.Image_mine_raise.setOpacity(ALPHA_CAN_NOT_TOUCH)
+                this.Button_mine_call.setVisible(true);
+                this.Button_mine_call.setTouchEnabled(true);
+                if(!this.CanRaise){//不能加注
+                    this.Button_mine_raise.setTouchEnabled(false);
+                    this.Button_mine_raise.setOpacity(ALPHA_CAN_NOT_TOUCH);
+                    this.Image_mine_raise.setOpacity(ALPHA_CAN_NOT_TOUCH);
                 }else{
-                    this.Button_mine_raise.setOpacity(ALPHA_CAN_TOUCH)
-                    this.Image_mine_raise.setOpacity(ALPHA_CAN_TOUCH)
+                    this.Button_mine_raise.setOpacity(ALPHA_CAN_TOUCH);
+                    this.Image_mine_raise.setOpacity(ALPHA_CAN_TOUCH);
                 }
                 break;
             case STATUS_BUTTON_RAISE://等待
-                this.Panel_raise.setVisible(true)
+                this.Panel_raise.setVisible(true);
 
-                this.Button_raise_one.setVisible(true)
+                this.Button_raise_one.setVisible(true);
                 this.Button_raise_one.setTouchEnabled(true)
-                this.Button_raise_two.setVisible(true)
-                this.Button_raise_two.setTouchEnabled(true)
-                this.Button_raise_three.setVisible(true)
-                this.Button_raise_three.setTouchEnabled(true)
-                this.Button_raise_cancel.setVisible(true)
-                this.Button_raise_cancel.setTouchEnabled(true)
+                this.Button_raise_two.setVisible(true);
+                this.Button_raise_two.setTouchEnabled(true);
+                this.Button_raise_three.setVisible(true);
+                this.Button_raise_three.setTouchEnabled(true);
+                this.Button_raise_cancel.setVisible(true);
+                this.Button_raise_cancel.setTouchEnabled(true);
                 break;
             case STATUS_BUTTON_ALLIN:
-                this.Panel_allin.setVisible(true)
+                this.Panel_allin.setVisible(true);
 
-                this.Button_allin_fold.setVisible(true)
-                this.Button_allin_fold.setTouchEnabled(true)
-                this.Button_allin_pk.setVisible(true)
-                this.Button_allin_pk.setTouchEnabled(true)
-                this.Button_allin_allin.setVisible(true)
-                this.Button_allin_allin.setTouchEnabled(true)
-                this.Button_allin_call.setVisible(true)
-                this.Button_allin_call.setTouchEnabled(true)
+                this.Button_allin_fold.setVisible(true);
+                this.Button_allin_fold.setTouchEnabled(true);
+                this.Button_allin_pk.setVisible(true);
+                this.Button_allin_pk.setTouchEnabled(true);
+                this.Button_allin_allin.setVisible(true);
+                this.Button_allin_allin.setTouchEnabled(true);
+                this.Button_allin_call.setVisible(true);
+                this.Button_allin_call.setTouchEnabled(true);
                 break;
-            case STATUS_BUTTON_CANPK:
-                this.Panel_canpk.setVisible(true)
+            case STATUS_BUTTON_CANPK://可以比牌
+                this.Panel_canpk.setVisible(true);
 
-                this.Button_canpk_fold.setVisible(true)
-                this.Button_canpk_fold.setTouchEnabled(true)
-                this.Button_canpk_pk.setVisible(true)
-                this.Button_canpk_pk.setTouchEnabled(true)
-                this.Button_canpk_raise.setVisible(true)
-                this.Button_canpk_raise.setTouchEnabled(true)
-                this.Button_canpk_call.setVisible(true)
-                this.Button_canpk_call.setTouchEnabled(true)
-                if(this.CanRaise){
-                    this.Button_canpk_raise.setTouchEnabled(false)
-                    this.Button_canpk_raise.setOpacity(ALPHA_CAN_NOT_TOUCH)
-                    this.Image_canpk_raise.setOpacity(ALPHA_CAN_NOT_TOUCH)
+                this.Button_canpk_fold.setVisible(true);
+                this.Button_canpk_fold.setTouchEnabled(true);
+                this.Button_canpk_pk.setVisible(true);
+                this.Button_canpk_pk.setTouchEnabled(true);
+                this.Button_canpk_raise.setVisible(true);
+                this.Button_canpk_raise.setTouchEnabled(true);
+                this.Button_canpk_call.setVisible(true);
+                this.Button_canpk_call.setTouchEnabled(true);
+                if(!this.CanRaise){//不能加注
+                    this.Button_canpk_raise.setTouchEnabled(false);
+                    this.Button_canpk_raise.setOpacity(ALPHA_CAN_NOT_TOUCH);
+                    this.Image_canpk_raise.setOpacity(ALPHA_CAN_NOT_TOUCH);
                 }else{
-                    this.Button_canpk_raise.setOpacity(ALPHA_CAN_TOUCH)
-                    this.Image_canpk_raise.setOpacity(ALPHA_CAN_TOUCH)
+                    this.Button_canpk_raise.setOpacity(ALPHA_CAN_TOUCH);
+                    this.Image_canpk_raise.setOpacity(ALPHA_CAN_TOUCH);
                 }
                 break;
-            case STATUS_BUTTON_GUIDE_ONLY_CHECK:
+            case STATUS_BUTTON_GUIDE_ONLY_CHECK://
                 //Todo:JinHuaTableCheckButton.setSpriteVisible(true)
-
                 this.Panel_wait.setVisible(true);
 
                 this.Button_wait_fold.setVisible(true);
@@ -2154,22 +2164,6 @@ var JinHuaTableLogic= {
                 this.Button_onlypk_pk.setTouchEnabled(true);
                 break;
         }
-        //Todo:
-//        if GameConfig.GAME_ID == GameConfig.JINHUA_GAME_ID then
-//        if UserGuideUtil.isUserGuide == false then
-//        if buttonCheckIsShow == false then
-//        JinHuaTableCheckButton.setSpriteVisible(false)
-//        else
-//        JinHuaTableCheckButton.setSpriteVisible(true)
-//        end
-//        end
-//        else
-//        if buttonCheckIsShow == false then
-//        JinHuaTableCheckButton.setSpriteVisible(false)
-//        else
-//        JinHuaTableCheckButton.setSpriteVisible(true)
-//        end
-//        end
     },
     //隐藏所有下排操作按钮极其点击效果
     hideAllBotButton:function(){
@@ -2359,12 +2353,27 @@ var JinHuaTableLogic= {
             JinHuaTableTips.removeSitTip(CSID);
         }
     },
+    //发牌
     updateJHID_INIT_CARDS:function(){
         JinHuaTableCard.updateTableAfterSendCardByServer();
     },
+    //弃牌
+    updateJHID_DISCARD:function(){
+        console.log("弃牌");
+        JinHuaTablePlayer.updateTableAfterFoldCardByServer();
+    },
+    //发牌
     updateDataSendCard:function(){
         this.changeCardRemainTime = 3;
         this.showCard = false;
+    },
+    //本局结算
+    updateJHID_GAME_RESULT:function(){
+        var gameResultData= Profile_JinHuaGameData.getGameResultData();
+        JinHuaTablePlayer.clearAllTimer();
+        this.initGameDataAfterGameResult();
+        JinHuaTableCard.startResultShow();
+        console.log("结束");
     },
     //更新是否可以换牌提示
     updateIsCanChangeCardState:function(){
@@ -2382,6 +2391,7 @@ var JinHuaTableLogic= {
                 this.onRaise();
             }
         }else if(player.status!= STATUS_PLAYER_DISCARD){//没有弃牌
+            console.log("更新自己的按钮");
             if(Profile_JinHuaGameData.getGameData().round>= Profile_JinHuaTableConfig.CAN_PK_ROUND){
                 //是否已经超出一定的轮数，可以比牌
                 this.showBotButton(STATUS_BUTTON_CANPK);
@@ -2402,9 +2412,21 @@ var JinHuaTableLogic= {
     onRaiseAll:function(){
 
     },
-    //下注
+    //下注、跟注
     onRaise:function(){
-
+        if(this.betData== null||this.betData== undefined) return;
+        if(this.betData.callCoin<= 0){//如果跟注按钮小于0，则All In
+            this.onAllIn();
+            return;
+        }
+        console.log(this.betData.callCoin);
+        //向服务器端发起下注请求
+        //新手引导时，可以不发起
+        sendJHID_BET(this.betData.callCoin,TYPE_BET_CALL);
+        //更新按钮
+        this.showBotButton(STATUS_BUTTON_OTHERTURN);
+        //下注列表
+        JinHuaTablePlayer.selfClickToBetCoin(TYPE_BET_CALL,this.betData.callCoin);
     },
     //震动提醒
     callback_vibrate:function(){
@@ -2423,9 +2445,67 @@ var JinHuaTableLogic= {
         if(this.betData.compareCard == 2){//比牌
             this.showCard = true;
             //显示开牌提示
-            //JinHuaTableTips.showTipOpenCard();
+            JinHuaTableTips.showTipOpenCard();
         }
+    },
+    //轮到别人下注，更新我的可操作按钮
+    updateMyBetBtnsOnOthersTurn:function(){
+        if(Profile_JinHuaGameData.isMePlayingThisRound()){//在打牌中
+            this.showBotButton(STATUS_BUTTON_OTHERTURN);
+        }
+    },
+    //超时2s后,弃牌
+    overTimeGiveUpCard:function(){
+
+    },
+    //All In
+    onAllIn:function(){
+
+    },
+    //所以操作按钮不可点
+    disableAllTableOperationButtons:function(){
+        this.showBotButton(STATUS_BUTTON_WAIT);
+        this.isAlwaysBetCoin = false;
+        this.Image_alwaysbet.setVisible(false);
+    },
+    //弃牌
+    onFold:function(){
+        var GameData= Profile_JinHuaGameData.getGameData();
+        //第6轮点击换桌会弹出提示框
+        if(GameData.round> 5){
+            MvcEngine.createModule(GUI_JINHUATABLECONFIRMPOP, function(){
+                ProfileJinHuaTableConfirmPop.setMsg(TableConfirmPopTag.TAG_FOLD_TIPS);
+            })
+        }else{
+            this.afterOnClickBtnFold();
+        }
+    },
+    //点击弃牌后做的事
+    afterOnClickBtnFold:function(){
+        //Todo:关闭-超时弃牌线程
+        sendJHID_DISCARD(0);
+        JinHuaTablePlayer.updateTableAfterSelfFoldCard();
+        JinHuaTablePlayer.closeMyTimer();
+    },
+    //在游戏结果后初始化一些数据
+    initGameDataAfterGameResult:function(){
+        this.GameData.status = STATUS_TABLE_READY;
+        this.setAllInValue(null);
+        JinHuaTablePlayer.resetCurrentCSID();
+        JinHuaTableTips.initTipsData();
+        var playerTable= Profile_JinHuaGameData.getPlayers();
+//        for(var i in playerTable){
+//            JinHuaTablePlayerEntity.hideTips(playerTable[i]);
+//            if(!Profile_JinHuaGameData.getIsMatch()) {
+//                JinHuaTablePlayerEntity.createPlayerTips(playerTable[i]);
+//            }
+//        }
+    },
+    //设置全压的金币数
+    setAllInValue:function(value){
+        this.allInValue = value;
     }
 };
 
 //Todo:大喇叭
+//Todo:游戏结果

@@ -26,8 +26,8 @@ var ProfileJinHuaTable= {
     },
     //坐下
     slot_JHID_SIT_DOWN:function(dataTable){
-        console.log("坐下");
-        console.log(dataTable);
+//        console.log("坐下");
+//        console.log(dataTable);
         Profile_JinHuaGameData.readJHID_SIT_DOWN(dataTable);
         JinHuaTableLogic.updateJHID_SIT_DOWN();
     },
@@ -69,15 +69,21 @@ var ProfileJinHuaTable= {
     },
     //更新玩家数据
     slot_DBID_USER_INFO:function(dataTable){
-//        console.log("更新玩家数据");
-//        console.log(dataTable);
         profile_user.readDBID_USER_INFO(dataTable);
     },
     //金花发牌
     slot_JHID_INIT_CARDS:function(dataTable){
-//        console.log("金花发牌");
-//        console.log(dataTable);
         Profile_JinHuaGameData.readJHID_INIT_CARDS(dataTable);
         JinHuaTableLogic.updateJHID_INIT_CARDS();
+    },
+    //弃牌
+    slot_JHID_DISCARD:function(dataTable){
+        Profile_JinHuaGameData.readJHID_DISCARD(dataTable);
+        JinHuaTableLogic.updateJHID_DISCARD();
+    },
+    //本局结算
+    slot_JHID_GAME_RESULT:function(dataTable){
+        Profile_JinHuaGameData.readJHID_GAME_RESULT(dataTable);
+        JinHuaTableLogic.updateJHID_GAME_RESULT();
     }
 };

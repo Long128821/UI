@@ -416,6 +416,7 @@ ModuleTable["JinHuaTable"]["jsLists"] = [
     "src/module/table/table_entity/JinHuaBetedCoinLabel.js",
     "src/module/table/table_entity/JinHuaCardSprite.js",
     "src/module/table/table_entity/JinHuaTablePlayerEntity.js",
+    "src/module/table/table_entity/JinHuaTableCoinEntity.js",
     "src/module/table/profile/ProfileJinHuaTable.js",
     "src/module/table/logic/JinHuaTableLogic.js",
     "src/module/table/controller/JinHuaTableController.js"];
@@ -425,6 +426,8 @@ ModuleTable["JinHuaTable"]["resLists"] = [
     "res/chat_popup.plist",
     "res/desk.png",
     "res/desk.plist",
+    "res/table_chips.png",
+    "res/table_chips.plist",
     "res/pic_jinbishu.png",
     "res/table_elements.plist",
     "res/table_elements.png",

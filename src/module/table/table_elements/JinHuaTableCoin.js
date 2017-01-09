@@ -31,7 +31,6 @@ var JinHuaTableCoin= {
     },
     //押注回调
     betCoinEnd:function(sender){
-        var GameData= Profile_JinHuaGameData.getGameData();
         if(this.isSelfBet){
             this.isSelfBet= false;
         }
@@ -44,26 +43,72 @@ var JinHuaTableCoin= {
     creatAllInBetCoins:function(pos, thisTimeBetCoins){
         var startX, startY, endX, endY;
         var players= JinHuaTablePlayer.getPlayers();
-        if(players[pos]== null||players[pos]== undefined) return;//牌桌上没有玩家
+        if(players[pos]== null||players[pos]== "undefined") return;//牌桌上没有玩家
         startX = players[pos].getPositionX() + players[pos].getContentSize().width / 2;
         startY = players[pos].getPositionY() + players[pos].getContentSize().height / 2;
         players[pos].setCoin();
 
-        //Todo:getAllInChipArray
-        var coinTable = JinHuaTableFunctions.getAllInChipArray(thisTimeBetCoins);
+        var coinTable = this.getAllInChipArray(thisTimeBetCoins);
         //读取table 绘制金币
-        //Todo:CoinBatchNode
+        for(var i in coinTable){
+            if(coinTable[i]== null ||coinTable[i]== "undefined"|| coinTable[i]== 0) continue;
+            //牌桌上的筹码精灵
+            var spriteChips = JinHuaTableCoinEntity.createTableCoinEntity(coinTable[i],parseInt(i));
+            for(var j in spriteChips){
+                if(spriteChips[j]== null ||spriteChips[j]== "undefined"||spriteChips[j]== 0) continue;
+                //筹码随机区间
+                var xStep= Profile_JinHuaTableConfig.rangRight- Profile_JinHuaTableConfig.rangLeft;
+                var yStep= Profile_JinHuaTableConfig.rangTop- Profile_JinHuaTableConfig.rangBottom;
+                //筹码的随机位置
+                endX= Math.random()* xStep+ Profile_JinHuaTableConfig.rangLeft;
+                endY= Math.random()* yStep+ Profile_JinHuaTableConfig.rangBottom;
+                //设置初始位置
+                spriteChips[j].setPosition(startX, startY);
+
+                spriteChips[j].runAction(cc.moveTo(0.3, cc.p(endX, endY)));
+
+                this.getJinHuaTableCoinLayer().addChild(spriteChips[j]);
+
+                //添加到金币数组中
+                this.coinArray[Common.getTableSize(this.coinArray)]= spriteChips[j];
+            }
+            this.betCoinEnd();
+        }
     },
     createNormalBetCoins:function(pos,thisTimeBetCoins){
         var startX, startY, endX, endY;
         var players= JinHuaTablePlayer.getPlayers();
-        if(players[pos]== null||players[pos]== undefined) return;//牌桌上没有玩家
-        startX = players[pos].getPositionX() + players[pos].getContentSize().width / 2;
-        startY = players[pos].getPositionY() + players[pos].getContentSize().height / 2;
+        if(players[pos]== null||players[pos]== "undefined") return;//牌桌上没有玩家
+        startX = players[pos].mPlayerSprite.getPositionX() + players[pos].mPlayerSprite.getContentSize().width / 2;
+        startY = players[pos].mPlayerSprite.getPositionY() + players[pos].mPlayerSprite.getContentSize().height / 2;
         players[pos].setCoin();
 
-        //Todo:getAllInChipArray
-        var coinTable = JinHuaTableFunctions.getChipArray(thisTimeBetCoins);
+        var coinTable = this.getChipArray(thisTimeBetCoins);
+        for(var i in coinTable){
+            if(coinTable[i]== null ||coinTable[i]== "undefined"|| coinTable[i]== 0) continue;
+            //牌桌上的筹码精灵
+            var spriteChips = JinHuaTableCoinEntity.createTableCoinEntity(coinTable[i], parseInt(i));
+            for(var j in spriteChips){
+                if(spriteChips[j]== null ||spriteChips[j]== "undefined"||spriteChips[j]== 0) continue;
+                //筹码随机区间
+                var xStep= Profile_JinHuaTableConfig.rangRight- Profile_JinHuaTableConfig.rangLeft;
+                var yStep= Profile_JinHuaTableConfig.rangTop- Profile_JinHuaTableConfig.rangBottom;
+                //筹码的随机位置
+                endX= Math.random()* xStep+ Profile_JinHuaTableConfig.rangLeft;
+                endY= Math.random()* yStep+ Profile_JinHuaTableConfig.rangBottom;
+
+                //设置初始位置
+                spriteChips[j].setPosition(startX, startY);
+
+                spriteChips[j].runAction(cc.moveTo(0.3, cc.p(endX, endY)));
+
+                this.getJinHuaTableCoinLayer().addChild(spriteChips[j]);
+
+                //添加到金币数组中
+                this.coinArray[Common.getTableSize(this.coinArray)]= spriteChips[j];
+            }
+            this.betCoinEnd();
+        }
     },
     getCoinBatchNode:function(){
         return this.CoinBatchNode;
@@ -80,23 +125,23 @@ var JinHuaTableCoin= {
             this.JinHuaTableCoinLayer= null;
         }
     },
-    //牌桌筹码显示
-    createTableCoins:function(coinData){
-        if(coinData){
-            var coins= {};
-            for(var key in coinData){
-                coins= JinHuaTableFunctions.getChipArray(coinData[i].coins);
-                //创建筹码
-                for(var i in coins){
-                    var spriteChips= JinHuaTableCoinEntity.createTableCoinEntity(coins[i], i),;
-                    for(var j in spriteChips){
-                        this.CoinBatchNode.addChild(spriteChips[j]);
-                        this.coinArray.push(spriteChips[j]);
-                    }
-                }
-            }
-        }
-    },
+//    //牌桌筹码显示
+//    createTableCoins:function(coinData){
+//        if(coinData){
+//            var coins= {};
+//            for(var key in coinData){
+//                coins= this.getChipArray(coinData[i].coins);
+//                //创建筹码
+//                for(var i in coins){
+//                    var spriteChips= JinHuaTableCoinEntity.createTableCoinEntity(coins[i], i);
+//                    for(var j in spriteChips){
+//                        this.CoinBatchNode.addChild(spriteChips[j]);
+//                        this.coinArray.push(spriteChips[j]);
+//                    }
+//                }
+//            }
+//        }
+//    },
     //通过飞金币增加赢家的金币数
     addWinPlayerCoinNumByFlyCoin:function(){
         //Todo:
@@ -122,7 +167,7 @@ var JinHuaTableCoin= {
      * isSelfClickToBet 自己跟注、加注、全压为true, Pk、下底注为false、别人下注等为false
      */
     betCoinAnim:function(betChipData, isSelfClickToBet){
-        console.log("下注类型:"+ betChipData.type);
+//        console.log("下注类型:"+ betChipData.type);
         var players = JinHuaTablePlayer.getPlayers();
         //下注类型
         switch(betChipData.type){
@@ -144,13 +189,13 @@ var JinHuaTableCoin= {
         }
 
         if(betChipData.type== TYPE_BET_ALLIN){//All In
-            //creatAllInBetCoins(betChipData.CSID,betChipData.thisTimeBetCoins)
+            this.creatAllInBetCoins(betChipData.CSID,betChipData.thisTimeBetCoins)
         }else{
-            //createNormalBetCoins(betChipData.CSID,betChipData.thisTimeBetCoins)
+            this.createNormalBetCoins(betChipData.CSID,betChipData.thisTimeBetCoins)
         }
         if(!isSelfClickToBet){//Pk、下底注、别人下注
-            console.log("更新当前可操作玩家");
-            console.log(betChipData["currentPlayer"]);
+//            console.log("更新当前可操作玩家");
+//            console.log(betChipData["currentPlayer"]);
             //Todo:是否有用,此处数据为空。
             JinHuaTablePlayer.refreshCurrentPlayer(betChipData["currentPlayer"]);
             //更新牌桌基本信息
@@ -158,10 +203,74 @@ var JinHuaTableCoin= {
         }else{
             this.isSelfBet= true;
         }
+    },
+    //获取All In下注数组
+    getAllInChipArray:function(thisTimeBetCoins){
+        return this.getChipArray(thisTimeBetCoins);
+    },
+    //获取筹码数组
+    getChipArray:function(thisTimeBetCoins){
+        var  coinTable = {};
+        //500w
+        coinTable[COIN_TYPE_500W] = Math.floor(thisTimeBetCoins / 5000000);
+        thisTimeBetCoins = thisTimeBetCoins - coinTable[COIN_TYPE_500W] * 5000000;
+        //200w
+        coinTable[COIN_TYPE_200W] = Math.floor(thisTimeBetCoins / 2000000);
+        thisTimeBetCoins = thisTimeBetCoins - coinTable[COIN_TYPE_200W] * 2000000;
+        //100w
+        coinTable[COIN_TYPE_100W] = Math.floor(thisTimeBetCoins / 1000000);
+        thisTimeBetCoins = thisTimeBetCoins - coinTable[COIN_TYPE_100W] * 1000000;
+        //50w
+        coinTable[COIN_TYPE_50W] = Math.floor(thisTimeBetCoins / 500000);
+        thisTimeBetCoins = thisTimeBetCoins - coinTable[COIN_TYPE_50W] * 500000;
+        //20w
+        coinTable[COIN_TYPE_20W] = Math.floor((thisTimeBetCoins) / 200000);
+        thisTimeBetCoins = thisTimeBetCoins - coinTable[COIN_TYPE_20W] * 200000;
+        //10w
+        coinTable[COIN_TYPE_10W] = Math.floor((thisTimeBetCoins) / 100000);
+        thisTimeBetCoins = thisTimeBetCoins - coinTable[COIN_TYPE_10W] * 100000;
+        //5w
+        coinTable[COIN_TYPE_5W] = Math.floor((thisTimeBetCoins) / 50000);
+        thisTimeBetCoins = thisTimeBetCoins - coinTable[COIN_TYPE_5W] * 50000;
+        //2w
+        coinTable[COIN_TYPE_2W] = Math.floor((thisTimeBetCoins) / 20000);
+        thisTimeBetCoins = thisTimeBetCoins - coinTable[COIN_TYPE_2W] * 20000;
+        //1w
+        coinTable[COIN_TYPE_1W] = Math.floor((thisTimeBetCoins) / 10000);
+        thisTimeBetCoins = thisTimeBetCoins - coinTable[COIN_TYPE_1W] * 10000;
+        //5k
+        coinTable[COIN_TYPE_5K] = Math.floor((thisTimeBetCoins) / 5000);
+        thisTimeBetCoins = thisTimeBetCoins - coinTable[COIN_TYPE_5K] * 5000;
+        //2k
+        coinTable[COIN_TYPE_2K] = Math.floor((thisTimeBetCoins) / 2000);
+        thisTimeBetCoins = thisTimeBetCoins - coinTable[COIN_TYPE_2K] * 2000;
+        //1k
+        coinTable[COIN_TYPE_1K] = Math.floor((thisTimeBetCoins) / 1000);
+        thisTimeBetCoins = thisTimeBetCoins - coinTable[COIN_TYPE_1K] * 1000;
+        //500
+        coinTable[COIN_TYPE_5H] = Math.floor((thisTimeBetCoins) / 500);
+        thisTimeBetCoins = thisTimeBetCoins - coinTable[COIN_TYPE_5H] * 500;
+        //200
+        coinTable[COIN_TYPE_2H] = Math.floor((thisTimeBetCoins) / 200);
+        thisTimeBetCoins = thisTimeBetCoins - coinTable[COIN_TYPE_2H] * 200;
+        //100
+        coinTable[COIN_TYPE_1H] = Math.floor((thisTimeBetCoins) / 100);
+        thisTimeBetCoins = thisTimeBetCoins - coinTable[COIN_TYPE_1H] * 100;
+        //50
+        coinTable[COIN_TYPE_50] = Math.floor((thisTimeBetCoins) / 50);
+        thisTimeBetCoins = thisTimeBetCoins - coinTable[COIN_TYPE_50] * 50;
+        //20
+        coinTable[COIN_TYPE_20] = Math.floor((thisTimeBetCoins) / 20);
+        thisTimeBetCoins = thisTimeBetCoins - coinTable[COIN_TYPE_20] * 20;
+        //10
+        coinTable[COIN_TYPE_10] = Math.floor((thisTimeBetCoins) / 10);
+        thisTimeBetCoins = thisTimeBetCoins - coinTable[COIN_TYPE_10] * 10;
+
+//        console.log(coinTable);
+
+        return coinTable;
     }
 };
-
-//Todo:this.createNormalBetCoins
 //Todo:下注筹码
 //Todo:显示正确的更新按钮;
 //Todo:按钮的响应事件;

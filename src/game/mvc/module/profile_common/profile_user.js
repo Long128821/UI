@@ -6,12 +6,12 @@ var profile_user= {
         return this.mnRemainCount;
     },
     setMNRemainCount:function(remainCount){
-        this.mnRemainCount= remainCount== undefined?-1:remainCount;
+        this.mnRemainCount= remainCount== "undefined"?-1:remainCount;
     },
     //UserID
     getSelfUserID:function(){
         var value= this.UserTable["SelfInfo"].UserID;
-        return (value== undefined?0:value);
+        return (value== "undefined"?0:value);
     },
     setSelfUserID:function(userID){
         this.UserTable["SelfInfo"].UserID= userID;
@@ -20,7 +20,7 @@ var profile_user= {
     //昵称
     getSelfNickName:function(){
         var value= this.UserTable["SelfInfo"].NickName;
-        return (value== undefined?0:value);
+        return (value== "undefined"?0:value);
     },
     setSelfNickName:function(nickName){
         this.UserTable["SelfInfo"].NickName= nickName;
@@ -29,7 +29,7 @@ var profile_user= {
     //密码
     getSelfPassword:function(){
         var value= this.UserTable["SelfInfo"].Password;
-        return (value== undefined?0:value);
+        return (value== "undefined"?0:value);
     },
     setSelfPassword:function(password){
         this.UserTable["SelfInfo"].Password= password;
@@ -38,7 +38,7 @@ var profile_user= {
     //头像
     getSelfPhotoUrl:function(){
         var value= this.UserTable["SelfInfo"].PhotoUrl;
-        return (value== undefined?0:value);
+        return (value== "undefined"?0:value);
     },
     setSelfPhotoUrl:function(photoUrl){
         this.UserTable["SelfInfo"].PhotoUrl= photoUrl;
@@ -47,7 +47,7 @@ var profile_user= {
     //金币数
     getSelfCoin:function(){
         var value= this.UserTable["SelfInfo"].Coin;
-        return (value== undefined?0:value);
+        return (value== "undefined"?0:value);
     },
     setSelfCoin:function(coin){
         this.UserTable["SelfInfo"].Coin= coin;
@@ -56,7 +56,7 @@ var profile_user= {
     //玩家等级
     getSelfLevel:function(){
         var value= this.UserTable["SelfInfo"].Level;
-        return (value== undefined?0:value);
+        return (value== "undefined"?0:value);
     },
     setSelfLevel:function(level){
         this.UserTable["SelfInfo"].Level= level;
@@ -65,7 +65,7 @@ var profile_user= {
     //玩家性别
     getSelfSex:function(){
         var value= this.UserTable["SelfInfo"].Sex;
-        return (value== undefined?0:value);
+        return (value== "undefined"?0:value);
     },
     setSelfSex:function(sex){
         this.UserTable["SelfInfo"].Sex= sex;
@@ -75,7 +75,7 @@ var profile_user= {
     //Vip等级
     getSelfVipLevel:function(){
         var value= this.UserTable["SelfInfo"].VipLevel;
-        return (value== undefined?0:value);
+        return (value== "undefined"?0:value);
     },
     setSelfVipLevel:function(vipLevel){
         this.UserTable["SelfInfo"].VipLevel= vipLevel;
@@ -84,7 +84,7 @@ var profile_user= {
     //元宝数
     getSelfYuanBao:function(){
         var value= this.UserTable["SelfInfo"].YuanBao;
-        return (value== undefined?0:value);
+        return (value== "undefined"?0:value);
     },
     setSelfYuanBao:function(yuanBao){
         this.UserTable["SelfInfo"].YuanBao= yuanBao;
@@ -93,7 +93,7 @@ var profile_user= {
     //称号
     getSelfHonor:function(){
         var value= this.UserTable["SelfInfo"].Honor;
-        return (value== undefined?0:value);
+        return (value== "undefined"?0:value);
     },
     setSelfHonor:function(honor){
         this.UserTable["SelfInfo"].Honor= honor;
@@ -102,7 +102,7 @@ var profile_user= {
     //魅力值
     getSelfCharm:function(){
         var value= this.UserTable["SelfInfo"].Charm;
-        return (value== undefined?0:value);
+        return (value== "undefined"?0:value);
     },
     setSelfCharm:function(charm){
         this.UserTable["SelfInfo"].Charm= charm;
@@ -110,7 +110,7 @@ var profile_user= {
     //魅力值
     getSelfCharmLevel:function(){
         var value= this.UserTable["SelfInfo"].CharmLevel;
-        return (value== undefined?0:value);
+        return (value== "undefined"?0:value);
     },
     setSelfCharmLevel:function(level){
         this.UserTable["SelfInfo"].CharmLevel= level;
@@ -118,7 +118,7 @@ var profile_user= {
     //局数
     getSelfInnings:function(){
         var value= this.UserTable["SelfInfo"].Innings;
-        return (value== undefined?0:value);
+        return (value== "undefined"?0:value);
     },
     setSelfInnings:function(innings){
         this.UserTable["SelfInfo"].Innings= innings;
@@ -126,7 +126,7 @@ var profile_user= {
     //局数
     getSelfWinPer:function(){
         var value= this.UserTable["SelfInfo"].WinPer;
-        return (value== undefined?0:value);
+        return (value== "undefined"?0:value);
     },
     setSelfWinPer:function(winPer){
         this.UserTable["SelfInfo"].WinPer= winPer;
@@ -134,7 +134,7 @@ var profile_user= {
     //玩家当前等级所拥有的经验值
     getSelfLevelExp:function(){
         var value= this.UserTable["SelfInfo"].LevelExp;
-        return (value== undefined?0:value);
+        return (value== "undefined"?0:value);
     },
     setSelfLevelExp:function(levelExp){
         this.UserTable["SelfInfo"].LevelExp= levelExp;
@@ -142,7 +142,7 @@ var profile_user= {
     //玩家当前等级最大经验值
     getSelfLevelExpMax:function(){
         var value= this.UserTable["SelfInfo"].LevelExpMax;
-        return (value== undefined?0:value);
+        return (value== "undefined"?0:value);
     },
     setSelfLevelExpMax:function(levelExpMax){
         this.UserTable["SelfInfo"].LevelExpMax= levelExpMax;
@@ -150,7 +150,7 @@ var profile_user= {
     //获取用户充值金额
     getSelfEnchargeAmount:function(){
         var value= this.UserTable["SelfInfo"].EnchargeAmount;
-        return (value== undefined?0:value);
+        return (value== "undefined"?0:value);
     },
     setSelfEnchargeAmount:function(enchargeAmount){
         this.UserTable["SelfInfo"].EnchargeAmount= enchargeAmount;

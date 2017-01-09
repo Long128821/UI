@@ -111,7 +111,7 @@ var JinHuaTableConfirmPopLogic= {
 
                 break;
             case TableConfirmPopTag.TAG_FOLD_TIPS:
-
+                JinHuaTableLogic.afterOnClickBtnFold();
                 break;
             case TableConfirmPopTag.TAG_CHANGE_TABLE_TIPS:
 

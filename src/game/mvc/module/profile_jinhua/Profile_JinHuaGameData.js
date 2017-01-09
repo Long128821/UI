@@ -14,6 +14,8 @@ var Profile_JinHuaGameData= {
     standUpData:null,//站起
     sitDownData:null,//坐下
     initCardData:null,//发牌
+    foldCardData:null,//弃牌
+    gameResultData:null,//本局计算
     clearData:function(){
         this.backPackGoodsCountData= {};
         this.GameData= {};
@@ -22,6 +24,9 @@ var Profile_JinHuaGameData= {
         this.readyData= {};
         this.chatMsg= {};
         this.standUpData= {};
+        this.initCardData= {};
+        this.foldCardData= {};
+        this.gameResultData= {};
     },
     getBackPackGoodsCountData:function(){
         return this.backPackGoodsCountData;
@@ -46,11 +51,9 @@ var Profile_JinHuaGameData= {
     //本局我是否在打牌中
     isMePlayingThisRound:function(){
         var players= this.GameData["players"];
-        if(this.GameData.mySSID
-            &&this.mySelf.cardSprites
-            &&this.mySelf.cardSprites[1]
-            &&players[1]
-            &&(players[1].status == STATUS_PLAYER_LOOKCARD || players[1].status == STATUS_PLAYER_PLAYING)){
+        if((this.GameData.mySSID!= null||this.GameData.mySSID!= undefined)
+            &&players[0]
+            &&(players[0].status == STATUS_PLAYER_LOOKCARD || players[0].status == STATUS_PLAYER_PLAYING)){
             return true;
         }else{
             return false;
@@ -218,8 +221,9 @@ var Profile_JinHuaGameData= {
                 this.GameData["players"][key].userId== myUserId){
                 this.mySelf= this.GameData["players"][key];
                 this.GameData.mySSID= this.GameData["players"][key].SSID;
+                console.log("玩家服务器座位号:"+ this.GameData.mySSID);
                 //Todo:可以删除，利用id比较，而不是isMe
-                this.GameData["players"][key].isMe = true;
+                //this.GameData["players"][key].isMe = true;
                 break;
             }
         }
@@ -267,8 +271,56 @@ var Profile_JinHuaGameData= {
             this.initCardData["currentPlayer"].CSID = this.getUserCSID(this.initCardData["currentPlayer"].SSID);
         }
     },
+    //弃牌
+    readJHID_DISCARD:function(dataTable){
+        console.log("弃牌数据");
+        console.log(dataTable);
+        this.foldCardData= dataTable;
+        this.foldCardData.CSID= this.getUserCSID(this.foldCardData["seatID"]);
+        this.GameData.round = this.foldCardData.round;
+        if(this.foldCardData.nextPlayer){
+            this.foldCardData.nextPlayer.CSID = this.getUserCSID(this.foldCardData.nextPlayer.SSID);
+        }
+    },
     //获取发牌数据
     getInitCardData:function(){
         return this.initCardData;
+    },
+    //获取弃牌数据
+    getFoldCardData:function(){
+        return this.foldCardData;
+    },
+    //本局结算
+    readJHID_GAME_RESULT:function(dataTable){
+        console.log("本局结算");
+        console.log(this.GameData["players"]);
+        console.log(dataTable);
+        if(!this.GameData["players"]) return;
+        this.gameResultData= dataTable;
+        this.GameData["Exp"] = this.gameResultData["Exp"];
+        this.GameData["levelUpExp"] = this.gameResultData["levelUpExp"];
+        this.GameData["level"] = this.gameResultData["level"];
+        this.gameResultData.CSID = this.getUserCSID(this.gameResultData.winnerSeat);
+        for(var key in this.gameResultData.users){
+            var user= this.gameResultData.users[key];
+            for(var i in this.GameData["players"]){
+                var player= this.GameData["players"][i];
+                if(player&&player.userId== profile_user.getSelfUserID()){
+                    player.betCoins = user.betCoins;
+                    player.remainCoins = user.remainCoins;
+                    player.shtatus = user.status;
+                    player.cardValues = user.cardValues;
+                    player.cardType = user.cardType;
+                    player.exp = user.exp;
+                    player.level = user.level;
+                    player.expText = user.expText;
+                    player.isCert = user.isCert;
+                }
+            }
+        }
+    },
+    //获取本局结算数据
+    getGameResultData:function(){
+        return this.gameResultData;
     }
 };

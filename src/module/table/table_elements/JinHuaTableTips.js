@@ -103,5 +103,32 @@ var JinHuaTableTips= {
         if(this.sitTipSprites[CSID]){
             this.sitTipSprites[CSID].setVisible(false);
         }
+    },
+    //显示强制开牌提示
+    showTipOpenCard:function(){
+        if(this.isShowTipOpenCard){
+            this.isShowTipOpenCard= false;
+            var openCardTip = cc.Sprite.create("#desk_tip_opencard.png");
+            var pos= this.getPKTipLoc();
+            openCardTip.setPosition(pos.x, pos.y+openCardTip.getContentSize().height/2);
+            openCardTip.setZOrder(4);
+
+            this.JinHuaTableTipsLayer.addChild(openCardTip);
+
+            //暂停3s后移除
+            var seq= cc.sequence(cc.delayTime(3), cc.callFunc(function(pSender){
+                pSender.removeFromParent(true);
+            }));
+            openCardTip.runAction(seq);
+        }
+    },
+    //返回比牌按钮的中心点X坐标，TopY坐标
+    getPKTipLoc:function(){
+        return cc.p(JinHuaTableLogic.Button_mine_pk.getPosition().x + 118, JinHuaTableLogic.Button_mine_pk.getPosition().y);
+    },
+    //
+    initTipsData:function(){
+        this.isShowTipPK = true;
+        this.isShowTipOpenCard = true;
     }
 };

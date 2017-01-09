@@ -8,13 +8,18 @@
  *
  *          2,3,4,5,6,7,8,9,10,J,Q,K,A === 1,2,3,4,
  */
-function CardSprite(){
-    //清理数据
-    this.clear();
-
-    //调用初始化函数
-    return this.init();
-}
+var CardSprite= cc.Node.extend({
+    ctor:function(){
+        this._super();
+        //清理数据
+        this.clear();
+        //调用初始化函数
+        this.init();
+    },
+    getCardSprite:function(){
+        return this.cardSprite;
+    }
+});
 /**
  * Func:清理数据
  */
@@ -48,15 +53,13 @@ CardSprite.prototype.init= function(){
     //反面背景(默认显示反面,因为纸牌一般都是默认扣上)
     this.back= cc.Sprite.create("#desk_pokerback.png");
     this.back.setPosition(this.back.getContentSize().width* 0.5, this.back.getContentSize().height* 0.5);
-    self.addChild(this.back);
+    this.cardSprite.addChild(this.back);
 
     //正面背景(白板)
     this.front= cc.Sprite.create("#desk_cardbg.png");
     this.front.setPosition(this.front.getContentSize().width* 0.5, this.front.getContentSize().height* 0.5);
     this.front.setVisible(false);
     this.cardSprite.addChild(this.front);
-
-    return this.cardSprite;
 };
 /**
  * Func:设置牌值

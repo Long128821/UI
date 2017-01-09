@@ -1028,8 +1028,7 @@ function read82200005(nMBaseMessage){
     dataTable["round"] = nMBaseMessage.readInt();
     //解析Bean 下一个玩家位置
     var nextPlayerCnt = nMBaseMessage.readInt();
-    dataTable["nextPlayer"]["nextPlayerCnt"]= nextPlayerCnt;
-
+    dataTable["nextPlayerCnt"]= nextPlayerCnt;
     if(nextPlayerCnt== 0){
         dataTable["nextPlayer"] = {};
         nMBaseMessage.startReadLoop();
@@ -1088,7 +1087,6 @@ function read82200006(nMBaseMessage){
         nMBaseMessage.startReadLoop();
         //下一个玩家位置
         dataTable["currentPlayer"]["SSID"] = nMBaseMessage.readInt();
-        console.log(dataTable["currentPlayer"]["SSID"]);
         dataTable["currentPlayer"]["callCoin"] = nMBaseMessage.readLong();
         // 加注列表
         dataTable["currentPlayer"]["raiseCoin"] = {};
@@ -1111,6 +1109,8 @@ function read82200006(nMBaseMessage){
     dataTable["result"] = nMBaseMessage.readByte();
     dataTable["message"] = nMBaseMessage.readString();
     dataTable["dealerSSID"] = nMBaseMessage.readInt();
+
+//    console.log(dataTable);
     return dataTable;
 }
 
@@ -1180,4 +1180,83 @@ function read82200003(nMBaseMessage){
     dataTable["currentLockCoin"] = nMBaseMessage.readLong();
     return dataTable;
 }
+
+//结算
+function read82200009(nMBaseMessage){
+    var  dataTable = {};
+    dataTable["messageType"] = ACK + JHID_GAME_RESULT;
+    dataTable["messageName"] = "GameResultRespBean";
+
+    //解析 房间ID
+    dataTable["roomID"] = nMBaseMessage.readInt();
+    //解析 牌桌ID
+    dataTable["tableID"] = nMBaseMessage.readInt();
+    //解析 锅底金币数
+    dataTable["potCoin"] = nMBaseMessage.readLong();
+    //解析 赢的座位数
+    dataTable["winnerSeat"] = nMBaseMessage.readInt();
+    //玩家
+    dataTable["users"] = {};
+    //玩家数
+    var usersCnt = nMBaseMessage.readInt();
+    dataTable["usersCnt"]= usersCnt;
+
+    for(var i=0; i< usersCnt; ++i){
+        dataTable["users"][i] = {};
+        nMBaseMessage.startReadLoop();
+
+        //解析 UserID
+        dataTable["users"][i].userID = nMBaseMessage.readInt();
+        //解析 昵称
+        dataTable["users"][i].nickName = nMBaseMessage.readString();
+        //解析 照片URL
+        dataTable["users"][i].photoUrl = nMBaseMessage.readString();
+        //解析 座位号
+        dataTable["users"][i].seatID = nMBaseMessage.readInt();
+
+        //解析 已下注金额
+        dataTable["users"][i].betCoins = nMBaseMessage.readLong();
+        //解析 剩余金币
+        dataTable["users"][i].remainCoins = nMBaseMessage.readLong();
+        //解析 状态
+        dataTable["users"][i].status = nMBaseMessage.readByte();
+        //解析 Vip等级
+        dataTable["users"][i].vipLevel = nMBaseMessage.readInt();
+        dataTable["users"][i].sex = nMBaseMessage.readByte();
+
+        dataTable["users"][i].noPK = (nMBaseMessage.readByte() == 1);
+        //解析 牌值
+        dataTable["users"][i]["cardValues"] = {};
+        var cardCnt = nMBaseMessage.readInt();
+       dataTable["users"][i]["cardCnt"]= cardCnt;
+        for(var j= 0; j< cardCnt; ++j){
+            nMBaseMessage.startReadLoop();
+            dataTable["users"][i]["cardValues"][j] = nMBaseMessage.readInt();
+        }
+        // 牌型
+        dataTable["users"][i].cardType = nMBaseMessage.readByte();
+        //level	Int	用户等级
+        dataTable["users"][i].level = nMBaseMessage.readInt();
+        //exp	Int	经验
+        dataTable["users"][i].exp = nMBaseMessage.readInt();
+        // ...expText	Text	经验Text	暂不使用的无效字段
+        dataTable["users"][i].expText = nMBaseMessage.readString();
+        // ...isCert	Byte	是否真人认证	1已认证0未认证
+        dataTable["users"][i].isCert = nMBaseMessage.readByte();
+        // ...Clover	Byte	是否显示幸运草图标
+        dataTable["users"][i].Clover = nMBaseMessage.readByte();
+    }
+
+    //Exp	Int	当前经验
+    dataTable["Exp"] = nMBaseMessage.readInt();
+    //levelUpExp	Int	升级需要的总经验
+    dataTable["levelUpExp"] = nMBaseMessage.readInt();
+    //level	Int	当前等级
+    dataTable["level"] = nMBaseMessage.readInt();
+    // luckyPoint	Int	幸运点
+    dataTable["luckyPoint"] = nMBaseMessage.readLong();
+
+    return dataTable;
+}
+
 //需要联调的消息有readUTF(JHID_STAND_UP、JHID_READY、JHID_BET)
