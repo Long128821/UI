@@ -1,19 +1,23 @@
 /**
  * Func:牌桌提示标记
- * @type {{isShowTipPK: boolean, isShowTipOpenCard: boolean, sitTipSprites: {}, JinHuaTableTipsLayer: null, clear: JinHuaTableTips.clear, getTableTipsLayer: JinHuaTableTips.getTableTipsLayer, createSitTips: JinHuaTableTips.createSitTips, removeAllSitTips: JinHuaTableTips.removeAllSitTips}}
  */
 var JinHuaTableTips= {
     isShowTipPK:true,//显示pkTips
-    isShowTipOpenCard:true,//显示开牌tip
+    isShowTipOpenCard:true,//显示开牌tips
     sitTipSprites:{},//坐下提示tip
     JinHuaTableTipsLayer:null,//提示层(父节点)
     //清空数据
     clear:function(){
         this.isShowTipPK= true;
         this.isShowTipOpenCard= true;
+        //清空所有的Tips提示
+        for(var key in this.sitTipSprites){
+            if(this.sitTipSprites[key] == null || this.sitTipSprites[key]== undefined) continue;
+            this.sitTipSprites[key].removeFromParent(true);
+        }
         this.sitTipSprites= {};
         //因为提示标记,添加到该父节点上,所以移除父节点,就是移除了子节点
-        (this.JinHuaTableTipsLayer!=null&&this.JinHuaTableTipsLayer.removeFromParent(true));
+        ((this.JinHuaTableTipsLayer!=null||this.JinHuaTableTipsLayer!=undefined)&&this.JinHuaTableTipsLayer.removeFromParent(true));
         this.JinHuaTableTipsLayer= null;
     },
     //获取提示层(父节点[cc.Layer])
@@ -25,7 +29,7 @@ var JinHuaTableTips= {
         return this.JinHuaTableTipsLayer;
     },
     /**
-     * Func:坐下Tips
+     * Func:请求坐下Tips
      * @param CSID 客户端上的座位ID,玩家本身的ID为0,逆时针增加
      */
     createSitTips:function(CSID){
@@ -96,7 +100,6 @@ var JinHuaTableTips= {
     },
     //移除坐下Tips
     removeSitTip:function(CSID){
-        console.log("移除Tips:"+ CSID);
         if(this.sitTipSprites[CSID]){
             this.sitTipSprites[CSID].setVisible(false);
         }

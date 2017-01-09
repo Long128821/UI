@@ -44,6 +44,7 @@ var JinHuaTableCoin= {
     creatAllInBetCoins:function(pos, thisTimeBetCoins){
         var startX, startY, endX, endY;
         var players= JinHuaTablePlayer.getPlayers();
+        if(players[pos]== null||players[pos]== undefined) return;//牌桌上没有玩家
         startX = players[pos].getPositionX() + players[pos].getContentSize().width / 2;
         startY = players[pos].getPositionY() + players[pos].getContentSize().height / 2;
         players[pos].setCoin();
@@ -51,6 +52,18 @@ var JinHuaTableCoin= {
         //Todo:getAllInChipArray
         var coinTable = JinHuaTableFunctions.getAllInChipArray(thisTimeBetCoins);
         //读取table 绘制金币
+        //Todo:CoinBatchNode
+    },
+    createNormalBetCoins:function(pos,thisTimeBetCoins){
+        var startX, startY, endX, endY;
+        var players= JinHuaTablePlayer.getPlayers();
+        if(players[pos]== null||players[pos]== undefined) return;//牌桌上没有玩家
+        startX = players[pos].getPositionX() + players[pos].getContentSize().width / 2;
+        startY = players[pos].getPositionY() + players[pos].getContentSize().height / 2;
+        players[pos].setCoin();
+
+        //Todo:getAllInChipArray
+        var coinTable = JinHuaTableFunctions.getChipArray(thisTimeBetCoins);
     },
     getCoinBatchNode:function(){
         return this.CoinBatchNode;
@@ -72,18 +85,10 @@ var JinHuaTableCoin= {
         if(coinData){
             var coins= {};
             for(var key in coinData){
-                //Todo:
-<<<<<<< HEAD
-                //coins= JinHuaTableFunctions.getChipArray(coinData[i].coins);
-                //创建筹码
-                for(var i in coins){
-                    //var spriteChips= JinHuaTableCoinEntity.createTableCoinEntity(coins[i], i),);
-=======
                 coins= JinHuaTableFunctions.getChipArray(coinData[i].coins);
                 //创建筹码
                 for(var i in coins){
                     var spriteChips= JinHuaTableCoinEntity.createTableCoinEntity(coins[i], i),;
->>>>>>> origin/master
                     for(var j in spriteChips){
                         this.CoinBatchNode.addChild(spriteChips[j]);
                         this.coinArray.push(spriteChips[j]);
@@ -109,42 +114,54 @@ var JinHuaTableCoin= {
         this.CoinBatchNode.removeChild(sender, true);
         this.addWinPlayerCoinNumByFlyCoin();
         //Todo:resetData()
-        JinHuaTableLogic.resetData();
-<<<<<<< HEAD
+        //JinHuaTableLogic.resetData();
     },
-    //收到服务器押注后，下注动画
     /**
      * Func:收到服务器押注后，下注动画
      * betChipData 下注回应数据
      * isSelfClickToBet 自己跟注、加注、全压为true, Pk、下底注为false、别人下注等为false
      */
     betCoinAnim:function(betChipData, isSelfClickToBet){
+        console.log("下注类型:"+ betChipData.type);
         var players = JinHuaTablePlayer.getPlayers();
-        //底注
+        //下注类型
         switch(betChipData.type){
-            case TYPE_BET_ANTE:
+            case TYPE_BET_ANTE://下底注
+                console.log();
                 JinHuaTablePlayer.setDealer();
                 break;
-            case TYPE_BET_CALL:
+            case TYPE_BET_CALL://跟注
+                console.log("玩家ID:"+ betChipData.CSID+ "跟注!");
                 break;
-            case TYPE_BET_RAISE:
+            case TYPE_BET_RAISE://加注
+                console.log("玩家ID:"+ betChipData.CSID+ "加注!");
                 break;
-            case TYPE_BET_ALLIN:
+            case TYPE_BET_ALLIN://All In
+                console.log("玩家ID:"+ betChipData.CSID+ "All In!");
                 break;
-            case TYPE_BET_PK:
+            case TYPE_BET_PK://比牌
                 break;
         }
 
-        if(betChipData.type== TYPE_BET_ALLIN){
+        if(betChipData.type== TYPE_BET_ALLIN){//All In
             //creatAllInBetCoins(betChipData.CSID,betChipData.thisTimeBetCoins)
         }else{
             //createNormalBetCoins(betChipData.CSID,betChipData.thisTimeBetCoins)
         }
-        if(!isSelfClickToBet){
+        if(!isSelfClickToBet){//Pk、下底注、别人下注
+            console.log("更新当前可操作玩家");
+            console.log(betChipData["currentPlayer"]);
+            //Todo:是否有用,此处数据为空。
             JinHuaTablePlayer.refreshCurrentPlayer(betChipData["currentPlayer"]);
+            //更新牌桌基本信息
             JinHuaTableLogic.updateTableTitle();
+        }else{
+            this.isSelfBet= true;
         }
-=======
->>>>>>> origin/master
     }
 };
+
+//Todo:this.createNormalBetCoins
+//Todo:下注筹码
+//Todo:显示正确的更新按钮;
+//Todo:按钮的响应事件;

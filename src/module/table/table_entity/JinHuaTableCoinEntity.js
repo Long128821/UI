@@ -18,17 +18,25 @@ COIN_TYPE_100W = 16;
 COIN_TYPE_200W = 17;
 COIN_TYPE_500W = 18;
 
-//牌桌上筹码Table
+/**
+ * Func:牌桌上筹码Table
+ */
 var JinHuaTableCoinEntity= {
-    spriteChips:{},
-    //创建普通筹码
+    spriteChips:{},//筹码上的所有精灵Table
+    /**
+     * Func:创建普通筹码
+     * @param coinNumber 牌桌上的筹码数量
+     * @param type 筹码种类列表
+     * @returns 牌桌上的筹码精灵Table
+     */
     createTableCoinEntity:function(coinNumber,type) {
         for(var i=0; i< coinNumber; ++i){
+            //筹码
             var spriteChip= cc.Sprite.create("#"+ this.getCoinEntityPath(type));
             //筹码随机区间
             var xStep= Profile_JinHuaTableConfig.rangRight- Profile_JinHuaTableConfig.rangLeft;
             var yStep= Profile_JinHuaTableConfig.rangTop- Profile_JinHuaTableConfig.rangBottom;
-
+            //筹码的随机位置
             var x= Math.random()* xStep+ Profile_JinHuaTableConfig.rangLeft;
             var y= Math.random()* yStep+ Profile_JinHuaTableConfig.rangBottom;
 
@@ -39,7 +47,11 @@ var JinHuaTableCoinEntity= {
         }
         return this.spriteChips;
     },
-    //根据筹码种类,获取对应的纹理
+    /**
+     * Func:根据筹码种类,获取对应的纹理
+     * @param type 筹码种类
+     * @returns 对应的精灵纹理
+     */
     getCoinEntityPath:function(type){
         var chipPath;
         switch(type){
@@ -101,7 +113,7 @@ var JinHuaTableCoinEntity= {
         return chipPath;
     },
     //清空数据
-    clearData:function(){
+    clear:function(){
         for(var key in this.spriteChips){
             if(this.spriteChips[key]== null) continue;
             this.spriteChips[key].removeFromParent(true);

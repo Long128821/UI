@@ -91,6 +91,7 @@ var JinHuaTableCard= {
     //发牌的时候初始化牌 的缩放，旋转角度，位置
     sendCardInitCardState:function(player){
         for(var key in player.cardSprites){
+            if(player.cardSprites[key]== null||player.cardSprites[key]) continue;
             player.cardSprites[key].setPosition(Profile_JinHuaTableConfig.cardsSpriteStartPositionX, Profile_JinHuaTableConfig.cardsSpriteStartPositionY);
             player.cardSprites[key].setScale(Profile_JinHuaTableConfig.cardScale);
             player.cardSprites[key].setRotation(0);

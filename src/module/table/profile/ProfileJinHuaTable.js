@@ -52,7 +52,8 @@ var ProfileJinHuaTable= {
     //加注(JHID_BET)
     slot_JHID_BET:function(dataTable){
         Profile_JinHuaGameData.readJHID_BET(dataTable);
-        JinHuaTablePlayer.updateTableAfterBetCoinByServer();
+        //金花下注应答
+        JinHuaTableLogic.updateJHID_BET();
     },
     //聊天(初始化的快速聊天、)
     slot_JHID_CHAT:function(dataTable){

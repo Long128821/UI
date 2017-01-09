@@ -2330,7 +2330,7 @@ var JinHuaTableLogic= {
      * Func:下注应答
      */
     updateJHID_BET:function(){
-
+		JinHuaTablePlayer.updateTableAfterBetCoinByServer();
     },
     //聊天
     updateJHID_CHAT:function(){

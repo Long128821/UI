@@ -13,6 +13,7 @@ var JinHuaBetedCoinLabel= cc.Node.extend({
      */
     ctor:function(pos,y){
         this._super();
+        this.release();
         (y!= undefined)&&(pos= cc.p(pos, y));
         this.init(pos);
     },
@@ -59,9 +60,9 @@ var JinHuaBetedCoinLabel= cc.Node.extend({
     },
     //释放-重载基类的release函数
     release:function(){
-        this.coinLabel.removeFromParent(true);
-        this.coinIcon.removeFromParent(true);
-        this.coinBg.removeFromParent(true);
+        this.coinLabel!= null&&this.coinLabel.removeFromParent(true);
+        this.coinIcon!= null&&this.coinIcon.removeFromParent(true);
+        this.coinBg!= null&&this.coinBg.removeFromParent(true);
         this.coinIcon= null;
         this.coinLabel= null;
         this.coinBg= null;
