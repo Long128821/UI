@@ -7,6 +7,7 @@
  *          [40-52]:黑桃
  *
  *          2,3,4,5,6,7,8,9,10,J,Q,K,A === 1,2,3,4,
+ *     将CardSprite存放在JinHuaTablePlayer层中，显示出来
  */
 var CardSprite= cc.Node.extend({
     ctor:function(){

@@ -608,3 +608,23 @@ function sendJHID_DISCARD(foldCase){
 
     delete nmBaseMessage;
 }
+
+//比牌
+function sendJHID_PK(SSID){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JHID_DISCARD);
+    nmBaseMessage.setExtData(3);
+
+    nmBaseMessage.writeStart();
+    //要比牌的座位号
+    nmBaseMessage.writeInt(SSID);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}

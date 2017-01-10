@@ -1259,4 +1259,61 @@ function read82200009(nMBaseMessage){
     return dataTable;
 }
 
+//比牌
+function read82200007(nMBaseMessage){
+    var  dataTable = {};
+    dataTable["messageType"] = ACK + JHID_PK;
+    dataTable["messageName"] = "JHID_PK";
+
+    //解析
+    dataTable["result"] = nMBaseMessage.readByte();
+    //解析
+    dataTable["message"] = nMBaseMessage.readString();
+    if(dataTable["result"] == 0) return dataTable;
+
+    //解析 要求比牌的人
+    dataTable["launchSeatID"] = nMBaseMessage.readInt();
+    //解析 被比牌的人
+    dataTable["aimSeatID"] = nMBaseMessage.readInt();
+    //解析 赢家座位号
+    dataTable["winnerSeatID"] = nMBaseMessage.readInt();
+    //解析 要求比牌人下注金额 thisTimeBetCoins
+    dataTable["thisTimeBetCoins"] = nMBaseMessage.readLong();
+    //解析 要求比牌的玩家下注总金币 betCoins
+    dataTable["betCoins"] = nMBaseMessage.readLong();
+    //解析  要求比牌的玩家剩余金币
+    dataTable["remainCoins"] = nMBaseMessage.readLong();
+    //解析 轮数
+    dataTable["round"] = nMBaseMessage.readInt();
+    //解析 总注总数
+    dataTable["totalPoolCoin"] = nMBaseMessage.readLong();
+
+    //解析Bean 下一个玩家
+    var nextPlayerCnt = nMBaseMessage.readInt();
+    if(nextPlayerCnt!= 0){
+        dataTable["nextPlayer"] = {};
+        nMBaseMessage.startReadLoop();
+        //解析 下一个玩家位置
+        dataTable["nextPlayer"].SSID = nMBaseMessage.readInt();
+        //解析 跟注金额，如果为-1则按钮不可用
+        dataTable["nextPlayer"].callCoin = nMBaseMessage.readLong();
+        //加注列表
+        dataTable["nextPlayer"]["raiseCoin"] = {};
+        var cnt = nMBaseMessage.readInt();
+        for(var j=0; j< cnt; ++j){
+            nMBaseMessage.startReadLoop();
+            dataTable["nextPlayer"]["raiseCoin"][j] = {};
+            //加注列表的加注的金额
+            dataTable["nextPlayer"]["raiseCoin"][j].raiseValue = nMBaseMessage.readLong();
+            //加注列表中加注金额的状态 0 此金额不可加注 1 此金额可加注
+            dataTable["nextPlayer"]["raiseCoin"][j].raiseStatus = nMBaseMessage.readByte();
+        }
+        //解析 0 不能操作，1 比牌 2 开牌
+        dataTable["nextPlayer"].compareCard = nMBaseMessage.readInt();
+        //解析 0不能看牌， 1可以看牌
+        dataTable["nextPlayer"].lookCard = nMBaseMessage.readInt();
+    }
+    return dataTable;
+}
+
 //需要联调的消息有readUTF(JHID_STAND_UP、JHID_READY、JHID_BET)

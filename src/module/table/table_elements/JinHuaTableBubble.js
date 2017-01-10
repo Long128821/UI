@@ -39,13 +39,13 @@ var JinHuaTableBubble= {
         //牌桌上有玩家 && 在牌桌上,有对应ID的玩家 && 玩家头像不为空
         if(players&&players[CSID]&& players[CSID].mPlayerSprite){
             //获取玩家头像的中心点
-            bubbleSprite.setPosition(players[CSID].getCenterX(),players[CSID].getCenterY());
+            bubbleSprite.setPosition(players[CSID].getCenterPos());
             bubbleSprite.setZOrder(31);
             //移动气泡,暂停2s后,移除
             var seq= cc.sequence(
                 cc.moveBy(0.5, cc.p(0, Profile_JinHuaTableConfig.bubbleSpriteMoveDistance)),
                 cc.delayTime(2.0),
-                cc.callFunc(this.showBubbleEnd)
+                cc.removeSelf(true)
             );
             bubbleSprite.runAction(seq);
             //向PlayerLayer添加气泡元素

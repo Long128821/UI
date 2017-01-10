@@ -324,7 +324,7 @@ var Profile_JinHuaTableConfig= {
 
         //玩家精灵位置
         this.spritePlayers[0].locX = TABLE_PLAYER_1_LOCATION_X * this.TableScaleX + this.fitX;
-        this.spritePlayers[0].locY = TABLE_PLAYER_1_LOCATION_y * this.TableScaleY - this.fitY - 25
+        this.spritePlayers[0].locY = TABLE_PLAYER_1_LOCATION_y * this.TableScaleY - this.fitY - 25;
         //已押金额总数的label位置
         this.spritePlayers[0].betCoinX = SPRITE_PLAYER_1_LOC_X_DISTANCE_BET_COIN_X;
         this.spritePlayers[0].betCoinY = SPRITE_PLAYER_1_LOC_Y_DISTANCE_BET_COIN_Y;
@@ -366,7 +366,7 @@ var Profile_JinHuaTableConfig= {
 
         //玩家精灵位置
         this.spritePlayers[1].locX = TABLE_PLAYER_2_LOCATION_X * this.TableScaleX+ this.fitX;
-        this.spritePlayers[1].locY = TABLE_PLAYER_2_LOCATION_Y * this.TableScaleY - this.fitY - 30
+        this.spritePlayers[1].locY = TABLE_PLAYER_2_LOCATION_Y * this.TableScaleY - this.fitY - 30;
         //已押金额总数的label位置
         this.spritePlayers[1].betCoinX = SPRITE_PLAYER_2_LOC_X_DISTANCE_BET_COIN_X;
         this.spritePlayers[1].betCoinY = SPRITE_PLAYER_2_LOC_Y_DISTANCE_BET_COIN_Y;
@@ -386,7 +386,7 @@ var Profile_JinHuaTableConfig= {
         this.spritePlayers[1].cards[0].locY = cardLocY;
         this.spritePlayers[1].cards[1].locX = cardLocX + this.cardWidth*this.cardScale;
         this.spritePlayers[1].cards[1].locY = cardLocY;
-        this.spritePlayers[1].cards[2].locX = cardLocX + (this.cardWidth+ this.cardWidth/2)*this.cardScale
+        this.spritePlayers[1].cards[2].locX = cardLocX + (this.cardWidth+ this.cardWidth/2)*this.cardScale;
         this.spritePlayers[1].cards[2].locY = cardLocY;
         //2号比牌按钮位置
         this.spritePlayers[1].pkX = SPRITE_PLAYER_2_LOC_X_DISTANCE_PK_X;
@@ -407,7 +407,7 @@ var Profile_JinHuaTableConfig= {
         this.spritePlayers[2] = {};
         //玩家精灵位置
         this.spritePlayers[2].locX = TABLE_PLAYER_3_LOCATION_X * this.TableScaleX+ this.fitX;
-        this.spritePlayers[2].locY = TABLE_PLAYER_3_LOCATION_Y * this.TableScaleY - this.fitY - 35
+        this.spritePlayers[2].locY = TABLE_PLAYER_3_LOCATION_Y * this.TableScaleY - this.fitY - 35;
         //已押金额总数的label位置
         this.spritePlayers[2].betCoinX = SPRITE_PLAYER_3_LOC_X_DISTANCE_BET_COIN_X;
         this.spritePlayers[2].betCoinY = SPRITE_PLAYER_3_LOC_Y_DISTANCE_BET_COIN_Y;
@@ -419,12 +419,12 @@ var Profile_JinHuaTableConfig= {
         this.spritePlayers[2].cards[0] = {};
         this.spritePlayers[2].cards[1] = {};
         this.spritePlayers[2].cards[2] = {};
-        this.spritePlayers[2].cards[0].locX = SPRITE_PLAYER_3_LOC_X_DISTANCE_CARD_LOC_X * this.TableScaleX+ this.cardWidth*this.cardScale/2+ this.fitX
-        this.spritePlayers[2].cards[0].locY = SPRITE_PLAYER_3_LOC_Y_DISTANCE_CARD_LOC_Y * this.TableScaleY - this.fitY
-        this.spritePlayers[2].cards[1].locX = SPRITE_PLAYER_3_LOC_X_DISTANCE_CARD_LOC_X * this.TableScaleX+ this.cardWidth*this.cardScale+ this.fitX
-        this.spritePlayers[2].cards[1].locY = SPRITE_PLAYER_3_LOC_Y_DISTANCE_CARD_LOC_Y * this.TableScaleY - this.fitY
-        this.spritePlayers[2].cards[2].locX = SPRITE_PLAYER_3_LOC_X_DISTANCE_CARD_LOC_X * this.TableScaleX+(this.cardWidth+ this.cardWidth/2)*this.cardScale+ this.fitX
-        this.spritePlayers[2].cards[2].locY = SPRITE_PLAYER_3_LOC_Y_DISTANCE_CARD_LOC_Y * this.TableScaleY - this.fitY
+        this.spritePlayers[2].cards[0].locX = SPRITE_PLAYER_3_LOC_X_DISTANCE_CARD_LOC_X * this.TableScaleX+ this.cardWidth*this.cardScale/2+ this.fitX;
+        this.spritePlayers[2].cards[0].locY = SPRITE_PLAYER_3_LOC_Y_DISTANCE_CARD_LOC_Y * this.TableScaleY - this.fitY;
+        this.spritePlayers[2].cards[1].locX = SPRITE_PLAYER_3_LOC_X_DISTANCE_CARD_LOC_X * this.TableScaleX+ this.cardWidth*this.cardScale+ this.fitX;
+        this.spritePlayers[2].cards[1].locY = SPRITE_PLAYER_3_LOC_Y_DISTANCE_CARD_LOC_Y * this.TableScaleY - this.fitY;
+        this.spritePlayers[2].cards[2].locX = SPRITE_PLAYER_3_LOC_X_DISTANCE_CARD_LOC_X * this.TableScaleX+(this.cardWidth+ this.cardWidth/2)*this.cardScale+ this.fitX;
+        this.spritePlayers[2].cards[2].locY = SPRITE_PLAYER_3_LOC_Y_DISTANCE_CARD_LOC_Y * this.TableScaleY - this.fitY;
         //3号比牌按钮位置
         this.spritePlayers[2].pkX = SPRITE_PLAYER_3_LOC_X_DISTANCE_PK_X;
         this.spritePlayers[2].pkY = SPRITE_PLAYER_3_LOC_Y_DISTANCE_PK_Y;
@@ -444,7 +444,7 @@ var Profile_JinHuaTableConfig= {
         this.spritePlayers[3] = {};
         //玩家精灵位置
         this.spritePlayers[3].locX = TABLE_PLAYER_4_LOCATION_X * this.TableScaleX- this.fitX;
-        this.spritePlayers[3].locY = TABLE_PLAYER_4_LOCATION_Y * this.TableScaleY - this.fitY - 35
+        this.spritePlayers[3].locY = TABLE_PLAYER_4_LOCATION_Y * this.TableScaleY - this.fitY - 35;
         //已押金额总数的label位置
         this.spritePlayers[3].betCoinX = SPRITE_PLAYER_4_LOC_X_DISTANCE_BET_COIN_X;
         this.spritePlayers[3].betCoinY = SPRITE_PLAYER_4_LOC_Y_DISTANCE_BET_COIN_Y;
@@ -456,12 +456,12 @@ var Profile_JinHuaTableConfig= {
         this.spritePlayers[3].cards[0] = {};
         this.spritePlayers[3].cards[1] = {};
         this.spritePlayers[3].cards[2] = {};
-        this.spritePlayers[3].cards[0].locX = SPRITE_PLAYER_4_LOC_X_DISTANCE_CARD_LOC_X * this.TableScaleX+ this.cardWidth*this.cardScale/2- this.fitX
-        this.spritePlayers[3].cards[0].locY = SPRITE_PLAYER_4_LOC_Y_DISTANCE_CARD_LOC_Y * this.TableScaleY - this.fitY
-        this.spritePlayers[3].cards[1].locX = SPRITE_PLAYER_4_LOC_X_DISTANCE_CARD_LOC_X * this.TableScaleX+ this.cardWidth*this.cardScale- this.fitX
-        this.spritePlayers[3].cards[1].locY = SPRITE_PLAYER_4_LOC_Y_DISTANCE_CARD_LOC_Y * this.TableScaleY - this.fitY
-        this.spritePlayers[3].cards[2].locX = SPRITE_PLAYER_4_LOC_X_DISTANCE_CARD_LOC_X * this.TableScaleX+(this.cardWidth+ this.cardWidth/2)*this.cardScale- this.fitX
-        this.spritePlayers[3].cards[2].locY = SPRITE_PLAYER_4_LOC_Y_DISTANCE_CARD_LOC_Y * this.TableScaleY - this.fitY
+        this.spritePlayers[3].cards[0].locX = SPRITE_PLAYER_4_LOC_X_DISTANCE_CARD_LOC_X * this.TableScaleX+ this.cardWidth*this.cardScale/2- this.fitX;
+        this.spritePlayers[3].cards[0].locY = SPRITE_PLAYER_4_LOC_Y_DISTANCE_CARD_LOC_Y * this.TableScaleY - this.fitY;
+        this.spritePlayers[3].cards[1].locX = SPRITE_PLAYER_4_LOC_X_DISTANCE_CARD_LOC_X * this.TableScaleX+ this.cardWidth*this.cardScale- this.fitX;
+        this.spritePlayers[3].cards[1].locY = SPRITE_PLAYER_4_LOC_Y_DISTANCE_CARD_LOC_Y * this.TableScaleY - this.fitY;
+        this.spritePlayers[3].cards[2].locX = SPRITE_PLAYER_4_LOC_X_DISTANCE_CARD_LOC_X * this.TableScaleX+(this.cardWidth+ this.cardWidth/2)*this.cardScale- this.fitX;
+        this.spritePlayers[3].cards[2].locY = SPRITE_PLAYER_4_LOC_Y_DISTANCE_CARD_LOC_Y * this.TableScaleY - this.fitY;
         //4号比牌按钮位置
         this.spritePlayers[3].pkX = SPRITE_PLAYER_4_LOC_X_DISTANCE_PK_X;
         this.spritePlayers[3].pkY = SPRITE_PLAYER_4_LOC_Y_DISTANCE_PK_Y;
@@ -480,7 +480,7 @@ var Profile_JinHuaTableConfig= {
         this.spritePlayers[4] = {};
         //玩家精灵位置
         this.spritePlayers[4].locX = TABLE_PLAYER_5_LOCATION_X * this.TableScaleX - this.fitX;
-        this.spritePlayers[4].locY = TABLE_PLAYER_5_LOCATION_Y * this.TableScaleY - this.fitY - 30
+        this.spritePlayers[4].locY = TABLE_PLAYER_5_LOCATION_Y * this.TableScaleY - this.fitY - 30;
         //已押金额总数的label位置
         this.spritePlayers[4].betCoinX = SPRITE_PLAYER_5_LOC_X_DISTANCE_BET_COIN_X;
         this.spritePlayers[4].betCoinY = SPRITE_PLAYER_5_LOC_Y_DISTANCE_BET_COIN_Y;
@@ -500,7 +500,7 @@ var Profile_JinHuaTableConfig= {
         this.spritePlayers[4].cards[0].locY = cardLocY;
         this.spritePlayers[4].cards[1].locX = cardLocX + this.cardWidth*this.cardScale;
         this.spritePlayers[4].cards[1].locY = cardLocY;
-        this.spritePlayers[4].cards[2].locX = cardLocX +(this.cardWidth+ this.cardWidth/2)*this.cardScale
+        this.spritePlayers[4].cards[2].locX = cardLocX +(this.cardWidth+ this.cardWidth/2)*this.cardScale;
         this.spritePlayers[4].cards[2].locY = cardLocY;
         //5号比牌按钮位置
         this.spritePlayers[4].pkX = SPRITE_PLAYER_5_LOC_X_DISTANCE_PK_X;

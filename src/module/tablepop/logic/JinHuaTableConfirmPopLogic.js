@@ -104,13 +104,13 @@ var JinHuaTableConfirmPopLogic= {
             case TableConfirmPopTag.TAG_QUIT:
                 sendJHID_QUIT_TABLE(GameData.roomId,GameData.tableId);
                 break;
-            case TableConfirmPopTag.TAG_STANDUP:
+            case TableConfirmPopTag.TAG_STANDUP://自己站起
                 JinHuaTablePlayer.selfStandUp();
                 break;
             case TableConfirmPopTag.TAG_NOPK:
 
                 break;
-            case TableConfirmPopTag.TAG_FOLD_TIPS:
+            case TableConfirmPopTag.TAG_FOLD_TIPS://弃牌
                 JinHuaTableLogic.afterOnClickBtnFold();
                 break;
             case TableConfirmPopTag.TAG_CHANGE_TABLE_TIPS:

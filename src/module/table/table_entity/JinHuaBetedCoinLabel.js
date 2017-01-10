@@ -50,12 +50,12 @@ var JinHuaBetedCoinLabel= cc.Node.extend({
      * @param value 下注金额
      */
     setBetCoin:function(value){
-        if(value== undefined||value== null||value< 0){
+        if(value== undefined||value== null||value<= 0){
+            this.setVisible(false);
+        }else{
             this.coinLabel.setString(value);
             this.betCoins= value;
             this.setVisible(true);
-        }else{
-            this.setVisible(false);
         }
     },
     //释放-重载基类的release函数

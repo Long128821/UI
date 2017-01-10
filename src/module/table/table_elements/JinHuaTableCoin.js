@@ -85,11 +85,11 @@ var JinHuaTableCoin= {
 
         var coinTable = this.getChipArray(thisTimeBetCoins);
         for(var i in coinTable){
-            if(coinTable[i]== null ||coinTable[i]== "undefined"|| coinTable[i]== 0) continue;
+            if(coinTable[i]== null ||coinTable[i]== undefined|| coinTable[i]== 0) continue;
             //牌桌上的筹码精灵
             var spriteChips = JinHuaTableCoinEntity.createTableCoinEntity(coinTable[i], parseInt(i));
             for(var j in spriteChips){
-                if(spriteChips[j]== null ||spriteChips[j]== "undefined"||spriteChips[j]== 0) continue;
+                if(spriteChips[j]== null ||spriteChips[j]== undefined|| spriteChips[i]== 0) continue;
                 //筹码随机区间
                 var xStep= Profile_JinHuaTableConfig.rangRight- Profile_JinHuaTableConfig.rangLeft;
                 var yStep= Profile_JinHuaTableConfig.rangTop- Profile_JinHuaTableConfig.rangBottom;
@@ -102,7 +102,7 @@ var JinHuaTableCoin= {
 
                 spriteChips[j].runAction(cc.moveTo(0.3, cc.p(endX, endY)));
 
-                this.getJinHuaTableCoinLayer().addChild(spriteChips[j]);
+                (spriteChips[j]._parent==null)&&this.getJinHuaTableCoinLayer().addChild(spriteChips[j]);
 
                 //添加到金币数组中
                 this.coinArray[Common.getTableSize(this.coinArray)]= spriteChips[j];
@@ -116,14 +116,10 @@ var JinHuaTableCoin= {
     clear:function(){
         this.coinArray= {};
         this.isSelfBet= false;
-        if(this.CoinBatchNode!= null){
-            this.CoinBatchNode.removeAllChildrenWithCleanup(true);
-            this.CoinBatchNode= null;
-        }
-        if(this.JinHuaTableCoinLayer!= null){
-            this.JinHuaTableCoinLayer.removeAllChildrenWithCleanup(true);
-            this.JinHuaTableCoinLayer= null;
-        }
+        this.CoinBatchNode&&this.CoinBatchNode.removeAllChildrenWithCleanup(true);
+        this.CoinBatchNode= null;
+        this.JinHuaTableCoinLayer&&this.JinHuaTableCoinLayer.removeAllChildrenWithCleanup(true);
+        this.JinHuaTableCoinLayer= null;
     },
 //    //牌桌筹码显示
 //    createTableCoins:function(coinData){
@@ -158,8 +154,7 @@ var JinHuaTableCoin= {
     coinsMoveEnd:function(sender){
         this.CoinBatchNode.removeChild(sender, true);
         this.addWinPlayerCoinNumByFlyCoin();
-        //Todo:resetData()
-        //JinHuaTableLogic.resetData();
+        JinHuaTableLogic.resetData();
     },
     /**
      * Func:收到服务器押注后，下注动画
@@ -172,7 +167,6 @@ var JinHuaTableCoin= {
         //下注类型
         switch(betChipData.type){
             case TYPE_BET_ANTE://下底注
-                console.log();
                 JinHuaTablePlayer.setDealer();
                 break;
             case TYPE_BET_CALL://跟注
@@ -269,8 +263,52 @@ var JinHuaTableCoin= {
 //        console.log(coinTable);
 
         return coinTable;
+    },
+    //金币飞向赢家
+    flyCoinsAnim:function(){
+        console.log("银价飞金币");
+        //清除上一局的金币动画
+        this.removeAllChipFlashBgSprites();
+        var pos= JinHuaTablePlayer.getWinPlayerPos();
+
+        var playerSpritesPos= cc.p(0,0);
+        var player= JinHuaTablePlayer.getPlayers()[pos];
+        var spritePlayer= Profile_JinHuaTableConfig.getSpritePlayers()[pos];
+
+        if(player){
+            playerSpritesPos.x = player.getPositionX() + player.getContentSize().width / 2;
+            playerSpritesPos.y = player.getPositionY() + player.getContentSize().height / 2;
+        }else{
+            playerSpritesPos.x = spritePlayer.locX + Profile_JinHuaTableConfig.playerWidth / 2;
+            playerSpritesPos.y = spritePlayer.locY + Profile_JinHuaTableConfig.playerHeight / 2;
+        }
+        var chipSpriteSpeed = 800 * Profile_JinHuaTableConfig.TableScaleX; //速度像素/秒;
+
+        //筹码数量
+        var chipCount= Common.getTableSize(this.coinArray);
+        this.flyOneCoinEndAddCoinNum = Math.floor((player.remainCoins - player.getCurrentShowingCoinNum())/chipCount);
+
+        for(var key in this.coinArray){
+           if(this.coinArray[key]== null|| this.coinArray[key]== undefined) continue;
+            var chipSpritesX = this.coinArray[key].getPositionX() + this.coinArray[key].getContentSize().width / 2;
+            var chipSpritesY = this.coinArray[key].getPositionY() + this.coinArray[key].getContentSize().height / 2;
+
+            var distance = Math.sqrt(Math.pow(chipSpritesX - playerSpritesPos.x, 2) + Math.pow(chipSpritesY - playerSpritesPos.y, 2));
+            var seq= cc.sequence(cc.moveTo(distance / chipSpriteSpeed, playerSpritesPos),cc.callFunc(this.coinsMoveEnd));
+            this.coinArray[key].runAction(seq);
+        }
+        this.JinHuaTableCoinLayer.runAction(cc.sequence(cc.delayTime(1.0), this.clearTableAfterFlyCoin));
+    },
+    //飞完金币后清理牌桌
+    clearTableAfterFlyCoin:function(){
+        //清理牌桌上的金币
+        this.clearCoins();
+        //清理牌桌上的纸牌
+        JinHuaTableCard.clearCards();
+
+        if(JinHuaTablePlayer.getPlayers()[JinHuaTablePlayer.getWinPlayerPos()]&&JinHuaTablePlayer.getPlayers()[JinHuaTablePlayer.getWinPlayerPos()]){
+            JinHuaTablePlayer.getPlayers()[JinHuaTablePlayer.getWinPlayerPos()].setCoin();
+        }
+
     }
 };
-//Todo:下注筹码
-//Todo:显示正确的更新按钮;
-//Todo:按钮的响应事件;

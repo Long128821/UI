@@ -1,4 +1,8 @@
-//玩家实例
+/**
+ * Func:玩家实例(每个人就是一个实例)
+ *      仅存储玩家的数据
+ * @param player 玩家数据(后台传递过来的)
+ */
 function JinHuaTablePlayerEntity(player){
     this.player= player== undefined?null:player;//玩家属性数据(昵称、性别、头像url、客户端座位号、服务器端座位号)
     this.mPlayerSprite = null;//玩家头像框-精灵
@@ -29,33 +33,16 @@ function JinHuaTablePlayerEntity(player){
     this.createPlayerView();
 }
 
-
-//function Numbber(){
-//    var name="a";
-//    console.log(name);
-//}
-//Numbber.prototype.constructor= function(){
-//    console.log(this.name);
-//};
-//Numbber.prototype.get= function(){
-//    console.log(this.name);
-//};
-//var a= new Numbber();
-//var b= new Numbber();
-////a.name= "123";
-////b.name= "456";
-////a.get();
-////b.get();
 //清理数据
 JinHuaTablePlayerEntity.prototype.clear= function(){
-    this.playerDarkCover.removeFromParent(true);
-    this.spritePic.removeFromParent(true);
-    this.labelName.removeFromParent(true);
-    this.labelNameBg.removeFromParent(true);
-    this.goldSprite.removeFromParent(true);
-    this.goldSpriteBg.removeFromParent(true);
-    this.labelCoin.removeFromParent(true);
-    this.mPlayerSprite.removeFromParent(true);
+    (this.playerDarkCover!= null)&&this.playerDarkCover.removeFromParent(true);
+    (this.spritePic!= null)&&this.spritePic.removeFromParent(true);
+    (this.labelName!= null)&&this.labelName.removeFromParent(true);
+    (this.labelNameBg!= null)&&this.labelNameBg.removeFromParent(true);
+    (this.goldSprite!= null)&&this.goldSprite.removeFromParent(true);
+    (this.goldSpriteBg!= null)&&this.goldSpriteBg.removeFromParent(true);
+    (this.labelCoin!= null)&&this.labelCoin.removeFromParent(true);
+    (this.mPlayerSprite!= null)&&this.mPlayerSprite.removeFromParent(true);
 
     this.player= null;
     this.playerDarkCover= null;
@@ -139,7 +126,7 @@ JinHuaTablePlayerEntity.prototype.getHeadPhotoSpriteBySex= function(){
     return cc.Sprite.create(Common.getResourcePath(imagePath));
 };
 
-//改变界面上的金币
+//改变界面上的金币(玩家的金币数、已压金币数)
 JinHuaTablePlayerEntity.prototype.changeCoinNumOnView= function(coinNum){
     //头像框不为空
     if(this.mPlayerSprite!= null&&this.mPlayerSprite!= undefined){
@@ -177,7 +164,7 @@ JinHuaTablePlayerEntity.prototype.createPlayerView= function(){
     //创建准备图标
     this.createReadyIcon();
     //创建幸运点
-    this.createPlayerluckyTips();
+    this.createPlayerLuckyTips();
     //创建幸运值
     this.createPlayerLabelLucky();
 };
@@ -243,7 +230,6 @@ JinHuaTablePlayerEntity.prototype.createPlayerSprite= function(){
 
 /**
  * Func:初始化头像,添加到头像框上(居中)
- * Todo:如果玩家的精灵头像加载失败?
  * Todo：裁切节点-圆形
  */
 JinHuaTablePlayerEntity.prototype.createPlayerPhoto= function(){
@@ -444,6 +430,9 @@ JinHuaTablePlayerEntity.prototype.dismissJinbiIcon= function(){
     }
 };
 //添加玩家实体元素到层
+//玩家对应的元素(昵称、头像、Vip等级)-->头像框-->JinHuaPlayerLayer层中
+//玩家已经加注的金币数(头像旁)-->JinHuaPlayerLayer层中
+//玩家头像旁边的准备标记-->JinHuaPlayerLayer层中
 JinHuaTablePlayerEntity.prototype.addPlayerElementToLayer= function (layer){
     layer.addChild(this.mPlayerSprite);//头像框
     layer.addChild(this.betedCoinLabel);//添加已加注文本
@@ -451,23 +440,23 @@ JinHuaTablePlayerEntity.prototype.addPlayerElementToLayer= function (layer){
 };
 //移除玩家实体元素
 JinHuaTablePlayerEntity.prototype.removePlayerElementFromLayer= function (layer){
-    layer.removeChild(this.mPlayerSprite, true);
-    layer.removeChild(this.betedCoinLabel, true);
-    layer.removeChild(this.readyIcon, true);
+    this.mPlayerSprite&&layer.removeChild(this.mPlayerSprite, true);
+    this.betedCoinLabel&&layer.removeChild(this.betedCoinLabel, true);
+    this.readyIcon&&layer.removeChild(this.readyIcon, true);
     this.mPlayerSprite= null;
     this.betedCoinLabel= null;
     this.readyIcon= null;
 };
 //创建已压金币数label, 没有加到mPlayerSprite,直接加到了layer上面
 JinHuaTablePlayerEntity.prototype.createBetedCoinLabel= function(){
-    if(this.isMe()){
+    if(!this.isMe()){
         var players= Profile_JinHuaTableConfig.getSpritePlayers();
         this.betedCoinLabel= new JinHuaBetedCoinLabel(players[this.player.CSID].betCoinX, players[this.player.CSID].betCoinY);
     }else{
         this.betedCoinLabel= new JinHuaBetedCoinLabel(392, 90);
     }
 };
-//创建准备图标(默认隐藏,准备之后,显示)
+//创建<准备>图标(默认隐藏,准备之后,显示)
 JinHuaTablePlayerEntity.prototype.createReadyIcon= function(){
     this.readyIcon = cc.Sprite.create("#desk_icon_ready.png");
     this.readyIcon.setZOrder(12);
@@ -476,8 +465,8 @@ JinHuaTablePlayerEntity.prototype.createReadyIcon= function(){
     this.readyIcon.setPosition(player.pkX, player.pkY);
     this.readyIcon.setVisible(false);
 };
-//幸运值等级
-JinHuaTablePlayerEntity.prototype.createPlayerluckyTips= function(){
+//TODO:?幸运值等级
+JinHuaTablePlayerEntity.prototype.createPlayerLuckyTips= function(){
     var Clover= this.player.Clover;
     if(Clover== null && Clover==  1){
         var sizeBg= this.mPlayerSprite.getContentSize();
@@ -489,10 +478,11 @@ JinHuaTablePlayerEntity.prototype.createPlayerluckyTips= function(){
 //自己拥有的幸运点label
 JinHuaTablePlayerEntity.prototype.createPlayerLabelLucky= function(){
     var GameData= Profile_JinHuaGameData.getGameData();
-    this.luckyValue= GameData["luckyPoint"];
+    //玩家的幸运点
+    this.luckyValue= parseInt(GameData["luckyPoint"]);
     //比赛时，不显示幸运点
     var matchInstanceId= GameData["matchInstanceId"];
-    if(matchInstanceId!= null &&matchInstanceId!= null) return;
+    if(matchInstanceId!= null &&matchInstanceId!= undefined) return;
 
     if(this.isMe()&&this.luckyValue> 0){
         var sizeBg = this.mPlayerSprite.getContentSize();
@@ -518,7 +508,7 @@ JinHuaTablePlayerEntity.prototype.createPlayerLabelLucky= function(){
 };
 //设置已压金币数
 JinHuaTablePlayerEntity.prototype.setBetCoin= function(){
-    this.betedCoinLabel.setBetCoin(this.player.betCoins);
+    this.betedCoinLabel.setBetCoin(parseInt(this.player.betCoins));
 };
 //显示准备Icon
 JinHuaTablePlayerEntity.prototype.showReadyIcon= function(){
@@ -556,46 +546,49 @@ JinHuaTablePlayerEntity.prototype.createNotBeLookedCard= function(){
     //发的牌 初始无论是谁，都放在屏幕中间位置
     for(var i= 0; i< 3; ++i){
         this.cardSprites[i]= new CardSprite();
-        this.cardSprites[i].getCardSprite().setAnchorPoint(cc.p(0.5, 0));
+        //获取纸牌精灵
+        var cardSprite= this.cardSprites[i].getCardSprite();
+        cardSprite.setAnchorPoint(cc.p(0.5, 0));
         if(!this.isMe()){
             var player= Profile_JinHuaTableConfig.getSpritePlayers()[this.player.CSID];
-            this.cardSprites[i].getCardSprite().setPosition(player.cards[i].locX, player.cards[i].locY);
+            cardSprite.setPosition(player.cards[i].locX, player.cards[i].locY);
         }else{
-            this.cardSprites[i].getCardSprite().setPosition(558 + 26 * i, 125);
+            cardSprite.setPosition(558 + 26 * i, 125);
         }
-        this.cardSprites[i].getCardSprite().setScale(Profile_JinHuaTableConfig.cardScale);
+        cardSprite.setScale(Profile_JinHuaTableConfig.cardScale);
     }
     var cardTypePosX, cardTypePosY;
-    if(this.isMe()){
+    if(this.isMe()){//Todo:使用CSID== 0代替
         cardTypePosX = 740;
         cardTypePosY = 110;
-        //自己de牌的话有角度和大小特殊显示
-        //JinHuaTableCard.setMyCardScaleAndRotation(this.cardSprites[0].getCardSprite(), this.cardSprites[1].getCardSprite(), this.cardSprites[2].getCardSprite());
     }else{
         var player= Profile_JinHuaTableConfig.getSpritePlayers()[this.player.CSID];
-        if(player.CSID< 3){
+        if(player.CSID< 3){//屏幕右边
             cardTypePosX = player.cards[2].locX+this.cardSprites[0].getCardSprite().getContentSize().width/4;
         }else{
             cardTypePosX = player.cards[2].locX-this.cardSprites[0].getCardSprite().getContentSize().width/4;
         }
-        cardTypePosY = player.cards[2].locY- 10*Profile_JinHuaTableConfig.TableScaleY;
+        cardTypePosY = player.cards[2].locY- 10* Profile_JinHuaTableConfig.TableScaleY;
     }
     //牌型背景
+    //设置纸牌终点的位置的原因是(发牌动画)
+    //Todo:设置终点位置，发牌动画时，再设置
     this.cardTypeSprite = cc.Sprite.create("#bg_desk_paixing.png");
     this.cardTypeSprite.setAnchorPoint(cc.p(0.5, 0.5));
     this.cardTypeSprite.setPosition(cardTypePosX, cardTypePosY);
     this.cardTypeSprite.setVisible(false);
-    //牌型
+    //牌型(头像旁边)
     this.cardTypeLabel = cc.LabelTTF.create("散牌", "Arial", 24);
     this.cardTypeLabel.setColor(cc.color(255, 255, 255));
     this.cardTypeLabel.setAnchorPoint(cc.p(0.5, 0.5));
     this.cardTypeLabel.setPosition(this.cardTypeSprite.getContentSize().width/2, this.cardTypeSprite.getContentSize().height/2);
     this.cardTypeSprite.addChild(this.cardTypeLabel);
-
+    //将手牌显示出来(将纸牌添加到视图中)
     for(var key in this.cardSprites){
+        if(this.cardSprites[key]== null||this.cardSprites[key]== undefined) continue;
         JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(this.cardSprites[key].getCardSprite());
     }
-
+    //将牌型，添加到JinHuaTablePlayerLayer，但是先不显示
     this.cardTypeSprite.setZOrder(9);
     JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(this.cardTypeSprite);
 };
@@ -611,17 +604,29 @@ JinHuaTablePlayerEntity.prototype.showJinbiAnim= function(){
 };
 //金币变更 设置金币
 JinHuaTablePlayerEntity.prototype.setCoin= function(){
+    //更新玩家的金币数、已下注金币数
     this.changeCoinNumOnView(this.player.remainCoins)
 };
 
-//获取中心点X坐标
+//获取头像框的中心点X坐标
 JinHuaTablePlayerEntity.prototype.getCenterX= function(){
     if(this.mPlayerSprite== undefined||this.mPlayerSprite== null) return 0;
     return this.mPlayerSprite.getPositionX()+ this.mPlayerSprite.getContentSize().width* 0.5;
 };
 
-//获取中心点Y坐标
+//获取头像框的中心点Y坐标
 JinHuaTablePlayerEntity.prototype.getCenterY= function(){
     if(this.mPlayerSprite== undefined||this.mPlayerSprite== null) return 0;
     return this.mPlayerSprite.getPositionY()+ this.mPlayerSprite.getContentSize().height* 0.5;
+};
+
+//获取头像框的中心点坐标
+JinHuaTablePlayerEntity.prototype.getCenterPos= function(){
+    if(this.mPlayerSprite== undefined||this.mPlayerSprite== null) return cc.p(0,0);
+    return cc.p(this.mPlayerSprite.getPositionX()+ this.mPlayerSprite.getContentSize().width* 0.5,this.mPlayerSprite.getPositionY()+ this.mPlayerSprite.getContentSize().height* 0.5);;
+};
+
+//获取玩家当前显示的金币数
+JinHuaTablePlayerEntity.prototype.getCurrentShowingCoinNum= function(){
+    return parseInt(this.labelCoin.getString());
 };

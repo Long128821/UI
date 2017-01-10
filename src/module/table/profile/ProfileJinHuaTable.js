@@ -4,13 +4,12 @@ var ProfileJinHuaTable= {
     //解析背包商品数量(禁比卡、换牌卡、高级表情)
     slot_DBID_BACKPACK_GOODS_COUNT:function(dataTable){
         Profile_JinHuaGameData.readDBID_BACKPACK_GOODS_COUNT(dataTable);
-        //更新背包物品
-        JinHuaTableLogic.updateDBID_BACKPACK_GOODS_COUNT();
+        JinHuaTableLogic.updateDBID_BACKPACK_GOODS_COUNT();//更新背包物品
     },
     //退出房间
     slot_JHID_QUIT_TABLE:function(dataTable){
         Profile_JinHuaGameData.readJHID_QUIT_TABLE(dataTable);
-        //Todo:需要联调-没有下行
+        //Todo:需要联调-没有下行-是不是因为此时大厅已经被屏蔽的缘故？
     },
     //更新系统公告
     slot_JINHUA_MGR_NOTICE:function(dataTable){
@@ -26,8 +25,6 @@ var ProfileJinHuaTable= {
     },
     //坐下
     slot_JHID_SIT_DOWN:function(dataTable){
-//        console.log("坐下");
-//        console.log(dataTable);
         Profile_JinHuaGameData.readJHID_SIT_DOWN(dataTable);
         JinHuaTableLogic.updateJHID_SIT_DOWN();
     },
@@ -35,7 +32,7 @@ var ProfileJinHuaTable= {
     slot_JHID_READY:function(dataTable){
         Profile_JinHuaGameData.readJHID_READY(dataTable);
         //服务器收到准备消息,更新牌桌
-        JinHuaTablePlayer.updateTableAfterPlayerReadyServerBack();
+        JinHuaTableLogic.updateJHID_READY();
     },
     //请求牌桌在线奖励
     slot_JHID_GET_BAOHE_STEP_INFO:function(dataTable){
@@ -85,5 +82,9 @@ var ProfileJinHuaTable= {
     slot_JHID_GAME_RESULT:function(dataTable){
         Profile_JinHuaGameData.readJHID_GAME_RESULT(dataTable);
         JinHuaTableLogic.updateJHID_GAME_RESULT();
+    },
+    //比牌
+    slot_JHID_PK:function(dataTable){
+        Profile_JinHuaGameData.readJHID_PK(dataTable);
     }
 };

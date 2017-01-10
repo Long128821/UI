@@ -227,29 +227,34 @@ var JinHuaTableLogic= {
     onlineRewardTime:0,//在线奖励
     buttonCheckIsShow:false,
     lastStatus:null,//最新状态
-    CanRaise:true,
-    canGetOnlinebonus:null,
+    CanRaise:true,//是否可以加注
+    canGetOnlinebonus:null,//可否获取在线奖励
     IncrBaoheRound:null,//宝盒奖励,几轮以后算一局
     changeCardRemainTime:0,
-    showCard:false,
+    showCard:false,//是否已经看牌
     isAlwaysBetCoin:false,//跟到底
     betData:null,//我的下注数据
     vibrateId:null,//震动定时ID(最后几秒)
     GameData:null,//牌桌数据
-
+    clear:function(){
+        this.labelNotice&&this.labelNotice.removeFromParent(true);
+        this.updateTimer&&clearInterval(this.updateTimer);
+    },
     createView:function(){
+        //在内存中，添加图片集
         cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("chat_popup.plist"),Common.getResourcePath("chat_popup.png"));
         cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("desk.plist"),Common.getResourcePath("desk.png"));
         cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("table_elements.plist"),Common.getResourcePath("table_elements.png"));
         cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("poker_cards.plist"), Common.getResourcePath("poker_cards.png"));
         cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("table_chips.plist"), Common.getResourcePath("table_chips.png"));
-    	this.initLayer();
 
+        this.initLayer();
+        //设置标记
         this.view.setTag(ModuleTable["JinHuaTable"]["Layer"]);
         
         this.initView();
-        
-        this.initData();
+        //初始化牌桌上的数据
+        this.initTableData();
 
         //设置基层
         GameConfig.setCurBaseLayer(GUI_JINHUATABLE);
@@ -918,7 +923,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            JinHuaTableLogic.onRaise();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -931,7 +936,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            JinHuaTableLogic.onRaise();
+            JinHuaTableLogic.onCall();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -970,7 +975,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            console.log("raise");
+            JinHuaTableLogic.onRaise();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -983,7 +988,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            JinHuaTableLogic.onRaise();
+            JinHuaTableLogic.onCall();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -996,7 +1001,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            JinHuaTableLogic.onRaise_1();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1009,7 +1014,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            JinHuaTableLogic.onRaise_2();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1022,7 +1027,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            JinHuaTableLogic.onRaise_3();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1035,7 +1040,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            JinHuaTableLogic.onRaise_Cancel();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1100,7 +1105,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            JinHuaTableLogic.onRaise();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1339,6 +1344,7 @@ var JinHuaTableLogic= {
         Frameworks.addSlot2Signal(JHID_INIT_CARDS, ProfileJinHuaTable.slot_JHID_INIT_CARDS);//发牌
         Frameworks.addSlot2Signal(JHID_DISCARD, ProfileJinHuaTable.slot_JHID_DISCARD);//弃牌
         Frameworks.addSlot2Signal(JHID_GAME_RESULT, ProfileJinHuaTable.slot_JHID_GAME_RESULT);//本局结算
+        Frameworks.addSlot2Signal(JHID_PK, ProfileJinHuaTable.slot_JHID_PK);//比牌
 },
     //移除信号
     removeSlot:function(){
@@ -1357,6 +1363,7 @@ var JinHuaTableLogic= {
     	Frameworks.removeSlotFromSignal(JHID_INIT_CARDS, ProfileJinHuaTable.slot_JHID_INIT_CARDS);
     	Frameworks.removeSlotFromSignal(JHID_DISCARD, ProfileJinHuaTable.slot_JHID_DISCARD);
     	Frameworks.removeSlotFromSignal(JHID_GAME_RESULT, ProfileJinHuaTable.slot_JHID_GAME_RESULT);
+    	Frameworks.removeSlotFromSignal(JHID_PK, ProfileJinHuaTable.slot_JHID_PK);
     },
     
     //释放界面的私有数据
@@ -1378,26 +1385,9 @@ var JinHuaTableLogic= {
     requestMsg:function(){
     
     },
-    //初始化界面
-    initData:function(){
-        //Todo:清理数据
-        JinHuaTableTips.clear();
+    //清理数据
+    clear:function(){
 
-        //更新背包道具数量
-        this.updateBACKPACK_GOODS_COUNT();
-        //初始化牌桌(玩家、筹码)
-        Profile_JinHuaTableConfig.initTableElmentsCoordinate();
-
-        this.GameData= Profile_JinHuaGameData.getGameData();
-        //请求在线奖励信息
-        if(this.GameData.roomId != null){
-            sendJHID_GET_BAOHE_STEP_INFO(this.GameData.roomId);
-        }
-        //初始化牌桌背景
-        this.initBg();
-
-        this.Panel_buttonGroup_right.setVisible(true);
-        this.btn_renwu.setVisible(true);
     },
     //更新背包道具数量
     updateBACKPACK_GOODS_COUNT:function(){
@@ -1433,6 +1423,136 @@ var JinHuaTableLogic= {
         }else if(backPackGoodsCountData.ItemID== GameConfig.GOODS_ID_NO_PK){//禁比
             this.updateNoPkCountText();
         }
+    },
+    //当前宝盒进度
+    updateJHID_GET_BAOHE_STEP_INFO:function(){
+        var BaoheStepInfoTable = Profile_JinHuaOnlineReward.getBaoheStepInfoTable()
+        var GameData= Profile_JinHuaGameData.getGameData();
+        if(BaoheStepInfoTable["nowNumberMax"]== null||BaoheStepInfoTable["nowNumberMax"]== 0|| GameData.mySSID){
+            this.btn_onlinebonus.setVisible(false);
+            this.btn_onlinebonus.setTouchEnabled(false);
+            return;
+        }
+        this.btn_onlinebonus.setVisible(true);
+        this.btn_onlinebonus.setTouchEnabled(true);
+        this.Label_onlinebonus_daojishi.setText(BaoheStepInfoTable["nowNumber"]+ "/" +BaoheStepInfoTable["nowNumberMax"])
+        if(BaoheStepInfoTable["nowNumber"] >= BaoheStepInfoTable["nowNumberMax"]){
+            this.canGetOnlinebonus = 0;
+            this.Label_onlinebonus_daojishi.setVisible(false);
+            this.Image_onlinebonus_lingqu.setVisible(true);
+            this.Image_onlinebonus_shine.setVisible(true);
+            this.btn_onlinebonus.stopAllActions();
+            GamePub.showShakeAnimate(this.btn_onlinebonus);
+        }else{
+            this.canGetOnlinebonus = BaoheStepInfoTable["nowNumberMax"] - BaoheStepInfoTable["nowNumber"]
+        }
+        this.IncrBaoheRound = BaoheStepInfoTable["IncrBaoheRound"]
+    },
+    //牌桌领取在线时长奖励
+    updateJHID_GET_ONLINE_REWARD:function(){
+        var JinGetOnlineRewardTable = Profile_JinHuaOnlineReward.getGetOnlineRewardTable();
+        if(JinGetOnlineRewardTable== null|| JinGetOnlineRewardTable["result"]== null){
+            Common.showToast("领取奖励出错",2);
+            return;
+        }
+
+        if(JinGetOnlineRewardTable["result"] == 1){
+            //领取在线时长奖励成功
+            this.btn_onlinebonus.stopAllActions();
+            this.btn_onlinebonus.setRotation(0);
+            this.Label_onlinebonus_daojishi.setVisible(true);
+            this.Image_onlinebonus_shine.setVisible(false);
+            this.Image_onlinebonus_lingqu.setVisible(false);
+            Common.showToast(JinGetOnlineRewardTable["message"],3);
+            if(JinGetOnlineRewardTable["nowNumberMax"]!= null&&JinGetOnlineRewardTable["nowNumberMax"]!= 0){
+                this.canGetOnlinebonus = JinGetOnlineRewardTable["nowNumberMax"] - JinGetOnlineRewardTable["nowNumber"]
+                this.btn_onlinebonus.setVisible(true);
+                this.btn_onlinebonus.setTouchEnabled(true);
+                this.Label_onlinebonus_daojishi.setText(JinGetOnlineRewardTable["nowNumber"] + "/" +JinGetOnlineRewardTable["nowNumberMax"]);
+            }else{
+                this.btn_onlinebonus.setVisible(false);
+                this.btn_onlinebonus.setTouchEnabled(false);
+            }
+            //设置我当前的金币
+            var playerTable = Profile_JinHuaGameData.getPlayers();
+            var GameData= Profile_JinHuaGameData.getGameData();
+            for(var key in playerTable){
+                if(playerTable[key]!= null
+                    &&playerTable[key].userId!= null
+                    &&playerTable[key].userId == GameData["players"][key].userId == profile_user.getSelfUserID()
+                    &&GameData.mySSID!= null){
+                    playerTable[key].changeCoinNumOnView(JinGetOnlineRewardTable["nowCoin"]);
+                }
+            }
+        }else {
+            //领取在线时长奖励失败
+            Common.showToast(JinGetOnlineRewardTable["message"], 3)
+        }
+    },
+    /**
+     * Func:下注应答
+     */
+    updateJHID_BET:function(){
+        JinHuaTablePlayer.updateTableAfterBetCoinByServer();
+    },
+    //聊天
+    updateJHID_CHAT:function(){
+        var chatMsg= Profile_JinHuaGameData.getChatMsg();
+        JinHuaTablePlayer.updateTableAfterPlayerChatServerBack(chatMsg);
+    },
+    //站起
+    updateJHID_STAND_UP:function(){
+        JinHuaTablePlayer.updateTableAfterStandUpByServer();
+    },
+    //坐下
+    updateJHID_SIT_DOWN:function(){
+        JinHuaTablePlayer.updateTableSitDownByServer();
+    },
+    //准备
+    updateJHID_READY:function(){
+        JinHuaTablePlayer.updateTableAfterPlayerReadyServerBack();
+    },
+    //发牌
+    updateJHID_INIT_CARDS:function(){
+        JinHuaTableCard.updateTableAfterSendCardByServer();
+    },
+    //弃牌
+    updateJHID_DISCARD:function(){
+        //console.log("弃牌");
+        JinHuaTablePlayer.updateTableAfterFoldCardByServer();
+    },
+    //本局结算
+    updateJHID_GAME_RESULT:function(){
+        var gameResultData= Profile_JinHuaGameData.getGameResultData();
+        console.log("本局结果！");
+        JinHuaTablePlayer.clearAllTimer();
+        this.initGameDataAfterGameResult();
+        JinHuaTableCard.startResultShow();
+    },
+    //初始化界面
+    initTableData:function(){
+        //Todo:清理数据
+        this.clear();
+        //JinHuaTableCard.clear();
+        JinHuaTableCoin.clear();
+        JinHuaTablePlayer.clear();
+        JinHuaTableTips.clear();
+
+        //更新背包道具数量
+        this.updateBACKPACK_GOODS_COUNT();
+        //初始化牌桌(玩家、筹码)
+        Profile_JinHuaTableConfig.initTableElmentsCoordinate();
+
+        this.GameData= Profile_JinHuaGameData.getGameData();
+        //请求在线奖励信息
+        if(this.GameData.roomId != null){
+            sendJHID_GET_BAOHE_STEP_INFO(this.GameData.roomId);
+        }
+        //初始化牌桌背景
+        this.initBg();
+
+        this.Panel_buttonGroup_right.setVisible(true);
+        this.btn_renwu.setVisible(true);
     },
     //根据是否为比赛，更新换牌卡的数量
     updateChangeCardCount:function(isMatch){
@@ -1506,7 +1626,6 @@ var JinHuaTableLogic= {
     //响应事件- 坐下
     onSitDown:function(pSender){
         //其中pSender.getTag()就是服务器端的座位号(CSID)
-        console.log("ID:"+ pSender.getTag()+"坐下");
         JinHuaTablePlayer.sitDownMe(pSender.getTag());
     },
     //按钮：PK
@@ -1634,42 +1753,33 @@ var JinHuaTableLogic= {
             this.Panel_match.setVisible(true);
             this.Button_matchRank.setTouchEnabled(true);
             this.Button_gift.setVisible(false);
-            this.Button_gift.setTouchEnabled(false)
-            this.btn_libao.setVisible(false)
-            this.btn_libao.setTouchEnabled(false)
-            this.Button_tequan.setVisible(false)
-            this.Button_tequan.setTouchEnabled(false)
-            this.Button_changeCard.setVisible(false)
-            this.Button_changeCard.setTouchEnabled(false)
-            this.btn_renwu.setVisible(false)
-            this.btn_renwu.setTouchEnabled(false)
-            this.Button_noCompare.setVisible(false)
-            this.Button_noCompare.setTouchEnabled(false)
-            this.Image_title_left.setVisible(false)
-            this.Image_title_right.setVisible(false)
-            this.Panel_PrivateRoom.setVisible(false)
-            //Todo:sendJINHUA_ALLOW_REBUY(GameData["matchInstanceId"])
+            this.Button_gift.setTouchEnabled(false);
+            this.btn_libao.setVisible(false);
+            this.btn_libao.setTouchEnabled(false);
+            this.Button_tequan.setVisible(false);
+            this.Button_tequan.setTouchEnabled(false);
+            this.Button_changeCard.setVisible(false);
+            this.Button_changeCard.setTouchEnabled(false);
+            this.btn_renwu.setVisible(false);
+            this.btn_renwu.setTouchEnabled(false);
+            this.Button_noCompare.setVisible(false);
+            this.Button_noCompare.setTouchEnabled(false);
+            this.Image_title_left.setVisible(false);
+            this.Image_title_right.setVisible(false);
+            this.Panel_PrivateRoom.setVisible(false);
+
             if(GameData.mySSID!= null){
-                this.Button_barrage.setTouchEnabled(false)
-                this.Button_barrage.setVisible(false)
-                this.Button_tableChat.setTouchEnabled(false)
-                this.Button_tableChat.setVisible(false)
-                this.Image_barragelock.setTouchEnabled(true)
-                this.Image_barragelock.setVisible(true)
-                //Todo:
-//                if JinHuaBarrage.getSwitch() == true then
-//                JinHuaBarrage.setSwitch(true)
-//            else
-//                JinHuaBarrage.setSwitch(false)
-//                end
+                this.Button_barrage.setTouchEnabled(false);
+                this.Button_barrage.setVisible(false);
+                this.Button_tableChat.setTouchEnabled(false);
+                this.Button_tableChat.setVisible(false);
+                this.Image_barragelock.setTouchEnabled(true);
+                this.Image_barragelock.setVisible(true);
             }else{
-                this.Button_barrage.setTouchEnabled(true)
-                this.Button_barrage.setVisible(true)
-                this.Image_barragelock.setTouchEnabled(false)
+                this.Button_barrage.setTouchEnabled(true);
+                this.Button_barrage.setVisible(true);
+                this.Image_barragelock.setTouchEnabled(false);
                 this.Image_barragelock.setVisible(false)
-            }
-            if(GameData["matchInstanceId"]!= null||GameData["matchInstanceId"]!= ""){
-                //Todo:sendJINHUA_RANK_CHANGE(GameData["matchInstanceId"])
             }
             if(GameData["tableId"] == 0){
                 this.Label_waiting.setVisible(true);
@@ -2046,7 +2156,7 @@ var JinHuaTableLogic= {
         //隐藏所有下排操作按钮极其点击效果
         this.hideAllBotButton();
         this.lastStatus= type;
-        console.log("下排操作按钮类型:"+ type);
+        //console.log("下排操作按钮类型:"+ type);
         switch (type){
             case STATUS_BUTTON_WAIT://等待
                 //Todo:JinHuaTableCheckButton.setSpriteVisible(false)
@@ -2243,30 +2353,6 @@ var JinHuaTableLogic= {
             sendJHID_READY();
         }
     },
-    //当前宝盒进度
-    updateJHID_GET_BAOHE_STEP_INFO:function(){
-        var BaoheStepInfoTable = Profile_JinHuaOnlineReward.getBaoheStepInfoTable()
-        var GameData= Profile_JinHuaGameData.getGameData();
-        if(BaoheStepInfoTable["nowNumberMax"]== null||BaoheStepInfoTable["nowNumberMax"]== 0|| GameData.mySSID){
-            this.btn_onlinebonus.setVisible(false);
-            this.btn_onlinebonus.setTouchEnabled(false);
-            return;
-        }
-        this.btn_onlinebonus.setVisible(true);
-        this.btn_onlinebonus.setTouchEnabled(true);
-        this.Label_onlinebonus_daojishi.setText(BaoheStepInfoTable["nowNumber"]+ "/" +BaoheStepInfoTable["nowNumberMax"])
-        if(BaoheStepInfoTable["nowNumber"] >= BaoheStepInfoTable["nowNumberMax"]){
-            this.canGetOnlinebonus = 0;
-            this.Label_onlinebonus_daojishi.setVisible(false);
-            this.Image_onlinebonus_lingqu.setVisible(true);
-            this.Image_onlinebonus_shine.setVisible(true);
-            this.btn_onlinebonus.stopAllActions();
-            GamePub.showShakeAnimate(this.btn_onlinebonus);
-        }else{
-            this.canGetOnlinebonus = BaoheStepInfoTable["nowNumberMax"] - BaoheStepInfoTable["nowNumber"]
-        }
-        this.IncrBaoheRound = BaoheStepInfoTable["IncrBaoheRound"]
-    },
     //在线礼包
     onLineBonus:function(){
         if(this.canGetOnlinebonus== 0){
@@ -2279,71 +2365,11 @@ var JinHuaTableLogic= {
             }
         }
     },
-    //牌桌领取在线时长奖励
-    updateJHID_GET_ONLINE_REWARD:function(){
-        var JinGetOnlineRewardTable = Profile_JinHuaOnlineReward.getGetOnlineRewardTable();
-        if(JinGetOnlineRewardTable== null|| JinGetOnlineRewardTable["result"]== null){
-            Common.showToast("领取奖励出错",2);
-            return;
-        }
-
-        if(JinGetOnlineRewardTable["result"] == 1){
-            //领取在线时长奖励成功
-            this.btn_onlinebonus.stopAllActions();
-            this.btn_onlinebonus.setRotation(0);
-            this.Label_onlinebonus_daojishi.setVisible(true);
-            this.Image_onlinebonus_shine.setVisible(false);
-            this.Image_onlinebonus_lingqu.setVisible(false);
-            Common.showToast(JinGetOnlineRewardTable["message"],3);
-            if(JinGetOnlineRewardTable["nowNumberMax"]!= null&&JinGetOnlineRewardTable["nowNumberMax"]!= 0){
-                this.canGetOnlinebonus = JinGetOnlineRewardTable["nowNumberMax"] - JinGetOnlineRewardTable["nowNumber"]
-                this.btn_onlinebonus.setVisible(true);
-                this.btn_onlinebonus.setTouchEnabled(true);
-                this.Label_onlinebonus_daojishi.setText(JinGetOnlineRewardTable["nowNumber"] + "/" +JinGetOnlineRewardTable["nowNumberMax"]);
-            }else{
-                this.btn_onlinebonus.setVisible(false);
-                this.btn_onlinebonus.setTouchEnabled(false);
-            }
-            //设置我当前的金币
-            var playerTable = Profile_JinHuaGameData.getPlayers();
-            var GameData= Profile_JinHuaGameData.getGameData();
-            for(var key in playerTable){
-                if(playerTable[key]!= null
-                    &&playerTable[key].userId!= null
-                    &&playerTable[key].userId == GameData["players"][key].userId == profile_user.getSelfUserID()
-                    &&GameData.mySSID!= null){
-                    playerTable[key].changeCoinNumOnView(JinGetOnlineRewardTable["nowCoin"]);
-                }
-            }
-        }else {
-            //领取在线时长奖励失败
-            Common.showToast(JinGetOnlineRewardTable["message"], 3)
-        }
-    },
-    /**
-     * Func:下注应答
-     */
-    updateJHID_BET:function(){
-		JinHuaTablePlayer.updateTableAfterBetCoinByServer();
-    },
-    //聊天
-    updateJHID_CHAT:function(){
-        var chatMsg= Profile_JinHuaGameData.getChatMsg();
-        JinHuaTablePlayer.updateTableAfterPlayerChatServerBack(chatMsg);
-    },
     //设置坐下按钮是否可用
     setSitButtonEnabled:function(enabled){
         for(var key in this.sitButtonGroup){
             this.sitButtonGroup[key].setEnabled(enabled==undefined?false:enabled);
         }
-    },
-    //站起
-    updateJHID_STAND_UP:function(){
-        JinHuaTablePlayer.updateTableAfterStandUpByServer()
-    },
-    //坐下
-    updateJHID_SIT_DOWN:function(){
-        JinHuaTablePlayer.updateTableSitDownByServer();
     },
     //隐藏座位
     hideSit:function(CSID){
@@ -2354,27 +2380,11 @@ var JinHuaTableLogic= {
         }
     },
     //发牌
-    updateJHID_INIT_CARDS:function(){
-        JinHuaTableCard.updateTableAfterSendCardByServer();
-    },
-    //弃牌
-    updateJHID_DISCARD:function(){
-        console.log("弃牌");
-        JinHuaTablePlayer.updateTableAfterFoldCardByServer();
-    },
-    //发牌
     updateDataSendCard:function(){
         this.changeCardRemainTime = 3;
         this.showCard = false;
     },
-    //本局结算
-    updateJHID_GAME_RESULT:function(){
-        var gameResultData= Profile_JinHuaGameData.getGameResultData();
-        JinHuaTablePlayer.clearAllTimer();
-        this.initGameDataAfterGameResult();
-        JinHuaTableCard.startResultShow();
-        console.log("结束");
-    },
+
     //更新是否可以换牌提示
     updateIsCanChangeCardState:function(){
         var GameData= Profile_JinHuaGameData.getGameData();
@@ -2388,10 +2398,10 @@ var JinHuaTableLogic= {
             if(this.betData&&this.betData.callCoin< 0){//All In
                 this.onRaiseAll();
             }else{//跟注
-                this.onRaise();
+                this.onCall();
             }
         }else if(player.status!= STATUS_PLAYER_DISCARD){//没有弃牌
-            console.log("更新自己的按钮");
+            //console.log("更新自己的按钮");
             if(Profile_JinHuaGameData.getGameData().round>= Profile_JinHuaTableConfig.CAN_PK_ROUND){
                 //是否已经超出一定的轮数，可以比牌
                 this.showBotButton(STATUS_BUTTON_CANPK);
@@ -2413,13 +2423,13 @@ var JinHuaTableLogic= {
 
     },
     //下注、跟注
-    onRaise:function(){
+    onCall:function(){
         if(this.betData== null||this.betData== undefined) return;
         if(this.betData.callCoin<= 0){//如果跟注按钮小于0，则All In
             this.onAllIn();
             return;
         }
-        console.log(this.betData.callCoin);
+        //console.log(this.betData.callCoin);
         //向服务器端发起下注请求
         //新手引导时，可以不发起
         sendJHID_BET(this.betData.callCoin,TYPE_BET_CALL);
@@ -2430,10 +2440,12 @@ var JinHuaTableLogic= {
     },
     //震动提醒
     callback_vibrate:function(){
-        console.log("震动提醒");
+        //console.log("震动提醒");
     },
     //更新我的操作按钮
     updateMyOperationBtns:function(currentPlayer){
+        //console.log("更新我的操作按钮");
+        //console.log(currentPlayer);
         //下注数据
         this.betData= currentPlayer;
         this.updateMyPKAndShowCardBtns();
@@ -2494,16 +2506,239 @@ var JinHuaTableLogic= {
         JinHuaTablePlayer.resetCurrentCSID();
         JinHuaTableTips.initTipsData();
         var playerTable= Profile_JinHuaGameData.getPlayers();
-//        for(var i in playerTable){
-//            JinHuaTablePlayerEntity.hideTips(playerTable[i]);
-//            if(!Profile_JinHuaGameData.getIsMatch()) {
-//                JinHuaTablePlayerEntity.createPlayerTips(playerTable[i]);
-//            }
-//        }
     },
     //设置全压的金币数
     setAllInValue:function(value){
         this.allInValue = value;
+    },
+    //更新加注按钮列表
+    updateMyRaiseCoinBtns:function(){
+        //如果当前下注人并不是我,我的加注列表不需要更新
+        if(this.betData== null||(this.betData!= null &&this.betData.raiseCoin== null&&this.betData.raiseCoin== undefined)){
+            return;
+        }
+
+        //加注列表，如果数组数量不为0，则只能显示押满按钮或加注列表
+        var  canRaiseCnt = 0;
+
+        //加注列表
+        //console.log(this.betData.raiseCoin);
+        for(var i in this.betData.raiseCoin){
+            var canRaise = false;
+            var raiseCoin = this.betData.raiseCoin[i];
+            if(!raiseCoin) break;
+            //console.log(i);
+            if(i== 0){
+                if(raiseCoin.raiseStatus == 1){
+                    canRaiseCnt++;
+                }
+            }else if(i== 2){
+                var coinNumber = "";
+                var valueLen= raiseCoin.raiseValue.length;
+                if(valueLen> 9){//亿
+                    var beforeDel = Math.floor(raiseCoin.raiseValue / 100000000);
+                    var afterDel = raiseCoin.raiseValue % 100000000;
+                    if(afterDel> 0){
+                        if(afterDel % 10000000 == 0) {
+                            afterDel = afterDel / 10000000;
+                        }else if(afterDel % 1000000 == 0) {
+                            afterDel = afterDel / 1000000;
+                        }else if(afterDel % 100000 == 0) {
+                            afterDel = afterDel / 100000;
+                        }else {
+                            afterDel = afterDel / 100000;
+                        }
+                        coinNumber = beforeDel + "<" + afterDel + ";"
+                    }else{
+                        coinNumber= beforeDel+";";
+                    }
+                }else if(valueLen> 5) {//万
+                    var beforeDel = Math.floor(raiseCoin.raiseValue / 10000);
+                    var afterDel = raiseCoin.raiseValue % 10000;
+                    if (afterDel > 0) {
+                        if (afterDel % 1000 == 0) {
+                            afterDel = afterDel / 1000;
+                        }else{
+                            afterDel = afterDel / 100;
+                        }
+                        coinNumber = beforeDel + "<" + afterDel + ":"
+                    } else {
+                        coinNumber = beforeDel + ":";
+                    }
+                }else{
+                    coinNumber = raiseCoin.raiseValue;
+                }
+                this.AtlasLabel_jiner1.setStringValue(coinNumber);
+                if(raiseCoin.raiseStatus== 1){
+                    canRaise = true;
+                    this.Button_raise_one.setOpacity(ALPHA_CAN_TOUCH);
+                    this.AtlasLabel_jiner1.setOpacity(ALPHA_CAN_TOUCH);
+                }else{
+                    this.Button_raise_one.setTouchEnabled(false);
+                    this.Button_raise_one.setOpacity(ALPHA_CAN_NOT_TOUCH);
+                    this.AtlasLabel_jiner1.setOpacity(ALPHA_CAN_NOT_TOUCH);
+                }
+            }else if(i==3){
+                var coinNumber = "";
+                var valueLen= raiseCoin.raiseValue.length;
+                if(valueLen> 9){//亿
+                    var beforeDel = Math.floor(raiseCoin.raiseValue / 100000000);
+                    var afterDel = raiseCoin.raiseValue % 100000000;
+                    if(afterDel> 0){
+                        if(afterDel % 10000000 == 0) {
+                            afterDel = afterDel / 10000000;
+                        }else if(afterDel % 1000000 == 0) {
+                            afterDel = afterDel / 1000000;
+                        }else if(afterDel % 100000 == 0) {
+                            afterDel = afterDel / 100000;
+                        }else {
+                            afterDel = afterDel / 100000;
+                        }
+                        coinNumber = beforeDel + "<" + afterDel + ";"
+                    }else{
+                        coinNumber= beforeDel+";";
+                    }
+                }else if(valueLen> 5) {//万
+                    var beforeDel = Math.floor(raiseCoin.raiseValue / 10000);
+                    var afterDel = raiseCoin.raiseValue % 10000;
+                    if (afterDel > 0) {
+                        if (afterDel % 1000 == 0) {
+                            afterDel = afterDel / 1000;
+                        }else{
+                            afterDel = afterDel / 100;
+                        }
+                        coinNumber = beforeDel + "<" + afterDel + ":"
+                    } else {
+                        coinNumber = beforeDel + ":";
+                    }
+                }else{
+                    coinNumber = raiseCoin.raiseValue;
+                }
+                this.AtlasLabel_jiner2.setStringValue(coinNumber);
+                if(raiseCoin.raiseStatus== 1){
+                    canRaise = true;
+                    this.Button_raise_two.setOpacity(ALPHA_CAN_TOUCH);
+                    this.AtlasLabel_jiner2.setOpacity(ALPHA_CAN_TOUCH);
+                }else{
+                    this.Button_raise_two.setTouchEnabled(false);
+                    this.Button_raise_two.setOpacity(ALPHA_CAN_NOT_TOUCH);
+                    this.AtlasLabel_jiner2.setOpacity(ALPHA_CAN_NOT_TOUCH);
+                }
+            }else if(i== 4){
+                var coinNumber = "";
+                var valueLen= raiseCoin.raiseValue.length;
+                if(valueLen> 9){//亿
+                    var beforeDel = Math.floor(raiseCoin.raiseValue / 100000000);
+                    var afterDel = raiseCoin.raiseValue % 100000000;
+                    if(afterDel> 0){
+                        if(afterDel % 10000000 == 0) {
+                            afterDel = afterDel / 10000000;
+                        }else if(afterDel % 1000000 == 0) {
+                            afterDel = afterDel / 1000000;
+                        }else if(afterDel % 100000 == 0) {
+                            afterDel = afterDel / 100000;
+                        }else {
+                            afterDel = afterDel / 100000;
+                        }
+                        coinNumber = beforeDel + "<" + afterDel + ";"
+                    }else{
+                        coinNumber= beforeDel+";";
+                    }
+                }else if(valueLen> 5) {//万
+                    var beforeDel = Math.floor(raiseCoin.raiseValue / 10000);
+                    var afterDel = raiseCoin.raiseValue % 10000;
+                    if (afterDel > 0) {
+                        if (afterDel % 1000 == 0) {
+                            afterDel = afterDel / 1000;
+                        }else{
+                            afterDel = afterDel / 100;
+                        }
+                        coinNumber = beforeDel + "<" + afterDel + ":"
+                    } else {
+                        coinNumber = beforeDel + ":";
+                    }
+                }else{
+                    coinNumber = raiseCoin.raiseValue;
+                }
+                this.AtlasLabel_jiner3.setStringValue(coinNumber);
+                if(raiseCoin.raiseStatus== 1){
+                    canRaise = true;
+                    this.Button_raise_three.setOpacity(ALPHA_CAN_TOUCH);
+                    this.AtlasLabel_jiner3.setOpacity(ALPHA_CAN_TOUCH);
+                }else{
+                    this.Button_raise_three.setTouchEnabled(false);
+                    this.Button_raise_three.setOpacity(ALPHA_CAN_NOT_TOUCH);
+                    this.AtlasLabel_jiner3.setOpacity(ALPHA_CAN_NOT_TOUCH);
+                }
+            }else{
+                if(raiseCoin.raiseStatus== 1){
+                    canRaiseCnt++;
+                }
+            }
+
+            this.CanRaise= canRaise;
+        }
+    },
+    //加注
+    onRaise:function(){
+        //加注
+        JinHuaTableLogic.updateMyRaiseCoinBtns();
+        JinHuaTableLogic.showBotButton(STATUS_BUTTON_RAISE);
+    },
+    //加注按钮列表-1
+    onRaise_1:function(){
+        JinHuaTableLogic.clickRaiseBtnFunc(2);
+    },
+    //加注按钮列表-2
+    onRaise_2:function(){
+        JinHuaTableLogic.clickRaiseBtnFunc(3);
+    },
+    //加注按钮列表-3
+    onRaise_3:function(){
+        JinHuaTableLogic.clickRaiseBtnFunc(4);
+    },
+    //点击加注按钮执行
+    //index 加注码位置
+    clickRaiseBtnFunc:function(index){
+        //如果当前下注人并不是我,我的加注列表不需要更新
+        if(this.betData== null||(this.betData!= null &&this.betData.raiseCoin== null&&this.betData.raiseCoin== undefined)){
+            return;
+        }
+        //向服务器发送下注请求
+        sendJHID_BET(this.betData.raiseCoin[index].raiseValue,TYPE_BET_RAISE);
+        JinHuaTablePlayer.selfClickToBetCoin(TYPE_BET_RAISE,this.betData.raiseCoin[index].raiseValue);
+    },
+    //加注取消
+    onRaise_Cancel:function(){
+        if(this.GameData.round >= Profile_JinHuaTableConfig.CAN_PK_ROUND) {
+            this.showBotButton(STATUS_BUTTON_CANPK);
+        }else{
+            this.showBotButton(STATUS_BUTTON_MYTURN);
+        }
+    },
+    //更新比牌动画
+    updateJHID_PK:function(){
+        var PKData= Profile_JinHuaGameData.getGameData();
+        if(PKData.result== 0){//比牌失败
+            Common.showToast(PKData["message"], 1);
+            return;
+        }
+        //JinHuaPKAnim.startPK(PKData);
+        this.updateTableTitle();
+        JinHuaTableMyOperation.updateIsCanChangeCardState()
+    },
+    //清空数据[下注数，单注，总注，轮数数值重置]
+    resetData:function(){
+        JinHuaTablePlayer.resetPlayerBetCoin();
+        this.GameData.singleCoin = 0;
+        this.GameData.totalPoolCoin = 0;
+        this.GameData.round = 0;
+        this.updateTableTitle();
+        JinHuaTableMyOperation.updateIsCanChangeCardState()
+    },
+    //
+    gameResultOperation:function(){
+
     }
 };
 

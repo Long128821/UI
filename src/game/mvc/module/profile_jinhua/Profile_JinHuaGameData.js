@@ -16,6 +16,7 @@ var Profile_JinHuaGameData= {
     initCardData:null,//发牌
     foldCardData:null,//弃牌
     gameResultData:null,//本局计算
+    PKData:null,//PK数据
     clearData:function(){
         this.backPackGoodsCountData= {};
         this.GameData= {};
@@ -27,6 +28,7 @@ var Profile_JinHuaGameData= {
         this.initCardData= {};
         this.foldCardData= {};
         this.gameResultData= {};
+        this.PKData= {};
     },
     getBackPackGoodsCountData:function(){
         return this.backPackGoodsCountData;
@@ -59,8 +61,123 @@ var Profile_JinHuaGameData= {
             return false;
         }
     },
+    //获取用户客户端座位号（服务端座位号）
+    getUserCSID:function(ssid){
+        if(ssid== undefined) return;
+        if(this.GameData.mySSID){//别人站起&&庄家 顺移下一位
+            return (ssid - this.GameData.mySSID + Profile_JinHuaTableConfig.playerCnt)%Profile_JinHuaTableConfig.playerCnt;
+        }else{
+            return ssid;//自己站起&&庄家 也是下一位
+        }
+    },
+    //设置当前庄家客户端座位号
+    setDealerCSID:function(){
+        this.GameData.dealerCSID = this.getUserCSID(this.GameData.dealerSSID);
+    },
+    getChatMsg:function(){
+        return this.chatMsg;
+    },
+    //准备
+    getReadyData:function(){
+        return this.readyData;
+    },
+    getStandUpData:function(){
+        return this.standUpData;
+    },
+    //获取玩家数据
+    getMySelf:function(){
+        return this.mySelf;
+    },
+    //自己站起更新
+    updatePlayerInfo_SelfStand:function(){
+        if((this.GameData&&
+            this.GameData["players"]&&
+            this.GameData["players"][0]&&
+            this.GameData["players"][0].userId== profile_user.getSelfUserID())){
+            //清空自己的元素
+            this.GameData["players"][0]= null;
+        }
+        //服务器座位号 置空
+        this.GameData.mySSID= null;
+        //旁观者模式
+        this.mySelf.status= STATUS_PLAYER_WATCH;
+        //下注金额置空
+        this.mySelf.betCoins= 0;
+        //更新当前庄家座位号
+        this.setDealerCSID();
+        //设置所有用户客户端座位号
+        this.setAllUserCSID();
+        //按照客户端顺序设置玩家数组
+        this.setUserArrayOrder();
+    },
+    //设置所有用户客户端座位号
+    setAllUserCSID:function(){
+        if(this.GameData== null||this.GameData== undefined)  return;
+
+        for(var key in this.GameData["players"]){
+            var user= this.GameData["players"][key];
+            if(user!= null&&user.SSID!= null){
+                user.CSID= this.getUserCSID(user.SSID);
+            }
+        }
+    },
+    //按照客户端顺序设置玩家数组
+    setUserArrayOrder:function(){
+        if(this.GameData== null||this.GameData== undefined)  return;
+
+        var users = {};
+        for(var key in this.GameData["players"]){
+            var user= this.GameData["players"][key];
+            if(user!= null){
+                users[this.GameData["players"][key].CSID] = this.GameData["players"][key];
+            }
+        }
+        this.GameData["players"] = users;
+    },
+    //得到我的服务器座位号
+    setMySSID:function(){
+        if(this.GameData== null||this.GameData== undefined)  return;
+
+        var myUserId= profile_user.getSelfUserID();
+        for(var key in this.GameData["players"]){
+            if(this.GameData["players"]&&
+                this.GameData["players"][key]&&
+                this.GameData["players"][key].userId== myUserId){
+                this.mySelf= this.GameData["players"][key];
+                this.GameData.mySSID= this.GameData["players"][key].SSID;
+                //console.log("玩家服务器座位号:"+ this.GameData.mySSID);
+                //Todo:可以删除，利用id比较，而不是isMe
+                //this.GameData["players"][key].isMe = true;
+                break;
+            }
+        }
+    },
+    //获取押注信息
+    getBetChipData:function(){
+        return this.betChipData;
+    },
+    //获取坐下消息
+    getSitDownData:function(){
+        return this.sitDownData;
+    },
+    //获取发牌数据
+    getInitCardData:function(){
+        return this.initCardData;
+    },
+    //获取弃牌数据
+    getFoldCardData:function(){
+        return this.foldCardData;
+    },
+    //获取本局结算数据
+    getGameResultData:function(){
+        return this.gameResultData;
+    },
+    //PK数据
+    getPK:function(){
+        return this.PKData;
+    },
     //牌桌同步
-    readJHID_TABLE_SYNC:function(dataTable){
+    updateJHID_TABLE_SYNC:function(dataTable){
         this.clearData();
         //Todo:JinHuaTableRealFace.resetRealFaceList() --清除牌桌真人头像列表
         this.GameData= dataTable;
@@ -128,26 +245,6 @@ var Profile_JinHuaGameData= {
             }
         }
     },
-    //获取用户客户端座位号（服务端座位号）
-    getUserCSID:function(ssid){
-        if(ssid== undefined) return;
-        if(this.GameData.mySSID){//别人站起&&庄家 顺移下一位
-            return (ssid - this.GameData.mySSID + Profile_JinHuaTableConfig.playerCnt)%Profile_JinHuaTableConfig.playerCnt;
-        }else{
-            return ssid;//自己站起&&庄家 也是下一位
-        }
-    },
-    //设置当前庄家客户端座位号
-    setDealerCSID:function(){
-        this.GameData.dealerCSID = this.getUserCSID(this.GameData.dealerSSID);
-    },
-    getChatMsg:function(){
-        return this.chatMsg;
-    },
-    //准备
-    getReadyData:function(){
-        return this.readyData;
-    },
     //站起
     readJHID_STAND_UP:function(dataTable){
         this.standUpData= dataTable;
@@ -156,81 +253,6 @@ var Profile_JinHuaGameData= {
         if(this.mySelf.SSID&& this.mySelf.SSID == this.standUpData.SSID&& this.mySelf.status == STATUS_PLAYER_WATCH){
             this.mySelf.SSID= null;
         }
-    },
-    getStandUpData:function(){
-        return this.standUpData;
-    },
-    //获取玩家数据
-    getMySelf:function(){
-        return this.mySelf;
-    },
-    //自己站起更新
-    updatePlayerInfo_SelfStand:function(){
-        if((this.GameData&&
-            this.GameData["players"]&&
-            this.GameData["players"][0]&&
-            this.GameData["players"][0].userId== profile_user.getSelfUserID())){
-            //清空自己的元素
-            this.GameData["players"][0]= null;
-        }
-        //服务器座位号 置空
-        this.GameData.mySSID= null;
-        //旁观者模式
-        this.mySelf.status= STATUS_PLAYER_WATCH;
-        //下注金额置空
-        this.mySelf.betCoins= 0;
-        //更新当前庄家座位号
-        this.setDealerCSID();
-        //设置所有用户客户端座位号
-        this.setAllUserCSID();
-        //按照客户端顺序设置玩家数组
-        this.setUserArrayOrder();
-    },
-    //设置所有用户客户端座位号
-    setAllUserCSID:function(){
-        if(this.GameData== null||this.GameData== undefined)  return;
-
-        for(var key in this.GameData["players"]){
-            var user= this.GameData["players"][key];
-            if(user!= null&&user.SSID!= null){
-                user.CSID= this.getUserCSID(user.SSID);
-            }
-        }
-    },
-    //按照客户端顺序设置玩家数组
-    setUserArrayOrder:function(){
-        if(this.GameData== null||this.GameData== undefined)  return;
-
-        var users = {};
-        for(var key in this.GameData["players"]){
-            var user= this.GameData["players"][key];
-            if(user!= null){
-                users[this.GameData["players"][key].CSID] = this.GameData["players"][key];
-            }
-        }
-        this.GameData["players"] = users;
-    },
-    //得到我的服务器座位号
-    setMySSID:function(){
-        if(this.GameData== null||this.GameData== undefined)  return;
-
-        var myUserId= profile_user.getSelfUserID();
-        for(var key in this.GameData["players"]){
-            if(this.GameData["players"]&&
-                this.GameData["players"][key]&&
-                this.GameData["players"][key].userId== myUserId){
-                this.mySelf= this.GameData["players"][key];
-                this.GameData.mySSID= this.GameData["players"][key].SSID;
-                console.log("玩家服务器座位号:"+ this.GameData.mySSID);
-                //Todo:可以删除，利用id比较，而不是isMe
-                //this.GameData["players"][key].isMe = true;
-                break;
-            }
-        }
-    },
-    //获取押注信息
-    getBetChipData:function(){
-        return this.betChipData;
     },
     //坐下应答
     readJHID_SIT_DOWN:function(dataTable){
@@ -255,10 +277,6 @@ var Profile_JinHuaGameData= {
             }
         }
     },
-    //获取坐下消息
-    getSitDownData:function(){
-        return this.sitDownData;
-    },
     //金花发牌
     readJHID_INIT_CARDS:function(dataTable){
         this.initCardData= dataTable;
@@ -281,14 +299,6 @@ var Profile_JinHuaGameData= {
         if(this.foldCardData.nextPlayer){
             this.foldCardData.nextPlayer.CSID = this.getUserCSID(this.foldCardData.nextPlayer.SSID);
         }
-    },
-    //获取发牌数据
-    getInitCardData:function(){
-        return this.initCardData;
-    },
-    //获取弃牌数据
-    getFoldCardData:function(){
-        return this.foldCardData;
     },
     //本局结算
     readJHID_GAME_RESULT:function(dataTable){
@@ -319,8 +329,37 @@ var Profile_JinHuaGameData= {
             }
         }
     },
-    //获取本局结算数据
-    getGameResultData:function(){
-        return this.gameResultData;
+    //比牌
+    readJHID_PK:function(dataTable){
+        this.PKData= dataTable;
+        if(this.GameData["players"]&&this.PKData["result"] == 1){
+            var csid = this.getUserCSID(this.PKData.launchSeatID);
+            //要求比牌的人
+            this.PKData.launchCSID = csid;
+            if(!this.GameData["players"][csid]) return;
+
+            //要求比牌玩家下注的总金额
+            this.GameData["players"][csid].betCoins = this.PKData["betCoins"];
+            //要求比牌玩家剩余的金币
+            this.GameData["players"][csid].remainCoins = this.PKData["remainCoins"];
+            this.GameData.round = this.PKData.round;
+            this.GameData.totalPoolCoin = this.PKData.totalPoolCoin;
+            //要求比牌的人
+            this.PKData.winCSID = this.getUserCSID(this.PKData.winnerSeatID);
+            //被比牌的人客户端座位号
+            this.PKData.aimCSID = this.getUserCSID(this.PKData.aimSeatID);
+
+            if(this.PKData.winnerSeatID== this.PKData.launchSeatID){
+                //如果赢的人是要求比牌的人，输的座位号为被比牌的人座位号
+                this.PKData.lossCSID = this.PKData.aimCSID;
+            }else{
+                //如果赢的人是被比牌的人，输的座位号为要求比牌的人座位号
+                this.PKData.lossCSID = this.PKData.launchCSID;
+            }
+
+            if(this.PKData.nextPlayer){
+                this.PKData.nextPlayer.CSID = this.getUserCSID(this.PKData.nextPlayer.SSID);
+            }
+        }
     }
 };
