@@ -14,6 +14,8 @@ var JinHuaTableCard= {
         //Todo:重置套接字
         //牌桌上的玩家
         var players = JinHuaTablePlayer.getPlayers();
+        //显示看牌动画
+        JinHuaTableCheckButton.setCheckVisible(true);
         //隐藏叠加牌
         JinHuaTableCard.sendCardSprite.setVisible(false);
         //获取发牌数据
@@ -96,9 +98,9 @@ var JinHuaTableCard= {
                 ////发牌的时候初始化牌 的缩放，旋转角度，位置
                 this.sendCardInitCardState(players[key]);
                 //Todo:删除-设置手牌的初始位置
-//                spriteCard1.setPosition(cc.p(cc.winSize.width* 0.5, cc.winSize.height* 0.8));
-//                spriteCard2.setPosition(cc.p(cc.winSize.width* 0.5, cc.winSize.height* 0.8));
-//                spriteCard3.setPosition(cc.p(cc.winSize.width* 0.5, cc.winSize.height* 0.8));
+                spriteCard1.setPosition(cc.p(cc.winSize.width* 0.5, cc.winSize.height* 0.8));
+                spriteCard2.setPosition(cc.p(cc.winSize.width* 0.5, cc.winSize.height* 0.8));
+                spriteCard3.setPosition(cc.p(cc.winSize.width* 0.5, cc.winSize.height* 0.8));
 
                 var move1 = cc.moveTo(0.5, cc.p(endX1, endY1));
                 var move2 = cc.moveTo(0.5, cc.p(endX2, endY2));
@@ -193,8 +195,6 @@ var JinHuaTableCard= {
 //                this.showCardType(players[i], players[i].cardType);
 //            }
         }
-        console.log("飞金币"+turnCard);
-
         //如果要翻牌，则延时0.3秒播胜利动画
         if(turnCard){
             JinHuaTablePlayer.getJinHuaTablePlayerLayer().runAction(cc.sequence(cc.delayTime(0.3), cc.callFunc(JinHuaTableCard.startWinAnim)));
@@ -206,14 +206,12 @@ var JinHuaTableCard= {
     //飞金币之后,删除移除所有的下注筹码、牌数据
     startWinAnim:function(){
         var gameResultData = Profile_JinHuaGameData.getGameResultData();
-        console.log("播放胜利动画！");
-        console.log(gameResultData);
-        console.log(Profile_JinHuaGameData.getGameData());
         if(JinHuaTablePlayer.getPlayers()[gameResultData.CSID]){
-            if(gameResultData.CSID == 0&& Profile_JinHuaGameData.getGameData().mySSID){//如果是否玩家本身
+            if(gameResultData.CSID == 0&& Profile_JinHuaGameData.getGameData().mySSID== 0){//如果是否玩家本身
                 //显示<赢了>快速聊天按钮列表
                 JinHuaTableLogic.showQuickChatButton(STATUS_QUICK_CHAT_WIN);
             }
+            JinHuaTablePlayer.getJinHuaTablePlayerLayer().runAction(cc.sequence(cc.delayTime(2.0), cc.callFunc(JinHuaTableCoin.flyCoinsAnim)));
         }else{
             //赢家飞金币
             JinHuaTableCoin.flyCoinsAnim();
@@ -222,8 +220,7 @@ var JinHuaTableCard= {
     //Todo:清空所有玩家的手牌
     clearCards:function(){
         for(var key in JinHuaTablePlayer.getPlayers()){
-            console.log("清空所有手牌！");
-            console.log(JinHuaTablePlayer.getPlayers()[key]);
+            if(JinHuaTablePlayer.getPlayers()[key]== null||JinHuaTablePlayer.getPlayers()[key]== undefined) continue;
             JinHuaTablePlayer.getPlayers()[key].cardSprites[0].clear();
             JinHuaTablePlayer.getPlayers()[key].cardSprites[1].clear();
             JinHuaTablePlayer.getPlayers()[key].cardSprites[2].clear();

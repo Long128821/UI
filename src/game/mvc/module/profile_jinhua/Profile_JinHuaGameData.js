@@ -17,6 +17,7 @@ var Profile_JinHuaGameData= {
     foldCardData:null,//弃牌
     gameResultData:null,//本局计算
     PKData:null,//PK数据
+    checkCardData:null,//看牌
     clearData:function(){
         this.backPackGoodsCountData= {};
         this.GameData= {};
@@ -29,6 +30,7 @@ var Profile_JinHuaGameData= {
         this.foldCardData= {};
         this.gameResultData= {};
         this.PKData= {};
+        this.checkCardData= {};
     },
     getBackPackGoodsCountData:function(){
         return this.backPackGoodsCountData;
@@ -81,8 +83,13 @@ var Profile_JinHuaGameData= {
     getReadyData:function(){
         return this.readyData;
     },
+    //站起
     getStandUpData:function(){
         return this.standUpData;
+    },
+    //看牌
+    getCheckCardData:function(){
+        return this.checkCardData;
     },
     //获取玩家数据
     getMySelf:function(){
@@ -145,9 +152,6 @@ var Profile_JinHuaGameData= {
                 this.GameData["players"][key].userId== myUserId){
                 this.mySelf= this.GameData["players"][key];
                 this.GameData.mySSID= this.GameData["players"][key].SSID;
-                //console.log("玩家服务器座位号:"+ this.GameData.mySSID);
-                //Todo:可以删除，利用id比较，而不是isMe
-                //this.GameData["players"][key].isMe = true;
                 break;
             }
         }
@@ -263,8 +267,6 @@ var Profile_JinHuaGameData= {
         if(this.sitDownData["result"]==0){
             return;
         }
-        console.log("坐下:"+ this.sitDownData.playerInfo.userId);
-        console.log(this.sitDownData.playerInfo);
         if(this.sitDownData.playerInfo&&this.sitDownData.playerInfo.userId){
             this.sitDownData.playerInfo.CSID = this.getUserCSID(this.sitDownData.playerInfo.SSID);
 
@@ -291,8 +293,6 @@ var Profile_JinHuaGameData= {
     },
     //弃牌
     readJHID_DISCARD:function(dataTable){
-        console.log("弃牌数据");
-        console.log(dataTable);
         this.foldCardData= dataTable;
         this.foldCardData.CSID= this.getUserCSID(this.foldCardData["seatID"]);
         this.GameData.round = this.foldCardData.round;
@@ -302,9 +302,6 @@ var Profile_JinHuaGameData= {
     },
     //本局结算
     readJHID_GAME_RESULT:function(dataTable){
-        console.log("本局结算");
-        console.log(this.GameData["players"]);
-        console.log(dataTable);
         if(!this.GameData["players"]) return;
         this.gameResultData= dataTable;
         this.GameData["Exp"] = this.gameResultData["Exp"];
@@ -361,5 +358,10 @@ var Profile_JinHuaGameData= {
                 this.PKData.nextPlayer.CSID = this.getUserCSID(this.PKData.nextPlayer.SSID);
             }
         }
+    },
+    //看牌
+    readJHID_LOOK_CARDS:function(dataTable){
+        this.checkCardData= dataTable;
+        this.checkCardData.CSID= this.getUserCSID(this.checkCardData["seatID"]);
     }
 };

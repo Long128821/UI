@@ -297,33 +297,220 @@ var JinHuaTablePlayer= {
     },
     //关闭-我的定时器
     closeMyTimer:function(){
-        this.myTimerBg.stopAllActions();
-        this.myTimerBg.setPercentage(0);
-
-        this.myTimer.stopAllActions();
-        this.myTimer.setString("0");
-        this.myTimer.setVisible(false);
-        this.myTimer2.stopAllActions();
-        this.myTimer2.setString("0");
-        this.myTimer2.setVisible(false);
+        if(this.myTimerBg){
+            this.myTimerBg.stopAllActions();
+            this.myTimerBg.setPercentage(0);
+        }
+        if(this.myTimer){
+            this.myTimer.stopAllActions();
+            this.myTimer.setString("0");
+            this.myTimer.setVisible(false);
+        }
+        if(this.myTimer2){
+            this.myTimer2.stopAllActions();
+            this.myTimer2.setString("0");
+            this.myTimer2.setVisible(false);
+        }
     },
     //关闭-别的玩家的定时器
     closeOtherTimer:function(){
-        this.otherTimerBg.stopAllActions();
-        this.otherTimerBg.setPercentage(0);
-
-        this.otherTimer.stopAllActions();
-        this.otherTimer.setString("0");
-        this.otherTimer.setVisible(false);
-        this.otherTimer2.stopAllActions();
-        this.otherTimer2.setString("0");
-        this.otherTimer2.setVisible(false);
+        if(this.otherTimerBg){
+            this.otherTimerBg.stopAllActions();
+            this.otherTimerBg.setPercentage(0);
+        }
+        if(this.otherTimer){
+            this.otherTimer.stopAllActions();
+            this.otherTimer.setString("0");
+            this.otherTimer.setVisible(false);
+        }
+        if(this.otherTimer2){
+            this.otherTimer2.stopAllActions();
+            this.otherTimer2.setString("0");
+            this.otherTimer2.setVisible(false);
+        }
     },
     //清除所有计时器
     clearAllTimer:function(){
         this.closeMyTimer();
         this.closeOtherTimer();
         this.currentCSID= -10;
+    },
+    //坐下或者站起时，清空牌桌
+    clearTableAfterSitAndStand:function(){
+        //清理玩家状态图标
+        this.clearPlayerStateIcons();
+        //清空BatchNode
+        for(var key in this.tablePlayerEntitys){
+            if(this.tablePlayerEntitys[key]&&this.tablePlayerEntitys[key].cardSprites!= null&&this.tablePlayerEntitys[key].cardSprites[0]){
+                this.getCardBatchNode().removeFromParent(true);
+            }
+        }
+        //移除玩家元素
+        for(var key in this.tablePlayerEntitys){
+            if(this.tablePlayerEntitys[key]&&this.tablePlayerEntitys[key].mPlayerSprite!= null){
+                this.tablePlayerEntitys[key].removePlayerElementFromLayer(this.JinHuaTablePlayerLayer);
+                this.tablePlayerEntitys[key].dismissJinbiIcon();
+            }
+        }
+        //隐藏庄家图标
+        this.dealer.setVisible(false);
+    },
+    //清理玩家状态图标
+    clearPlayerStateIcons:function(){
+        for(var key in this.iconArray){
+            this.iconArray[key].removeFromParent(true);
+        }
+        this.iconArray = {};
+    },
+    //自己站起
+    selfStandUp:function(){
+        //发起站起
+        sendJHID_STAND_UP();
+    },
+    //重新加入层中，以便于能显示在上面
+    reAddToLayer:function(node){
+        node.retain();
+        this.getJinHuaTablePlayerLayer().removeChild(node, false);
+        this.getJinHuaTablePlayerLayer().addChild(node);
+    },
+    //自己坐下
+    sitDownMe:function(CSID){
+        var GameData= Profile_JinHuaGameData.getGameData();
+        sendJHID_SIT_DOWN(GameData.roomId, GameData.tableId, CSID);
+    },
+    //坐下失败
+    sitDownFail:function(sitDownData){
+        var GameData= Profile_JinHuaGameData.getGameData();
+        //玩家本身
+        if(GameData.mySSID){
+            this.updateTableAfterStandUpMe();
+            var mySelf= Profile_JinHuaGameData.getMySelf();
+            mySelf.SSID= null;
+        }
+        //显示toast
+        Common.showToast(sitDownData.message, 2);
+        //获取对应房间信息
+        var roomInfo= Profile_JinHuaRoomData.getRoomByID(GameData.roomId);
+        //剩余金币数
+        var self_coinnum= parseInt(Profile_JinHuaGameData.getMySelf().remainCoins);
+        if(roomInfo&&roomInfo.minCoin> self_coinnum){
+            //还缺少多少钱
+            var coinCnt= roomInfo.minCoin- self_coinnum;
+            //Todo:充值引导
+        }
+    },
+    //自己坐下-服务器应答处理
+    selfSitDownByServer:function(){
+        if(this.tablePlayerEntitys[0]){//1号位有人
+            this.tablePlayerEntitys[0].setCoin();
+            JinHuaTableTips.showEnterTableTips()
+        }
+    },
+    //其他人坐下
+    sitDownOther:function(sitDownData){
+        var GameData= Profile_JinHuaGameData.getGameData();
+        var CSID= sitDownData.playerInfo.CSID;
+        //他人坐下-创建实例(头像)
+        //Todo:创建实例-封装为同一个函数
+        this.tablePlayerEntitys[CSID] = new JinHuaTablePlayerEntity(sitDownData.playerInfo);
+        this.showPlayerStatus(this.tablePlayerEntitys[CSID]);
+        this.setPlayerPhoto(this.tablePlayerEntitys[CSID]);
+        this.tablePlayerEntitys[CSID].createCard();
+        this.tablePlayerEntitys[CSID].addPlayerElementToLayer(this.getJinHuaTablePlayerLayer());
+        this.tablePlayerEntitys[CSID].setCoin();
+
+        if(GameData.enterRoomEffectMinVipLevel!= null&& this.tablePlayerEntitys[CSID].vipLevel >= GameData.enterRoomEffectMinVipLevel){
+            this.tablePlayerEntitys[CSID].mPlayerSprite.setVisible(false);
+            //头像坐下动画JinHuaInteractionAnim.showVipPlayerSitDownBefore(CSID,tablePlayerEntitys[CSID]);
+        }
+
+        this.reAddToLayer(this.myTimerBg);
+        this.reAddToLayer(this.myTimer);
+        this.reAddToLayer(this.myTimer2);
+        this.reAddToLayer(this.otherTimerBg);
+        this.reAddToLayer(this.otherTimer);
+        this.reAddToLayer(this.otherTimer2);
+
+        //隐藏该作为标记
+        JinHuaTableLogic.hideSit(CSID);
+    },
+    //获取玩家table
+    getPlayers:function(){
+        return this.tablePlayerEntitys;
+    },
+    getCardBatchNode:function(){
+        return this.CardBatchNode;
+    },
+    //下注-自己点击
+    selfClickToBetCoin:function(bet_type, bet_coin){
+        this.closeMyTimer();
+        var  betChipData = {};
+        betChipData.CSID = 0;
+        betChipData.type = bet_type;
+        betChipData.thisTimeBetCoins = bet_coin;
+        JinHuaTableCoin.betCoinAnim(betChipData, true);
+    },
+    resetCurrentCSID:function(){
+        this.currentCSID = -10;
+    },
+    //比牌
+    onPK:function(){
+        if(this.showCard){//是否已经看牌
+
+        }
+
+        this.showPlayerPKBtns();
+    },
+    //显示用户比牌按钮
+    showPlayerPKBtns:function(){
+        var pkCnt = 0;
+        var pkId;
+        var players = JinHuaTablePlayer.getPlayers();
+        for(var i in players){
+            if(players[i]&&((players[i].status == STATUS_PLAYER_PLAYING || players[i].status == STATUS_PLAYER_LOOKCARD))){
+                if(i>0){
+                    JinHuaTableLogic.showPkButton(i);
+                    pkCnt++;
+                    pkId = i;
+                }
+            }
+        }
+
+        if(pkCnt== 1){
+            if(pkId){
+                this.onPK_ID(pkId);
+            }
+        }
+    },
+
+    onPK_ID:function(CSID){
+        this.clickPkBtnFunc(CSID);
+    },
+    //点击pk执行操作
+    clickPkBtnFunc:function(playerCSID){
+        var  players = JinHuaTablePlayer.getPlayers();
+        if(players[playerCSID]){
+            if(players[playerCSID].noPK){
+                Common.showToast("他使用了【禁比】，你不能和他比牌", 2);
+            }
+            this.hidePkButton();
+            sendJHID_PK(players[playerCSID].SSID);
+        }
+    },
+    //获取赢家位置
+    getWinPlayerPos:function(){
+        var GameResultData= Profile_JinHuaGameData.getGameResultData();
+        if(GameResultData){
+            return Profile_JinHuaGameData.getUserCSID(GameResultData.winnerSeat);
+        }
+        return 0;
+    },
+    //重置用户下金币
+    resetPlayerBetCoin:function(){
+        for(var key in this.tablePlayerEntitys){
+            if(this.tablePlayerEntitys[key]== null||this.tablePlayerEntitys[key]==undefined) continue;
+            this.tablePlayerEntitys[key].betCoins = 0;
+        }
     },
     //玩家<准备>消息回来后更新界面
     updateTableAfterPlayerReadyServerBack:function(){
@@ -383,107 +570,6 @@ var JinHuaTablePlayer= {
                 break;
         }
     },
-    //更新所有的人等级
-    updateAllPlayersLevel:function(){
-        for(var i in this.tablePlayerEntitys){
-            if(this.tablePlayerEntitys[i]== null||this.tablePlayerEntitys[i]== "undefined") continue;
-            this.tablePlayerEntitys[i].updatePlayerTips();
-        }
-    },
-    //收到服务器站起
-    updateTableAfterStandUpByServer:function(){
-        var standUpData= Profile_JinHuaGameData.getStandUpData();
-        var  mySelf = Profile_JinHuaGameData.getMySelf();
-        console.log(mySelf);
-        if(standUpData.result == 1){//成功站起
-            if(mySelf.SSID!= null&& mySelf.SSID == standUpData.SSID){//自己站起
-                console.log("自己站起");
-                if(mySelf.userId!= null&&mySelf.userId!= undefined){
-                    //更新自身的属性
-                    sendDBID_USER_INFO(mySelf.userId);
-                }
-                this.updateTableAfterStandUpMe(standUpData.CSID);
-                mySelf.SSID= null;
-            }else{//别人站起
-                console.log("别人站起");
-                if(standUpData.CSID!= null){
-                    this.updateTableAfterStandUpOther(standUpData.CSID);
-                }
-            }
-        }
-    },
-    //自己站起
-    updateTableAfterStandUpMe:function(CSID){
-        //清空发牌
-        this.clearTableAfterSitAndStand();
-        //自己站起后，更新当前人(如果之前可操作玩家是 自己)
-        var timerCSID = this.updateCurrentPlayerAfterStandUpMe();
-
-        JinHuaTableLogic.disableAllTableOperationButtons();
-        //隐藏底部控件
-        JinHuaTableLogic.setBotPanelVisible(false);
-        //隐藏在线奖励
-        JinHuaTableLogic.setOnLineBonusVisible(false);
-        if(this.tablePlayerEntitys[CSID]!= undefined){
-            if(this.tablePlayerEntitys[CSID].mPlayerSprite!= null&&this.tablePlayerEntitys[CSID].mPlayerSprite!= undefined){
-                //隐藏玩家头像
-                this.tablePlayerEntitys[CSID].mPlayerSprite.setVisible(false);
-            }
-            if(this.tablePlayerEntitys[CSID].readyIcon!= null&&this.tablePlayerEntitys[CSID].readyIcon!= undefined){
-                //移除准备Icon
-                this.tablePlayerEntitys[CSID].readyIcon.setVisible(false);
-            }
-        }
-
-        //更新数据-庄家、剩余玩家的位置
-        Profile_JinHuaGameData.updatePlayerInfo_SelfStand();
-
-        if(CSID!= null&&CSID!= undefined&&this.tablePlayerEntitys[CSID]!= null){
-            this.tablePlayerEntitys[CSID].clear();
-            this.tablePlayerEntitys[CSID]= null;
-        }
-        //视图更新-庄家
-        this.setDealer();
-        //视图更新-重新初始化玩家
-        this.initPlayerSprites(false);
-        //Todo:自己站起，轮到别的玩家操作，更新定时器
-        this.reAddToLayer(this.myTimerBg);
-        this.reAddToLayer(this.myTimer);
-        this.reAddToLayer(this.myTimer2);
-        this.reAddToLayer(this.otherTimerBg);
-        this.reAddToLayer(this.otherTimer);
-        this.reAddToLayer(this.otherTimer2);
-
-        //Todo:站起时金币不足，弹出充值引导
-        //checkAndShowPayGuideAfterStand()
-    },
-    //坐下或者站起时，清空牌桌
-    clearTableAfterSitAndStand:function(){
-        //清理玩家状态图标
-        this.clearPlayerStateIcons();
-        //清空BatchNode
-        for(var key in this.tablePlayerEntitys){
-            if(this.tablePlayerEntitys[key]&&this.tablePlayerEntitys[key].cardSprites!= null&&this.tablePlayerEntitys[key].cardSprites[0]){
-                this.getCardBatchNode().removeFromParent(true);
-            }
-        }
-        //移除玩家元素
-        for(var key in this.tablePlayerEntitys){
-            if(this.tablePlayerEntitys[key]&&this.tablePlayerEntitys[key].mPlayerSprite!= null){
-                this.tablePlayerEntitys[key].removePlayerElementFromLayer(this.JinHuaTablePlayerLayer);
-                this.tablePlayerEntitys[key].dismissJinbiIcon();
-            }
-        }
-        //隐藏庄家图标
-        this.dealer.setVisible(false);
-    },
-    //清理玩家状态图标
-    clearPlayerStateIcons:function(){
-        for(var key in this.iconArray){
-            this.iconArray[key].removeFromParent(true);
-        }
-        this.iconArray = {};
-    },
     //自己站起后，更新当前人(如果之前可操作玩家是 自己)
     updateCurrentPlayerAfterStandUpMe:function(){
 
@@ -494,9 +580,8 @@ var JinHuaTablePlayer= {
         //清除牌桌站起玩家
         if(this.tablePlayerEntitys[CSID]){
             this.tablePlayerEntitys[CSID].removePlayerElementFromLayer(this.JinHuaTablePlayerLayer);
-            //Todo:JinHuaTableRealFace.removeRealFaceIcon(tablePlayerEntitys[CSID]);
-            //Todo:JinHuaTableOccupyHead.createOccupyHead(CSID);
             this.tablePlayerEntitys[CSID].dismissJinbiIcon();
+            JinHuaTableCard.clearCards();
             //清除手牌
             if(this.tablePlayerEntitys[CSID].cardSprites[0]){
                 this.tablePlayerEntitys[CSID].removeCard(this.CardBatchNode);
@@ -508,22 +593,6 @@ var JinHuaTablePlayer= {
             JinHuaTableLogic.showSitButton(CSID);
             JinHuaTableTips.createSitTips(CSID);
         }
-    },
-    //自己站起
-    selfStandUp:function(){
-        //发起站起
-        sendJHID_STAND_UP();
-    },
-    //重新加入层中，以便于能显示在上面
-    reAddToLayer:function(node){
-        node.retain();
-        this.getJinHuaTablePlayerLayer().removeChild(node, false);
-        this.getJinHuaTablePlayerLayer().addChild(node);
-    },
-    //自己坐下
-    sitDownMe:function(CSID){
-        var GameData= Profile_JinHuaGameData.getGameData();
-        sendJHID_SIT_DOWN(GameData.roomId, GameData.tableId, CSID);
     },
     //收到服务器传来的<坐下>消息
     updateTableSitDownByServer:function(){
@@ -542,62 +611,6 @@ var JinHuaTablePlayer= {
             }
         }
 
-    },
-    //坐下失败
-    sitDownFail:function(sitDownData){
-        var GameData= Profile_JinHuaGameData.getGameData();
-        //玩家本身
-        if(GameData.mySSID){
-            this.updateTableAfterStandUpMe();
-            var mySelf= Profile_JinHuaGameData.getMySelf();
-            mySelf.SSID= null;
-        }
-        //显示toast
-        Common.showToast(sitDownData.message, 2);
-        //获取对应房间信息
-        var roomInfo= Profile_JinHuaRoomData.getRoomByID(GameData.roomId);
-        //剩余金币数
-        var self_coinnum= parseInt(Profile_JinHuaGameData.getMySelf().remainCoins);
-        if(roomInfo&&roomInfo.minCoin> self_coinnum){
-            //还缺少多少钱
-            var coinCnt= roomInfo.minCoin- self_coinnum;
-            //Todo:充值引导
-        }
-    },
-    //自己坐下-服务器应答处理
-    selfSitDownByServer:function(){
-        if(this.tablePlayerEntitys[0]){//1号位有人
-            this.tablePlayerEntitys[0].setCoin();
-            JinHuaTableTips.showEnterTableTips()
-        }
-    },
-    //其他人坐下
-    sitDownOther:function(sitDownData){
-        var GameData= Profile_JinHuaGameData.getGameData();
-        var CSID= sitDownData.playerInfo.CSID;
-        //他人坐下-创建实例(头像)
-        //Todo:创建实例-封装为同一个函数
-        this.tablePlayerEntitys[CSID] = new JinHuaTablePlayerEntity(sitDownData.playerInfo);
-        this.showPlayerStatus(this.tablePlayerEntitys[CSID]);
-        this.setPlayerPhoto(this.tablePlayerEntitys[CSID]);
-        this.tablePlayerEntitys[CSID].createCard();
-        this.tablePlayerEntitys[CSID].addPlayerElementToLayer(this.getJinHuaTablePlayerLayer());
-        this.tablePlayerEntitys[CSID].setCoin();
-
-        if(GameData.enterRoomEffectMinVipLevel!= null&& this.tablePlayerEntitys[CSID].vipLevel >= GameData.enterRoomEffectMinVipLevel){
-            this.tablePlayerEntitys[CSID].mPlayerSprite.setVisible(false);
-            //头像坐下动画JinHuaInteractionAnim.showVipPlayerSitDownBefore(CSID,tablePlayerEntitys[CSID]);
-        }
-
-        this.reAddToLayer(this.myTimerBg);
-        this.reAddToLayer(this.myTimer);
-        this.reAddToLayer(this.myTimer2);
-        this.reAddToLayer(this.otherTimerBg);
-        this.reAddToLayer(this.otherTimer);
-        this.reAddToLayer(this.otherTimer2);
-
-        //隐藏该作为标记
-        JinHuaTableLogic.hideSit(CSID);
     },
     //服务器返回的<下注>应答
     updateTableAfterBetCoinByServer:function(){
@@ -622,13 +635,6 @@ var JinHuaTablePlayer= {
             //清空其他玩家的定时器
             JinHuaTableCoin.betCoinAnim(betChipData, false)
         }
-    },
-    //获取玩家table
-    getPlayers:function(){
-        return this.tablePlayerEntitys;
-    },
-    getCardBatchNode:function(){
-        return this.CardBatchNode;
     },
     //更新玩家的按钮并启动计时
     updateMyOperationBtnsAndStartTimer:function(currentPlayer){
@@ -705,18 +711,8 @@ var JinHuaTablePlayer= {
             this.otherTimer.runAction(cc.sequence(arr));
         }
     },
-    //下注-自己点击
-    selfClickToBetCoin:function(bet_type, bet_coin){
-        this.closeMyTimer();
-        var  betChipData = {};
-        betChipData.CSID = 0;
-        betChipData.type = bet_type;
-        betChipData.thisTimeBetCoins = bet_coin;
-        JinHuaTableCoin.betCoinAnim(betChipData, true);
-    },
     //用户<弃牌>后收到服务器返回更新界面
     updateTableAfterFoldCardByServer:function(){
-        console.log("接受到的弃牌数据!");
         var foldCardData= Profile_JinHuaGameData.getFoldCardData();
         //别人弃牌的服务器返回
         if(this.tablePlayerEntitys[foldCardData.CSID]&&!(this.tablePlayerEntitys[foldCardData.CSID].isMe()&&this.tablePlayerEntitys[foldCardData.CSID].status == STATUS_PLAYER_DISCARD)){
@@ -726,8 +722,6 @@ var JinHuaTablePlayer= {
     },
     //弃牌后，更新下一个玩家
     updateNextPlayerAfterFoldCard:function(foldCardData){
-        console.log("弃牌后，更新下一个玩家");
-        console.log(foldCardData.nextPlayer);
         if(foldCardData.nextPlayer){
             this.refreshCurrentPlayer(foldCardData.nextPlayer);
             JinHuaTableLogic.updateTableTitle();
@@ -739,8 +733,7 @@ var JinHuaTablePlayer= {
         if(this.tablePlayerEntitys[CSID]){
             this.tablePlayerEntitys[CSID].status = STATUS_PLAYER_DISCARD;
             this.addPlayerStateIcon(this.TYPE_ICON_FOLD, CSID);
-            //Todo:显示气泡
-            //JinHuaTableBubble.showJinHuaTableBubble(CSID, JinHuaTableBubble.BUBBLE_TYPE_DISCARD);
+            JinHuaTableBubble.showJinHuaTableBubble(CSID, JinHuaTableBubble.BUBBLE_TYPE_DISCARD);
             this.tablePlayerEntitys[CSID].setPlayerDarkCoverVisible();
             //移除牌
             JinHuaTableCard.startFoldCardAnim(this.tablePlayerEntitys[CSID]);
@@ -755,66 +748,75 @@ var JinHuaTablePlayer= {
         this.updatePlayerStateAfterFoldCard(1);
         JinHuaTableLogic.showQuickChatButton(STATUS_QUICK_CHAT_FOLD);
     },
-    resetCurrentCSID:function(){
-        this.currentCSID = -10;
-    },
-    //比牌
-    onPK:function(){
-        if(this.showCard){//是否已经看牌
-
+    //更新所有的人等级
+    updateAllPlayersLevel:function(){
+        for(var i in this.tablePlayerEntitys){
+            if(this.tablePlayerEntitys[i]== null||this.tablePlayerEntitys[i]== "undefined") continue;
+            this.tablePlayerEntitys[i].updatePlayerTips();
         }
-
-        this.showPlayerPKBtns();
     },
-    //显示用户比牌按钮
-    showPlayerPKBtns:function(){
-        var pkCnt = 0;
-        var pkId;
-        var players = JinHuaTablePlayer.getPlayers();
-        for(var i in players){
-            if(players[i]&&((players[i].status == STATUS_PLAYER_PLAYING || players[i].status == STATUS_PLAYER_LOOKCARD))){
-                if(i>0){
-                    JinHuaTableLogic.showPkButton(i);
-                    pkCnt++;
-                    pkId = i;
+    //收到服务器站起
+    updateTableAfterStandUpByServer:function(){
+        var standUpData= Profile_JinHuaGameData.getStandUpData();
+        var  mySelf = Profile_JinHuaGameData.getMySelf();
+        if(standUpData.result == 1){//成功站起
+            if(mySelf.SSID!= null&& mySelf.SSID == standUpData.SSID){//自己站起
+                if(mySelf.userId!= null&&mySelf.userId!= undefined){
+                    //更新自身的属性
+                    sendDBID_USER_INFO(mySelf.userId);
+                }
+                this.updateTableAfterStandUpMe(standUpData.CSID);
+                mySelf.SSID= null;
+            }else{//别人站起
+                if(standUpData.CSID!= null){
+                    this.updateTableAfterStandUpOther(standUpData.CSID);
                 }
             }
         }
+    },
+    //自己站起
+    updateTableAfterStandUpMe:function(CSID){
+        //清空发牌
+        this.clearTableAfterSitAndStand();
+        //自己站起后，更新当前人(如果之前可操作玩家是 自己)
+        var timerCSID = this.updateCurrentPlayerAfterStandUpMe();
 
-        if(pkCnt== 1){
-            if(pkId){
-                this.onPK_ID(pkId);
+        JinHuaTableLogic.disableAllTableOperationButtons();
+        //隐藏底部控件
+        JinHuaTableLogic.setBotPanelVisible(false);
+        //隐藏在线奖励
+        JinHuaTableLogic.setOnLineBonusVisible(false);
+        if(this.tablePlayerEntitys[CSID]!= undefined){
+            if(this.tablePlayerEntitys[CSID].mPlayerSprite!= null&&this.tablePlayerEntitys[CSID].mPlayerSprite!= undefined){
+                //隐藏玩家头像
+                this.tablePlayerEntitys[CSID].mPlayerSprite.setVisible(false);
+            }
+            if(this.tablePlayerEntitys[CSID].readyIcon!= null&&this.tablePlayerEntitys[CSID].readyIcon!= undefined){
+                //移除准备Icon
+                this.tablePlayerEntitys[CSID].readyIcon.setVisible(false);
             }
         }
-    },
 
-    onPK_ID:function(CSID){
-        this.clickPkBtnFunc(CSID);
-    },
-    //点击pk执行操作
-    clickPkBtnFunc:function(playerCSID){
-        var  players = JinHuaTablePlayer.getPlayers();
-        if(players[playerCSID]){
-            if(players[playerCSID].noPK){
-                Common.showToast("他使用了【禁比】，你不能和他比牌", 2);
-            }
-            this.hidePkButton();
-            sendJHID_PK(players[playerCSID].SSID);
+        //更新数据-庄家、剩余玩家的位置
+        Profile_JinHuaGameData.updatePlayerInfo_SelfStand();
+
+        if(CSID!= null&&CSID!= undefined&&this.tablePlayerEntitys[CSID]!= null){
+            this.tablePlayerEntitys[CSID].clear();
+            this.tablePlayerEntitys[CSID]= null;
         }
-    },
-    //获取赢家位置
-    getWinPlayerPos:function(){
-        var GameResultData= Profile_JinHuaGameData.getGameResultData();
-        if(GameResultData){
-            return Profile_JinHuaGameData.getUserCSID(GameResultData.winnerSeat);
-        }
-        return 0;
-    },
-    //重置用户下金币
-    resetPlayerBetCoin:function(){
-        for(var key in this.tablePlayerEntitys){
-            if(this.tablePlayerEntitys[key]== null||this.tablePlayerEntitys[key]==undefined) continue;
-            this.tablePlayerEntitys[key].betCoins = 0;
-        }
+        //视图更新-庄家
+        this.setDealer();
+        //视图更新-重新初始化玩家
+        this.initPlayerSprites(false);
+        //Todo:自己站起，轮到别的玩家操作，更新定时器
+        this.reAddToLayer(this.myTimerBg);
+        this.reAddToLayer(this.myTimer);
+        this.reAddToLayer(this.myTimer2);
+        this.reAddToLayer(this.otherTimerBg);
+        this.reAddToLayer(this.otherTimer);
+        this.reAddToLayer(this.otherTimer2);
+
+        //Todo:站起时金币不足，弹出充值引导
+        //checkAndShowPayGuideAfterStand()
     }
 };

@@ -86,5 +86,10 @@ var ProfileJinHuaTable= {
     //比牌
     slot_JHID_PK:function(dataTable){
         Profile_JinHuaGameData.readJHID_PK(dataTable);
+    },
+    //看牌
+    slot_JHID_LOOK_CARDS:function(dataTable){
+        Profile_JinHuaGameData.readJHID_LOOK_CARDS(dataTable);
+        JinHuaTableLogic.updateJHID_LOOK_CARDS();
     }
 };

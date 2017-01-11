@@ -413,6 +413,8 @@ ModuleTable["JinHuaTable"]["jsLists"] = [
     "src/module/table/table_elements/JinHuaTablePlayer.js",
     "src/module/table/table_elements/JinHuaTableTips.js",
     "src/module/table/table_elements/JinHuaTableCoin.js",
+    "src/module/table/table_elements/JinHuaTableBubble.js",
+    "src/module/table/table_elements/JinHuaTableCheckButton.js",
     "src/module/table/table_entity/JinHuaBetedCoinLabel.js",
     "src/module/table/table_entity/JinHuaCardSprite.js",
     "src/module/table/table_entity/JinHuaTablePlayerEntity.js",

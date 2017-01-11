@@ -628,3 +628,20 @@ function sendJHID_PK(SSID){
 
     delete nmBaseMessage;
 }
+
+//看牌
+function sendJHID_LOOK_CARDS(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JHID_LOOK_CARDS);
+    nmBaseMessage.setExtData(3);
+
+    nmBaseMessage.writeStart();
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
