@@ -82,18 +82,18 @@ CardSprite.prototype.setValue= function(value){
     //牌值(左上角)
     this.valueSprite= cc.Sprite.create(valuePath);
     this.valueSprite.setAnchorPoint(cc.p(0, 1));
-    this.valueSprite.setPosition(7, this.front.getContentSize().height- 3);
+    this.valueSprite.setPosition(2, this.front.getContentSize().height- 3);
 
     //大花色(整个牌面)
     this.cardTypeBigSprite= cc.Sprite.create("#desk_card_type"+ typeIndex+".png");
     this.cardTypeBigSprite.setAnchorPoint(cc.p(1,0));
-    this.cardTypeBigSprite.setPosition(this.front.getContentSize().width- 5, 7);
+    this.cardTypeBigSprite.setPosition(this.front.getContentSize().width- 10, 5);
 
     //小花色(左上角)
     this.cardTypeSmallSprite= cc.Sprite.create("#desk_card_type"+ typeIndex+".png");
-    this.cardTypeSmallSprite.setAnchorPoint(cc.p(1, 0));
+    this.cardTypeSmallSprite.setAnchorPoint(cc.p(0, 1));
     this.cardTypeSmallSprite.setScale(0.4);
-    this.cardTypeSmallSprite.setPosition(this.valueSprite.getPositionX()+ 7, this.valueSprite.getPositionY()- valueSprite.getContentSize().height);
+    this.cardTypeSmallSprite.setPosition(10, this.front.getContentSize().height- 35);
 
     this.front.addChild(this.valueSprite);//牌值
     this.front.addChild(this.cardTypeBigSprite);//大花色

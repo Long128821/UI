@@ -1,25 +1,25 @@
 //气泡类型
-BUBBLE_TYPE_LOOKCARD = 1;//看牌
-BUBBLE_TYPE_CALL = 2;//跟注
-BUBBLE_TYPE_RAISE = 3;//加注
-BUBBLE_TYPE_ALLIN = 4;//押满
-BUBBLE_TYPE_DISCARD = 5;//弃牌
-BUBBLE_TYPE_CHANGECARD = 6;//换牌
-BUBBLE_TYPE_NO_PK = 7;//禁比
+BUBBLE_TYPE_LOOKCARD = 0;//看牌
+BUBBLE_TYPE_CALL = 1;//跟注
+BUBBLE_TYPE_RAISE = 2;//加注
+BUBBLE_TYPE_ALLIN = 3;//押满
+BUBBLE_TYPE_DISCARD = 4;//弃牌
+BUBBLE_TYPE_CHANGECARD = 5;//换牌
+BUBBLE_TYPE_NO_PK = 6;//禁比
 /**
  * Func:头像上的气泡(玩家操作类型)
  *      在PlayerLayer层上面添加元素。
  */
 var JinHuaTableBubble= {
-    bubblePicTable:{//对应气泡纹理
-        BUBBLE_TYPE_LOOKCARD:"desk_action_msg_view.png",//看牌
-        BUBBLE_TYPE_CALL:"desk_action_msg_follow.png",//跟注
-        BUBBLE_TYPE_RAISE:"desk_action_msg_raise.png",//加注
-        BUBBLE_TYPE_ALLIN:"desk_action_msg_follow.png",//押满(All In)
-        BUBBLE_TYPE_DISCARD:"desk_action_msg_giveup.png",//弃牌
-        BUBBLE_TYPE_CHANGECARD:"desk_action_msg_changecard.png",//换牌
-        BUBBLE_TYPE_NO_PK:"desk_action_msg_jinbi.png"//禁比
-    },
+    bubblePicTable:[//对应气泡纹理
+        "desk_action_msg_view.png",//看牌
+        "desk_action_msg_follow.png",//跟注
+        "desk_action_msg_raise.png",//加注
+        "desk_action_msg_follow.png",//押满(All In)
+        "desk_action_msg_giveup.png",//弃牌
+        "desk_action_msg_changecard.png",//换牌
+        "desk_action_msg_jinbi.png"//禁比
+    ],
     /**
      * Func:结束-显示气泡
      * @param pSender  要移除的气泡

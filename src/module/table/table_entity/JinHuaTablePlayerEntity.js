@@ -410,7 +410,7 @@ JinHuaTablePlayerEntity.prototype.createJinbiSprite= function(){
 
     var players= Profile_JinHuaTableConfig.getSpritePlayers();
     if(this.isMe()) {
-        this.jinbiSprite.setPosition(players[this.player.CSID].cards[2].locX, players[this.player.CSID].cards[2].locY + 30)
+        this.jinbiSprite.setPosition(players[this.player.CSID].cards[1].locX, players[this.player.CSID].cards[1].locY + 30)
     }else{
         this.jinbiSprite.setPosition(558 + 26 * 2, 130 + jinbiSize.height / 2);
     }
@@ -564,11 +564,11 @@ JinHuaTablePlayerEntity.prototype.createNotBeLookedCard= function(){
     }else{
         var player= Profile_JinHuaTableConfig.getSpritePlayers()[this.player.CSID];
         if(player.CSID< 3){//屏幕右边
-            cardTypePosX = player.cards[2].locX+this.cardSprites[0].getCardSprite().getContentSize().width/4;
+            cardTypePosX = player.cards[1].locX+this.cardSprites[0].getCardSprite().getContentSize().width/4;
         }else{
-            cardTypePosX = player.cards[2].locX-this.cardSprites[0].getCardSprite().getContentSize().width/4;
+            cardTypePosX = player.cards[1].locX-this.cardSprites[0].getCardSprite().getContentSize().width/4;
         }
-        cardTypePosY = player.cards[2].locY- 10* Profile_JinHuaTableConfig.TableScaleY;
+        cardTypePosY = player.cards[1].locY- 10* Profile_JinHuaTableConfig.TableScaleY;
     }
     //牌型背景
     //设置纸牌终点的位置的原因是(发牌动画)

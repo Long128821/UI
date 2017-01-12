@@ -160,10 +160,10 @@ var JinHuaTableCoin= {
                 JinHuaTablePlayer.setDealer();
                 break;
             case TYPE_BET_CALL://跟注
-                JinHuaTableBubble.showJinHuaTableBubble(betChipData.CSID, JinHuaTableBubble.BUBBLE_TYPE_CALL);
+                JinHuaTableBubble.showJinHuaTableBubble(betChipData.CSID, BUBBLE_TYPE_CALL);
                 break;
             case TYPE_BET_RAISE://加注
-                JinHuaTableBubble.showJinHuaTableBubble(betChipData.CSID, JinHuaTableBubble.BUBBLE_TYPE_RAISE);
+                JinHuaTableBubble.showJinHuaTableBubble(betChipData.CSID, BUBBLE_TYPE_RAISE);
                 break;
             case TYPE_BET_ALLIN://All In
                 console.log("玩家ID:"+ betChipData.CSID+ "All In!");

@@ -615,7 +615,7 @@ function sendJHID_PK(SSID){
     if(!Network.getInstance().getWebSocketConnecting()) return;
 
     var nmBaseMessage = new NMBaseMessage();
-    nmBaseMessage.setMessageType(REQ + JHID_DISCARD);
+    nmBaseMessage.setMessageType(REQ + JHID_PK);
     nmBaseMessage.setExtData(3);
 
     nmBaseMessage.writeStart();
@@ -636,6 +636,23 @@ function sendJHID_LOOK_CARDS(){
 
     var nmBaseMessage = new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + JHID_LOOK_CARDS);
+    nmBaseMessage.setExtData(3);
+
+    nmBaseMessage.writeStart();
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//开牌
+function sendJHID_SHOW_CARDS(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JHID_SHOW_CARDS);
     nmBaseMessage.setExtData(3);
 
     nmBaseMessage.writeStart();

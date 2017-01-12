@@ -26,7 +26,8 @@ var JinHuaTablePlayer= {
         this.JinHuaTablePlayerLayer= null;
         this.clearAllTimer();
         this.otherTimer= null;
-        this.iconArray= {};
+        //清空看牌标记
+        this.clearPlayerStateIcons();
         this.tablePlayerEntitys= {};
         this.dealer= null;
         this.myTimer= null;
@@ -62,9 +63,19 @@ var JinHuaTablePlayer= {
         if(this.iconTable[pos]!= null){
             this.JinHuaTablePlayerLayer.removeChild(this.iconTable[pos], true);
         }
-
         var iconSprite= cc.Sprite.create("#"+ iconPath);
         this.iconTable[pos]= iconSprite;
+
+        if(this.tablePlayerEntitys[pos]!= null&&!this.tablePlayerEntitys[pos].isMe()){
+            iconSprite.setPosition(Profile_JinHuaTableConfig.getSpritePlayers()[pos].iconX,Profile_JinHuaTableConfig.getSpritePlayers()[pos].iconY);
+        }else{
+            iconSprite.setPosition(412, 110);
+            iconSprite.setVisible(false);
+        }
+
+        iconSprite.setZOrder(10);
+        this.JinHuaTablePlayerLayer.addChild(this.iconTable[pos]);
+        this.iconArray[Common.getTableSize(iconSprite)]= iconSprite;
     },
     //牌桌玩家
     create:function(){
@@ -350,14 +361,21 @@ var JinHuaTablePlayer= {
             if(this.tablePlayerEntitys[key]&&this.tablePlayerEntitys[key].mPlayerSprite!= null){
                 this.tablePlayerEntitys[key].removePlayerElementFromLayer(this.JinHuaTablePlayerLayer);
                 this.tablePlayerEntitys[key].dismissJinbiIcon();
+                //隐藏牌型
+                JinHuaTableCard.hideCardType(this.tablePlayerEntitys[key]);
             }
         }
+        //清空手牌
+        JinHuaTableCard.clearCards();
+        //隐藏看牌提示
+        JinHuaTableCheckButton.setCheckVisible(false);
         //隐藏庄家图标
         this.dealer.setVisible(false);
     },
     //清理玩家状态图标
     clearPlayerStateIcons:function(){
         for(var key in this.iconArray){
+            if(this.iconArray[key]== null||this.iconArray[key]== undefined) continue;
             this.iconArray[key].removeFromParent(true);
         }
         this.iconArray = {};
@@ -452,50 +470,6 @@ var JinHuaTablePlayer= {
     },
     resetCurrentCSID:function(){
         this.currentCSID = -10;
-    },
-    //比牌
-    onPK:function(){
-        if(this.showCard){//是否已经看牌
-
-        }
-
-        this.showPlayerPKBtns();
-    },
-    //显示用户比牌按钮
-    showPlayerPKBtns:function(){
-        var pkCnt = 0;
-        var pkId;
-        var players = JinHuaTablePlayer.getPlayers();
-        for(var i in players){
-            if(players[i]&&((players[i].status == STATUS_PLAYER_PLAYING || players[i].status == STATUS_PLAYER_LOOKCARD))){
-                if(i>0){
-                    JinHuaTableLogic.showPkButton(i);
-                    pkCnt++;
-                    pkId = i;
-                }
-            }
-        }
-
-        if(pkCnt== 1){
-            if(pkId){
-                this.onPK_ID(pkId);
-            }
-        }
-    },
-
-    onPK_ID:function(CSID){
-        this.clickPkBtnFunc(CSID);
-    },
-    //点击pk执行操作
-    clickPkBtnFunc:function(playerCSID){
-        var  players = JinHuaTablePlayer.getPlayers();
-        if(players[playerCSID]){
-            if(players[playerCSID].noPK){
-                Common.showToast("他使用了【禁比】，你不能和他比牌", 2);
-            }
-            this.hidePkButton();
-            sendJHID_PK(players[playerCSID].SSID);
-        }
     },
     //获取赢家位置
     getWinPlayerPos:function(){
@@ -733,7 +707,7 @@ var JinHuaTablePlayer= {
         if(this.tablePlayerEntitys[CSID]){
             this.tablePlayerEntitys[CSID].status = STATUS_PLAYER_DISCARD;
             this.addPlayerStateIcon(this.TYPE_ICON_FOLD, CSID);
-            JinHuaTableBubble.showJinHuaTableBubble(CSID, JinHuaTableBubble.BUBBLE_TYPE_DISCARD);
+            JinHuaTableBubble.showJinHuaTableBubble(CSID, BUBBLE_TYPE_DISCARD);
             this.tablePlayerEntitys[CSID].setPlayerDarkCoverVisible();
             //移除牌
             JinHuaTableCard.startFoldCardAnim(this.tablePlayerEntitys[CSID]);
@@ -818,5 +792,18 @@ var JinHuaTablePlayer= {
 
         //Todo:站起时金币不足，弹出充值引导
         //checkAndShowPayGuideAfterStand()
+    },
+    //收到服务器<看牌>消息更新
+    updateTableAfterLookCardByServer:function(checkCardData){
+        if(this.tablePlayerEntitys[checkCardData.CSID]== null||this.tablePlayerEntitys[checkCardData.CSID]== undefined) return;
+        //看牌
+        this.tablePlayerEntitys[checkCardData.CSID].status= STATUS_PLAYER_LOOKCARD;
+        //看牌图标
+        this.addPlayerStateIcon(this.TYPE_ICON_CHECK, checkCardData.CSID);
+        //显示气泡
+        JinHuaTableBubble.showJinHuaTableBubble(checkCardData.CSID, BUBBLE_TYPE_LOOKCARD);
+
+        //看牌动画
+        JinHuaTableCard.lookCardAnim(this.tablePlayerEntitys, checkCardData);
     }
 };

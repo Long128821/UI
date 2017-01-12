@@ -224,6 +224,70 @@ var JinHuaTableCard= {
             JinHuaTablePlayer.getPlayers()[key].cardSprites[0].clear();
             JinHuaTablePlayer.getPlayers()[key].cardSprites[1].clear();
             JinHuaTablePlayer.getPlayers()[key].cardSprites[2].clear();
+            //是否为玩家本身,隐藏牌型提示
+            if(JinHuaTablePlayer.getPlayers()[key].isMe()){
+                JinHuaTableCard.hideCardType(JinHuaTablePlayer.getPlayers()[key]);
+            }
         }
+    },
+    //看牌动画
+    lookCardAnim:function(players, checkCardData){
+        //要看牌的人手上没有牌...
+        if(players[checkCardData.CSID].cardSprites[0]==null||players[checkCardData.CSID].cardSprites[0]==undefined){
+            return;
+        }
+        //玩家自己看牌
+        if(players[checkCardData.CSID].isMe()){
+            //设置牌值，开牌
+            for(var key in players[checkCardData.CSID].cardSprites){
+                players[checkCardData.CSID].cardSprites[key].setValue(checkCardData["cardValues"][key]);
+                this.openCard(players[checkCardData.CSID].cardSprites[key]);
+            }
+            //显示牌型
+            this.showCardType(players[checkCardData.CSID], checkCardData["cardType"]);
+            //更新我的按钮
+            JinHuaTableLogic.updateMyOperationBtns(checkCardData.currentPlayer);
+        }else{//别人看牌
+            var player= Profile_JinHuaTableConfig.spritePlayers[checkCardData.CSID];
+            this.rotateCard(player.cards[1].locX,player.cards[1].locY,players[checkCardData.CSID].cardSprites[0].getCardSprite(),-32);
+            this.rotateCard(player.cards[1].locX,player.cards[1].locY,players[checkCardData.CSID].cardSprites[1].getCardSprite(),0);
+            this.rotateCard(player.cards[1].locX,player.cards[1].locY,players[checkCardData.CSID].cardSprites[2].getCardSprite(),23);
+        }
+    },
+    //翻开牌
+    openCard:function(cardSprite){
+        //Todo:是否有问题
+        var bgCardSprite= cardSprite.getCardSprite();
+        var seq= cc.sequence(
+            cc.scaleTo(this.OpenCardAnimTime/2,0,bgCardSprite.getScaleY()),
+            cc.callFunc(function(pSender){
+                cardSprite.showFront();
+            }),
+            cc.scaleTo(this.OpenCardAnimTime/2,bgCardSprite.getScaleX(),bgCardSprite.getScaleY())
+        );
+        bgCardSprite.runAction(seq);
+    },
+    //看牌旋转牌
+    rotateCard:function(endX,endY,cardSprite,angle){
+        if(cardSprite== null||cardSprite== undefined) return;
+        cardSprite.runAction(cc.sequence(cc.moveTo(0.3, cc.p(endX, endY)), cc.rotateTo(0.5, angle)));
+    },
+    /**
+     * Func:显示牌型
+     * @param player 玩家
+     * @param cardType 牌型
+     */
+    showCardType:function(player, cardType){
+        if(cardType!=null && cardType!= undefined){
+            player.cardTypeSprite.setVisible(true);
+            player.cardTypeLabel.setString(this.CardTypeName[parseInt(cardType)- 1]);
+        }
+    },
+    /**
+     * Func:隐藏牌型
+     */
+    hideCardType:function(player){
+        if(player== undefined||player== null) return;
+        player.cardTypeSprite.setVisible(false);
     }
 };

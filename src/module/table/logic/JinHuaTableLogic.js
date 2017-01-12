@@ -961,7 +961,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            console.log("pk");
+            JinHuaTableLogic.onPK();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1065,7 +1065,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            JinHuaTableLogic.onPK();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1130,7 +1130,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            JinHuaTableLogic.onPK();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1345,6 +1345,7 @@ var JinHuaTableLogic= {
         Frameworks.addSlot2Signal(JHID_GAME_RESULT, ProfileJinHuaTable.slot_JHID_GAME_RESULT);//本局结算
         Frameworks.addSlot2Signal(JHID_PK, ProfileJinHuaTable.slot_JHID_PK);//比牌
         Frameworks.addSlot2Signal(JHID_LOOK_CARDS, ProfileJinHuaTable.slot_JHID_LOOK_CARDS);//看牌
+        Frameworks.addSlot2Signal(JHID_SHOW_CARDS, ProfileJinHuaTable.slot_JHID_SHOW_CARDS);//展示牌
 },
     //移除信号
     removeSlot:function(){
@@ -1364,6 +1365,8 @@ var JinHuaTableLogic= {
     	Frameworks.removeSlotFromSignal(JHID_DISCARD, ProfileJinHuaTable.slot_JHID_DISCARD);
     	Frameworks.removeSlotFromSignal(JHID_GAME_RESULT, ProfileJinHuaTable.slot_JHID_GAME_RESULT);
     	Frameworks.removeSlotFromSignal(JHID_PK, ProfileJinHuaTable.slot_JHID_PK);
+    	Frameworks.removeSlotFromSignal(JHID_LOOK_CARDS, ProfileJinHuaTable.slot_JHID_LOOK_CARDS);
+    	Frameworks.removeSlotFromSignal(JHID_SHOW_CARDS, ProfileJinHuaTable.slot_JHID_SHOW_CARDS);
     },
     
     //释放界面的私有数据
@@ -1524,10 +1527,14 @@ var JinHuaTableLogic= {
     updateJHID_GAME_RESULT:function(){
         //清空所有的定时器
         JinHuaTablePlayer.clearAllTimer();
-        //
+        //本局结算后，操作一些数据
         this.initGameDataAfterGameResult();
         //显示结果
         JinHuaTableCard.startResultShow();
+        //获取在线时长
+        if(this.GameData.roomId!= null){
+            sendJHID_GET_BAOHE_STEP_INFO(this.GameData.roomId);
+        }
     },
     //更新比牌动画
     updateJHID_PK:function(){
@@ -1536,19 +1543,31 @@ var JinHuaTableLogic= {
             Common.showToast(PKData["message"], 1);
             return;
         }
-        //JinHuaPKAnim.startPK(PKData);
+        JinHuaPKAnim.startPK(PKData);
         this.updateTableTitle();
         this.updateIsCanChangeCardState()
     },
     //看牌
     updateJHID_LOOK_CARDS:function(){
-        console.log("看牌！");
-        console.log(Profile_JinHuaGameData.getCheckCardData());
         var checkCardData= Profile_JinHuaGameData.getCheckCardData();
         //看牌失败
         if(checkCardData.Result== null||checkCardData.Result== undefined||checkCardData.Result== 2){
-            JinHuaTableCard.setCheckVisible(false);
+            JinHuaTableCard.setCheckVisible(true);
         }
+        JinHuaTablePlayer.updateTableAfterLookCardByServer(checkCardData);
+    },
+    //展示牌
+    updateJHID_SHOW_CARDS:function(){
+        var showCardData= Profile_JinHuaGameData.getShowCardData();
+        showCardData.CSID = Profile_JinHuaGameData.getUserCSID(showCardData.seatID);
+        JinHuaTableCoin.creatAllInBetCoins(showCardData.CSID, showCardData.thisTimeBetCoins);
+
+        //设置下一个玩家
+        JinHuaTablePlayer.refreshCurrentPlayer(showCardData.nextPlayer);
+        //更新牌桌上的数据
+        this.updateTableTitle();
+        //更新是否可换牌提示
+        this.updateIsCanChangeCardState();
     },
     //初始化界面
     initTableData:function(){
@@ -1623,6 +1642,7 @@ var JinHuaTableLogic= {
         this.view.addChild(JinHuaTableCoin.getJinHuaTableCoinLayer());
         //坐下提示模块
         this.view.addChild(JinHuaTableTips.getTableTipsLayer());
+        this.view.addChild(JinHuaPKAnim.createPKLayer());
 
         ProfileJinHuaTable.JinHuaTablePlayer= JinHuaTablePlayer.create();
         this.view.addChild(ProfileJinHuaTable.JinHuaTablePlayer, 100);
@@ -2158,13 +2178,8 @@ var JinHuaTableLogic= {
         if(playerTable== null) return;
         for(var i=0; i< GameData["playersCnt"];++i){
             if(playerTable[i]!= null && playerTable[i].userId== profile_user.getSelfUserID){
-                if(playerTable[i]["cardCnt"]== 0){
-                    this.buttonCheckIsShow= true;
-                    //Todo:JinHuaTableCheckButton.setSpriteVisible(true);
-                }else{
-                    this.buttonCheckIsShow= false;
-                    //Todo:JinHuaTableCheckButton.setSpriteVisible(false);
-                }
+                //是否显示看牌提示
+                JinHuaTableCheckButton.setCheckVisible(playerTable[i]["cardCnt"]== 0);
             }
         }
     },
@@ -2768,6 +2783,51 @@ var JinHuaTableLogic= {
     //初始化看牌按钮
     initCheckButton:function(){
         JinHuaTableCheckButton.createCheckButton();
+    },
+    //比牌
+    onPK:function(){
+        if(this.showCard){//是否已经看牌
+            sendJHID_SHOW_CARDS();
+            this.showCard= false;
+        }
+
+        this.showPlayerPKBtns();
+    },
+    //显示用户比牌按钮
+    showPlayerPKBtns:function(){
+        var pkCnt = 0;
+        var pkId;
+        var players = JinHuaTablePlayer.getPlayers();
+        for(var key in players){
+            if(players[key]&&((players[key].player.status == STATUS_PLAYER_PLAYING || players[key].player.status == STATUS_PLAYER_LOOKCARD))){
+                if(key>0){
+                    JinHuaTableLogic.showPkButton(key);
+                    pkCnt++;
+                    pkId = key;
+                }
+            }
+        }
+        if(pkCnt== 1){
+            if(pkId){
+                this.onPK_ID(pkId);
+            }
+        }
+    },
+
+    onPK_ID:function(CSID){
+        this.clickPkBtnFunc(CSID);
+    },
+    //点击pk执行操作
+    clickPkBtnFunc:function(playerCSID){
+        var  players = JinHuaTablePlayer.getPlayers();
+        if(players[playerCSID]){
+            if(players[playerCSID].noPK){
+                Common.showToast("他使用了【禁比】，你不能和他比牌", 2);
+            }
+            this.hidePkButton();
+
+            sendJHID_PK(players[playerCSID].SSID);
+        }
     }
 };
 

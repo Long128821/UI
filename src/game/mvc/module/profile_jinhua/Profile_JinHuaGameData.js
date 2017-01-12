@@ -18,6 +18,7 @@ var Profile_JinHuaGameData= {
     gameResultData:null,//本局计算
     PKData:null,//PK数据
     checkCardData:null,//看牌
+    showCardData:null,//展开牌
     clearData:function(){
         this.backPackGoodsCountData= {};
         this.GameData= {};
@@ -90,6 +91,10 @@ var Profile_JinHuaGameData= {
     //看牌
     getCheckCardData:function(){
         return this.checkCardData;
+    },
+    //展示牌
+    getShowCardData:function(){
+        return this.showCardData;
     },
     //获取玩家数据
     getMySelf:function(){
@@ -363,5 +368,22 @@ var Profile_JinHuaGameData= {
     readJHID_LOOK_CARDS:function(dataTable){
         this.checkCardData= dataTable;
         this.checkCardData.CSID= this.getUserCSID(this.checkCardData["seatID"]);
+    },
+    //展示牌
+    readJHID_SHOW_CARDS:function(dataTable){
+        this.showCardData= dataTable;
+        if(this.showCardData.result== 1){
+            this.GameData.totalPoolCoin = this.showCardData.totalPotCoin;
+            this.showCardData.CSID = this.getUserCSID(this.showCardData.seatID);
+
+            if(this.showCardData.nextPlayer){
+                this.showCardData.nextPlayer.CSID = this.getUserCSID(this.showCardData.nextPlayer.SSID);
+            }
+
+            if(this.GameData["players"][this.showCardData.CSID]){
+                this.GameData["players"][this.showCardData.CSID].betCoins = this.showCardData.betCoins;
+                this.GameData["players"][this.showCardData.CSID].remainCoins = this.showCardData.remainCoins;
+            }
+        }
     }
 };

@@ -93,7 +93,7 @@ var JinHuaTableCheckButton= {
     },
     //可以开牌
     onLookCard:function(){
-        //((this.bVisible)&&(this.setCheckVisible(false)));
+        ((this.bVisible)&&(this.setCheckVisible(false)));
         //向后台发送<看牌>请求
         sendJHID_LOOK_CARDS();
     },
@@ -107,6 +107,8 @@ var JinHuaTableCheckButton= {
         this.checkButtonBgSprite.setVisible(this.bVisible);
         this.checkButtonPointSprite.setVisible(this.bVisible);
         if(this.bVisible){
+            //还原眼睛位置
+            this.checkButtonPointSprite.setPosition(this.eyeInitPos);
             this.startEyeAnimation();
             cc.eventManager.addListener(this.listener, this.checkButtonBgSprite);
         }else{
