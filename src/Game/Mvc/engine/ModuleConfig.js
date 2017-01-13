@@ -444,6 +444,10 @@ ModuleTable["JinHuaTable"]["resLists"] = [
     "res/ui_jinbishu.png",
     "res/ui_lvshuzi.png",
     "res/ui_paizhuo_jindudiao.png",
+    "res/desk_playerhead.png",
+    "res/desk_result_lighting_frame_1.png",
+    "res/desk_result_lighting_frame_2.png",
+    "res/desk_result_lighting_frame_3.png",
     "res/poker_cards.plist",
     "res/poker_cards.png",
     "res/JinHuaTable.json"];

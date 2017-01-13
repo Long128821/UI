@@ -36,17 +36,16 @@ var JinHuaPKAnim= {
     armature:null,
     init:function(){
         JinHuaPKAnim.bgSprite = cc.Sprite.create(Common.getResourcePath("hei_2.png"));
-        JinHuaPKAnim.bgSprite.setPosition(GameConfig.ScreenWidth * Profile_JinHuaTableConfig.TableScaleX / 2 ,GameConfig.ScreenHeight * Profile_JinHuaTableConfig.TableScaleY / 2)
+        JinHuaPKAnim.bgSprite.setPosition(GameConfig.ScreenWidth * Profile_JinHuaTableConfig.TableScaleX / 2 ,GameConfig.ScreenHeight * Profile_JinHuaTableConfig.TableScaleY / 2);
         JinHuaPKAnim.photoLeftX = GameConfig.ScreenWidth * Profile_JinHuaTableConfig.TableScaleX / 8;
         JinHuaPKAnim.photoRightX = GameConfig.ScreenWidth * Profile_JinHuaTableConfig.TableScaleX * 0.875;
 
         var bgSize = JinHuaPKAnim.bgSprite.getContentSize();
         JinHuaPKAnim.vsTextSprite = cc.Sprite.create("#desk_pk_text.png");
-        JinHuaPKAnim.vsTextSprite.setPosition(GameConfig.ScreenWidth * Profile_JinHuaTableConfig.TableScaleX / 2,GameConfig.ScreenHeight * Profile_JinHuaTableConfig.TableScaleY / 2)
+        JinHuaPKAnim.vsTextSprite.setPosition(GameConfig.ScreenWidth * Profile_JinHuaTableConfig.TableScaleX / 2,GameConfig.ScreenHeight * Profile_JinHuaTableConfig.TableScaleY / 2);
 
-        var phototexture = cc.textureCache.addImage(Common.getResourcePath("desk_playerhead.png"));
-        JinHuaPKAnim.photoLeft = cc.Sprite.createWithTexture(phototexture);
-        JinHuaPKAnim.photoRight = cc.Sprite.createWithTexture(phototexture);
+        JinHuaPKAnim.photoLeft = cc.Sprite.create(Common.getResourcePath("desk_playerhead.png"));
+        JinHuaPKAnim.photoRight = cc.Sprite.create(Common.getResourcePath("desk_playerhead.png"));
 
         JinHuaPKAnim.photoY = GameConfig.ScreenHeight * Profile_JinHuaTableConfig.TableScaleY / 2;
         JinHuaPKAnim.photoLeft.setPosition(JinHuaPKAnim.photoLeftX,JinHuaPKAnim.photoY);
@@ -54,7 +53,7 @@ var JinHuaPKAnim= {
 
         JinHuaPKAnim.nameLeft = cc.LabelTTF.create("playerLeft", "Arial", 24);
         JinHuaPKAnim.nameRight = cc.LabelTTF.create("playerRight", "Arial", 24);
-        JinHuaPKAnim.nameY = JinHuaPKAnim.photoLeft.getPositionY()+JinHuaPKAnim.photoLeft.getContentSize().height/2+5 * Profile_JinHuaTableConfig.TableScaleY+JinHuaPKAnim.nameLeft.getContentSize().height/2
+        JinHuaPKAnim.nameY = JinHuaPKAnim.photoLeft.getPositionY()+JinHuaPKAnim.photoLeft.getContentSize().height/2+5 * Profile_JinHuaTableConfig.TableScaleY+JinHuaPKAnim.nameLeft.getContentSize().height/2;
         JinHuaPKAnim.nameLeft.setPosition(JinHuaPKAnim.photoLeftX,JinHuaPKAnim.nameY);
         JinHuaPKAnim.nameRight.setPosition(JinHuaPKAnim.photoRightX,JinHuaPKAnim.nameY);
 
@@ -68,13 +67,13 @@ var JinHuaPKAnim= {
         JinHuaPKAnim.iconRightWin.setPosition(JinHuaPKAnim.photoRightX,JinHuaPKAnim.iconY);
         JinHuaPKAnim.iconRightLoss.setPosition(JinHuaPKAnim.photoRightX,JinHuaPKAnim.iconY);
 
-        var frameWidth = 700;
-        var frameHeight = 215;
-        var lightFrameTexture = cc.textureCache.addImage(Common.getResourcePath("desk_result_lighting_frame_1.png"));
-        var rect = cc.rect(0,0,frameWidth,frameHeight);
-        var frame1 = cc.SpriteFrame.createWithTexture(lightFrameTexture,rect);
+//        var frameWidth = 700;
+//        var frameHeight = 215;
+//        var lightFrameTexture = cc.textureCache.addImage(Common.getResourcePath("desk_result_lighting_frame_1.png"));
+//        var rect = cc.rect(0,0,frameWidth,frameHeight);
+//        var frame1 = cc.SpriteFrame.createWithTexture(lightFrameTexture,rect);
 
-        JinHuaPKAnim.lightingSprite = cc.Sprite.create("#"+ frame1);
+        JinHuaPKAnim.lightingSprite = cc.Sprite.create(Common.getResourcePath("desk_result_lighting_frame_1.png"));
         JinHuaPKAnim.lightingSprite.setScaleX(GameConfig.ScreenWidth * Profile_JinHuaTableConfig.TableScaleX / JinHuaPKAnim.lightingSprite.getContentSize().width);
         JinHuaPKAnim.lightingSprite.setPosition(GameConfig.ScreenWidth * Profile_JinHuaTableConfig.TableScaleX / 2, JinHuaPKAnim.photoY);
         JinHuaPKAnim.lightingSprite.setVisible(false);
@@ -83,7 +82,6 @@ var JinHuaPKAnim= {
         JinHuaPKAnim.cardLeft1 = cc.Sprite.create("#desk_pokerback.png");
         var size = JinHuaPKAnim.cardLeft1.getContentSize();
         var cardY = GameConfig.ScreenHeight * Profile_JinHuaTableConfig.TableScaleY / 2;
-
         JinHuaPKAnim.cardLeft1.setPosition(JinHuaPKAnim.photoLeftX + JinHuaPKAnim.photoLeft.getContentSize().width + 10 * Profile_JinHuaTableConfig.TableScaleX,cardY);
         JinHuaPKAnim.cardLeft2 = cc.Sprite.create("#desk_pokerback.png");
         JinHuaPKAnim.cardLeft2.setPosition(JinHuaPKAnim.cardLeft1.getPositionX()+size.width+5*Profile_JinHuaTableConfig.TableScaleX,cardY);
@@ -197,18 +195,17 @@ var JinHuaPKAnim= {
     },
     //闪电
     startLighting:function(){
-        var frameWidth = 700;
-        var frameHeight = 215;
-        var lightFrameTexture1 = cc.textureCache.addImage(Common.getResourcePath("desk_result_lighting_frame_1.png"));
-        var lightFrameTexture2 = cc.textureCache.addImage(Common.getResourcePath("desk_result_lighting_frame_2.png"));
-        var lightFrameTexture3 = cc.textureCache.addImage(Common.getResourcePath("desk_result_lighting_frame_3.png"));
-        var rect = cc.rect(0,0,frameWidth,frameHeight);
-        var frame1 = cc.SpriteFrame.createWithTexture(lightFrameTexture1,rect);
-        var frame2 = cc.SpriteFrame.createWithTexture(lightFrameTexture2,rect);
-        var frame3 = cc.SpriteFrame.createWithTexture(lightFrameTexture3,rect);
-        var animFrames = [frame1, frame2, frame3];
-        var anim = cc.Animation.create(animFrames,0.05);
-        var animate = cc.Animate.create(anim);
+        var animation=new cc.Animation();
+        //遍历将图片添加到动画中[图片名：dance_1.png、dance_2.png…]
+        for(var i=1;i<= 3;++i){
+            var frameName = "desk_result_lighting_frame_" + i + ".png";
+            animation.addSpriteFrameWithFile(Common.getResourcePath(frameName));
+        }
+        // And display 60 frames per second
+        animation.setDelayPerUnit(0.05);
+        animation.setRestoreOriginalFrame(true);
+        //动画动作
+        var animate = cc.animate(animation);
         var lightingAnim = cc.Repeat.create(animate,12);
         JinHuaPKAnim.lightingSprite.setVisible(true);
         JinHuaPKAnim.lightingSprite.runAction(cc.sequence(lightingAnim,cc.callFunc(JinHuaPKAnim.startWinIconScale)));
@@ -234,65 +231,56 @@ var JinHuaPKAnim= {
     },
     //开始飞头像动画
     startFlyPhotoAnim:function(sender){
-        this.PKLayer.removeChild(sender, true);
-        var picMaleSpriteTexture = cc.textureCache.addImage(Common.getResourcePath("desk_playerhead.png"));
-        var picFemaleSpriteTexture = cc.textureCache.addImage(Common.getResourcePath("desk_playerhead.png"));
-        if(this.mLeftSprite.sex == Profile_JinHuaGameData.MALE){
-            this.photoLeft = cc.Sprite.createWithTexture(picMaleSpriteTexture);
+        JinHuaPKAnim.PKLayer.removeChild(sender, true);
+        if(JinHuaPKAnim.mLeftSprite.player.sex == Profile_JinHuaGameData.MALE){
+            JinHuaPKAnim.photoLeft = cc.Sprite.createWithTexture(Common.getResourcePath("desk_playerhead.png"));
         }else{
-            this.photoLeft = cc.Sprite.createWithTexture(picFemaleSpriteTexture);
+            JinHuaPKAnim.photoLeft = cc.Sprite.createWithTexture(Common.getResourcePath("desk_playerhead.png"));
         }
-        this.photoLeft.setPosition(this.mLeftSprite.getCenterX(),this.mLeftSprite.getCenterY());
-        if(this.mRightSprite.sex == Profile_JinHuaGameData.MALE){
-            this.photoRight = cc.Sprite.createWithTexture(picMaleSpriteTexture);
+        JinHuaPKAnim.photoLeft.setPosition(JinHuaPKAnim.mLeftSprite.getCenterX(),JinHuaPKAnim.mLeftSprite.getCenterY());
+        if(JinHuaPKAnim.mRightSprite.sex == Profile_JinHuaGameData.MALE){
+            JinHuaPKAnim.photoRight = cc.Sprite.createWithTexture(Common.getResourcePath("desk_playerhead.png"));
         }else{
-            this.photoRight = cc.Sprite.createWithTexture(picFemaleSpriteTexture);
+            JinHuaPKAnim.photoRight = cc.Sprite.createWithTexture(Common.getResourcePath("desk_playerhead.png"));
         }
-        this.photoRight.setPosition(this.mRightSprite.getCenterX(),this.mRightSprite.getCenterY());
+        JinHuaPKAnim.photoRight.setPosition(JinHuaPKAnim.mRightSprite.getCenterX(),JinHuaPKAnim.mRightSprite.getCenterY());
         //设置头像图片
-        if(this.mLeftSprite.portraitPath){
-            var texture = cc.textureCache.addImage(this.mLeftSprite.portraitPath);
-            if (texture){
-                this.photoLeft.setTexture(texture);
-            }
+        if(JinHuaPKAnim.mLeftSprite.player.photoUrl){
+            JinHuaPKAnim.photoLeft.setTexture(JinHuaPKAnim.mLeftSprite.player.photoUrl);
         }
-        if(this.mRightSprite.portraitPath){
-            var texture = cc.textureCache.addImage(this.mRightSprite.portraitPath);
-            if (texture){
-                this.photoRight.setTexture(texture)
-            }
+        if(JinHuaPKAnim.mRightSprite.player.photoUrl){
+            JinHuaPKAnim.photoRight.setTexture(JinHuaPKAnim.mRightSprite.player.photoUrl)
         }
-        this.nameLeft.setString(this.mLeftSprite.nickName);
-        this.nameRight.setString(this.mRightSprite.nickName);
-        this.leftCSID = this.mLeftSprite.CSID;
-        this.rightCSID = this.mRightSprite.CSID;
-        this.photoLeft.runAction(cc.sequence(cc.moveTo(0.3,cc.p(this.photoLeftX,this.photoY)),cc.callFunc(this.photoLeftMoveEnd)));
-        this.photoRight.runAction(cc.sequence(cc.moveTo(0.3,cc.p(this.photoRightX,this.photoY)),cc.callFunc(this.photoRightMoveEnd)));
-        this.PKLayer.addChild(this.photoLeft);
-        this.PKLayer.addChild(this.photoRight);
+        JinHuaPKAnim.nameLeft.setString(JinHuaPKAnim.mLeftSprite.player.nickName);
+        JinHuaPKAnim.nameRight.setString(JinHuaPKAnim.mRightSprite.player.nickName);
+        JinHuaPKAnim.leftCSID = JinHuaPKAnim.mLeftSprite.player.CSID;
+        JinHuaPKAnim.rightCSID = JinHuaPKAnim.mRightSprite.player.CSID;
+        JinHuaPKAnim.photoLeft.runAction(cc.sequence(cc.moveTo(0.3,cc.p(JinHuaPKAnim.photoLeftX,JinHuaPKAnim.photoY)),cc.callFunc(JinHuaPKAnim.photoLeftMoveEnd)));
+        JinHuaPKAnim.photoRight.runAction(cc.sequence(cc.moveTo(0.3,cc.p(JinHuaPKAnim.photoRightX,JinHuaPKAnim.photoY)),cc.callFunc(JinHuaPKAnim.photoRightMoveEnd)));
+        JinHuaPKAnim.PKLayer.addChild(JinHuaPKAnim.photoLeft);
+        JinHuaPKAnim.PKLayer.addChild(JinHuaPKAnim.photoRight);
         //amarture放上面
-        this.armature.retain();
-        this.PKLayer.removeChild(this.armature,false);
-        this.PKLayer.addChild(this.armature);
-        this.armature.release();
+        JinHuaPKAnim.armature.retain();
+        JinHuaPKAnim.PKLayer.removeChild(JinHuaPKAnim.armature,false);
+        JinHuaPKAnim.PKLayer.addChild(JinHuaPKAnim.armature);
+        JinHuaPKAnim.armature.release();
         //闪电动画放上面
-        this.lightingSprite.retain();
-        this.lightingSprite.release();
+        JinHuaPKAnim.lightingSprite.retain();
+        JinHuaPKAnim.lightingSprite.release();
     },
     startAimAnim:function(){
-        console.log("开始比牌动画！");
         var players = JinHuaTablePlayer.getPlayers();
 
         var aimSprite = cc.Sprite.create("#table_pk_collimation.png");
         if(players[this.pkData.launchCSID].player.userId != profile_user.getSelfUserID()){
-            aimSprite.setPosition(Profile_JinHuaTableConfig.spritePlayers[this.pkData.launchCSID].locX, Profile_JinHuaTableConfig.spritePlayers[this.pkData.launchCSID].locY + this.mLeftSprite.getContentSize().height)
+            aimSprite.setPosition(Profile_JinHuaTableConfig.spritePlayers[this.pkData.launchCSID].locX, Profile_JinHuaTableConfig.spritePlayers[this.pkData.launchCSID].locY + this.mLeftSprite.mPlayerSprite.getContentSize().height)
         }else{
             aimSprite.setPosition(Profile_JinHuaTableConfig.mySelfLocX + 90, Profile_JinHuaTableConfig.mySelfLocY + 90)
         }
 
         var array = [];
         if(players[this.pkData.aimCSID].player.userId != profile_user.getSelfUserID()){
-            array.push(cc.MoveTo.create(0.5, cc.p(Profile_JinHuaTableConfig.spritePlayers[this.pkData.aimCSID].locX + this.mRightSprite.getContentSize().width / 2, Profile_JinHuaTableConfig.spritePlayers[this.pkData.aimCSID].locY + this.mRightSprite.getContentSize().height / 2)))
+            array.push(cc.MoveTo.create(0.5, cc.p(Profile_JinHuaTableConfig.spritePlayers[this.pkData.aimCSID].locX + this.mRightSprite.mPlayerSprite.getContentSize().width / 2, Profile_JinHuaTableConfig.spritePlayers[this.pkData.aimCSID].locY + this.mRightSprite.mPlayerSprite.getContentSize().height / 2)))
         }else{
             array.push(cc.MoveTo.create(0.5, cc.p(Profile_JinHuaTableConfig.mySelfLocX + 90, Profile_JinHuaTableConfig.mySelfLocY + 90)))
         }
@@ -304,7 +292,6 @@ var JinHuaPKAnim= {
         this.PKLayer.addChild(aimSprite)
     },
     startPK:function(PKData){
-        console.log("开始PK");
         //获取牌桌上的数据
         var players = JinHuaTablePlayer.getPlayers();
         //人已经走了
@@ -314,7 +301,6 @@ var JinHuaPKAnim= {
             ||!players[PKData.winCSID].mPlayerSprite){
             return;
         }
-        console.log("修改玩家的状态");
         //修改玩家的状态
         players[PKData.lossCSID].player.status = STATUS_PLAYER_PK_FAILURE;
         if(PKData.winCSID< PKData.lossCSID){
@@ -374,6 +360,9 @@ var JinHuaPKAnim= {
         }
     },
     getJinHuaPkLayer:function(){
+        if(this.PKLayer== null){
+            this.init();
+        }
         return this.PKLayer;
     }
 };

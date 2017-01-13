@@ -8,6 +8,8 @@
  *
  *          2,3,4,5,6,7,8,9,10,J,Q,K,A === 1,2,3,4,
  *     将CardSprite存放在JinHuaTablePlayer层中，显示出来
+ *
+ *     遮蔽层(弃牌标记)
  */
 var CardSprite= cc.Node.extend({
     ctor:function(){
@@ -129,11 +131,16 @@ CardSprite.prototype.showFront= function(){
  * Func:显示遮蔽层
  */
 CardSprite.prototype.showCover= function(){
-    if(this.front!= null) this.front.setColor(cc.color(125, 125, 125));
-    if(this.back!= null) this.back.setColor(cc.color(125, 125, 125));
-    if(this.cardTypeBigSprite) this.cardTypeBigSprite.setColor(cc.color(125, 125, 125));
-    if(this.cardTypeSmallSprite) this.cardTypeSmallSprite.setColor(cc.color(125, 125, 125));
-    if(this.valueSprite) this.valueSprite.setColor(cc.color(125, 125, 125));
+    ((this.front!= null)&&(this.front.setColor(cc.color(125, 125, 125))));
+    ((this.back!= null)&&(this.back.setColor(cc.color(125, 125, 125))));
+    ((this.cardTypeBigSprite)&&(this.cardTypeBigSprite.setColor(cc.color(125, 125, 125))));
+    ((this.cardTypeSmallSprite)&&(this.cardTypeSmallSprite.setColor(cc.color(125, 125, 125))));
+    ((this.valueSprite)&&(this.valueSprite.setColor(cc.color(125, 125, 125))));
+    this.front= null;
+    this.back= null;
+    this.cardTypeBigSprite= null;
+    this.cardTypeSmallSprite= null;
+    this.valueSprite= null;
 };
 /**
  * Func:设置是否显示遮蔽层

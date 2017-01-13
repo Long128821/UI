@@ -182,7 +182,7 @@ var Profile_JinHuaGameData= {
         return this.gameResultData;
     },
     //PK数据
-    getPK:function(){
+    getPKData:function(){
         return this.PKData;
     },
     //牌桌同步

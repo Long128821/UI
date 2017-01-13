@@ -1,6 +1,10 @@
 /**
- * Func:牌桌上的每个玩家头像旁边的下注金额(背景、金币图标、金币数量)
- * 继承cc.Node
+ * Func:牌桌上的每个玩家头像旁边的下注金额
+ *      背景
+ *      金币图标
+ *      金币数量
+ * cc.Node <-- coinBg <-- coinIcon和coinLabel
+ * 存放在cc.Node中，node的锚点为左下角cc.p(0,0)
  */
 var JinHuaBetedCoinLabel= cc.Node.extend({
     coinBg:null,//加注背景
@@ -13,8 +17,10 @@ var JinHuaBetedCoinLabel= cc.Node.extend({
      */
     ctor:function(pos,y){
         this._super();
+        //释放元素
         this.release();
         (y!= undefined)&&(pos= cc.p(pos, y));
+        //初始化函数
         this.init(pos);
     },
     /**
@@ -60,9 +66,9 @@ var JinHuaBetedCoinLabel= cc.Node.extend({
     },
     //释放-重载基类的release函数
     release:function(){
-        this.coinLabel!= null&&this.coinLabel.removeFromParent(true);
-        this.coinIcon!= null&&this.coinIcon.removeFromParent(true);
-        this.coinBg!= null&&this.coinBg.removeFromParent(true);
+        ((this.coinLabel!= null)&&this.coinLabel.removeFromParent(true));
+        ((this.coinIcon!= null)&&this.coinIcon.removeFromParent(true));
+        ((this.coinBg!= null)&&this.coinBg.removeFromParent(true));
         this.coinIcon= null;
         this.coinLabel= null;
         this.coinBg= null;

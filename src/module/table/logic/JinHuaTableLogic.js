@@ -1538,7 +1538,7 @@ var JinHuaTableLogic= {
     },
     //更新比牌动画
     updateJHID_PK:function(){
-        var PKData= Profile_JinHuaGameData.getGameData();
+        var PKData= Profile_JinHuaGameData.getPKData();
         if(PKData.result== 0){//比牌失败
             Common.showToast(PKData["message"], 1);
             return;
@@ -1642,10 +1642,11 @@ var JinHuaTableLogic= {
         this.view.addChild(JinHuaTableCoin.getJinHuaTableCoinLayer());
         //坐下提示模块
         this.view.addChild(JinHuaTableTips.getTableTipsLayer());
-        this.view.addChild(JinHuaPKAnim.createPKLayer());
 
         ProfileJinHuaTable.JinHuaTablePlayer= JinHuaTablePlayer.create();
         this.view.addChild(ProfileJinHuaTable.JinHuaTablePlayer, 100);
+        //比赛动画
+        this.view.addChild(JinHuaPKAnim.createPKLayer(), 101);
 
         //设置牌桌数据
         this.createLayerFarm();

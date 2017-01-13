@@ -185,8 +185,8 @@ var JinHuaTableCard= {
         var  players = JinHuaTablePlayer.getPlayers();
 
         //是否需要翻牌
-        var  turnCard = false;
-        for(var i in players){
+        var  turnCard = true;
+//        for(var i in players){
 //            if(this.isNeedShowHandCard(i)){
 //                turnCard = true;
 //
@@ -194,10 +194,10 @@ var JinHuaTableCard= {
 //                this.setCardPositionAndOpenCard(i);
 //                this.showCardType(players[i], players[i].cardType);
 //            }
-        }
+//        }
         //如果要翻牌，则延时0.3秒播胜利动画
         if(turnCard){
-            JinHuaTablePlayer.getJinHuaTablePlayerLayer().runAction(cc.sequence(cc.delayTime(0.3), cc.callFunc(JinHuaTableCard.startWinAnim)));
+            JinHuaTablePlayer.getJinHuaTablePlayerLayer().runAction(cc.sequence(cc.delayTime(6.0), cc.callFunc(JinHuaTableCard.startWinAnim)));
         }else{
             JinHuaTableCard.startWinAnim();
         }
@@ -211,6 +211,7 @@ var JinHuaTableCard= {
                 //显示<赢了>快速聊天按钮列表
                 JinHuaTableLogic.showQuickChatButton(STATUS_QUICK_CHAT_WIN);
             }
+            JinHuaPKAnim.startScatterFlower(cc.p(JinHuaTablePlayer.getPlayers()[gameResultData.CSID].getCenterX(),JinHuaTablePlayer.getPlayers()[gameResultData.CSID].getCenterY()));
             JinHuaTablePlayer.getJinHuaTablePlayerLayer().runAction(cc.sequence(cc.delayTime(2.0), cc.callFunc(JinHuaTableCoin.flyCoinsAnim)));
         }else{
             //赢家飞金币

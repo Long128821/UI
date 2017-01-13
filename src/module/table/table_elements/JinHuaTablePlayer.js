@@ -762,7 +762,7 @@ var JinHuaTablePlayer= {
         JinHuaTableLogic.setOnLineBonusVisible(false);
         if(this.tablePlayerEntitys[CSID]!= undefined){
             if(this.tablePlayerEntitys[CSID].mPlayerSprite!= null&&this.tablePlayerEntitys[CSID].mPlayerSprite!= undefined){
-                //隐藏玩家头像
+                //隐藏玩家头像框
                 this.tablePlayerEntitys[CSID].mPlayerSprite.setVisible(false);
             }
             if(this.tablePlayerEntitys[CSID].readyIcon!= null&&this.tablePlayerEntitys[CSID].readyIcon!= undefined){
