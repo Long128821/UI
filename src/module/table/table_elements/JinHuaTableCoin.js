@@ -40,7 +40,7 @@ var JinHuaTableCoin= {
      * @param pos 扔金币玩家位置
      * @param thisTimeBetCoins 下注金币数
      */
-    creatAllInBetCoins:function(pos, thisTimeBetCoins){
+    createAllInBetCoins:function(pos, thisTimeBetCoins){
         var startX, startY, endX, endY;
         var players= JinHuaTablePlayer.getPlayers();
         if(players[pos]== null||players[pos]== undefined) return;//牌桌上没有玩家
@@ -51,11 +51,11 @@ var JinHuaTableCoin= {
         var coinTable = this.getAllInChipArray(thisTimeBetCoins);
         //读取table 绘制金币
         for(var i in coinTable){
-            if(coinTable[i]== null ||coinTable[i]== "undefined"|| coinTable[i]== 0) continue;
+            if(coinTable[i]== null ||coinTable[i]== undefined|| coinTable[i]== 0) continue;
             //牌桌上的筹码精灵
             var spriteChips = JinHuaTableCoinEntity.createTableCoinEntity(coinTable[i],parseInt(i));
             for(var j in spriteChips){
-                if(spriteChips[j]== null ||spriteChips[j]== "undefined"||spriteChips[j]== 0) continue;
+                if(spriteChips[j]== null ||spriteChips[j]== undefined||spriteChips[j]== 0) continue;
                 //筹码随机区间
                 var xStep= Profile_JinHuaTableConfig.rangRight- Profile_JinHuaTableConfig.rangLeft;
                 var yStep= Profile_JinHuaTableConfig.rangTop- Profile_JinHuaTableConfig.rangBottom;
@@ -106,30 +106,33 @@ var JinHuaTableCoin= {
         return this.CoinBatchNode;
     },
     clear:function(){
-        this.coinArray= {};
+        this.clearCoins();
         this.isSelfBet= false;
-        this.CoinBatchNode&&this.CoinBatchNode.removeAllChildrenWithCleanup(true);
+        this.CoinBatchNode&&this.CoinBatchNode.removeFromParent(true);
         this.CoinBatchNode= null;
-        this.JinHuaTableCoinLayer&&this.JinHuaTableCoinLayer.removeAllChildrenWithCleanup(true);
+        this.JinHuaTableCoinLayer&&this.JinHuaTableCoinLayer.removeFromParent(true);
         this.JinHuaTableCoinLayer= null;
     },
-//    //牌桌筹码显示
-//    createTableCoins:function(coinData){
-//        if(coinData){
-//            var coins= {};
-//            for(var key in coinData){
-//                coins= this.getChipArray(coinData[i].coins);
-//                //创建筹码
-//                for(var i in coins){
-//                    var spriteChips= JinHuaTableCoinEntity.createTableCoinEntity(coins[i], i);
-//                    for(var j in spriteChips){
-//                        this.CoinBatchNode.addChild(spriteChips[j]);
-//                        this.coinArray.push(spriteChips[j]);
-//                    }
-//                }
-//            }
-//        }
-//    },
+    //牌桌筹码显示
+    createTableCoins:function(coinData){
+        this.clearCoins();
+        if(coinData){
+            var coins= {};
+            for(var key in coinData){
+                coins= this.getChipArray(coinData[key].coins);
+                //创建筹码
+                for(var i in coins){
+                    var spriteChips= JinHuaTableCoinEntity.createTableCoinEntity(coins[i], parseInt(i));
+                    for(var j in spriteChips){
+                        if(spriteChips[j]== null||spriteChips[j]== undefined) continue;
+                        if(spriteChips[j]._parent!= null) continue;
+                        this.getJinHuaTableCoinLayer().addChild(spriteChips[j]);
+                        this.coinArray[Common.getTableSize(this.coinArray)]= spriteChips[j];
+                    }
+                }
+            }
+        }
+    },
     //通过飞金币增加赢家的金币数
     addWinPlayerCoinNumByFlyCoin:function(){
         //Todo:
@@ -140,6 +143,7 @@ var JinHuaTableCoin= {
     },
     //清除桌上金币
     clearCoins:function(){
+        JinHuaTableCoinEntity.clear();
         this.coinArray= {};
     },
     //赢家飞金币结束回调
@@ -173,7 +177,7 @@ var JinHuaTableCoin= {
         }
 
         if(betChipData.type== TYPE_BET_ALLIN){//All In
-            this.creatAllInBetCoins(betChipData.CSID,betChipData.thisTimeBetCoins)
+            this.createAllInBetCoins(betChipData.CSID,betChipData.thisTimeBetCoins)
         }else{
             this.createNormalBetCoins(betChipData.CSID,betChipData.thisTimeBetCoins)
         }

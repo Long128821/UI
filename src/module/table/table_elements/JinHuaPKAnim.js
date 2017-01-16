@@ -67,12 +67,6 @@ var JinHuaPKAnim= {
         JinHuaPKAnim.iconRightWin.setPosition(JinHuaPKAnim.photoRightX,JinHuaPKAnim.iconY);
         JinHuaPKAnim.iconRightLoss.setPosition(JinHuaPKAnim.photoRightX,JinHuaPKAnim.iconY);
 
-//        var frameWidth = 700;
-//        var frameHeight = 215;
-//        var lightFrameTexture = cc.textureCache.addImage(Common.getResourcePath("desk_result_lighting_frame_1.png"));
-//        var rect = cc.rect(0,0,frameWidth,frameHeight);
-//        var frame1 = cc.SpriteFrame.createWithTexture(lightFrameTexture,rect);
-
         JinHuaPKAnim.lightingSprite = cc.Sprite.create(Common.getResourcePath("desk_result_lighting_frame_1.png"));
         JinHuaPKAnim.lightingSprite.setScaleX(GameConfig.ScreenWidth * Profile_JinHuaTableConfig.TableScaleX / JinHuaPKAnim.lightingSprite.getContentSize().width);
         JinHuaPKAnim.lightingSprite.setPosition(GameConfig.ScreenWidth * Profile_JinHuaTableConfig.TableScaleX / 2, JinHuaPKAnim.photoY);
@@ -280,16 +274,16 @@ var JinHuaPKAnim= {
 
         var array = [];
         if(players[this.pkData.aimCSID].player.userId != profile_user.getSelfUserID()){
-            array.push(cc.MoveTo.create(0.5, cc.p(Profile_JinHuaTableConfig.spritePlayers[this.pkData.aimCSID].locX + this.mRightSprite.mPlayerSprite.getContentSize().width / 2, Profile_JinHuaTableConfig.spritePlayers[this.pkData.aimCSID].locY + this.mRightSprite.mPlayerSprite.getContentSize().height / 2)))
+            array.push(cc.moveTo(0.5, cc.p(Profile_JinHuaTableConfig.spritePlayers[this.pkData.aimCSID].locX + this.mRightSprite.mPlayerSprite.getContentSize().width / 2, Profile_JinHuaTableConfig.spritePlayers[this.pkData.aimCSID].locY + this.mRightSprite.mPlayerSprite.getContentSize().height / 2)))
         }else{
-            array.push(cc.MoveTo.create(0.5, cc.p(Profile_JinHuaTableConfig.mySelfLocX + 90, Profile_JinHuaTableConfig.mySelfLocY + 90)))
+            array.push(cc.moveTo(0.5, cc.p(Profile_JinHuaTableConfig.mySelfLocX + 90, Profile_JinHuaTableConfig.mySelfLocY + 90)))
         }
         array.push(cc.scaleTo(0.5,1.5));
         array.push(cc.scaleTo(0.5,1));
         array.push(cc.callFunc(this.startFlyPhotoAnim));
         array.push(cc.delayTime(0.5));
         aimSprite.runAction(cc.sequence(array));
-        this.PKLayer.addChild(aimSprite)
+        this.PKLayer.addChild(aimSprite);
     },
     startPK:function(PKData){
         //获取牌桌上的数据

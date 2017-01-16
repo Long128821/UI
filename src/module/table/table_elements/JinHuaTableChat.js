@@ -6,10 +6,10 @@ var JinHuaTableChat= {
 //        console.log(players[CSID]);
 //        if(!players[CSID]) return;
 //
-//        var index = #(JinHuaChatPopLogic.getChatLog())
-//        JinHuaChatPopLogic.getChatLog()[index+1] = {}
-//        JinHuaChatPopLogic.getChatLog()[index+1].nickName = players[CSID].nickName
-//        JinHuaChatPopLogic.getChatLog()[index+1].msg = msg
+//        var index = #(JinHuaChatPopLogic.getChatLog());
+//        JinHuaChatPopLogic.getChatLog()[index+1] = {};
+//        JinHuaChatPopLogic.getChatLog()[index+1].nickName = players[CSID].nickName;
+//        JinHuaChatPopLogic.getChatLog()[index+1].msg = msg;
 //
 //        var parentAnchorPoint;
 //        var locX,locY;

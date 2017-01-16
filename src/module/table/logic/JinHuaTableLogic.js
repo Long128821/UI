@@ -1429,16 +1429,19 @@ var JinHuaTableLogic= {
     },
     //当前宝盒进度
     updateJHID_GET_BAOHE_STEP_INFO:function(){
-        var BaoheStepInfoTable = Profile_JinHuaOnlineReward.getBaoheStepInfoTable()
+        var BaoheStepInfoTable = Profile_JinHuaOnlineReward.getBaoheStepInfoTable();
         var GameData= Profile_JinHuaGameData.getGameData();
-        if(BaoheStepInfoTable["nowNumberMax"]== null||BaoheStepInfoTable["nowNumberMax"]== 0|| GameData.mySSID){
+        if(BaoheStepInfoTable["nowNumberMax"]== null
+            ||BaoheStepInfoTable["nowNumberMax"]== undefined
+            || GameData.mySSID== null
+            ||GameData.mySSID== undefined){
             this.btn_onlinebonus.setVisible(false);
             this.btn_onlinebonus.setTouchEnabled(false);
             return;
         }
         this.btn_onlinebonus.setVisible(true);
         this.btn_onlinebonus.setTouchEnabled(true);
-        this.Label_onlinebonus_daojishi.setText(BaoheStepInfoTable["nowNumber"]+ "/" +BaoheStepInfoTable["nowNumberMax"])
+        this.Label_onlinebonus_daojishi.setText(BaoheStepInfoTable["nowNumber"]+ "/" +BaoheStepInfoTable["nowNumberMax"]);
         if(BaoheStepInfoTable["nowNumber"] >= BaoheStepInfoTable["nowNumberMax"]){
             this.canGetOnlinebonus = 0;
             this.Label_onlinebonus_daojishi.setVisible(false);
@@ -1467,7 +1470,7 @@ var JinHuaTableLogic= {
             this.Image_onlinebonus_shine.setVisible(false);
             this.Image_onlinebonus_lingqu.setVisible(false);
             Common.showToast(JinGetOnlineRewardTable["message"],3);
-            if(JinGetOnlineRewardTable["nowNumberMax"]!= null&&JinGetOnlineRewardTable["nowNumberMax"]!= 0){
+            if(JinGetOnlineRewardTable["nowNumberMax"]!= null&&JinGetOnlineRewardTable["nowNumberMax"]!= undefined){
                 this.canGetOnlinebonus = JinGetOnlineRewardTable["nowNumberMax"] - JinGetOnlineRewardTable["nowNumber"]
                 this.btn_onlinebonus.setVisible(true);
                 this.btn_onlinebonus.setTouchEnabled(true);
@@ -1544,6 +1547,7 @@ var JinHuaTableLogic= {
             return;
         }
         JinHuaPKAnim.startPK(PKData);
+        //更新牌桌上的牌桌信息
         this.updateTableTitle();
         this.updateIsCanChangeCardState()
     },
@@ -1560,7 +1564,7 @@ var JinHuaTableLogic= {
     updateJHID_SHOW_CARDS:function(){
         var showCardData= Profile_JinHuaGameData.getShowCardData();
         showCardData.CSID = Profile_JinHuaGameData.getUserCSID(showCardData.seatID);
-        JinHuaTableCoin.creatAllInBetCoins(showCardData.CSID, showCardData.thisTimeBetCoins);
+        JinHuaTableCoin.createAllInBetCoins(showCardData.CSID, showCardData.thisTimeBetCoins);
 
         //设置下一个玩家
         JinHuaTablePlayer.refreshCurrentPlayer(showCardData.nextPlayer);
@@ -2107,8 +2111,8 @@ var JinHuaTableLogic= {
             this.Label_match_name.setVisible(true);
             this.Label_match_name.setString(GameData.matchTitle);
         }
-        //Todo:金币堆模块
-        //JinHuaTableCoin.createTableCoins(GameData.chips);
+        //金币堆模块(断线重连)
+        JinHuaTableCoin.createTableCoins(GameData.chips);
         //更新牌桌基本信息显示
         this.updateTableTitle();
         //设置总轮数
@@ -2462,7 +2466,6 @@ var JinHuaTableLogic= {
             this.onAllIn();
             return;
         }
-        //console.log(this.betData.callCoin);
         //向服务器端发起下注请求
         //新手引导时，可以不发起
         sendJHID_BET(this.betData.callCoin,TYPE_BET_CALL);
@@ -2477,8 +2480,6 @@ var JinHuaTableLogic= {
     },
     //更新我的操作按钮
     updateMyOperationBtns:function(currentPlayer){
-        //console.log("更新我的操作按钮");
-        //console.log(currentPlayer);
         //下注数据
         this.betData= currentPlayer;
         this.updateMyPKAndShowCardBtns();
@@ -2550,7 +2551,7 @@ var JinHuaTableLogic= {
     //更新加注按钮列表
     updateMyRaiseCoinBtns:function(){
         //如果当前下注人并不是我,我的加注列表不需要更新
-        if(this.betData== null||(this.betData!= null &&this.betData.raiseCoin== null&&this.betData.raiseCoin== undefined)){
+        if(this.betData== null||(this.betData!= null &&(this.betData.raiseCoin== null||this.betData.raiseCoin== undefined))){
             return;
         }
 
@@ -2558,12 +2559,10 @@ var JinHuaTableLogic= {
         var  canRaiseCnt = 0;
 
         //加注列表
-        //console.log(this.betData.raiseCoin);
         for(var i in this.betData.raiseCoin){
             var canRaise = false;
             var raiseCoin = this.betData.raiseCoin[i];
             if(!raiseCoin) break;
-            //console.log(i);
             if(i== 0){
                 if(raiseCoin.raiseStatus == 1){
                     canRaiseCnt++;
@@ -2822,12 +2821,11 @@ var JinHuaTableLogic= {
     clickPkBtnFunc:function(playerCSID){
         var  players = JinHuaTablePlayer.getPlayers();
         if(players[playerCSID]){
-            if(players[playerCSID].noPK){
+            if(players[playerCSID].player.noPK){
                 Common.showToast("他使用了【禁比】，你不能和他比牌", 2);
             }
             this.hidePkButton();
-
-            sendJHID_PK(players[playerCSID].SSID);
+            sendJHID_PK(players[playerCSID].player.SSID);
         }
     }
 };

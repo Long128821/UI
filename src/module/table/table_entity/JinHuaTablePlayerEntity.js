@@ -440,9 +440,9 @@ JinHuaTablePlayerEntity.prototype.addPlayerElementToLayer= function (layer){
 };
 //移除玩家实体元素
 JinHuaTablePlayerEntity.prototype.removePlayerElementFromLayer= function (layer){
-    this.mPlayerSprite&&layer.removeChild(this.mPlayerSprite, true);
-    this.betedCoinLabel&&layer.removeChild(this.betedCoinLabel, true);
-    this.readyIcon&&layer.removeChild(this.readyIcon, true);
+    this.mPlayerSprite!= null&&this.mPlayerSprite.removeFromParent(true);
+    this.betedCoinLabel!= null&&this.betedCoinLabel.removeFromParent(true);
+    this.readyIcon!= null&&this.readyIcon.removeFromParent(true);
     this.mPlayerSprite= null;
     this.betedCoinLabel= null;
     this.readyIcon= null;
@@ -456,6 +456,12 @@ JinHuaTablePlayerEntity.prototype.createBetedCoinLabel= function(){
         this.betedCoinLabel= new JinHuaBetedCoinLabel(392, 90);
     }
 };
+
+//移除玩家已下注的金币数
+JinHuaTablePlayerEntity.prototype.setBetedCoinLabelVisible= function(bVisible){
+    this.betedCoinLabel.setVisible(bVisible== undefined?false:bVisible);
+};
+
 //创建<准备>图标(默认隐藏,准备之后,显示)
 JinHuaTablePlayerEntity.prototype.createReadyIcon= function(){
     this.readyIcon = cc.Sprite.create("#desk_icon_ready.png");
@@ -561,6 +567,8 @@ JinHuaTablePlayerEntity.prototype.createNotBeLookedCard= function(){
     if(this.isMe()){//Todo:使用CSID== 0代替
         cardTypePosX = 740;
         cardTypePosY = 110;
+        //自己的牌的话有角度和大小特殊显示
+        JinHuaTableCard.setMyCardScaleAndRotation(this.cardSprites[0], this.cardSprites[1], this.cardSprites[2]);
     }else{
         var player= Profile_JinHuaTableConfig.getSpritePlayers()[this.player.CSID];
         if(player.CSID< 3){//屏幕右边
@@ -572,7 +580,6 @@ JinHuaTablePlayerEntity.prototype.createNotBeLookedCard= function(){
     }
     //牌型背景
     //设置纸牌终点的位置的原因是(发牌动画)
-    //Todo:设置终点位置，发牌动画时，再设置
     this.cardTypeSprite = cc.Sprite.create("#bg_desk_paixing.png");
     this.cardTypeSprite.setAnchorPoint(cc.p(0.5, 0.5));
     this.cardTypeSprite.setPosition(cardTypePosX, cardTypePosY);

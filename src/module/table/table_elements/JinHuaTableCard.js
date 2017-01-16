@@ -97,10 +97,6 @@ var JinHuaTableCard= {
 
                 ////发牌的时候初始化牌 的缩放，旋转角度，位置
                 this.sendCardInitCardState(players[key]);
-                //Todo:删除-设置手牌的初始位置
-                spriteCard1.setPosition(cc.p(cc.winSize.width* 0.5, cc.winSize.height* 0.8));
-                spriteCard2.setPosition(cc.p(cc.winSize.width* 0.5, cc.winSize.height* 0.8));
-                spriteCard3.setPosition(cc.p(cc.winSize.width* 0.5, cc.winSize.height* 0.8));
 
                 var move1 = cc.moveTo(0.5, cc.p(endX1, endY1));
                 var move2 = cc.moveTo(0.5, cc.p(endX2, endY2));
@@ -134,18 +130,18 @@ var JinHuaTableCard= {
         for(var key in player.cardSprites){
             if(player.cardSprites[key]== null||player.cardSprites[key]== undefined) continue;
             //屏幕中间、偏高位置(发牌)
-            player.cardSprites[key].setPosition(Profile_JinHuaTableConfig.cardsSpriteStartPositionX, Profile_JinHuaTableConfig.cardsSpriteStartPositionY);
+            player.cardSprites[key].getCardSprite().setPosition(Profile_JinHuaTableConfig.cardsSpriteStartPositionX, Profile_JinHuaTableConfig.cardsSpriteStartPositionY);
             //初始大小
-            player.cardSprites[key].setScale(Profile_JinHuaTableConfig.cardScale);
+            player.cardSprites[key].getCardSprite().setScale(Profile_JinHuaTableConfig.cardScale);
             //不旋转
-            player.cardSprites[key].setRotation(0);
+            player.cardSprites[key].getCardSprite().setRotation(0);
         }
     },
     //设置我的牌的大小和位置
     setMyCardScaleAndRotation:function(card1, card2, card3){
-        this.sendMyCard1End(card1);
-        this.sendMyCard2End(card2);
-        this.sendMyCard3End(card3);
+        this.sendMyCard1End(card1.getCardSprite());
+        this.sendMyCard2End(card2.getCardSprite());
+        this.sendMyCard3End(card3.getCardSprite());
     },
     //我的手牌-左边
     sendMyCard1End:function(sender){
@@ -190,14 +186,14 @@ var JinHuaTableCard= {
 //            if(this.isNeedShowHandCard(i)){
 //                turnCard = true;
 //
-//                this.setCardScaleAndRotation(i);
-//                this.setCardPositionAndOpenCard(i);
+////                this.setCardScaleAndRotation(i);
+////                this.setCardPositionAndOpenCard(i);
 //                this.showCardType(players[i], players[i].cardType);
 //            }
 //        }
         //如果要翻牌，则延时0.3秒播胜利动画
         if(turnCard){
-            JinHuaTablePlayer.getJinHuaTablePlayerLayer().runAction(cc.sequence(cc.delayTime(6.0), cc.callFunc(JinHuaTableCard.startWinAnim)));
+            JinHuaTablePlayer.getJinHuaTablePlayerLayer().runAction(cc.sequence(cc.delayTime(0.3), cc.callFunc(JinHuaTableCard.startWinAnim)));
         }else{
             JinHuaTableCard.startWinAnim();
         }

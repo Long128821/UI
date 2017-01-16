@@ -440,6 +440,7 @@ ModuleTable["JinHuaTable"]["resLists"] = [
     "res/ui_bisai_paizhuo_daojishi.png",
     "res/ui_bisai_paizhuo_paimingshuzi.png",
     "res/ui_daojishi0-9.png",
+    "res/ui_daojishi0-3.png",
     "res/ui_jiazhushuzi.png",
     "res/ui_jinbishu.png",
     "res/ui_lvshuzi.png",

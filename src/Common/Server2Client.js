@@ -1165,6 +1165,8 @@ function read82200003(nMBaseMessage){
         var currentPlayerCnt= nMBaseMessage.readInt();
         dataTable["currentPlayer"]["currentPlayerCnt"]= currentPlayerCnt;
         for(var i=0; i<currentPlayerCnt; ++i){
+            nMBaseMessage.startReadLoop();
+
             dataTable["currentPlayer"]["raiseCoin"][i] = {};
             //加注列表的加注的金额
             dataTable["currentPlayer"]["raiseCoin"][i].raiseValue = nMBaseMessage.readLong();

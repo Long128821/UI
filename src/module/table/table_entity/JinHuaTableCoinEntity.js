@@ -114,7 +114,7 @@ var JinHuaTableCoinEntity= {
     //清空数据
     clear:function(){
         for(var key in this.spriteChips){
-            if(this.spriteChips[key]== null) continue;
+            if(this.spriteChips[key]== null||this.spriteChips[key]== undefined) continue;
             this.spriteChips[key].removeFromParent(true);
         }
         this.spriteChips= {};

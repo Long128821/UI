@@ -98,10 +98,6 @@ var JinHuaTableCheckButton= {
         sendJHID_LOOK_CARDS();
     },
     //设置是否显示看牌提示
-    setLookVisible:function(bVisible){
-
-    },
-    //设置是否显示看牌提示
     setCheckVisible:function(bVisible){
         this.bVisible= ((bVisible== undefined)?false:bVisible);
         this.checkButtonBgSprite.setVisible(this.bVisible);
