@@ -439,8 +439,8 @@ ModuleTable["JinHuaTable"]["resLists"] = [
     "res/table_elements.png",
     "res/ui_bisai_paizhuo_daojishi.png",
     "res/ui_bisai_paizhuo_paimingshuzi.png",
-    "res/ui_daojishi0-9.png",
-    "res/ui_daojishi0-3.png",
+    "res/ui_daojishi0-9.png",//3以上的倒计时
+    "res/ui_daojishi0-3.png",//3以下的倒计时
     "res/ui_jiazhushuzi.png",
     "res/ui_jinbishu.png",
     "res/ui_lvshuzi.png",

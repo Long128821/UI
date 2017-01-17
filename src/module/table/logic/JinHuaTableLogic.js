@@ -1431,9 +1431,10 @@ var JinHuaTableLogic= {
     updateJHID_GET_BAOHE_STEP_INFO:function(){
         var BaoheStepInfoTable = Profile_JinHuaOnlineReward.getBaoheStepInfoTable();
         var GameData= Profile_JinHuaGameData.getGameData();
+        //解决Bug:玩家自身超时站起,不显示在线时长奖励
         if(BaoheStepInfoTable["nowNumberMax"]== null
             ||BaoheStepInfoTable["nowNumberMax"]== undefined
-            || GameData.mySSID== null
+            ||GameData.mySSID== null
             ||GameData.mySSID== undefined){
             this.btn_onlinebonus.setVisible(false);
             this.btn_onlinebonus.setTouchEnabled(false);
@@ -1578,8 +1579,8 @@ var JinHuaTableLogic= {
         //Todo:清理数据
         this.clear();
         //JinHuaTableCard.clear();
-        JinHuaTableCoin.clear();
-        JinHuaTablePlayer.clear();
+        JinHuaTableCoin.clear();//玩空牌桌上的金币
+        JinHuaTablePlayer.clear();//
         JinHuaTableTips.clear();
 
         //更新背包道具数量
@@ -2111,7 +2112,7 @@ var JinHuaTableLogic= {
             this.Label_match_name.setVisible(true);
             this.Label_match_name.setString(GameData.matchTitle);
         }
-        //金币堆模块(断线重连)
+        //解决Bug:断线重连&&玩家在牌桌上,显示金币堆模块
         JinHuaTableCoin.createTableCoins(GameData.chips);
         //更新牌桌基本信息显示
         this.updateTableTitle();
@@ -2550,7 +2551,7 @@ var JinHuaTableLogic= {
     },
     //更新加注按钮列表
     updateMyRaiseCoinBtns:function(){
-        //如果当前下注人并不是我,我的加注列表不需要更新
+        //没有下注数据 || 加注数据不是有效值
         if(this.betData== null||(this.betData!= null &&(this.betData.raiseCoin== null||this.betData.raiseCoin== undefined))){
             return;
         }
@@ -2821,10 +2822,12 @@ var JinHuaTableLogic= {
     clickPkBtnFunc:function(playerCSID){
         var  players = JinHuaTablePlayer.getPlayers();
         if(players[playerCSID]){
+            //修改Bug:noPK是player的属性。
             if(players[playerCSID].player.noPK){
                 Common.showToast("他使用了【禁比】，你不能和他比牌", 2);
             }
             this.hidePkButton();
+            //修改Bug:玩家本身发起比牌时，比牌双方都是玩家自己(SSID是player的属性)。
             sendJHID_PK(players[playerCSID].player.SSID);
         }
     }

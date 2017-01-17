@@ -129,15 +129,20 @@ var JinHuaTableCard= {
     sendCardInitCardState:function(player){
         for(var key in player.cardSprites){
             if(player.cardSprites[key]== null||player.cardSprites[key]== undefined) continue;
+            //修改Bug:要旋转、缩放仅仅只是纸牌精灵，而不是Node
+            var cardSprite= player.cardSprites[key].getCardSprite();
+
+            if(cardSprite== null||cardSprite== undefined) continue;
             //屏幕中间、偏高位置(发牌)
-            player.cardSprites[key].getCardSprite().setPosition(Profile_JinHuaTableConfig.cardsSpriteStartPositionX, Profile_JinHuaTableConfig.cardsSpriteStartPositionY);
+            cardSprite.setPosition(Profile_JinHuaTableConfig.cardsSpriteStartPositionX, Profile_JinHuaTableConfig.cardsSpriteStartPositionY);
             //初始大小
-            player.cardSprites[key].getCardSprite().setScale(Profile_JinHuaTableConfig.cardScale);
+            cardSprite.setScale(Profile_JinHuaTableConfig.cardScale);
             //不旋转
-            player.cardSprites[key].getCardSprite().setRotation(0);
+            cardSprite.setRotation(0);
         }
     },
     //设置我的牌的大小和位置
+    //修改Bug:要旋转、缩放仅仅只是纸牌精灵，而不是Node
     setMyCardScaleAndRotation:function(card1, card2, card3){
         this.sendMyCard1End(card1.getCardSprite());
         this.sendMyCard2End(card2.getCardSprite());
@@ -193,6 +198,7 @@ var JinHuaTableCard= {
 //        }
         //如果要翻牌，则延时0.3秒播胜利动画
         if(turnCard){
+            //修改Bug:弃牌后,立刻执行播放胜利动画
             JinHuaTablePlayer.getJinHuaTablePlayerLayer().runAction(cc.sequence(cc.delayTime(0.3), cc.callFunc(JinHuaTableCard.startWinAnim)));
         }else{
             JinHuaTableCard.startWinAnim();

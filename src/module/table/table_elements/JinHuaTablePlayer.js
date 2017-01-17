@@ -94,7 +94,7 @@ var JinHuaTablePlayer= {
         //如果我在牌桌上并且有牌，更新我的操作按钮
         if(Profile_JinHuaGameData.isMePlayingThisRound()){
             JinHuaTableLogic.updateMyOperationBtns(this.tablePlayerEntitys[0]);
-            //此时玩家已经坐下，移除所有座位上的所有标记
+            //断线重连:玩家在牌桌上，移除所有的坐下标记
             JinHuaTableTips.removeAllSitTips();
         }
 
@@ -105,7 +105,7 @@ var JinHuaTablePlayer= {
         this.setDealer();
 
         var GameData= Profile_JinHuaGameData.getGameData();
-        //游戏中
+        //断线重连-玩家在游戏中，更新玩家的可操作按钮
         if(GameData.status== STATUS_TABLE_PLAYING && GameData.currentPlayer){
             //更新当前玩家
             this.refreshCurrentPlayer(GameData.currentPlayer);
@@ -238,7 +238,9 @@ var JinHuaTablePlayer= {
         this.otherTimerBg.setType(cc.ProgressTimer.TYPE_RADIAL);
         this.otherTimerBg.setZOrder(12);
         this.JinHuaTablePlayerLayer.addChild(this.otherTimerBg);
-
+        /**
+         * 修改Bug:倒计时不显示出来(使用cc.LabelAtlas时,宽度可以或多或少，但是高度，一定不能超过，否则显示不出来。但是可以小于，仅仅是显示不完整而已);
+         */
         this.myTimer = cc.LabelAtlas.create("0", Common.getResourcePath("ui_daojishi0-9.png"), 20.3, 26, "0");
         this.myTimer.setPosition(403, 150);
         this.myTimer.setZOrder(2);
@@ -477,6 +479,7 @@ var JinHuaTablePlayer= {
     resetPlayerBetCoin:function(){
         for(var key in this.tablePlayerEntitys){
             if(this.tablePlayerEntitys[key]== null||this.tablePlayerEntitys[key]==undefined) continue;
+            //修改Bug:游戏结束时,玩家已下注金额数没有清空，进而没有隐藏(betCoins是player的成员)
             this.tablePlayerEntitys[key].player.betCoins = 0;
         }
     },
@@ -554,6 +557,8 @@ var JinHuaTablePlayer= {
             //清空玩家的所有手牌
             JinHuaTableCard.clearCards();
             //设置看牌提示不显示
+            //修改Bug:别人站起时,玩家的看牌不显示。
+            //Todo:可能存在的问题:牌局没散
             JinHuaTableCheckButton.setCheckVisible(false);
             //清除手牌
             if(this.tablePlayerEntitys[CSID].cardSprites[0]){
@@ -715,6 +720,7 @@ var JinHuaTablePlayer= {
     //自己弃牌后更新
     updateTableAfterSelfFoldCard:function(){
         if(this.tablePlayerEntitys[0]== null||this.tablePlayerEntitys[0]== "undefined") return;
+        //自己弃牌的座位号0，而不是1
         this.updatePlayerStateAfterFoldCard(0);
         JinHuaTableLogic.showQuickChatButton(STATUS_QUICK_CHAT_FOLD);
     },

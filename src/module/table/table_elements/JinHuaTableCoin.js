@@ -106,6 +106,7 @@ var JinHuaTableCoin= {
         return this.CoinBatchNode;
     },
     clear:function(){
+        //修改Bug:内存泄露，销毁时，移除牌桌上的筹码。避免:第二局时,玩家头像下方,有一个不该出现的筹码。
         this.clearCoins();
         this.isSelfBet= false;
         this.CoinBatchNode&&this.CoinBatchNode.removeFromParent(true);
@@ -113,13 +114,16 @@ var JinHuaTableCoin= {
         this.JinHuaTableCoinLayer&&this.JinHuaTableCoinLayer.removeFromParent(true);
         this.JinHuaTableCoinLayer= null;
     },
-    //牌桌筹码显示
+    /**
+     * Func:绘制牌桌已有筹码(断线重连)
+     * @param coinData 牌桌上的筹码table
+     */
     createTableCoins:function(coinData){
+        //修改Bug:内存泄露，销毁时，移除牌桌上的筹码。避免:第二局时,玩家头像下方,有一个不该出现的筹码。
         this.clearCoins();
         if(coinData){
-            var coins= {};
             for(var key in coinData){
-                coins= this.getChipArray(coinData[key].coins);
+                var coins= this.getChipArray(coinData[key].coins);
                 //创建筹码
                 for(var i in coins){
                     var spriteChips= JinHuaTableCoinEntity.createTableCoinEntity(coins[i], parseInt(i));
@@ -143,6 +147,7 @@ var JinHuaTableCoin= {
     },
     //清除桌上金币
     clearCoins:function(){
+        //清空牌桌上的筹码，从视图中删除
         JinHuaTableCoinEntity.clear();
         this.coinArray= {};
     },

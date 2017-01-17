@@ -457,11 +457,6 @@ JinHuaTablePlayerEntity.prototype.createBetedCoinLabel= function(){
     }
 };
 
-//移除玩家已下注的金币数
-JinHuaTablePlayerEntity.prototype.setBetedCoinLabelVisible= function(bVisible){
-    this.betedCoinLabel.setVisible(bVisible== undefined?false:bVisible);
-};
-
 //创建<准备>图标(默认隐藏,准备之后,显示)
 JinHuaTablePlayerEntity.prototype.createReadyIcon= function(){
     this.readyIcon = cc.Sprite.create("#desk_icon_ready.png");

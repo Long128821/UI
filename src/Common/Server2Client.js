@@ -1165,6 +1165,7 @@ function read82200003(nMBaseMessage){
         var currentPlayerCnt= nMBaseMessage.readInt();
         dataTable["currentPlayer"]["currentPlayerCnt"]= currentPlayerCnt;
         for(var i=0; i<currentPlayerCnt; ++i){
+            //读取Loop头
             nMBaseMessage.startReadLoop();
 
             dataTable["currentPlayer"]["raiseCoin"][i] = {};
