@@ -36,6 +36,8 @@ CardSprite.prototype.clear= function(){
     this.cardTypeSmallSprite= null;//小牌花
 
     this.needCover= false;//是否显示遮蔽层
+
+    this.value= null;
 };
 /**
  * Func:初始化函数,相当于构造函数
@@ -67,6 +69,8 @@ CardSprite.prototype.init= function(){
  */
 CardSprite.prototype.setCardValue= function(value){
     if(!Common.judgeValueIsEffect(value)) return;
+
+    console.log("获取牌值");
 
     this.front.removeAllChildrenWithCleanup(true);//移除所有子节点
     this.cardSprite.value= value;//设置牌值(属性)

@@ -185,6 +185,20 @@ var Profile_JinHuaGameData= {
     getPKData:function(){
         return this.PKData;
     },
+    //获取我本局获得的经验提示
+    getMyExpText:function(){
+        var expText = null;
+        if(!Common.judgeValueIsEffect(this.GameData)) return;
+        if(!Common.judgeValueIsEffect(this.GameData["players"])) return;
+        var players= this.GameData["players"];
+        for(var key in players){
+            var player= players[key];
+            if(Common.judgeValueIsEffect(player)&&Common.judgeValueIsEffect(player.userId)&&(player.userId== profile_user.getSelfUserID())){
+                expText= player.expText;
+            }
+        }
+        return expText;
+    },
     //牌桌同步
     updateJHID_TABLE_SYNC:function(dataTable){
         this.clearData();
@@ -200,6 +214,7 @@ var Profile_JinHuaGameData= {
         this.setUserArrayOrder();
         //设置是否为比赛
         this.setIsMatch();
+        console.log("牌桌同步");
         //Todo：是否支持断线重玩
         //Todo：设置牌桌可比牌手数
     },
@@ -211,7 +226,7 @@ var Profile_JinHuaGameData= {
         }else if(dataTable.ItemID== GameConfig.GOODS_ID_CHANGECARD){//换牌道具
             Profile_JinHuaTableConfig.setRemainChangeCardCnt(dataTable.Num);
         }else if(dataTable.ItemID== GameConfig.GOODS_ID_NO_PK){//禁比道具
-            Profile_JinHuaTableConfig.setRemainChangeCardCnt(dataTable.Num);
+            Profile_JinHuaTableConfig.setRemainNoPKCnt(dataTable.Num);
         }
     },
     //退出房间
@@ -313,11 +328,16 @@ var Profile_JinHuaGameData= {
         this.GameData["levelUpExp"] = this.gameResultData["levelUpExp"];
         this.GameData["level"] = this.gameResultData["level"];
         this.gameResultData.CSID = this.getUserCSID(this.gameResultData.winnerSeat);
+        console.log("本局结算2");
+        for(var key in JinHuaTablePlayer.getPlayers()){
+            console.log("CSID:"+ key);
+            console.log(JinHuaTablePlayer.getPlayers()[key].player);
+        }
         for(var key in this.gameResultData.users){
             var user= this.gameResultData.users[key];
             for(var i in this.GameData["players"]){
                 var player= this.GameData["players"][i];
-                if(player&&player.userId== profile_user.getSelfUserID()){
+                if(player&&user.userID== profile_user.getSelfUserID()&&user.userID== player.userId){
                     player.betCoins = user.betCoins;
                     player.remainCoins = user.remainCoins;
                     player.shtatus = user.status;
@@ -327,8 +347,14 @@ var Profile_JinHuaGameData= {
                     player.level = user.level;
                     player.expText = user.expText;
                     player.isCert = user.isCert;
+                    console.log(player.cardValues);
                 }
             }
+        }
+        console.log("本局结算3");
+        for(var key in JinHuaTablePlayer.getPlayers()){
+            console.log("CSID:"+ key);
+            console.log(JinHuaTablePlayer.getPlayers()[key].player);
         }
     },
     //比牌

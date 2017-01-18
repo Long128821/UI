@@ -165,8 +165,8 @@ var JinHuaTableCoin= {
     betCoinAnim:function(betChipData, isSelfClickToBet){
         //下注类型
         switch(betChipData.type){
-            case TYPE_BET_ANTE://下底注
-                JinHuaTablePlayer.setDealer();
+            case TYPE_BET_ANTE://下底注,有几个人执行几次
+                JinHuaTablePlayer.showDealerIcon();
                 break;
             case TYPE_BET_CALL://跟注
                 JinHuaTableBubble.showJinHuaTableBubble(betChipData.CSID, BUBBLE_TYPE_CALL);
@@ -297,7 +297,9 @@ var JinHuaTableCoin= {
         //清理牌桌上的金币
         JinHuaTableCoin.clearCoins();
         //清理牌桌上的纸牌
-        JinHuaTableCard.clearCards();
+        //JinHuaTableCard.clearCards();
+        //清空庄家图标
+        JinHuaTablePlayer.hideDealerIcon();
 
         var winnerPlayer= JinHuaTablePlayer.getPlayers()[JinHuaTablePlayer.getWinPlayerPos()];
 

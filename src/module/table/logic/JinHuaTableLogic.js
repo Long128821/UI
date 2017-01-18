@@ -492,19 +492,6 @@ var JinHuaTableLogic= {
 //			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL);
 //		}
 	},
-    
-	callback_Panel_94:function(pSender, event){
-		if(event == ccui.Widget.TOUCH_BEGAN){
-			//按下
-
-		}else if(event == ccui.Widget.TOUCH_ENDED){
-			//抬起
-
-		}else if(event == ccui.Widget.TOUCH_CANCELED){
-			//取消
-
-		}
-	},
 
 	callback_Panel_PrivateRoom:function(pSender, event){
 		if(event == ccui.Widget.TOUCH_BEGAN){
@@ -512,7 +499,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            console.log("callback_Panel_PrivateRoom");
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -525,20 +512,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
-		}else if(event == ccui.Widget.TOUCH_CANCELED){
-			//取消
-
-		}
-	},
-
-	callback_Panel_bg:function(pSender, event){
-		if(event == ccui.Widget.TOUCH_BEGAN){
-			//按下
-
-		}else if(event == ccui.Widget.TOUCH_ENDED){
-			//抬起
-
+            console.log("callback_Panel_roominfo");
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -551,7 +525,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            console.log("callback_Panel_lunshu");
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -564,7 +538,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            console.log("callback_Panel_danzhu");
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -577,7 +551,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            console.log("callback_Panel_zongxiazhu");
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1052,6 +1026,9 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
+            for(var i in Profile_JinHuaGameData.getPlayers()){
+                console.log(Profile_JinHuaGameData.getPlayers()[i]);
+            }
             JinHuaTableLogic.onFold();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
@@ -1208,6 +1185,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
+            console.log("任务列表");
             MvcEngine.createModule(GUI_RENWU);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
@@ -1530,16 +1508,30 @@ var JinHuaTableLogic= {
     },
     //本局结算
     updateJHID_GAME_RESULT:function(){
+        for(var i in Profile_JinHuaGameData.getPlayers()){
+            console.log("CSID:"+ i);
+            console.log(Profile_JinHuaGameData.getPlayers()[i]);
+        }
         //清空所有的定时器
         JinHuaTablePlayer.clearAllTimer();
+        for(var i in Profile_JinHuaGameData.getPlayers()){
+            console.log("CSID:"+ i);
+            console.log(Profile_JinHuaGameData.getPlayers()[i]);
+        }
         //本局结算后，操作一些数据
         this.initGameDataAfterGameResult();
+        for(var i in Profile_JinHuaGameData.getPlayers()){
+            console.log("CSID:"+ i);
+            console.log(Profile_JinHuaGameData.getPlayers()[i]);
+        }
         //显示结果
         JinHuaTableCard.startResultShow();
         //获取在线时长
         if(this.GameData.roomId!= null){
             sendJHID_GET_BAOHE_STEP_INFO(this.GameData.roomId);
         }
+        //显示本局经验加成
+        this.showAddExpAnimation();
     },
     //更新比牌动画
     updateJHID_PK:function(){
@@ -1599,6 +1591,7 @@ var JinHuaTableLogic= {
 
         this.Panel_buttonGroup_right.setVisible(true);
         this.btn_renwu.setVisible(true);
+        this.btn_renwu.setTouchEnabled(true);
     },
     //根据是否为比赛，更新换牌卡的数量
     updateChangeCardCount:function(isMatch){
@@ -2155,7 +2148,10 @@ var JinHuaTableLogic= {
             this.Panel_EXP.setVisible(true);
             this.Label_level.setString("Lv."+ GameData["level"]);
             this.Label_exp.setString("经验:"+ GameData["Exp"] + "/" + GameData["levelUpExp"]);
-            this.ProgressBar_exp.setPercent(GameData["Exp"]/GameData["levelUpExp"]);
+            //Todo:App和H5的差别
+            this.ProgressBar_exp.setPercent(GameData["Exp"]/GameData["levelUpExp"]* 100);
+            this.Label_level.setColor(cc.color(255, 255, 255));
+            this.Label_exp.setColor(cc.color(255, 255, 255));
         }else{
             this.Panel_EXP.setVisible(false);
         }
@@ -2530,6 +2526,10 @@ var JinHuaTableLogic= {
     },
     //点击弃牌后做的事
     afterOnClickBtnFold:function(){
+        for(var i in JinHuaTablePlayer.getPlayers()){
+            console.log("CSID:"+ i);
+            console.log(JinHuaTablePlayer.getPlayers()[i]);
+        }
         //Todo:关闭-超时弃牌线程
         sendJHID_DISCARD(0);
         JinHuaTablePlayer.updateTableAfterSelfFoldCard();
@@ -2830,6 +2830,31 @@ var JinHuaTableLogic= {
             this.hidePkButton();
             //修改Bug:玩家本身发起比牌时，比牌双方都是玩家自己(SSID是player的属性)。
             sendJHID_PK(players[playerCSID].player.SSID);
+        }
+    },
+    //每局结束后的经验加成动画并设置经验条
+    showAddExpAnimation:function(){
+        var expText = Profile_JinHuaGameData.getMyExpText();
+        var labelExp = cc.LabelTTF.create(expText, "Arial", 36);
+        var bgSize = JinHuaTablePlayer.getJinHuaTablePlayerLayer().getContentSize();
+        labelExp.setPosition(cc.p(bgSize.width / 2,bgSize.height / 2));
+        labelExp.setZOrder(10);
+        JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(labelExp);
+        var array = [];
+        array.push(cc.spawn(cc.fadeOut(1.50), cc.moveTo(1.50,cc.p(labelExp. getPositionX(),labelExp. getPositionY() + 100))));
+        array.push(cc.removeSelf(true));
+        labelExp. runAction(cc.sequence(array));
+
+        //下边的经验加成(设置自己经验条数据)
+        var GameData= Profile_JinHuaGameData.getGameData();
+        if(Common.judgeValueIsEffect(GameData["Exp"])
+            &&Common.judgeValueIsEffect(GameData["levelUpExp"])
+            &&Common.judgeValueIsEffect(GameData["level"])){
+            //初始化锁定牌桌按钮
+            this.Panel_EXP.setVisible(true);
+            this.Label_level.setText("Lv." + GameData["level"]);
+            this.Label_exp.setText("经验:" + GameData["Exp"] + "/" + GameData["levelUpExp"]);
+            this.ProgressBar_exp.setPercent(GameData["Exp"]/GameData["levelUpExp"]* 100);
         }
     }
 };

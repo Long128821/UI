@@ -8,6 +8,8 @@ function JinHuaTablePlayerEntity(player){
     this.clear();//清空元素
     this.createMember(player);//创建对象
     this.init();//初始化
+    console.log("初始化");
+    console.log(this);
 }
 
 //清理数据
@@ -104,6 +106,8 @@ JinHuaTablePlayerEntity.prototype.createMember= function(player){
     this.luckyLable = null;//幸运点label
     this.luckyValue = null;//幸运点数  用来在牌桌结算时 计算转换幸运点的差值
     this.cardSprites = {};// 牌精灵
+    this.cardValues= this.player.cardValues;
+    delete  this.player.cardValues;
     //Todo:可以删除的内容
     this.levelPic = null;//等级图标
     this.atlasLevelNum = null;//等级数
@@ -115,7 +119,7 @@ JinHuaTablePlayerEntity.prototype.createPlayerTips= function(){
     if(!Common.judgeValueIsEffect(this.mPlayerSprite)) return;
 
     this.tips = cc.Sprite.create(null);
-    this.tips.setPosition(0, this.goldSpriteBg.getPositionY() + this.goldSpriteBg.getContentSize().height / 5);
+    this.tips.setPosition(this.goldSpriteBg.getContentSize().width* (-0.1), this.goldSpriteBg.getPositionY() + this.goldSpriteBg.getContentSize().height / 10);
     this.mPlayerSprite.addChild(this.tips, 2);
 
     this.updatePlayerTips();//更新玩家等级和称谓
@@ -177,7 +181,7 @@ JinHuaTablePlayerEntity.prototype.changeCoinNumOnView= function(coinNum){
     this.labelCoin.setString(coinNum);//设置玩家的金币数
     var bgPos= this.goldSpriteBg.getPosition();//背景的位置
     var goldSize= this.goldSprite.getContentSize();//金币图标的尺寸
-    this.labelCoin.setPosition(bgPos.x + goldSize.width/2, bgPos.y - goldSize.height / 5);
+    this.labelCoin.setPosition(bgPos.x + goldSize.width/2, bgPos.y - goldSize.height / 2);
     this.setBetCoin();//设置已压金币数
 };
 //创建玩家实例(头像框、头像、昵称、蒙黑遮蔽层、头像框背景、昵称、金币数、称谓、VIP等级)
@@ -237,7 +241,7 @@ JinHuaTablePlayerEntity.prototype.createPortrait= function(){
         self.mPlayerSprite.addChild(self.spritePic, 1);
         if(sprite!= "ERROR"){//网络图片放大
             self.spritePic.setScale(1.2);
-        }
+    }
     });
 };
 
@@ -255,8 +259,10 @@ JinHuaTablePlayerEntity.prototype.createDarkCoverOnPortrait= function(){
     //头像上的蒙灰遮蔽层
     this.playerDarkCover= cc.Sprite.create(darkCoverPath);
     this.playerDarkCover.setPosition(bgSize.width / 2, bgSize.height / 2);
-    this.playerDarkCover.setVisible(false);//默认不显示
+    //this.playerDarkCover.setVisible(false);//默认不显示
     this.mPlayerSprite.addChild(this.playerDarkCover, 3);
+    //设置玩家遮蔽层正好在圆中
+    this.isMe()&&this.playerDarkCover.setScale(0.9);
 };
 
 /**
@@ -460,7 +466,6 @@ JinHuaTablePlayerEntity.prototype.createPlayerLuckyTips= function(){
     if(!Common.judgeValueIsEffect(this.mPlayerSprite)) return;
 
     var Clover= parseInt(this.player.Clover);
-    console.log("幸运值等级:"+ Clover);
     if(Common.judgeValueIsEffect(Clover) && Clover==  1){
         var sizeBg= this.mPlayerSprite.getContentSize();
         this.luckyTip= cc.Sprite.create("#dianjizhe.png");
@@ -538,9 +543,9 @@ JinHuaTablePlayerEntity.prototype.createNotBeLookedCard= function(){
             var player= Profile_JinHuaTableConfig.getSpritePlayers()[this.player.CSID];
             cardSprite.setPosition(player.cards[i].locX, player.cards[i].locY);
         }else{
-            cardSprite.setPosition(558 + 26 * i, 125);
+            cardSprite.setPosition(580 + 26 * i, 125);
             //自己的牌的话有角度和大小特殊显示
-            JinHuaTableCard.setMyCardScaleAndRotation(cardSprite);
+            JinHuaTableCard.sendMyCardEnd(cardSprite);
         }
         //将手牌显示出来(将纸牌添加到视图中)
         JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(cardSprite);

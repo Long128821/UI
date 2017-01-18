@@ -26,10 +26,8 @@ var JinHuaTableController = BaseController.extend({
 	},
     //添加监听
     addCallback:function(){
-		Frameworks.bindEventCallback("JinHuaTableLogic#", CocoStudio.getComponent(JinHuaTableLogic.view,"Panel_94"), JinHuaTableLogic.callback_Panel_94, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
 		Frameworks.bindEventCallback("JinHuaTableLogic#", CocoStudio.getComponent(JinHuaTableLogic.view,"Panel_PrivateRoom"), JinHuaTableLogic.callback_Panel_PrivateRoom, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
 		Frameworks.bindEventCallback("JinHuaTableLogic#", CocoStudio.getComponent(JinHuaTableLogic.view,"Panel_roominfo"), JinHuaTableLogic.callback_Panel_roominfo, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.bindEventCallback("JinHuaTableLogic#", CocoStudio.getComponent(JinHuaTableLogic.view,"Panel_bg"), JinHuaTableLogic.callback_Panel_bg, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
 		Frameworks.bindEventCallback("JinHuaTableLogic#", CocoStudio.getComponent(JinHuaTableLogic.view,"Panel_lunshu"), JinHuaTableLogic.callback_Panel_lunshu, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
 		Frameworks.bindEventCallback("JinHuaTableLogic#", CocoStudio.getComponent(JinHuaTableLogic.view,"Panel_danzhu"), JinHuaTableLogic.callback_Panel_danzhu, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
 		Frameworks.bindEventCallback("JinHuaTableLogic#", CocoStudio.getComponent(JinHuaTableLogic.view,"Panel_zongxiazhu"), JinHuaTableLogic.callback_Panel_zongxiazhu, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
@@ -91,10 +89,8 @@ var JinHuaTableController = BaseController.extend({
     },
     //移除监听
     removeCallback:function(){
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(JinHuaTableLogic.view,"JinHuaTableLogic#Panel_94"), JinHuaTableLogic.callback_Panel_94, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(JinHuaTableLogic.view,"JinHuaTableLogic#Panel_PrivateRoom"), JinHuaTableLogic.callback_Panel_PrivateRoom, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(JinHuaTableLogic.view,"JinHuaTableLogic#Panel_roominfo"), JinHuaTableLogic.callback_Panel_roominfo, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
-		Frameworks.unbindEventCallback(CocoStudio.getComponent(JinHuaTableLogic.view,"JinHuaTableLogic#Panel_bg"), JinHuaTableLogic.callback_Panel_bg, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(JinHuaTableLogic.view,"JinHuaTableLogic#Panel_lunshu"), JinHuaTableLogic.callback_Panel_lunshu, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(JinHuaTableLogic.view,"JinHuaTableLogic#Panel_danzhu"), JinHuaTableLogic.callback_Panel_danzhu, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(JinHuaTableLogic.view,"JinHuaTableLogic#Panel_zongxiazhu"), JinHuaTableLogic.callback_Panel_zongxiazhu, BUTTON_CLICK, BUTTON_SOUND_NONE + BUTTON_ANIMATION_NONE);

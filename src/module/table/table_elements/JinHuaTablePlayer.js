@@ -102,7 +102,7 @@ var JinHuaTablePlayer= {
         this.addTimerSprite();
 
         //添加庄家图标
-        this.setDealer();
+        this.initDealer();
 
         var GameData= Profile_JinHuaGameData.getGameData();
         //断线重连-玩家在游戏中，更新玩家的可操作按钮
@@ -229,7 +229,9 @@ var JinHuaTablePlayer= {
         var mySpriteTimer = cc.Sprite.create("#desk_player_cover_mine.png");
         this.myTimerBg = cc.ProgressTimer.create(mySpriteTimer);
         this.myTimerBg.setType(cc.ProgressTimer.TYPE_RADIAL);
-        this.myTimerBg.setPosition(cc.pAdd(Profile_JinHuaTableConfig.getMySelfLocPos(), cc.p(87, 87)));
+        //遮蔽层尺寸(173* 172),玩家自己的头像框缩小0.9
+        this.myTimerBg.setPosition(cc.pAdd(Profile_JinHuaTableConfig.getMySelfLocPos(), cc.p(173* 0.5* 0.9, 172* 0.5*  0.9)));
+        this.myTimerBg.setScale(0.9);
         this.myTimerBg.setZOrder(12);
         this.JinHuaTablePlayerLayer.addChild(this.myTimerBg);
         //圆形遮蔽层
@@ -241,7 +243,7 @@ var JinHuaTablePlayer= {
         /**
          * 修改Bug:倒计时不显示出来(使用cc.LabelAtlas时,宽度可以或多或少，但是高度，一定不能超过，否则显示不出来。但是可以小于，仅仅是显示不完整而已);
          */
-        this.myTimer = cc.LabelAtlas.create("0", Common.getJinHuaResourcePath("ui_daojishi0-9.png"), 20.3, 26, "0");
+        this.myTimer = cc.LabelAtlas.create("12", Common.getJinHuaResourcePath("ui_daojishi0-9.png"), 20, 26, "0");
         this.myTimer.setPosition(403, 150);
         this.myTimer.setZOrder(2);
         this.myTimer.setVisible(false);
@@ -253,7 +255,7 @@ var JinHuaTablePlayer= {
         this.myTimer2.setVisible(false);
         this.JinHuaTablePlayerLayer.addChild(this.myTimer2);
 
-        this.otherTimer = cc.LabelAtlas.create("0", Common.getJinHuaResourcePath("ui_daojishi0-9.png"), 20.3, 26, "0");
+        this.otherTimer = cc.LabelAtlas.create("0", Common.getJinHuaResourcePath("ui_daojishi0-9.png"), 20, 26, "0");
         this.otherTimer.setZOrder(2);
         this.otherTimer.setVisible(false);
         this.JinHuaTablePlayerLayer.addChild(this.otherTimer);
@@ -263,21 +265,24 @@ var JinHuaTablePlayer= {
         this.otherTimer2.setVisible(false);
         this.JinHuaTablePlayerLayer.addChild(this.otherTimer2);
     },
+    initDealer:function(){
+        this.dealer= cc.Sprite.create("#desk_icon_dealer.png");
+        this.JinHuaTablePlayerLayer.addChild(this.dealer);
+        this.dealer.setVisible(false);
+        this.dealer.setZOrder(30);
+    },
     //设置庄家图标
-    setDealer:function(){
+    showDealerIcon:function(){
         var GameData= Profile_JinHuaGameData.getGameData();
         var CSID= GameData.dealerCSID;
         if(this.dealer== null){
-            this.dealer= cc.Sprite.create("#desk_icon_dealer.png");
-            this.JinHuaTablePlayerLayer.addChild(this.dealer);
+            this.initDealer();
         }
-        this.dealer.setZOrder(30);
-
-        if(this.tablePlayerEntitys[CSID]!= null
-            &&this.tablePlayerEntitys[CSID]!= undefined
+        if(Common.judgeValueIsEffect(this.tablePlayerEntitys[CSID])
             &&this.tablePlayerEntitys[CSID].mPlayerSprite!= null){
             var players= Profile_JinHuaTableConfig.spritePlayers;
             this.dealer.setPosition(players[CSID].locX + this.tablePlayerEntitys[CSID].mPlayerSprite.getContentSize().width / 15, players[CSID].locY + this.tablePlayerEntitys[CSID].mPlayerSprite.getContentSize().height * 6 / 8);
+            this.dealer.setVisible(true);
         }else{
             this.dealer.setVisible(false);
         }
@@ -285,7 +290,7 @@ var JinHuaTablePlayer= {
     //更新当前可操作玩家
     refreshCurrentPlayer:function(currentPlayer){
         //说明已经结束 清除计时器
-        if(currentPlayer== undefined||currentPlayer== null){
+        if(!Common.judgeValueIsEffect(currentPlayer)){
             //关闭所有定时器
             this.clearAllTimer();
             return;
@@ -365,6 +370,11 @@ var JinHuaTablePlayer= {
         JinHuaTableCard.clearCards();
         //隐藏看牌提示
         JinHuaTableCheckButton.setCheckVisible(false);
+        //隐藏庄家图标
+        this.dealer.setVisible(false);
+    },
+    //隐藏庄家图标
+    hideDealerIcon:function(){
         //隐藏庄家图标
         this.dealer.setVisible(false);
     },
@@ -676,7 +686,7 @@ var JinHuaTablePlayer= {
             //更新玩家本身的可操作按钮
             JinHuaTableLogic.updateMyBetBtnsOnOthersTurn();
 
-            this.otherTimerBg.setPosition(player.locX + 77, player.locY + 77);
+            this.otherTimerBg.setPosition(cc.pAdd(cc.p(player.locX,player.locY),cc.p(173* 0.5,172* 0.5)));
             this.otherTimer.setPosition(player.timerX,player.timerY);
             this.otherTimer2.setPosition(player.timerX,player.timerY);
 
@@ -732,6 +742,8 @@ var JinHuaTablePlayer= {
     //收到服务器站起
     updateTableAfterStandUpByServer:function(){
         var standUpData= Profile_JinHuaGameData.getStandUpData();
+        console.log("站起");
+        console.log(standUpData);
         var  mySelf = Profile_JinHuaGameData.getMySelf();
         if(standUpData.result == 1){//成功站起
             if(mySelf.SSID!= null&& mySelf.SSID == standUpData.SSID){//自己站起
@@ -750,6 +762,7 @@ var JinHuaTablePlayer= {
     },
     //自己站起
     updateTableAfterStandUpMe:function(CSID){
+        console.log("自己站起！");
         //清空发牌
         this.clearTableAfterSitAndStand();
         //自己站起后，更新当前人(如果之前可操作玩家是 自己)
@@ -779,7 +792,7 @@ var JinHuaTablePlayer= {
             this.tablePlayerEntitys[CSID]= null;
         }
         //视图更新-庄家
-        this.setDealer();
+        this.showDealerIcon();
         //视图更新-重新初始化玩家
         this.initPlayerSprites(false);
         //Todo:自己站起，轮到别的玩家操作，更新定时器

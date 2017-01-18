@@ -80,6 +80,11 @@ var ProfileJinHuaTable= {
     },
     //本局结算
     slot_JHID_GAME_RESULT:function(dataTable){
+        console.log("本局结算1");
+        for(var key in JinHuaTablePlayer.getPlayers()){
+            console.log("CSID:"+ key);
+            console.log(JinHuaTablePlayer.getPlayers()[key].player);
+        }
         Profile_JinHuaGameData.readJHID_GAME_RESULT(dataTable);
         JinHuaTableLogic.updateJHID_GAME_RESULT();
     },

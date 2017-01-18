@@ -225,7 +225,7 @@ var RenWuLogic= {
         //任务名
         var labelTitle = cc.LabelTTF.create(TaskListLoop[idx]["Name"], "Arial", 30);
         labelTitle.setAnchorPoint(0.5, 0.5);
-        labelTitle.setPosition(cc.p(spriteSize.width* 0.12, spriteSize.height* 0.75));
+        labelTitle.setPosition(cc.p(spriteSize.width* 0.12, spriteSize.height* 0.7));
         sprite.addChild(labelTitle);
 
         var strContent= TaskListLoop[idx]["Desc"];
@@ -234,7 +234,7 @@ var RenWuLogic= {
         }
 
         //内容
-        var LabelContent = cc.LabelTTF.create("("+ strContent+")", "Arial", 20);
+        var LabelContent = cc.LabelTTF.create("("+ strContent+")", "Arial", 16);
         LabelContent.setPosition(cc.p(spriteSize.width* 0.12, spriteSize.height* 0.25));
         LabelContent.setColor(cc.color(0x6f,0x5e,0x6c));
         sprite.addChild(LabelContent);

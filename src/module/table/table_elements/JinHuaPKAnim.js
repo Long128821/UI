@@ -182,7 +182,7 @@ var JinHuaPKAnim= {
         this.PKLayer.addChild(this.cardRight1);
         this.PKLayer.addChild(this.cardRight2);
         this.PKLayer.addChild(this.cardRight3);
-
+        //比牌胜利动画
         Common.createArmature(Common.getJinHuaResourcePath("Animation/bipaiwin.ExportJson"), "bipaiwin", function(armature){
             JinHuaPKAnim.armature = armature;
             JinHuaPKAnim.armature.setVisible(false);
@@ -294,17 +294,10 @@ var JinHuaPKAnim= {
     //开始飞头像动画
     startFlyPhotoAnim:function(sender){
         JinHuaPKAnim.PKLayer.removeChild(sender, true);
-        if(JinHuaPKAnim.mLeftSprite.player.sex == Profile_JinHuaGameData.MALE){
-            JinHuaPKAnim.photoLeft = cc.Sprite.createWithTexture(Common.getJinHuaResourcePath("desk_playerhead.png"));
-        }else{
-            JinHuaPKAnim.photoLeft = cc.Sprite.createWithTexture(Common.getJinHuaResourcePath("desk_playerhead.png"));
-        }
+        JinHuaPKAnim.photoLeft = cc.Sprite.create(Common.getJinHuaResourcePath("desk_playerhead.png"));
         JinHuaPKAnim.photoLeft.setPosition(JinHuaPKAnim.mLeftSprite.getCenterPos());
-        if(JinHuaPKAnim.mRightSprite.sex == Profile_JinHuaGameData.MALE){
-            JinHuaPKAnim.photoRight = cc.Sprite.createWithTexture(Common.getJinHuaResourcePath("desk_playerhead.png"));
-        }else{
-            JinHuaPKAnim.photoRight = cc.Sprite.createWithTexture(Common.getJinHuaResourcePath("desk_playerhead.png"));
-        }
+
+        JinHuaPKAnim.photoRight = cc.Sprite.create(Common.getJinHuaResourcePath("desk_playerhead.png"));
         JinHuaPKAnim.photoRight.setPosition(JinHuaPKAnim.mRightSprite.getCenterPos());
         //设置头像图片
         if(JinHuaPKAnim.mLeftSprite.player.photoUrl){
@@ -334,15 +327,17 @@ var JinHuaPKAnim= {
         var players = JinHuaTablePlayer.getPlayers();
 
         var aimSprite = cc.Sprite.create("#table_pk_collimation.png");
+        var spritePlayers= Profile_JinHuaTableConfig.getSpritePlayers();
+
         if(players[this.pkData.launchCSID].player.userId != profile_user.getSelfUserID()){
-            aimSprite.setPosition(Profile_JinHuaTableConfig.spritePlayers[this.pkData.launchCSID].locX, Profile_JinHuaTableConfig.spritePlayers[this.pkData.launchCSID].locY + this.mLeftSprite.mPlayerSprite.getContentSize().height)
+            aimSprite.setPosition(spritePlayers[this.pkData.launchCSID].locX, spritePlayers[this.pkData.launchCSID].locY + this.mLeftSprite.mPlayerSprite.getContentSize().height)
         }else{
             aimSprite.setPosition(cc.pAdd(Profile_JinHuaTableConfig.getMySelfLocPos(), cc.p(90, 90)))
         }
 
         var array = [];
         if(players[this.pkData.aimCSID].player.userId != profile_user.getSelfUserID()){
-            array.push(cc.moveTo(0.5, cc.p(Profile_JinHuaTableConfig.spritePlayers[this.pkData.aimCSID].locX + this.mRightSprite.mPlayerSprite.getContentSize().width / 2, Profile_JinHuaTableConfig.spritePlayers[this.pkData.aimCSID].locY + this.mRightSprite.mPlayerSprite.getContentSize().height / 2)))
+            array.push(cc.moveTo(0.5, cc.p(spritePlayers[this.pkData.aimCSID].locX + this.mRightSprite.mPlayerSprite.getContentSize().width / 2, spritePlayers[this.pkData.aimCSID].locY + this.mRightSprite.mPlayerSprite.getContentSize().height / 2)))
         }else{
             array.push(cc.moveTo(0.5, cc.pAdd(Profile_JinHuaTableConfig.getMySelfLocPos(), cc.p(90, 90))))
         }
@@ -365,6 +360,7 @@ var JinHuaPKAnim= {
         }
         //修改玩家的状态
         players[PKData.lossCSID].player.status = STATUS_PLAYER_PK_FAILURE;
+
         if(PKData.winCSID< PKData.lossCSID){
             JinHuaPKAnim.showJinHuaPKAnim(players[PKData.winCSID],players[PKData.lossCSID],PKData);
         }else{
