@@ -25,6 +25,7 @@ var ProfileHall= {
         //设置金花数据
         Profile_JinHuaSetting.readJINHUA_MGR_SETTING(dataTable);
         //设置VIP等级
+        HallLogic.setUserTitle();
         //设置同时在线人数
         HallLogic.setOnlinePlayerNumber();
         //Todo:首充翻倍 可以在JINHUA_MGR_SETTING中，也可以单独的获取(JINHUA_MGR_RECHARGE_REBATE_INFO)

@@ -10,19 +10,17 @@ var JinHuaTableTips= {
     clear:function(){
         this.isShowTipPK= true;
         this.isShowTipOpenCard= true;
+
         //清空所有的Tips提示
-        for(var key in this.sitTipSprites){
-            if(this.sitTipSprites[key] == null || this.sitTipSprites[key]== undefined) continue;
-            this.sitTipSprites[key].removeFromParent(true);
-        }
-        this.sitTipSprites= {};
+        this.removeAllSitTips();
+
         //因为提示标记,添加到该父节点上,所以移除父节点,就是移除了子节点
-        ((this.JinHuaTableTipsLayer!=null||this.JinHuaTableTipsLayer!=undefined)&&this.JinHuaTableTipsLayer.removeFromParent(true));
+        (Common.judgeValueIsEffect(this.JinHuaTableTipsLayer))&&this.JinHuaTableTipsLayer.removeFromParent(true);
         this.JinHuaTableTipsLayer= null;
     },
     //获取提示层(父节点[cc.Layer])
     getTableTipsLayer:function(){
-        if(this.JinHuaTableTipsLayer==null||this.JinHuaTableTipsLayer==undefined){
+        if(!Common.judgeValueIsEffect(this.JinHuaTableTipsLayer)){
             this.JinHuaTableTipsLayer= cc.Layer.create();
             this.JinHuaTableTipsLayer.setZOrder(4);
         }
@@ -34,14 +32,15 @@ var JinHuaTableTips= {
      */
     createSitTips:function(CSID){
         //有效性判断
-        if(this.sitTipSprites== null||this.sitTipSprites== undefined) return;
+        if(Common.judgeValueIsEffect(this.sitTipSprites)) return;
+
         //如果已经创建完该座位上的坐下提示,直接显示即可。
         //否则,判断该座位上,是否有玩家,如果没有玩家,再创建坐下提示
 
         var spritePlayers= Profile_JinHuaTableConfig.getSpritePlayers();
         if(this.sitTipSprites[CSID]){
             this.sitTipSprites[CSID].setVisible(true);
-        }else if(spritePlayers[CSID]!= null){
+        }else if(Common.judgeValueIsEffect(spritePlayers[CSID])){
             var sitTipSprite;//坐下提示标识
             if(CSID>= 3){//右边的两个玩家(此版 炸金花一共5个座位,玩家本身的CSID一定为0)
                 sitTipSprite= cc.Sprite.create("#desk_sit_tip_left.png");
@@ -50,8 +49,7 @@ var JinHuaTableTips= {
             }else{
                 sitTipSprite= cc.Sprite.create("#desk_sit_tip_right.png");
                 sitTipSprite.setAnchorPoint(cc.p(0, 0));
-                //自身玩家,位置比较特殊
-                if(CSID== 0){
+                if(CSID== 0){//自身玩家,位置比较特殊
                     sitTipSprite.setPosition(spritePlayers[CSID].locX+ 70+ Profile_JinHuaTableConfig.playerBGWidth, spritePlayers[CSID].locY+70+ Profile_JinHuaTableConfig.playerBGHeight);
                 }else{
                     sitTipSprite.setPosition(spritePlayers[CSID].locX+ sitTipSprite.getContentSize().width * 2, spritePlayers[CSID].locY);
@@ -74,7 +72,7 @@ var JinHuaTableTips= {
     //移除所有的坐下Tips
     removeAllSitTips:function(){
         for(var key in this.sitTipSprites){
-            if(this.sitTipSprites[key]== null || this.sitTipSprites[key]== undefined) continue;
+            if(!Common.judgeValueIsEffect(this.sitTipSprites[key])) continue;
             this.sitTipSprites[key].stopAllActions();//停止所有动作
             this.sitTipSprites[key].removeFromParent(true);//从父节点上删除
         }
@@ -90,43 +88,37 @@ var JinHuaTableTips= {
         this.getTableTipsLayer().addChild(enterTablePrompt);
 
         //延时取消
-        var self= this;
-        var seq= cc.sequence(cc.delayTime(3), cc.callFunc(self.dismissEnterTablePrompt));
+        var seq= cc.sequence(cc.delayTime(3), cc.removeSelf(true));
         enterTablePrompt.runAction(seq);
     },
-    //隐藏进入牌桌提示
-    dismissEnterTablePrompt:function(pSender){
-        pSender.removeFromParent(true);
-    },
-    //移除坐下Tips
-    removeSitTip:function(CSID){
+    //隐藏坐下Tips
+    disableSitTip:function(CSID){
         if(this.sitTipSprites[CSID]){
             this.sitTipSprites[CSID].setVisible(false);
         }
     },
     //显示强制开牌提示
-    showTipOpenCard:function(){
-        if(this.isShowTipOpenCard){
-            this.isShowTipOpenCard= false;
-            var openCardTip = cc.Sprite.create("#desk_tip_opencard.png");
-            var pos= this.getPKTipLoc();
-            openCardTip.setPosition(pos.x, pos.y+openCardTip.getContentSize().height/2);
-            openCardTip.setZOrder(4);
+    showOpenCardTips:function(){
+        if(!this.isShowTipOpenCard) return;
+        this.isShowTipOpenCard= false;
 
-            this.JinHuaTableTipsLayer.addChild(openCardTip);
+        var openCardTip = cc.Sprite.create("#desk_tip_opencard.png");
+        var pos= this.getPKTipLoc();//获取比牌按钮的位置
+        openCardTip.setPosition(cc.pAdd(pos,cc.p(0, openCardTip.getContentSize().height/2)));
+        openCardTip.setZOrder(4);
 
-            //暂停3s后移除
-            var seq= cc.sequence(cc.delayTime(3), cc.callFunc(function(pSender){
-                pSender.removeFromParent(true);
-            }));
-            openCardTip.runAction(seq);
-        }
+        this.JinHuaTableTipsLayer.addChild(openCardTip);
+
+        //暂停3s后移除
+        var seq= cc.sequence(cc.delayTime(3), cc.removeSelf(true));
+        openCardTip.runAction(seq);
     },
     //返回比牌按钮的中心点X坐标，TopY坐标
     getPKTipLoc:function(){
-        return cc.p(JinHuaTableLogic.Button_mine_pk.getPosition().x + 118, JinHuaTableLogic.Button_mine_pk.getPosition().y);
+        var pkPos= JinHuaTableLogic.Button_mine_pk.getPosition();
+        return cc.pAdd(pkPos, cc.p(118, 0));
     },
-    //
+    //初始化数据
     initTipsData:function(){
         this.isShowTipPK = true;
         this.isShowTipOpenCard = true;

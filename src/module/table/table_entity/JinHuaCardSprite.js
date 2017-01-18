@@ -11,35 +11,30 @@
  *
  *     遮蔽层(弃牌标记)
  */
-var CardSprite= cc.Node.extend({
-    ctor:function(){
-        this._super();
-        //清理数据
-        this.clear();
-        //调用初始化函数
-        this.init();
-    },
-    getCardSprite:function(){
-        return this.cardSprite;
-    }
-});
+//构造函数
+function CardSprite(){
+    //清理数据
+    this.clear();
+    //调用初始化函数
+    this.init();
+}
 /**
  * Func:清理数据
  */
 CardSprite.prototype.clear= function(){
-    ((this.cardSprite!= null&&this.cardSprite!= undefined)&&this.cardSprite.removeFromParent(true));
-    ((this.front!= null&&this.front!= undefined)&&this.front.removeFromParent(true));
-    ((this.back!= null&&this.back!= undefined)&&this.back.removeFromParent(true));
-    ((this.valueSprite!= null&&this.valueSprite!= undefined)&&this.valueSprite.removeFromParent(true));
-    ((this.cardTypeBigSprite!= null&&this.cardTypeBigSprite!= undefined)&&this.cardTypeBigSprite.removeFromParent(true));
-    ((this.cardTypeSmallSprite!= null&&this.cardTypeSmallSprite!= undefined)&&this.cardTypeSmallSprite.removeFromParent(true));
-
+    (Common.judgeValueIsEffect(this.cardSprite))&&this.cardSprite.removeFromParent(true);
     this.cardSprite= null;//精灵本身
+    (Common.judgeValueIsEffect(this.front))&&this.front.removeFromParent(true);
     this.front= null;//正面背景(白板)
+    (Common.judgeValueIsEffect(this.back))&&this.back.removeFromParent(true);
     this.back= null;//反面背景(默认显示反面,因为纸牌一般都是默认扣上)
+    (Common.judgeValueIsEffect(this.valueSprite))&&this.valueSprite.removeFromParent(true);
     this.valueSprite= null;//左上角的牌值
+    (Common.judgeValueIsEffect(this.cardTypeBigSprite))&&this.cardTypeBigSprite.removeFromParent(true);
     this.cardTypeBigSprite= null;//大牌花
+    (Common.judgeValueIsEffect(this.cardTypeSmallSprite))&&this.cardTypeSmallSprite.removeFromParent(true);
     this.cardTypeSmallSprite= null;//小牌花
+
     this.needCover= false;//是否显示遮蔽层
 };
 /**
@@ -55,12 +50,14 @@ CardSprite.prototype.init= function(){
 
     //反面背景(默认显示反面,因为纸牌一般都是默认扣上)
     this.back= cc.Sprite.create("#desk_pokerback.png");
-    this.back.setPosition(this.back.getContentSize().width* 0.5, this.back.getContentSize().height* 0.5);
+    var backSize= this.back.getContentSize();
+    this.back.setPosition(backSize.width* 0.5, backSize.height* 0.5);
     this.cardSprite.addChild(this.back);
 
     //正面背景(白板)
     this.front= cc.Sprite.create("#desk_cardbg.png");
-    this.front.setPosition(this.front.getContentSize().width* 0.5, this.front.getContentSize().height* 0.5);
+    var frontSize= this.front.getContentSize();
+    this.front.setPosition(frontSize.width* 0.5, frontSize.height* 0.5);
     this.front.setVisible(false);
     this.cardSprite.addChild(this.front);
 };
@@ -68,13 +65,12 @@ CardSprite.prototype.init= function(){
  * Func:设置牌值
  * @param value 牌值(1-52 方块 梅花 红桃 黑桃)
  */
-CardSprite.prototype.setValue= function(value){
-    if(value== null||value== undefined) return;
-    //移除所有子节点
-    this.front.removeAllChildrenWithCleanup(true);
-    //设置牌值
-    this.cardSprite.value= value;
-    //typeIndex == 1(方块)\2(梅花)\3(红桃)\4(黑桃)
+CardSprite.prototype.setCardValue= function(value){
+    if(!Common.judgeValueIsEffect(value)) return;
+
+    this.front.removeAllChildrenWithCleanup(true);//移除所有子节点
+    this.cardSprite.value= value;//设置牌值(属性)
+    //typeIndex == 1(方块)-2(梅花)-3(红桃)-4(黑桃)
     var typeIndex= Math.floor(value/ 13)+ 1;
     //valueIndex == 在数组{2,3,4,5,6,7,8,9,10,J,Q,K,A}中取
     var valueIndex= value % 13;
@@ -103,44 +99,48 @@ CardSprite.prototype.setValue= function(value){
 };
 
 //获取牌值
-CardSprite.prototype.getValue= function(){
+CardSprite.prototype.getCardValue= function(){
     return this.cardSprite.value;
+};
+
+//获取纸牌精灵
+CardSprite.prototype.getCardSprite= function(){
+    return this.cardSprite;
 };
 
 /**
  * Func:显示的背面的同时,隐藏正面
  */
 CardSprite.prototype.showBack= function(){
+    if(!Common.judgeValueIsEffect(this.back)) return;
+    if(!Common.judgeValueIsEffect(this.front)) return;
     this.back.setVisible(true);
-    (this.front!=null)&&(this.front.setVisible(false));
+    this.front.setVisible(false);
 };
 /**
  * Func:显示正面的同时,隐藏背面
  */
 CardSprite.prototype.showFront= function(){
-    if(this.front== null&&this.back== null)  return;
+    if(!Common.judgeValueIsEffect(this.back)) return;
+    if(!Common.judgeValueIsEffect(this.front)) return;
+
     this.front.setVisible(true);
     this.back.setVisible(false);
     //是否需要遮蔽
     if(this.needCover== true){
         this.showCover();//显示遮蔽层
-        this.needCover= false;
     }
 };
 /**
  * Func:显示遮蔽层
  */
 CardSprite.prototype.showCover= function(){
-    ((this.front!= null)&&(this.front.setColor(cc.color(125, 125, 125))));
-    ((this.back!= null)&&(this.back.setColor(cc.color(125, 125, 125))));
-    ((this.cardTypeBigSprite)&&(this.cardTypeBigSprite.setColor(cc.color(125, 125, 125))));
-    ((this.cardTypeSmallSprite)&&(this.cardTypeSmallSprite.setColor(cc.color(125, 125, 125))));
-    ((this.valueSprite)&&(this.valueSprite.setColor(cc.color(125, 125, 125))));
-    this.front= null;
-    this.back= null;
-    this.cardTypeBigSprite= null;
-    this.cardTypeSmallSprite= null;
-    this.valueSprite= null;
+    (Common.judgeValueIsEffect(this.front))&&(this.front.setColor(cc.color(125, 125, 125)));
+    (Common.judgeValueIsEffect(this.back))&&(this.back.setColor(cc.color(125, 125, 125)));
+    (Common.judgeValueIsEffect(this.cardTypeBigSprite))&&(this.cardTypeBigSprite.setColor(cc.color(125, 125, 125)));
+    (Common.judgeValueIsEffect(this.cardTypeSmallSprite))&&(this.cardTypeSmallSprite.setColor(cc.color(125, 125, 125)));
+    (Common.judgeValueIsEffect(this.valueSprite))&&(this.valueSprite.setColor(cc.color(125, 125, 125)));
+    this.needCover= false;
 };
 /**
  * Func:设置是否显示遮蔽层

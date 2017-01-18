@@ -82,7 +82,7 @@ var JinHuaTablePlayer= {
         this.JinHuaTablePlayerLayer= this.getJinHuaTablePlayerLayer();
         //纸牌BatchNode
         if(this.CardBatchNode== null){
-            this.CardBatchNode= cc.SpriteBatchNode.create(Common.getResourcePath("poker_cards.png"));
+            this.CardBatchNode= cc.SpriteBatchNode.create(Common.getJinHuaResourcePath("poker_cards.png"));
             this.CardBatchNode.setZOrder(1);
             this.CardBatchNode.setVisible(false);
             this.JinHuaTablePlayerLayer.addChild(this.CardBatchNode);
@@ -229,7 +229,7 @@ var JinHuaTablePlayer= {
         var mySpriteTimer = cc.Sprite.create("#desk_player_cover_mine.png");
         this.myTimerBg = cc.ProgressTimer.create(mySpriteTimer);
         this.myTimerBg.setType(cc.ProgressTimer.TYPE_RADIAL);
-        this.myTimerBg.setPosition(Profile_JinHuaTableConfig.mySelfLocX + 88, Profile_JinHuaTableConfig.mySelfLocY + 87);
+        this.myTimerBg.setPosition(cc.pAdd(Profile_JinHuaTableConfig.getMySelfLocPos(), cc.p(87, 87)));
         this.myTimerBg.setZOrder(12);
         this.JinHuaTablePlayerLayer.addChild(this.myTimerBg);
         //圆形遮蔽层
@@ -241,24 +241,24 @@ var JinHuaTablePlayer= {
         /**
          * 修改Bug:倒计时不显示出来(使用cc.LabelAtlas时,宽度可以或多或少，但是高度，一定不能超过，否则显示不出来。但是可以小于，仅仅是显示不完整而已);
          */
-        this.myTimer = cc.LabelAtlas.create("0", Common.getResourcePath("ui_daojishi0-9.png"), 20.3, 26, "0");
+        this.myTimer = cc.LabelAtlas.create("0", Common.getJinHuaResourcePath("ui_daojishi0-9.png"), 20.3, 26, "0");
         this.myTimer.setPosition(403, 150);
         this.myTimer.setZOrder(2);
         this.myTimer.setVisible(false);
         this.JinHuaTablePlayerLayer.addChild(this.myTimer);
 
-        this.myTimer2 = cc.LabelAtlas.create("0", Common.getResourcePath("ui_daojishi0-3.png"), 25, 40, "0");
+        this.myTimer2 = cc.LabelAtlas.create("0", Common.getJinHuaResourcePath("ui_daojishi0-3.png"), 25, 40, "0");
         this.myTimer2.setPosition(403, 150);
         this.myTimer2.setZOrder(2);
         this.myTimer2.setVisible(false);
         this.JinHuaTablePlayerLayer.addChild(this.myTimer2);
 
-        this.otherTimer = cc.LabelAtlas.create("0", Common.getResourcePath("ui_daojishi0-9.png"), 20.3, 26, "0");
+        this.otherTimer = cc.LabelAtlas.create("0", Common.getJinHuaResourcePath("ui_daojishi0-9.png"), 20.3, 26, "0");
         this.otherTimer.setZOrder(2);
         this.otherTimer.setVisible(false);
         this.JinHuaTablePlayerLayer.addChild(this.otherTimer);
 
-        this.otherTimer2 = cc.LabelAtlas.create("0", Common.getResourcePath("ui_daojishi0-3.png"), 25, 40, "0");
+        this.otherTimer2 = cc.LabelAtlas.create("0", Common.getJinHuaResourcePath("ui_daojishi0-3.png"), 25, 40, "0");
         this.otherTimer2.setZOrder(2);
         this.otherTimer2.setVisible(false);
         this.JinHuaTablePlayerLayer.addChild(this.otherTimer2);
@@ -354,9 +354,9 @@ var JinHuaTablePlayer= {
         for(var key in this.tablePlayerEntitys){
             if(this.tablePlayerEntitys[key]&&this.tablePlayerEntitys[key].mPlayerSprite!= null){
                 //移除
-                this.tablePlayerEntitys[key].removePlayerElementFromLayer(this.JinHuaTablePlayerLayer);
+                this.tablePlayerEntitys[key].removePlayerElementFromLayer();
                 //移除禁比图标
-                this.tablePlayerEntitys[key].dismissJinbiIcon();
+                this.tablePlayerEntitys[key].dismissJinBiIcon();
                 //隐藏牌型
                 JinHuaTableCard.hideCardType(this.tablePlayerEntitys[key]);
             }
@@ -551,9 +551,9 @@ var JinHuaTablePlayer= {
         //清除牌桌站起玩家
         if(this.tablePlayerEntitys[CSID]){
             //移除
-            this.tablePlayerEntitys[CSID].removePlayerElementFromLayer(this.JinHuaTablePlayerLayer);
+            this.tablePlayerEntitys[CSID].removePlayerElementFromLayer();
             //隐藏禁比图标
-            this.tablePlayerEntitys[CSID].dismissJinbiIcon();
+            this.tablePlayerEntitys[CSID].dismissJinBiIcon();
             //清空玩家的所有手牌
             JinHuaTableCard.clearCards();
             //设置看牌提示不显示
@@ -562,7 +562,7 @@ var JinHuaTablePlayer= {
             JinHuaTableCheckButton.setCheckVisible(false);
             //清除手牌
             if(this.tablePlayerEntitys[CSID].cardSprites[0]){
-                this.tablePlayerEntitys[CSID].removeCard(this.CardBatchNode);
+                this.tablePlayerEntitys[CSID].removeCard();
             }
             this.tablePlayerEntitys[CSID]= null;
         }
@@ -623,7 +623,6 @@ var JinHuaTablePlayer= {
         if(this.tablePlayerEntitys[currentPlayer.CSID].isMe()){
             var self= this;
             function timeStep(){
-                console.log(time<= 3);
                 if(time<= 3){
                     self.myTimer.setVisible(false);
                     self.myTimer2.setVisible(true);
@@ -632,7 +631,6 @@ var JinHuaTablePlayer= {
                     self.myTimer.setString(time);
                 }
                 time--;
-                console.log(time);
             }
             var arr= [];
 

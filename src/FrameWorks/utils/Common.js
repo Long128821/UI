@@ -38,7 +38,7 @@ var Common= {
     },
 
     //获取值
-    getValue:function(key, table){
+    getCardValue:function(key, table){
         if((!this.judgeValueIsEffect(key))||(!this.judgeValueIsEffect(table))) return null;
         for(var _key in table){
             if(_key == key){
@@ -52,8 +52,10 @@ var Common= {
         //异步加载头像资源
         cc.loader.loadImg(
             url,
-            function(){
-                target._imageRenderer.setTexture(url);
+            function(){},
+            function(err){
+                //加载成功
+                (err== null&&target._imageRenderer.setTexture(url));
             }
         );
     },
@@ -86,38 +88,8 @@ var Common= {
         });
     },
     //获取金花资源路径
-    getResourcePath:function(path){
+    getJinHuaResourcePath:function(path){
         return "res/"+ path;
-    },
-    //设置称谓
-    setUserChengWei:function(coin, target){
-        var url= this.getUserChengWeiPath(coin);
-        target.loadTexture(url);
-    },
-    getUserChengWeiPath:function(coin){
-        var arr= Profile_JinHuaSetting.getUserTitle(coin);
-        var tipLevel = arr[1];
-        var url = null;
-        if(tipLevel == 1 ){
-            url = "ui_xiaoqigai_1.png";
-        }else if( tipLevel == 2 ){
-            url = "ui_pingming_1.png";
-        }else if( tipLevel == 3 ){
-            url = "ui_xiaokang_1.png";
-        }else if( tipLevel == 4 ){
-            url = "ui_caizhu_1.png";
-        }else if( tipLevel == 5 ){
-            url = "ui_tuhao_1.png";
-        }else if( tipLevel == 6 ){
-            url = "ui_yidiajujia_1.png";
-        }else if( tipLevel == 7 ){
-            url = "ui_fujiatianxia_1.png";
-        }else if( tipLevel == 8 ){
-            url = "ui_fukediguo_1.png";
-        }else if( tipLevel == 9 ){
-            url = "ui_guominlaogong_1.png";
-        }
-        return this.getResourcePath(url);
     },
     /**
      * Func:显示WebView

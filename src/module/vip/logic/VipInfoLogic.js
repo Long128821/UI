@@ -181,9 +181,9 @@ var VipInfoLogic= {
             var picPath= VipElementsUtils.getVipBgFromVipLevel(VipLevel);
             //当前等级VIP显示
             if(picPath != null){
-                this.Image_now_vip.loadTexture(Common.getResourcePath(picPath))
+                this.Image_now_vip.loadTexture(Common.getJinHuaResourcePath(picPath))
             }else{
-                this.Image_now_vip.loadTexture(Common.getResourcePath("ic_vip_0.png"));
+                this.Image_now_vip.loadTexture(Common.getJinHuaResourcePath("ic_vip_0.png"));
             }
             if(VipLevel== 0){
                 this.AtlasLabel_now_vip_level.setVisible(false);
@@ -214,9 +214,9 @@ var VipInfoLogic= {
             var picPath= VipElementsUtils.getVipBgFromVipLevel(nextVipLevel);
             //当前等级VIP显示
             if(picPath != null){
-                this.Image_next_vip.loadTexture(Common.getResourcePath(picPath))
+                this.Image_next_vip.loadTexture(Common.getJinHuaResourcePath(picPath))
             }else{
-                this.Image_next_vip.loadTexture(Common.getResourcePath("ic_vip_0.png"));
+                this.Image_next_vip.loadTexture(Common.getJinHuaResourcePath("ic_vip_0.png"));
             }
             if(nextVipLevel== 0){
                 this.AtlasLabel_next_vip_level.setVisible(false);

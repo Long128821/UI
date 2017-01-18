@@ -22,7 +22,7 @@ var JinHuaTableMoreLogic= {
 	Image_tuichuzi:null,
 	
     createView:function(){
-        cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("desk_leftmenu.plist"), Common.getResourcePath("desk_leftmenu.png"));
+        cc.spriteFrameCache.addSpriteFrames(Common.getJinHuaResourcePath("desk_leftmenu.plist"), Common.getJinHuaResourcePath("desk_leftmenu.png"));
     	this.initLayer();
         
         this.view.setTag(ModuleTable["JinHuaTableMore"]["Layer"]);

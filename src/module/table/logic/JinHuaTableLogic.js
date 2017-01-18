@@ -241,11 +241,11 @@ var JinHuaTableLogic= {
     },
     createView:function(){
         //在内存中，添加图片集
-        cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("chat_popup.plist"),Common.getResourcePath("chat_popup.png"));
-        cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("desk.plist"),Common.getResourcePath("desk.png"));
-        cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("table_elements.plist"),Common.getResourcePath("table_elements.png"));
-        cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("poker_cards.plist"), Common.getResourcePath("poker_cards.png"));
-        cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("table_chips.plist"), Common.getResourcePath("table_chips.png"));
+        cc.spriteFrameCache.addSpriteFrames(Common.getJinHuaResourcePath("chat_popup.plist"),Common.getJinHuaResourcePath("chat_popup.png"));
+        cc.spriteFrameCache.addSpriteFrames(Common.getJinHuaResourcePath("desk.plist"),Common.getJinHuaResourcePath("desk.png"));
+        cc.spriteFrameCache.addSpriteFrames(Common.getJinHuaResourcePath("table_elements.plist"),Common.getJinHuaResourcePath("table_elements.png"));
+        cc.spriteFrameCache.addSpriteFrames(Common.getJinHuaResourcePath("poker_cards.plist"), Common.getJinHuaResourcePath("poker_cards.png"));
+        cc.spriteFrameCache.addSpriteFrames(Common.getJinHuaResourcePath("table_chips.plist"), Common.getJinHuaResourcePath("table_chips.png"));
 
         this.initLayer();
         //设置标记
@@ -1371,11 +1371,11 @@ var JinHuaTableLogic= {
     
     //释放界面的私有数据
     releaseData:function(){
-        cc.spriteFrameCache.removeSpriteFramesFromFile(Common.getResourcePath("chat_popup.plist"));
-        cc.spriteFrameCache.removeSpriteFramesFromFile(Common.getResourcePath("desk.plist"));
-        cc.spriteFrameCache.removeSpriteFramesFromFile(Common.getResourcePath("table_elements.plist"));
-        cc.spriteFrameCache.removeSpriteFramesFromFile(Common.getResourcePath("poker_cards.plist"));
-        cc.spriteFrameCache.removeSpriteFramesFromFile(Common.getResourcePath("table_chips.plist"));
+        cc.spriteFrameCache.removeSpriteFramesFromFile(Common.getJinHuaResourcePath("chat_popup.plist"));
+        cc.spriteFrameCache.removeSpriteFramesFromFile(Common.getJinHuaResourcePath("desk.plist"));
+        cc.spriteFrameCache.removeSpriteFramesFromFile(Common.getJinHuaResourcePath("table_elements.plist"));
+        cc.spriteFrameCache.removeSpriteFramesFromFile(Common.getJinHuaResourcePath("poker_cards.plist"));
+        cc.spriteFrameCache.removeSpriteFramesFromFile(Common.getJinHuaResourcePath("table_chips.plist"));
         //关闭更新系统时间-定时器
         clearInterval(this.updateTimer);
         delete this.updateTimer;
@@ -1448,6 +1448,7 @@ var JinHuaTableLogic= {
             this.Label_onlinebonus_daojishi.setVisible(false);
             this.Image_onlinebonus_lingqu.setVisible(true);
             this.Image_onlinebonus_shine.setVisible(true);
+            this.btn_onlinebonus.setRotation(0);
             this.btn_onlinebonus.stopAllActions();
             GamePub.showShakeAnimate(this.btn_onlinebonus);
         }else{
@@ -1651,7 +1652,7 @@ var JinHuaTableLogic= {
         ProfileJinHuaTable.JinHuaTablePlayer= JinHuaTablePlayer.create();
         this.view.addChild(ProfileJinHuaTable.JinHuaTablePlayer, 100);
         //比赛动画
-        this.view.addChild(JinHuaPKAnim.createPKLayer(), 101);
+        this.view.addChild(JinHuaPKAnim.create(), 101);
 
         //设置牌桌数据
         this.createLayerFarm();
@@ -1662,7 +1663,7 @@ var JinHuaTableLogic= {
     initSitBtn:function(){
         if(this.sitButtonGroup== null||this.sitButtonGroup== undefined) this.sitButtonGroup= {};
         for(var i=0; i< Profile_JinHuaTableConfig.playerCnt; ++i){
-            this.sitButtonGroup[i] = cc.MenuItemImage.create(Common.getResourcePath("ui_weizuoren.png"),Common.getResourcePath("ui_weizuoren.png"),this.onSitDown, this);
+            this.sitButtonGroup[i] = cc.MenuItemImage.create(Common.getJinHuaResourcePath("ui_weizuoren.png"),Common.getJinHuaResourcePath("ui_weizuoren.png"),this.onSitDown, this);
             this.sitButtonGroup[i].setAnchorPoint(cc.p(0, 0));
             var menu = cc.Menu.create(this.sitButtonGroup[i]);
             menu.setPosition(Profile_JinHuaTableConfig.spritePlayers[i].locX,Profile_JinHuaTableConfig.spritePlayers[i].locY);
@@ -1679,25 +1680,25 @@ var JinHuaTableLogic= {
     },
     //按钮：PK
     initPkBtn:function(){
-        this.pkButtonGroup[1] = cc.MenuItemImage.create(Common.getResourcePath("table_pk_collimation.png"),Common.getResourcePath("table_pk_collimation.png"),this.onClick_btnPK, this);
+        this.pkButtonGroup[1] = cc.MenuItemImage.create(Common.getJinHuaResourcePath("table_pk_collimation.png"),Common.getJinHuaResourcePath("table_pk_collimation.png"),this.onClick_btnPK, this);
         var menu1 = cc.Menu.create(this.pkButtonGroup[1]);
         menu1.setPosition(Profile_JinHuaTableConfig.spritePlayers[1].pkX,Profile_JinHuaTableConfig.spritePlayers[1].pkY);
         menu1.setZOrder(12);
         JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(menu1);
 
-        this.pkButtonGroup[2] = cc.MenuItemImage.create(Common.getResourcePath("table_pk_collimation.png"),Common.getResourcePath("table_pk_collimation.png"),this.onClick_btnPK, this);
+        this.pkButtonGroup[2] = cc.MenuItemImage.create(Common.getJinHuaResourcePath("table_pk_collimation.png"),Common.getJinHuaResourcePath("table_pk_collimation.png"),this.onClick_btnPK, this);
         var menu2 = cc.Menu.create(this.pkButtonGroup[2]);
         menu2.setPosition(Profile_JinHuaTableConfig.spritePlayers[2].pkX,Profile_JinHuaTableConfig.spritePlayers[2].pkY);
         menu2.setZOrder(12);
         JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(menu2);
 
-        this.pkButtonGroup[3] = cc.MenuItemImage.create(Common.getResourcePath("table_pk_collimation.png"),Common.getResourcePath("table_pk_collimation.png"),this.onClick_btnPK, this);
+        this.pkButtonGroup[3] = cc.MenuItemImage.create(Common.getJinHuaResourcePath("table_pk_collimation.png"),Common.getJinHuaResourcePath("table_pk_collimation.png"),this.onClick_btnPK, this);
         var menu3 = cc.Menu.create(this.pkButtonGroup[3]);
         menu3.setPosition(Profile_JinHuaTableConfig.spritePlayers[3].pkX,Profile_JinHuaTableConfig.spritePlayers[3].pkY);
         menu3.setZOrder(12);
         JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(menu3);
 
-        this.pkButtonGroup[4] = cc.MenuItemImage.create(Common.getResourcePath("table_pk_collimation.png"),Common.getResourcePath("table_pk_collimation.png"),this.onClick_btnPK, this);
+        this.pkButtonGroup[4] = cc.MenuItemImage.create(Common.getJinHuaResourcePath("table_pk_collimation.png"),Common.getJinHuaResourcePath("table_pk_collimation.png"),this.onClick_btnPK, this);
         var menu4 = cc.Menu.create(this.pkButtonGroup[4]);
         menu4.setPosition(Profile_JinHuaTableConfig.spritePlayers[4].pkX,Profile_JinHuaTableConfig.spritePlayers[4].pkY);
         menu4.setZOrder(12);
@@ -2414,7 +2415,7 @@ var JinHuaTableLogic= {
         var GameData= Profile_JinHuaGameData.getGameData();
         if(!GameData.mySSID){
             this.hideSitButton(CSID);
-            JinHuaTableTips.removeSitTip(CSID);
+            JinHuaTableTips.disableSitTip(CSID);
         }
     },
     //发牌
@@ -2492,7 +2493,7 @@ var JinHuaTableLogic= {
         if(this.betData.compareCard == 2){//比牌
             this.showCard = true;
             //显示开牌提示
-            JinHuaTableTips.showTipOpenCard();
+            JinHuaTableTips.showOpenCardTips();
         }
     },
     //轮到别人下注，更新我的可操作按钮

@@ -260,16 +260,16 @@ var ChangeInfoPopLogic= {
     changeSex:function(id){
         ProfileChangeInfoPop.setCurSexID(id);
         //首先全部还原
-        this.Image_secrecy.loadTexture(Common.getResourcePath("btn_xinxixiugai_xingbieweixuanzhong.png"));
-        this.Image_female.loadTexture(Common.getResourcePath("btn_xinxixiugai_xingbieweixuanzhong.png"));
-        this.Image_male.loadTexture(Common.getResourcePath("btn_xinxixiugai_xingbieweixuanzhong.png"));
+        this.Image_secrecy.loadTexture(Common.getJinHuaResourcePath("btn_xinxixiugai_xingbieweixuanzhong.png"));
+        this.Image_female.loadTexture(Common.getJinHuaResourcePath("btn_xinxixiugai_xingbieweixuanzhong.png"));
+        this.Image_male.loadTexture(Common.getJinHuaResourcePath("btn_xinxixiugai_xingbieweixuanzhong.png"));
         switch (id){
             case 0://保密
-                this.Image_secrecy.loadTexture(Common.getResourcePath("btn_xinxixiugai_xingbiexuanzhong.png"));break;
+                this.Image_secrecy.loadTexture(Common.getJinHuaResourcePath("btn_xinxixiugai_xingbiexuanzhong.png"));break;
             case 1://男
-                this.Image_male.loadTexture(Common.getResourcePath("btn_xinxixiugai_xingbiexuanzhong.png"));break;
+                this.Image_male.loadTexture(Common.getJinHuaResourcePath("btn_xinxixiugai_xingbiexuanzhong.png"));break;
             case 2://女
-                this.Image_female.loadTexture(Common.getResourcePath("btn_xinxixiugai_xingbiexuanzhong.png"));break;
+                this.Image_female.loadTexture(Common.getJinHuaResourcePath("btn_xinxixiugai_xingbiexuanzhong.png"));break;
         }
     },
     //初始化界面
@@ -283,11 +283,11 @@ var ChangeInfoPopLogic= {
         //性别
         switch(profile_user.getSelfSex()){
             case 0://保密
-                this.Image_secrecy.loadTexture(Common.getResourcePath("xuanzhong.png"));break;
+                this.Image_secrecy.loadTexture(Common.getJinHuaResourcePath("xuanzhong.png"));break;
             case 1://男
-                this.Image_male.loadTexture(Common.getResourcePath("xuanzhong.png"));break;
+                this.Image_male.loadTexture(Common.getJinHuaResourcePath("xuanzhong.png"));break;
             case 2://女
-                this.Image_female.loadTexture(Common.getResourcePath("xuanzhong.png"));break;
+                this.Image_female.loadTexture(Common.getJinHuaResourcePath("xuanzhong.png"));break;
         }
     },
     //确定

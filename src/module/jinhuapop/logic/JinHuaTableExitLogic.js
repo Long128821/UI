@@ -12,7 +12,7 @@ var JinHuaTableExitLogic= {
 	Image_right:null,
 	
     createView:function(){
-        cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("co_desk.plist"), Common.getResourcePath("co_desk.png"));
+        cc.spriteFrameCache.addSpriteFrames(Common.getJinHuaResourcePath("co_desk.plist"), Common.getJinHuaResourcePath("co_desk.png"));
     	this.initLayer();
         
         this.view.setTag(ModuleTable["JinHuaTableExit"]["Layer"]);

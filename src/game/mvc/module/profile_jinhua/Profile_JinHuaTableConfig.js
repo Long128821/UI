@@ -523,5 +523,9 @@ var Profile_JinHuaTableConfig= {
     //获取牌桌上的所有玩家精灵
     getSpritePlayers:function(){
         return this.spritePlayers;
+    },
+    //获取玩家本身的位置
+    getMySelfLocPos:function(){
+        return cc.p(this.mySelfLocX, this.mySelfLocY);
     }
 };

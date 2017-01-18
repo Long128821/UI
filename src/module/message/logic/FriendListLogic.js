@@ -288,34 +288,34 @@ var FriendListLogic= {
         var leftBottomPos= this.Panel_TableView.getPosition();
         //预加载资源
         var arrPath= [
-            Common.getResourcePath("btn_xuanzhong_l.png"),
-            Common.getResourcePath("btn_weixuanzhong_l.png"),
-            Common.getResourcePath("btn_zhuizongliebiao_mweixuanzhong.png"),
-            Common.getResourcePath("btn_zhuizongliebiao_mxuanzhong.png"),
-            Common.getResourcePath("btn_xuanzhong_r.png"),
-            Common.getResourcePath("ui_xinxiaoxidi.png"),
-            Common.getResourcePath("ui_yiduxiaoxidi.png"),
-            Common.getResourcePath("btn_weixuanzhong_r.png"),
-            Common.getResourcePath("ui_vip_lvshuzi_gaoji.png"),
-            Common.getResourcePath("ui_vip_jiaobiaoshuzi.png"),
-            Common.getResourcePath("ic_vip_0.png"),
-            Common.getResourcePath("ic_vip_biaoqian_lv01.png"),
-            Common.getResourcePath("ic_vip_biaoqian_lv02.png"),
-            Common.getResourcePath("ic_vip_biaoqian_lv03.png"),
-            Common.getResourcePath("ic_vip_biaoqian_lv04.png"),
-            Common.getResourcePath("ic_vip_biaoqian_lv05.png"),
-            Common.getResourcePath("ic_vip_biaoqian_lv06.png"),
-            Common.getResourcePath("ic_vip_biaoqian_lv07.png"),
-            Common.getResourcePath("ic_vip_biaoqian_lv08.png"),
-            Common.getResourcePath("ic_vip_biaoqian_lv09.png"),
-            Common.getResourcePath("ic_vip_biaoqian_lv10.png"),
-            Common.getResourcePath("ui_haoyouzengsongjiajinbi.png"),
-            Common.getResourcePath("ic_tongqian.png"),
-            Common.getResourcePath("read.png"),
-            Common.getResourcePath("btn_lingqu_1.png"),
-            Common.getResourcePath("ui_lingqujinbi.png"),
-            Common.getResourcePath("btn_lingqu_1.png"),
-            Common.getResourcePath("ui_xinyoujiantubiao.png")
+            Common.getJinHuaResourcePath("btn_xuanzhong_l.png"),
+            Common.getJinHuaResourcePath("btn_weixuanzhong_l.png"),
+            Common.getJinHuaResourcePath("btn_zhuizongliebiao_mweixuanzhong.png"),
+            Common.getJinHuaResourcePath("btn_zhuizongliebiao_mxuanzhong.png"),
+            Common.getJinHuaResourcePath("btn_xuanzhong_r.png"),
+            Common.getJinHuaResourcePath("ui_xinxiaoxidi.png"),
+            Common.getJinHuaResourcePath("ui_yiduxiaoxidi.png"),
+            Common.getJinHuaResourcePath("btn_weixuanzhong_r.png"),
+            Common.getJinHuaResourcePath("ui_vip_lvshuzi_gaoji.png"),
+            Common.getJinHuaResourcePath("ui_vip_jiaobiaoshuzi.png"),
+            Common.getJinHuaResourcePath("ic_vip_0.png"),
+            Common.getJinHuaResourcePath("ic_vip_biaoqian_lv01.png"),
+            Common.getJinHuaResourcePath("ic_vip_biaoqian_lv02.png"),
+            Common.getJinHuaResourcePath("ic_vip_biaoqian_lv03.png"),
+            Common.getJinHuaResourcePath("ic_vip_biaoqian_lv04.png"),
+            Common.getJinHuaResourcePath("ic_vip_biaoqian_lv05.png"),
+            Common.getJinHuaResourcePath("ic_vip_biaoqian_lv06.png"),
+            Common.getJinHuaResourcePath("ic_vip_biaoqian_lv07.png"),
+            Common.getJinHuaResourcePath("ic_vip_biaoqian_lv08.png"),
+            Common.getJinHuaResourcePath("ic_vip_biaoqian_lv09.png"),
+            Common.getJinHuaResourcePath("ic_vip_biaoqian_lv10.png"),
+            Common.getJinHuaResourcePath("ui_haoyouzengsongjiajinbi.png"),
+            Common.getJinHuaResourcePath("ic_tongqian.png"),
+            Common.getJinHuaResourcePath("read.png"),
+            Common.getJinHuaResourcePath("btn_lingqu_1.png"),
+            Common.getJinHuaResourcePath("ui_lingqujinbi.png"),
+            Common.getJinHuaResourcePath("btn_lingqu_1.png"),
+            Common.getJinHuaResourcePath("ui_xinyoujiantubiao.png")
         ];
 
         //代码先执行，但是精灵尺寸为空,不能正确显示
@@ -339,17 +339,17 @@ var FriendListLogic= {
     showPanel:function(){
         var pageID= ProfileFriendList.m_curPageID;
         if(pageID== 0){//好友列表
-            this.Button_wodehaoyou.loadTextures(Common.getResourcePath("btn_xuanzhong_l.png"),Common.getResourcePath("btn_xuanzhong_l.png"),"");
-            this.Button_zhuizongliebiao.loadTextures(Common.getResourcePath("btn_zhuizongliebiao_mweixuanzhong.png"),Common.getResourcePath("btn_zhuizongliebiao_mweixuanzhong.png"),"");
-            this.Button_linshihaoyou.loadTextures(Common.getResourcePath("btn_weixuanzhong_r.png"),Common.getResourcePath("btn_weixuanzhong_r.png"),"");
+            this.Button_wodehaoyou.loadTextures(Common.getJinHuaResourcePath("btn_xuanzhong_l.png"),Common.getJinHuaResourcePath("btn_xuanzhong_l.png"),"");
+            this.Button_zhuizongliebiao.loadTextures(Common.getJinHuaResourcePath("btn_zhuizongliebiao_mweixuanzhong.png"),Common.getJinHuaResourcePath("btn_zhuizongliebiao_mweixuanzhong.png"),"");
+            this.Button_linshihaoyou.loadTextures(Common.getJinHuaResourcePath("btn_weixuanzhong_r.png"),Common.getJinHuaResourcePath("btn_weixuanzhong_r.png"),"");
         }else if(pageID== 1){//追踪列表
-            this.Button_wodehaoyou.loadTextures(Common.getResourcePath("btn_weixuanzhong_l.png"),Common.getResourcePath("btn_weixuanzhong_l.png"),"")
-            this.Button_zhuizongliebiao.loadTextures(Common.getResourcePath("btn_zhuizongliebiao_mxuanzhong.png"),Common.getResourcePath("btn_zhuizongliebiao_mxuanzhong.png"),"")
-            this.Button_linshihaoyou.loadTextures(Common.getResourcePath("btn_weixuanzhong_r.png"),Common.getResourcePath("btn_weixuanzhong_r.png"),"")
+            this.Button_wodehaoyou.loadTextures(Common.getJinHuaResourcePath("btn_weixuanzhong_l.png"),Common.getJinHuaResourcePath("btn_weixuanzhong_l.png"),"")
+            this.Button_zhuizongliebiao.loadTextures(Common.getJinHuaResourcePath("btn_zhuizongliebiao_mxuanzhong.png"),Common.getJinHuaResourcePath("btn_zhuizongliebiao_mxuanzhong.png"),"")
+            this.Button_linshihaoyou.loadTextures(Common.getJinHuaResourcePath("btn_weixuanzhong_r.png"),Common.getJinHuaResourcePath("btn_weixuanzhong_r.png"),"")
         }else{//临时好友列表
-            this.Button_wodehaoyou.loadTextures(Common.getResourcePath("btn_weixuanzhong_l.png"),Common.getResourcePath("btn_weixuanzhong_l.png"),"")
-            this.Button_zhuizongliebiao.loadTextures(Common.getResourcePath("btn_zhuizongliebiao_mweixuanzhong.png"),Common.getResourcePath("btn_zhuizongliebiao_mweixuanzhong.png"),"")
-            this.Button_linshihaoyou.loadTextures(Common.getResourcePath("btn_xuanzhong_r.png"),Common.getResourcePath("btn_xuanzhong_r.png"),"")
+            this.Button_wodehaoyou.loadTextures(Common.getJinHuaResourcePath("btn_weixuanzhong_l.png"),Common.getJinHuaResourcePath("btn_weixuanzhong_l.png"),"")
+            this.Button_zhuizongliebiao.loadTextures(Common.getJinHuaResourcePath("btn_zhuizongliebiao_mweixuanzhong.png"),Common.getJinHuaResourcePath("btn_zhuizongliebiao_mweixuanzhong.png"),"")
+            this.Button_linshihaoyou.loadTextures(Common.getJinHuaResourcePath("btn_xuanzhong_r.png"),Common.getJinHuaResourcePath("btn_xuanzhong_r.png"),"")
         }
     },
     //重写TableView的tableCellSizeForIndex函数
@@ -376,7 +376,7 @@ var FriendListLogic= {
 
         //背景
         var bgUrl= unreadCnt> 0?"ui_xinxiaoxidi.png":"ui_yiduxiaoxidi.png";
-        var sprite= GamePub.createPointNineSpriteForPlist(Common.getResourcePath(bgUrl), 25, 25, tableSize.width- 30,115- 6);
+        var sprite= GamePub.createPointNineSpriteForPlist(Common.getJinHuaResourcePath(bgUrl), 25, 25, tableSize.width- 30,115- 6);
         //操作
         var menu = cc.Menu.create();
         menu.setPosition(cc.p(0,0));
@@ -409,11 +409,11 @@ var FriendListLogic= {
         labelMoney.setPosition(cc.p(spriteSize.width* 0.15, spriteSize.height* 0.25));
         itemParentNode.addChild(labelMoney);
         //图标
-        var moneySp= cc.Sprite.create(Common.getResourcePath("ic_tongqian.png"));
+        var moneySp= cc.Sprite.create(Common.getJinHuaResourcePath("ic_tongqian.png"));
         moneySp.setPosition(spriteSize.width* 0.21, spriteSize.height* 0.22);
         itemParentNode.addChild(moneySp, 1);
         //描述背景
-        var signAwardLabBg = cc.Sprite.create(Common.getResourcePath("ui_haoyouzengsongjiajinbi.png"));
+        var signAwardLabBg = cc.Sprite.create(Common.getJinHuaResourcePath("ui_haoyouzengsongjiajinbi.png"));
         signAwardLabBg.setPosition(spriteSize.width* 0.675, spriteSize.height* 0.5);
         itemParentNode.addChild(signAwardLabBg, 1);
         //描述文案
@@ -438,7 +438,7 @@ var FriendListLogic= {
         }
 
         //消息图标
-        var messageIcon = cc.Sprite.create(Common.getResourcePath(messagePath));
+        var messageIcon = cc.Sprite.create(Common.getJinHuaResourcePath(messagePath));
         messageIcon.setPosition(spriteSize.width* 0.5, spriteSize.height* 0.5);
         itemParentNode.addChild(messageIcon, 1);
 
@@ -449,13 +449,13 @@ var FriendListLogic= {
             itemParentNode.addChild(sprite);
         });
         //头像框
-        var avatarSp= cc.Sprite.create(Common.getResourcePath("ui_touxiangkuang.png"));
+        var avatarSp= cc.Sprite.create(Common.getJinHuaResourcePath("ui_touxiangkuang.png"));
         avatarSp.setPosition(spriteSize.width* 0.08, spriteSize.height* 0.5);
         avatarSp.setScale(0.85);
         itemParentNode.addChild(avatarSp, 1);
 
         //[称谓-等级]
-        var chengweiSp= cc.Sprite.create(Common.getUserChengWeiPath(TaskListLoop[idx]["coin"]));
+        var chengweiSp= cc.Sprite.create(Profile_JinHuaSetting.getUserTitlePath(TaskListLoop[idx]["coin"]));
         chengweiSp.setPosition(spriteSize.width* 0.08, spriteSize.height* 0.15);
         itemParentNode.addChild(chengweiSp, 1);
         chengweiSp.setScale(0.85);
@@ -467,27 +467,27 @@ var FriendListLogic= {
         var vipBgSprite;
         //Todo:资源重复，该部分资源在Plist中也存在
         if(path!= null){
-            vipBgSprite= cc.Sprite.create(Common.getResourcePath(path));
+            vipBgSprite= cc.Sprite.create(Common.getJinHuaResourcePath(path));
         }else{
-            vipBgSprite= cc.Sprite.create(Common.getResourcePath("ic_vip_0.png"));
+            vipBgSprite= cc.Sprite.create(Common.getJinHuaResourcePath("ic_vip_0.png"));
         }
         itemParentNode.addChild(vipBgSprite, 1);
         var vipBgSize= vipBgSprite.getContentSize();
 
-        var AtlasLabel_vip_level= cc.LabelAtlas.create("", Common.getResourcePath("ui_vip_lvshuzi_gaoji.png"), 14, 20, "0");
+        var AtlasLabel_vip_level= cc.LabelAtlas.create("", Common.getJinHuaResourcePath("ui_vip_lvshuzi_gaoji.png"), 14, 20, "0");
         AtlasLabel_vip_level.setString(":"+userVipLevel);
         AtlasLabel_vip_level.setAnchorPoint(cc.p(0.5, 0.5));
         AtlasLabel_vip_level.setPosition(vipBgSize.width* 0.5, vipBgSize.height* 0.5);
         vipBgSprite.addChild(AtlasLabel_vip_level);
 
         if(userVipLevel> 0 &&userVipLevel< 10){
-            var AtlasLabel_lowsign= cc.LabelAtlas.create("", Common.getResourcePath("ui_vip_jiaobiaoshuzi.png"), 12, 14, "0");
+            var AtlasLabel_lowsign= cc.LabelAtlas.create("", Common.getJinHuaResourcePath("ui_vip_jiaobiaoshuzi.png"), 12, 14, "0");
             AtlasLabel_lowsign.setString(userVipLevel);
             AtlasLabel_lowsign.setAnchorPoint(cc.p(0.5, 0.5));
             AtlasLabel_lowsign.setPosition(vipBgSize.width, vipBgSprite.height);
             vipBgSprite.addChild(AtlasLabel_lowsign);
 
-            var Image_vip_lowsignbg = cc.Sprite.create(Common.getResourcePath("ic_vip_jiaobiao_shuzichendi.png"));
+            var Image_vip_lowsignbg = cc.Sprite.create(Common.getJinHuaResourcePath("ic_vip_jiaobiao_shuzichendi.png"));
             Image_vip_lowsignbg.setAnchorPoint(cc.p(0.5, 0.5));
             Image_vip_lowsignbg.setPosition(vipBgSize.width,vipBgSize.height);
             vipBgSprite.addChild(Image_vip_lowsignbg);
@@ -495,7 +495,7 @@ var FriendListLogic= {
             var highSignTexture = VipElementsUtils.getVipHighSignFromVipLevel(userVipLevel);
             var Image_vip_highsign = null;
             if(highSignTexture != null){
-                Image_vip_highsign = cc.Sprite.create(Common.getResourcePath(highSignTexture));
+                Image_vip_highsign = cc.Sprite.create(Common.getJinHuaResourcePath(highSignTexture));
                 Image_vip_highsign.setAnchorPoint(cc.p(0.5, 0.5));
                 Image_vip_highsign.setPosition(vipBgSize.width,vipBgSize.height);
                 vipBgSprite.addChild(Image_vip_highsign);
@@ -512,7 +512,7 @@ var FriendListLogic= {
         if(TaskListLoop[idx]["visibility"]== 0){//按钮状态
             buttonWord = "ui_yilingqu.png";
         }
-        var bgSprite= cc.Sprite.create(Common.getResourcePath(buttonName));
+        var bgSprite= cc.Sprite.create(Common.getJinHuaResourcePath(buttonName));
         var button1= cc.MenuItemSprite.create(
             bgSprite,
             null, this.onClick, this);
@@ -520,7 +520,7 @@ var FriendListLogic= {
         button1.setTag(idx);
         menu.addChild(button1);
 
-        var wordSprite= cc.Sprite.create(Common.getResourcePath(buttonWord));
+        var wordSprite= cc.Sprite.create(Common.getJinHuaResourcePath(buttonWord));
         wordSprite.setPosition(bgSprite.getContentSize().width* 0.5, bgSprite.getContentSize().height* 0.6);
         button1.addChild(wordSprite);
 
@@ -559,7 +559,7 @@ var FriendListLogic= {
     changeBtnState:function(index){
         var button= ProfileFriendList.m_arrFriendButton[index].getChildren()[1];
         button.setOpacity(120);
-        button.setTexture(Common.getResourcePath("ui_yilingqu.png"));
+        button.setTexture(Common.getJinHuaResourcePath("ui_yilingqu.png"));
     },
     //添加上限
     onLimit:function(flag){

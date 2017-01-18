@@ -48,7 +48,7 @@ var BackpackLists= {
         cell = new cc.TableViewCell();
         for(var i=0; i< this.m_rowSize; ++i){
             for(var j= 0;j< columnSize; ++j){
-                var sprite = new cc.Sprite(Common.getResourcePath("btn_gerenxinxi_tubiaokuang.png"));
+                var sprite = new cc.Sprite(Common.getJinHuaResourcePath("btn_gerenxinxi_tubiaokuang.png"));
                 sprite.setAnchorPoint(0,0.5);
                 sprite.setPosition(backpackCellSize.width* j+ 10, (this.m_rowSize- i- 0.275)* backpackCellSize.height);
                 cell.addChild(sprite);

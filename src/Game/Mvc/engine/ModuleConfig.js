@@ -13,7 +13,7 @@ var Layer= {
     Ninth_Layer:8
 };
 
-var ModuleTable = {};//UI界面列表
+var ModuleTable = {};//UI�����б�
 
 ModuleTable["DeleteUser"] = {};
 ModuleTable["DeleteUser"]["jsLists"] = [
@@ -58,9 +58,7 @@ ModuleTable["Hall"]["resLists"] = [
     "res/ic_vip_jiaobiao_shuzichendi.png",
     "res/bg_qihuanzhanghu_01.png",
     "res/ui_hall_yonghu_touxiangkuang.png",
-    "res/ui_fujiatianxia_1.png",
     "res/ic_tuijian_paizhuo_chenghao1.png",
-    "res/desk_playerhead_1.png",
     "res/ui_hall_donghuacanzhao.png",
     "res/btn_hall_jingjichangrukou.png",
     "res/ui_chaozhiyueka.png",
@@ -419,7 +417,7 @@ ModuleTable["JinHuaTable"]["jsLists"] = [
     "src/module/table/table_entity/JinHuaBetedCoinLabel.js",
     "src/module/table/table_entity/JinHuaCardSprite.js",
     "src/module/table/table_entity/JinHuaTablePlayerEntity.js",
-    "src/module/table/table_entity/JinHuaTableCoinEntity.js",
+    "src/module/table/table_entity/JinHuaTableChipEntity.js",
     "src/module/table/profile/ProfileJinHuaTable.js",
     "src/module/table/logic/JinHuaTableLogic.js",
     "src/module/table/controller/JinHuaTableController.js"];
@@ -439,8 +437,8 @@ ModuleTable["JinHuaTable"]["resLists"] = [
     "res/table_elements.png",
     "res/ui_bisai_paizhuo_daojishi.png",
     "res/ui_bisai_paizhuo_paimingshuzi.png",
-    "res/ui_daojishi0-9.png",//3以上的倒计时
-    "res/ui_daojishi0-3.png",//3以下的倒计时
+    "res/ui_daojishi0-9.png",//3���ϵĵ���ʱ
+    "res/ui_daojishi0-3.png",//3���µĵ���ʱ
     "res/ui_jiazhushuzi.png",
     "res/ui_jinbishu.png",
     "res/ui_lvshuzi.png",

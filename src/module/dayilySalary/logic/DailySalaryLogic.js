@@ -191,7 +191,7 @@ var DailySalaryLogic= {
             return;
         }
         //称谓
-        Common.setUserChengWei(dailySalaryInfoTable["Coin"], this.Image_chengwei);
+        Profile_JinHuaSetting.setUserTitleOnImageView(dailySalaryInfoTable["Coin"], this.Image_chengwei);
         //最大天数
         this.AtlasLabel_maxDay.setStringValue(dailySalaryInfoTable["MaxDay"]);
         //当前连续天数
@@ -219,9 +219,9 @@ var DailySalaryLogic= {
         if(userVipLevel >= 0){
             var texture = VipElementsUtils.getVipBgFromVipLevel(userVipLevel);
             if(texture != null){
-                this.Image_vip_bg.loadTexture(Common.getResourcePath(texture))
+                this.Image_vip_bg.loadTexture(Common.getJinHuaResourcePath(texture))
             }else{
-                this.Image_vip_bg.loadTexture(Common.getResourcePath("ic_vip_0.png"))
+                this.Image_vip_bg.loadTexture(Common.getJinHuaResourcePath("ic_vip_0.png"))
             }
 
             if(userVipLevel == 0){
@@ -246,7 +246,7 @@ var DailySalaryLogic= {
                 if(signTexture == null){
                     this.Image_vip_highsign.setVisible(false);
                 }else{
-                    this.Image_vip_highsign.loadTexture(Common.getResourcePath(signTexture));
+                    this.Image_vip_highsign.loadTexture(Common.getJinHuaResourcePath(signTexture));
                 }
             }
         }

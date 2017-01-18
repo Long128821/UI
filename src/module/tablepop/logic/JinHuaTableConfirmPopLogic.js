@@ -10,7 +10,7 @@ var JinHuaTableConfirmPopLogic= {
 	label_title:null,
 	
     createView:function(){
-        cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("co_desk.plist"), Common.getResourcePath("co_desk.png"));
+        cc.spriteFrameCache.addSpriteFrames(Common.getJinHuaResourcePath("co_desk.plist"), Common.getJinHuaResourcePath("co_desk.png"));
 
     	this.initLayer();
         
@@ -90,7 +90,7 @@ var JinHuaTableConfirmPopLogic= {
     
     //释放界面的私有数据
     releaseData:function(){
-        cc.spriteFrameCache.removeSpriteFrameByName(Common.getResourcePath("co_desk.plist"));
+        cc.spriteFrameCache.removeSpriteFrameByName(Common.getJinHuaResourcePath("co_desk.plist"));
     },
     
     requestMsg:function(){

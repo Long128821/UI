@@ -142,10 +142,10 @@ var RoomListLogic= {
         var roomType= Profile_JinHuaRoomData.getCurRoomType();
         if(Profile_JinHuaRoomData.TYPE_JINGDIAN== roomType){
             sendJINHUA_ROOMID_ROOM_LIST(0);//发送扎金花房间列表消息
-            this.Image_roomType.loadTexture(Common.getResourcePath("ic_jingdianchang.png"));
+            this.Image_roomType.loadTexture(Common.getJinHuaResourcePath("ic_jingdianchang.png"));
         }else if(Profile_JinHuaRoomData.TYPE_QIANWANG== roomType){
             sendJINHUA_ROOMID_ROOM_LIST(0);//发送扎金花房间列表消息
-            this.Image_roomType.loadTexture(Common.getResourcePath("ic_qianwangchang.png"));
+            this.Image_roomType.loadTexture(Common.getJinHuaResourcePath("ic_qianwangchang.png"));
         }else{
             MvcEngine.destroyModule(GUI_ROOMLIST);
         }

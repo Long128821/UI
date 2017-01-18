@@ -155,11 +155,11 @@ var RenWuLogic= {
     //切换选中图片
     changePic:function(){
         if(ProfileRenWu.m_curPageID== 0){//每日任务
-            this.Image_EverDayTask.loadTexture(Common.getResourcePath("ui_renwuxuanzhong1.png"));
-            this.Image_AchievementTask.loadTexture(Common.getResourcePath("ui_renwuweixuanzhong2.png"));
+            this.Image_EverDayTask.loadTexture(Common.getJinHuaResourcePath("ui_renwuxuanzhong1.png"));
+            this.Image_AchievementTask.loadTexture(Common.getJinHuaResourcePath("ui_renwuweixuanzhong2.png"));
         }else{//成就任务
-            this.Image_EverDayTask.loadTexture(Common.getResourcePath("ui_renwuweixuanzhong1.png"));
-            this.Image_AchievementTask.loadTexture(Common.getResourcePath("ui_renwuxuanzhong2.png"));
+            this.Image_EverDayTask.loadTexture(Common.getJinHuaResourcePath("ui_renwuweixuanzhong1.png"));
+            this.Image_AchievementTask.loadTexture(Common.getJinHuaResourcePath("ui_renwuxuanzhong2.png"));
         }
     },
     createTableView:function(){
@@ -175,15 +175,15 @@ var RenWuLogic= {
         var leftBottomPos= cc.p(tableViewPos.x- tableSize.width* 0.505, tableViewPos.y- tableSize.height*0.65);
         //预加载资源
         var arrPath= [
-            Common.getResourcePath("px1.png"),
-            Common.getResourcePath("ui_renwuqiansedi.png"),
-            Common.getResourcePath("ui_renwushengsedi.png"),
-            Common.getResourcePath("ui_renwujinduheidi.png"),
-            Common.getResourcePath("ui_renwujindutiao.png"),
-            Common.getResourcePath("ui_task_qianwang.png"),
-            Common.getResourcePath("btn_qianwang_lingjiang.png"),
-            Common.getResourcePath("ui_wancheng.png"),
-            Common.getResourcePath("btn_qianwang_wancheng.png")
+            Common.getJinHuaResourcePath("px1.png"),
+            Common.getJinHuaResourcePath("ui_renwuqiansedi.png"),
+            Common.getJinHuaResourcePath("ui_renwushengsedi.png"),
+            Common.getJinHuaResourcePath("ui_renwujinduheidi.png"),
+            Common.getJinHuaResourcePath("ui_renwujindutiao.png"),
+            Common.getJinHuaResourcePath("ui_task_qianwang.png"),
+            Common.getJinHuaResourcePath("btn_qianwang_lingjiang.png"),
+            Common.getJinHuaResourcePath("ui_wancheng.png"),
+            Common.getJinHuaResourcePath("btn_qianwang_wancheng.png")
         ];
 
         //代码先执行，但是精灵尺寸为空,不能正确显示
@@ -217,7 +217,7 @@ var RenWuLogic= {
         var TaskListLoop= DailyTaskListTable["TaskListLoop"];
         //背景
         var bgUrl= idx%2?"ui_renwushengsedi.png":"ui_renwuqiansedi.png";
-        var sprite= GamePub.createPointNineSpriteForPlist(Common.getResourcePath(bgUrl), 25, 25, 716, 95);
+        var sprite= GamePub.createPointNineSpriteForPlist(Common.getJinHuaResourcePath(bgUrl), 25, 25, 716, 95);
         sprite.setAnchorPoint(0,0);
         cell.addChild(sprite);
         //点九图的尺寸
@@ -240,11 +240,11 @@ var RenWuLogic= {
         sprite.addChild(LabelContent);
         
         //任务进度
-        var DB_progress = cc.Sprite.create(Common.getResourcePath("ui_renwujinduheidi.png"));
+        var DB_progress = cc.Sprite.create(Common.getJinHuaResourcePath("ui_renwujinduheidi.png"));
         DB_progress.setPosition(spriteSize.width* 0.375, spriteSize.height* 0.5);
         sprite.addChild(DB_progress);
 
-        var progress = cc.ProgressTimer.create(cc.Sprite.create(Common.getResourcePath("ui_renwujindutiao.png")));
+        var progress = cc.ProgressTimer.create(cc.Sprite.create(Common.getJinHuaResourcePath("ui_renwujindutiao.png")));
         progress.setBarChangeRate(cc.p(1,0));//设置进度条的长度和高度开始变化的大小
         progress.setType(cc.ProgressTimer.TYPE_BAR);
         progress.setMidpoint(cc.p(0,0));//设置中心点
@@ -274,7 +274,7 @@ var RenWuLogic= {
             buttonName = "btn_qianwang_lingjiang.png";
             buttonWord = "ui_wancheng.png";
         }
-        var bgSprite= cc.Sprite.create(Common.getResourcePath(buttonName));
+        var bgSprite= cc.Sprite.create(Common.getJinHuaResourcePath(buttonName));
         var button= cc.MenuItemSprite.create(
             bgSprite,
             null, this.onClick, this);
@@ -282,7 +282,7 @@ var RenWuLogic= {
         button.setTag(idx);
         menu.addChild(button);
 
-        var wordSprite= cc.Sprite.create(Common.getResourcePath(buttonWord));
+        var wordSprite= cc.Sprite.create(Common.getJinHuaResourcePath(buttonWord));
         wordSprite.setPosition(bgSprite.getContentSize().width* 0.5, bgSprite.getContentSize().height* 0.6);
         button.addChild(wordSprite);
 

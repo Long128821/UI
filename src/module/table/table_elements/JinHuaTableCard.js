@@ -104,13 +104,13 @@ var JinHuaTableCard= {
 
                 //为了避免移动后，没有达到预想的位置，每一张手牌运动后，设置位置、旋转角度、缩放尺寸
                 if(players[key].isMe()){//玩家自己
-                    var  seq1= cc.sequence(move1, cc.callFunc(this.sendMyCard1End));
+                    var  seq1= cc.sequence(move1, cc.callFunc(this.setMyCardScaleAndRotation));
                     spriteCard1.runAction(seq1);
 
-                    var seq2= cc.sequence(cc.delayTime(0.5), move2, cc.callFunc(this.sendMyCard2End));
+                    var seq2= cc.sequence(cc.delayTime(0.5), move2, cc.callFunc(this.setMyCardScaleAndRotation));
                     spriteCard2.runAction(seq2);
 
-                    var seq3= cc.sequence(cc.delayTime(1.0), move3, cc.callFunc(this.sendMyCard3End));
+                    var seq3= cc.sequence(cc.delayTime(1.0), move3, cc.callFunc(this.setMyCardScaleAndRotation));
                     spriteCard3.runAction(seq3);
                 }else{//别的玩家
                     spriteCard1.runAction(move1);
@@ -143,10 +143,18 @@ var JinHuaTableCard= {
     },
     //设置我的牌的大小和位置
     //修改Bug:要旋转、缩放仅仅只是纸牌精灵，而不是Node
-    setMyCardScaleAndRotation:function(card1, card2, card3){
-        this.sendMyCard1End(card1.getCardSprite());
-        this.sendMyCard2End(card2.getCardSprite());
-        this.sendMyCard3End(card3.getCardSprite());
+    setMyCardScaleAndRotation:function(card){
+        switch(card.getTag()){
+            case 0:
+                JinHuaTableCard.sendMyCard1End(card);
+                break;
+            case 1:
+                JinHuaTableCard.sendMyCard2End(card);
+                break;
+            case 2:
+                JinHuaTableCard.sendMyCard3End(card);
+                break;
+        }
     },
     //我的手牌-左边
     sendMyCard1End:function(sender){
@@ -213,7 +221,7 @@ var JinHuaTableCard= {
                 //显示<赢了>快速聊天按钮列表
                 JinHuaTableLogic.showQuickChatButton(STATUS_QUICK_CHAT_WIN);
             }
-            JinHuaPKAnim.startScatterFlower(cc.p(JinHuaTablePlayer.getPlayers()[gameResultData.CSID].getCenterX(),JinHuaTablePlayer.getPlayers()[gameResultData.CSID].getCenterY()));
+            JinHuaPKAnim.startScatterFlower(JinHuaTablePlayer.getPlayers()[gameResultData.CSID].getCenterPos());
             JinHuaTablePlayer.getJinHuaTablePlayerLayer().runAction(cc.sequence(cc.delayTime(2.0), cc.callFunc(JinHuaTableCoin.flyCoinsAnim)));
         }else{
             //赢家飞金币
@@ -243,7 +251,7 @@ var JinHuaTableCard= {
         if(players[checkCardData.CSID].isMe()){
             //设置牌值，开牌
             for(var key in players[checkCardData.CSID].cardSprites){
-                players[checkCardData.CSID].cardSprites[key].setValue(checkCardData["cardValues"][key]);
+                players[checkCardData.CSID].cardSprites[key].setCardValue(parseInt(checkCardData["cardValues"][key]));
                 this.openCard(players[checkCardData.CSID].cardSprites[key]);
             }
             //显示牌型

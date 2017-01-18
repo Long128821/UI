@@ -74,9 +74,9 @@ var OtherUserInfoLogic= {
     m_webView:null,//魅力值的WebView
 	
     createView:function(){
-        cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("co_desk.plist"),Common.getResourcePath("co_desk.png"));
-        cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("userinfo_mine.plist"),Common.getResourcePath("userinfo_mine.png"));
-        cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("table_elements.plist"),Common.getResourcePath("table_elements.png"));
+        cc.spriteFrameCache.addSpriteFrames(Common.getJinHuaResourcePath("co_desk.plist"),Common.getJinHuaResourcePath("co_desk.png"));
+        cc.spriteFrameCache.addSpriteFrames(Common.getJinHuaResourcePath("userinfo_mine.plist"),Common.getJinHuaResourcePath("userinfo_mine.png"));
+        cc.spriteFrameCache.addSpriteFrames(Common.getJinHuaResourcePath("table_elements.plist"),Common.getJinHuaResourcePath("table_elements.png"));
     	this.initLayer();
         
         this.view.setTag(ModuleTable["OtherUserInfo"]["Layer"]);
@@ -460,7 +460,7 @@ var OtherUserInfoLogic= {
         this.Label_name.setString(userInfoTable["nickName"]);
         //Todo：可以删除称谓
         //[称谓-等级]
-        Common.setUserChengWei(userInfoTable["Coin"], this.Image_chengwei);
+        Profile_JinHuaSetting.setUserTitleOnImageView(userInfoTable["Coin"], this.Image_chengwei);
 
         //加载网络头像
         Common.setTextureByNet(profile_user.getSelfPhotoUrl(), this.Image_toux);

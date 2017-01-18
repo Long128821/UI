@@ -620,7 +620,7 @@ var HallLogic= {
         this.Label_Coin.setString(myCoin);
 
         //当前玩家的称谓等级
-        Common.setUserChengWei(profile_user.getSelfCoin(), this.Image_chengwei);
+        Profile_JinHuaSetting.setUserTitleOnImageView(profile_user.getSelfCoin(), this.Image_chengwei);
 
         //Vip等级
         this.setUserTitle();
@@ -643,14 +643,14 @@ var HallLogic= {
     //添加小红点
     addRedMark:function(){
         this.friendRedMark= ccui.ImageView.create();
-        this.friendRedMark.loadTexture(Common.getResourcePath("gift_tan_hao.png"));
+        this.friendRedMark.loadTexture(Common.getJinHuaResourcePath("gift_tan_hao.png"));
         var parentSize= this.btn_friend.getContentSize();
         this.friendRedMark.setPosition(cc.p(20+ parentSize.width* 0.5, 23+ parentSize.height*0.5));
         this.btn_friend.addChild(this.friendRedMark);
 
         //系统邮件小红点
         this.emailRedMark= ccui.ImageView.create();
-        this.emailRedMark.loadTexture(Common.getResourcePath("gift_tan_hao.png"));
+        this.emailRedMark.loadTexture(Common.getJinHuaResourcePath("gift_tan_hao.png"));
         parentSize= this.btn_message.getContentSize();
         this.emailRedMark.setPosition(cc.p(20+ parentSize.width* 0.5, 23+ parentSize.height*0.5));
         this.btn_message.addChild(this.emailRedMark);
@@ -764,9 +764,9 @@ var HallLogic= {
         if(userVipLevel >= 0) {
             var texture = VipElementsUtils.getVipBgFromVipLevel(userVipLevel);
             if (texture != null) {
-                this.btn_vip.loadTextures(Common.getResourcePath(texture), Common.getResourcePath(texture),"");
+                this.btn_vip.loadTextures(Common.getJinHuaResourcePath(texture), Common.getJinHuaResourcePath(texture),"");
             }else{
-                this.btn_vip.loadTexture(Common.getResourcePath("ic_vip_0.png"),Common.getResourcePath("ic_vip_0.png"),"");
+                this.btn_vip.loadTexture(Common.getJinHuaResourcePath("ic_vip_0.png"),Common.getJinHuaResourcePath("ic_vip_0.png"),"");
             }
 
             if(userVipLevel == 0){

@@ -13,7 +13,7 @@ var DoubleButtonConfirmLogic= {
 	
     createView:function(){
         //加载Plist文件
-        cc.spriteFrameCache.addSpriteFrames(Common.getResourcePath("co_desk.plist"),Common.getResourcePath("co_desk.png"));
+        cc.spriteFrameCache.addSpriteFrames(Common.getJinHuaResourcePath("co_desk.plist"),Common.getJinHuaResourcePath("co_desk.png"));
 
     	this.initLayer();
         

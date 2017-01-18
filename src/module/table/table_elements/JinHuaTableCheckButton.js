@@ -2,13 +2,35 @@ var JinHuaTableCheckButton= {
     checkButtonBgSprite:null,//滑动条背景
     checkButtonPointSprite:null,//滑动条眼睛
     checkButtonBgEleTable:{},//背景上元素table
-    startTouchPosX:null,//起始触摸点
+    startTouchPosX:0,//起始触摸点
     listener:null,//监听机制
-    bVisible:false,
+    bVisible:false,//是否显示
     eyeInitPos:cc.p(538, 226),//眼睛的初始位置
-    eleHideID:0,//当前要隐藏的元素ID
+    hideEleID:0,//当前要隐藏的元素ID
+    clear:function(){
+        Common.judgeValueIsEffect(this.checkButtonBgSprite)&&this.checkButtonBgSprite.removeFromParent(true);
+        this.checkButtonBgSprite= null;
+
+        Common.judgeValueIsEffect(this.checkButtonPointSprite)&&this.checkButtonPointSprite.removeFromParent(true);
+        this.checkButtonPointSprite= null;
+
+        for(var key in this.checkButtonBgEleTable){
+            if(!Common.judgeValueIsEffect(this.checkButtonBgEleTable[key])) continue;
+            this.checkButtonBgEleTable[key].removeFromParent(true);
+        }
+        this.checkButtonBgEleTable= {};
+
+        this.startTouchPosX= 0;
+
+        Common.judgeValueIsEffect(this.listener)&&cc.eventManager.removeListener(this.listener);
+        this.listener= null;
+
+        this.bVisible= false;
+    },
     //创建看牌按钮
     createCheckButton:function(){
+        this.clear();
+
         //看牌滑动条背景
         this.checkButtonBgSprite =  cc.Sprite.create("#ui_kanpaidi.png");
         this.checkButtonBgSprite.setPosition(609, 226);
@@ -16,23 +38,14 @@ var JinHuaTableCheckButton= {
         JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(this.checkButtonBgSprite);
 
         var bgSize= this.checkButtonBgSprite.getContentSize();
-        //滑动条上元素
-        var leftArrowSprite = cc.Sprite.create("#ui_jiantou.png");
-        leftArrowSprite.setPosition(-16 + bgSize.width/2, bgSize.height/2);
-        this.checkButtonBgSprite.addChild(leftArrowSprite);
-        this.checkButtonBgEleTable[0]= leftArrowSprite;
-
-        //滑动条上元素
-        var middleArrowSprite = cc.Sprite.create("#ui_jiantou.png");
-        middleArrowSprite.setPosition(0 + bgSize.width/2, bgSize.height/2);
-        this.checkButtonBgSprite.addChild(middleArrowSprite);
-        this.checkButtonBgEleTable[1]= middleArrowSprite;
-
-        //滑动条上元素
-        var rightArrowSprite = cc.Sprite.create("#ui_jiantou.png");
-        rightArrowSprite.setPosition(16 + bgSize.width/2, bgSize.height/2);
-        this.checkButtonBgSprite.addChild(rightArrowSprite);
-        this.checkButtonBgEleTable[2]= rightArrowSprite;
+        /***************看牌提示上的元素**********************/
+        //三个箭头
+        for(var i=0; i< 3; ++i){
+            var arrowSprite = cc.Sprite.create("#ui_jiantou.png");
+            arrowSprite.setPosition(-16 + bgSize.width/2+ i* 16, bgSize.height/2);
+            this.checkButtonBgSprite.addChild(arrowSprite);
+            this.checkButtonBgEleTable[i]= arrowSprite;
+        }
 
         var lookCardSprite = cc.Sprite.create("#ui_kanpaizi.png");
         lookCardSprite.setPosition(55 + bgSize.width/2, bgSize.height/2);
@@ -43,15 +56,12 @@ var JinHuaTableCheckButton= {
         this.checkButtonPointSprite = cc.Sprite.create("#ui_yanjing.png");
         this.checkButtonPointSprite.setPosition(this.eyeInitPos);
         this.checkButtonPointSprite.setZOrder(23);
-
         JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(this.checkButtonPointSprite);
 
         //添加监听机制
         this.addTouchListener();
         //默认不显示
         this.setCheckVisible(false);
-
-        return this;
     },
     //添加触摸监听机制(点击、滑动)
     addTouchListener:function(){
@@ -83,7 +93,7 @@ var JinHuaTableCheckButton= {
         var curPos= touch.getLocation();
         var step= curPos.x- JinHuaTableCheckButton.startTouchPosX;
         JinHuaTableCheckButton.eyeMoving(touch.getDelta().x);
-        if(step> 50){//可以开牌
+        if(step> 50){//滑动超过50个像素，可以开牌
             JinHuaTableCheckButton.onLookCard();
         }
     },
@@ -115,16 +125,16 @@ var JinHuaTableCheckButton= {
     hideAllEye:function(){
         this.checkButtonBgSprite.stopAllActions();
         for(var key in this.checkButtonBgEleTable){
-            if(this.checkButtonBgEleTable[key]== null||this.checkButtonBgEleTable[key]== undefined) continue;
+            if(!Common.judgeValueIsEffect(this.checkButtonBgEleTable[key])) continue;
             this.checkButtonBgEleTable[key].setVisible(false);
         }
     },
     //隐藏某个元素之后所有元素 做动画用
     showOneEle:function(){
-        JinHuaTableCheckButton.checkButtonBgEleTable[JinHuaTableCheckButton.eleHideID].setVisible(true);
-        JinHuaTableCheckButton.eleHideID++;
-        if(JinHuaTableCheckButton.eleHideID>= 4){
-            JinHuaTableCheckButton.eleHideID= 0;
+        JinHuaTableCheckButton.checkButtonBgEleTable[JinHuaTableCheckButton.hideEleID].setVisible(true);
+        JinHuaTableCheckButton.hideEleID++;
+        if(JinHuaTableCheckButton.hideEleID>= 4){//动画元素全部隐藏完毕
+            JinHuaTableCheckButton.hideEleID= 0;
             var seq= cc.sequence(cc.delayTime(5), cc.callFunc(JinHuaTableCheckButton.startEyeAnimation));
             JinHuaTableCheckButton.checkButtonBgSprite.runAction(seq);
         }

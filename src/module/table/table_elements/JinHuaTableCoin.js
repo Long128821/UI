@@ -12,7 +12,7 @@ var JinHuaTableCoin= {
             this.JinHuaTableCoinLayer.setZOrder(2);
         }
         if(this.CoinBatchNode== null|| this.JinHuaTableCoinLayer== undefined){
-            this.CoinBatchNode= cc.SpriteBatchNode.create(Common.getResourcePath("table_chips.png"));
+            this.CoinBatchNode= cc.SpriteBatchNode.create(Common.getJinHuaResourcePath("table_chips.png"));
             this.CoinBatchNode.setZOrder(1);
             this.JinHuaTableCoinLayer.addChild(this.CoinBatchNode);
         }
@@ -53,7 +53,7 @@ var JinHuaTableCoin= {
         for(var i in coinTable){
             if(coinTable[i]== null ||coinTable[i]== undefined|| coinTable[i]== 0) continue;
             //牌桌上的筹码精灵
-            var spriteChips = JinHuaTableCoinEntity.createTableCoinEntity(coinTable[i],parseInt(i));
+            var spriteChips = JinHuaTableChipEntity.createTableChipEntity(coinTable[i],parseInt(i));
             for(var j in spriteChips){
                 if(spriteChips[j]== null ||spriteChips[j]== undefined||spriteChips[j]== 0) continue;
                 //筹码随机区间
@@ -84,7 +84,7 @@ var JinHuaTableCoin= {
         for(var i in coinTable){
             if(coinTable[i]== null ||coinTable[i]== undefined) continue;
             //牌桌上的筹码精灵
-            var spriteChips = JinHuaTableCoinEntity.createTableCoinEntity(coinTable[i], parseInt(i));
+            var spriteChips = JinHuaTableChipEntity.createTableChipEntity(coinTable[i], parseInt(i));
             for(var j in spriteChips){
                 if(spriteChips[j]== null ||spriteChips[j]== undefined) continue;
                 if(spriteChips[j]._parent!= null) continue;
@@ -126,7 +126,7 @@ var JinHuaTableCoin= {
                 var coins= this.getChipArray(coinData[key].coins);
                 //创建筹码
                 for(var i in coins){
-                    var spriteChips= JinHuaTableCoinEntity.createTableCoinEntity(coins[i], parseInt(i));
+                    var spriteChips= JinHuaTableChipEntity.createTableChipEntity(coins[i], parseInt(i));
                     for(var j in spriteChips){
                         if(spriteChips[j]== null||spriteChips[j]== undefined) continue;
                         if(spriteChips[j]._parent!= null) continue;
@@ -148,7 +148,7 @@ var JinHuaTableCoin= {
     //清除桌上金币
     clearCoins:function(){
         //清空牌桌上的筹码，从视图中删除
-        JinHuaTableCoinEntity.clear();
+        JinHuaTableChipEntity.clear();
         this.coinArray= {};
     },
     //赢家飞金币结束回调
