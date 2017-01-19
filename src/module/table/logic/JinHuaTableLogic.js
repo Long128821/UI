@@ -1517,6 +1517,8 @@ var JinHuaTableLogic= {
         this.initGameDataAfterGameResult();
         //显示结果
         JinHuaTableCard.startResultShow();
+        //本局结算,不可操作
+        this.disableAllTableOperationButtons();
         //隐藏看牌提示
         JinHuaTableCheckButton.setCheckVisible(false);
         //获取在线时长
@@ -1667,44 +1669,17 @@ var JinHuaTableLogic= {
     },
     //按钮：PK
     initPkBtn:function(){
-        this.pkButtonGroup[1] = cc.MenuItemImage.create(Common.getJinHuaResourcePath("table_pk_collimation.png"),Common.getJinHuaResourcePath("table_pk_collimation.png"),this.onClick_btnPK, this);
-        var menu1 = cc.Menu.create(this.pkButtonGroup[1]);
-        menu1.setPosition(Profile_JinHuaTableConfig.spritePlayers[1].pkX,Profile_JinHuaTableConfig.spritePlayers[1].pkY);
-        menu1.setZOrder(12);
-        JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(menu1);
+        for(var i=1; i<=4; ++i){
+            this.pkButtonGroup[i] = cc.MenuItemImage.create(Common.getJinHuaResourcePath("table_pk_collimation.png"),Common.getJinHuaResourcePath("table_pk_collimation.png"),this.onClick_btnPK, this);
+            var menu1 = cc.Menu.create(this.pkButtonGroup[i]);
+            menu1.setPosition(Profile_JinHuaTableConfig.spritePlayers[i].pkX,Profile_JinHuaTableConfig.spritePlayers[i].pkY);
+            menu1.setZOrder(12);
+            JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(menu1);
 
-        this.pkButtonGroup[2] = cc.MenuItemImage.create(Common.getJinHuaResourcePath("table_pk_collimation.png"),Common.getJinHuaResourcePath("table_pk_collimation.png"),this.onClick_btnPK, this);
-        var menu2 = cc.Menu.create(this.pkButtonGroup[2]);
-        menu2.setPosition(Profile_JinHuaTableConfig.spritePlayers[2].pkX,Profile_JinHuaTableConfig.spritePlayers[2].pkY);
-        menu2.setZOrder(12);
-        JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(menu2);
-
-        this.pkButtonGroup[3] = cc.MenuItemImage.create(Common.getJinHuaResourcePath("table_pk_collimation.png"),Common.getJinHuaResourcePath("table_pk_collimation.png"),this.onClick_btnPK, this);
-        var menu3 = cc.Menu.create(this.pkButtonGroup[3]);
-        menu3.setPosition(Profile_JinHuaTableConfig.spritePlayers[3].pkX,Profile_JinHuaTableConfig.spritePlayers[3].pkY);
-        menu3.setZOrder(12);
-        JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(menu3);
-
-        this.pkButtonGroup[4] = cc.MenuItemImage.create(Common.getJinHuaResourcePath("table_pk_collimation.png"),Common.getJinHuaResourcePath("table_pk_collimation.png"),this.onClick_btnPK, this);
-        var menu4 = cc.Menu.create(this.pkButtonGroup[4]);
-        menu4.setPosition(Profile_JinHuaTableConfig.spritePlayers[4].pkX,Profile_JinHuaTableConfig.spritePlayers[4].pkY);
-        menu4.setZOrder(12);
-        JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(menu4);
-
-        this.pkButtonGroup[1].setVisible(false);
-        this.pkButtonGroup[2].setVisible(false);
-        this.pkButtonGroup[3].setVisible(false);
-        this.pkButtonGroup[4].setVisible(false);
-
-        this.pkButtonGroup[1].setTag(1);
-        this.pkButtonGroup[2].setTag(2);
-        this.pkButtonGroup[3].setTag(3);
-        this.pkButtonGroup[4].setTag(4);
-
-        this.blinkPK(this.pkButtonGroup[1]);
-        this.blinkPK(this.pkButtonGroup[2]);
-        this.blinkPK(this.pkButtonGroup[3]);
-        this.blinkPK(this.pkButtonGroup[4]);
+            this.pkButtonGroup[i].setVisible(false);
+            this.pkButtonGroup[i].setTag(i);
+            this.blinkPK(this.pkButtonGroup[i]);
+        }
     },
     onClick_btnPK:function(pSender){
         console.log("PK:"+ pSender.getTag());
