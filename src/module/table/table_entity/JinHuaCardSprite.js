@@ -22,6 +22,7 @@ function CardSprite(){
  * Func:清理数据
  */
 CardSprite.prototype.clear= function(){
+    console.log("清空纸牌数据！");
     (Common.judgeValueIsEffect(this.cardSprite))&&this.cardSprite.removeFromParent(true);
     this.cardSprite= null;//精灵本身
     (Common.judgeValueIsEffect(this.front))&&this.front.removeFromParent(true);

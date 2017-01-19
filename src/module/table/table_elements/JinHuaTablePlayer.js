@@ -557,25 +557,19 @@ var JinHuaTablePlayer= {
     },
     //别人站起
     updateTableAfterStandUpOther:function(CSID){
-        var GameData= Profile_JinHuaGameData.getGameData();
         //清除牌桌站起玩家
         if(this.tablePlayerEntitys[CSID]){
-            //移除
-            this.tablePlayerEntitys[CSID].removePlayerElementFromLayer();
             //隐藏禁比图标
             this.tablePlayerEntitys[CSID].dismissJinBiIcon();
-            //清空玩家的所有手牌
-            JinHuaTableCard.clearCards();
-            //设置看牌提示不显示
-            //修改Bug:别人站起时,玩家的看牌不显示。
-            //Todo:可能存在的问题:牌局没散
-            JinHuaTableCheckButton.setCheckVisible(false);
+            //移除
+            this.tablePlayerEntitys[CSID].removePlayerElementFromLayer();
             //清除手牌
             if(this.tablePlayerEntitys[CSID].cardSprites[0]){
                 this.tablePlayerEntitys[CSID].removeCard();
             }
             this.tablePlayerEntitys[CSID]= null;
         }
+        var GameData= Profile_JinHuaGameData.getGameData();
         //显示坐下按钮
         if(!GameData.mySSID){
             JinHuaTableLogic.showSitButton(CSID);
@@ -727,7 +721,7 @@ var JinHuaTablePlayer= {
     },
     //自己弃牌后更新
     updateTableAfterSelfFoldCard:function(){
-        if(this.tablePlayerEntitys[0]== null||this.tablePlayerEntitys[0]== "undefined") return;
+        if(!Common.judgeValueIsEffect(this.tablePlayerEntitys[0])) return;
         //自己弃牌的座位号0，而不是1
         this.updatePlayerStateAfterFoldCard(0);
         JinHuaTableLogic.showQuickChatButton(STATUS_QUICK_CHAT_FOLD);
@@ -735,7 +729,7 @@ var JinHuaTablePlayer= {
     //更新所有的人等级
     updateAllPlayersLevel:function(){
         for(var i in this.tablePlayerEntitys){
-            if(this.tablePlayerEntitys[i]== null||this.tablePlayerEntitys[i]== "undefined") continue;
+            if(!Common.judgeValueIsEffect(this.tablePlayerEntitys[i])) continue;
             this.tablePlayerEntitys[i].updatePlayerTips();
         }
     },
@@ -743,6 +737,10 @@ var JinHuaTablePlayer= {
     updateTableAfterStandUpByServer:function(){
         var standUpData= Profile_JinHuaGameData.getStandUpData();
         var  mySelf = Profile_JinHuaGameData.getMySelf();
+        //修改Bug:别人站起时,玩家的看牌不显示。
+        //Todo:可能存在的问题:牌局没散
+        JinHuaTableCheckButton.setCheckVisible(false);
+
         if(standUpData.result == 1){//成功站起
             if(mySelf.SSID!= null&& mySelf.SSID == standUpData.SSID){//自己站起
                 if(mySelf.userId!= null&&mySelf.userId!= undefined){
@@ -753,7 +751,7 @@ var JinHuaTablePlayer= {
                 mySelf.SSID= null;
             }else{//别人站起
                 if(standUpData.CSID!= null){
-                    this.updateTableAfterStandUpOther(standUpData.CSID);
+                    //this.updateTableAfterStandUpOther(standUpData.CSID);
                 }
             }
         }

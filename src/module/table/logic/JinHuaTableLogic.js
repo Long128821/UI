@@ -2277,8 +2277,7 @@ var JinHuaTableLogic= {
                     this.Image_canpk_raise.setOpacity(ALPHA_CAN_TOUCH);
                 }
                 break;
-            case STATUS_BUTTON_GUIDE_ONLY_CHECK://
-                //Todo:JinHuaTableCheckButton.setSpriteVisible(true)
+            case STATUS_BUTTON_GUIDE_ONLY_CHECK:
                 this.Panel_wait.setVisible(true);
 
                 this.Button_wait_fold.setVisible(true);
@@ -2754,12 +2753,12 @@ var JinHuaTableLogic= {
     //本局结束后操作
     gameResultOperation:function(){
         var GameData= Profile_JinHuaGameData.getGameData();
+        var players= JinHuaTablePlayer.getPlayers();
         if(this.isNextRoundStandUp){//是否下局旁观
             JinHuaTablePlayer.selfStandUp();//发起站起请求
             this.cancelStandUpNextRound();
         }else{
             if(!Common.judgeValueIsEffect(GameData.mySSID)) return;
-            var players= JinHuaTablePlayer.getPlayers();
             if(!Common.judgeValueIsEffect(players)) return;
             if(!Common.judgeValueIsEffect(players[0])) return;
             if(players[0].player.status!= STATUS_PLAYER_READY){
@@ -2767,6 +2766,15 @@ var JinHuaTableLogic= {
                 this.onReady();
             }
         }
+
+        for(var key in players){
+            if(key== 0) continue;
+            if(players[key].player.status== STATUS_PLAYER_DISCARD){
+                JinHuaTablePlayer.updateTableAfterStandUpOther(key);
+            }
+        }
+        //重新设置牌桌上的玩家
+        console.log(JinHuaTablePlayer.getPlayers());
     },
     //取消下局旁观
     cancelStandUpNextRound:function(){

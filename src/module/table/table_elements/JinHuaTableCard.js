@@ -189,6 +189,7 @@ var JinHuaTableCard= {
             for(var key in players[index].cardSprites){
                 var cardSprite= players[index].cardSprites[key];
                 if(!Common.judgeValueIsEffect(cardSprite)) continue;
+                //if(!Common.judgeValueIsEffect(cardSprite.getCardSprite())) continue;
                 this.sendMyCardEnd(cardSprite.getCardSprite());
             }
         }
