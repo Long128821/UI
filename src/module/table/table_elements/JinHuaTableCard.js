@@ -39,7 +39,7 @@ var JinHuaTableCard= {
         var parentLayer= JinHuaTablePlayer.getJinHuaTablePlayerLayer();
         //牌桌上的玩家
         var players= JinHuaTablePlayer.getPlayers();
-        //Todo:更新发牌数据
+        //更新发牌数据
         JinHuaTableLogic.updateDataSendCard();
         //游戏中
         GameData.status = STATUS_TABLE_PLAYING;
@@ -112,7 +112,7 @@ var JinHuaTableCard= {
         //不旋转
         cardSprite.setRotation(0);
     },
-    //我的手牌-左边
+    //我的手牌
     sendMyCardEnd:function(sender){
         sender.setScale(1.5);
         var rotation= 0;
@@ -159,12 +159,12 @@ var JinHuaTableCard= {
             if(!Common.judgeValueIsEffect(players[i])) continue;
             if(JinHuaTableCard.isNeedShowHandCard(i)){
                 turnCard = true;
-//                this.setCardScaleAndRotation(i);
-//                this.setCardPositionAndOpenCard(i);
+                JinHuaTableCard.setCardScaleAndRotation(i);
+                JinHuaTableCard.setCardPositionAndOpenCard(i);
+                //显示牌型
                 JinHuaTableCard.showCardType(players[i], players[i].player.cardType);
             }
         }
-        console.log("是否翻牌:"+ turnCard);
         //如果要翻牌，则延时0.3秒播胜利动画
         if(turnCard){
             //修改Bug:弃牌后,立刻执行播放胜利动画
@@ -174,15 +174,46 @@ var JinHuaTableCard= {
         }
     },
     //设置牌的大小和翻转角度
-    setCardScaleAndRotationL:function(index){
+    setCardScaleAndRotation:function(index){
         var players = JinHuaTablePlayer.getPlayers();
         for(var key in players[index].cardSprites){
             var cardSprite= players[index].cardSprites[key];
-            cardSprite.setCardValue(players[index].cardValues[key]);
+            if(!Common.judgeValueIsEffect(cardSprite)) continue;
+            cardSprite.setCardValue(players[index].player.cardValues[key]);
             if(!players[index].isMe()){
-                players[index].cardSprites[key].setRotation(0);
-                players[index].cardSprites[key].setScale(0.8);
+                cardSprite.getCardSprite().setRotation(0);
+                cardSprite.getCardSprite().setScale(0.8);
             }
+        }
+        if(players[index].isMe()){
+            for(var key in players[index].cardSprites){
+                var cardSprite= players[index].cardSprites[key];
+                if(!Common.judgeValueIsEffect(cardSprite)) continue;
+                this.sendMyCardEnd(cardSprite.getCardSprite());
+            }
+        }
+    },
+    //设置牌的位置，并翻开牌
+    setCardPositionAndOpenCard:function(index){
+        var GameData= Profile_JinHuaGameData.getGameData();
+        var players = JinHuaTablePlayer.getPlayers();
+        var player= players[index];
+        var CSID= player.player.CSID;
+        for(var key in players[index].cardSprites){
+            var cardSprite= players[index].cardSprites[key];
+            var spritePlayers= Profile_JinHuaTableConfig.getSpritePlayers();
+            var spritePlayer= spritePlayers[CSID];
+            if(index> 2){
+                cardSprite.getCardSprite().setPosition(spritePlayer.cards[2].locX- Profile_JinHuaTableConfig.cardWidth+(key-1)*Profile_JinHuaTableConfig.cardWidth/2, spritePlayer.cards[key].locY);
+            }else if(index> 0){
+                cardSprite.getCardSprite().setPosition(spritePlayer.cards[0].locX- Profile_JinHuaTableConfig.cardWidth+(key-1)*Profile_JinHuaTableConfig.cardWidth/2, spritePlayer.cards[key].locY);
+            }else if(index== 0){
+                if(Common.judgeValueIsEffect(GameData.mySSID)){
+                    cardSprite.getCardSprite().setPosition(580 + 26 * key, 125);
+                }
+            }
+            //开牌动画
+            this.openCard(players[index].cardSprites[key]);
         }
     },
     //胜利动画
@@ -278,17 +309,8 @@ var JinHuaTableCard= {
     //是否需要显示手牌【座位上有人&&服务器传了牌值】
     isNeedShowHandCard:function(CSID){
         var players = JinHuaTablePlayer.getPlayers();
-        var tempplayer= players[CSID];
-        console.log(tempplayer);
-        for(var j in tempplayer.player.cardValues){
-            console.log("player.cardValues:"+ tempplayer.player.cardValues[j]);
-        }
-        if(!Common.judgeValueIsEffect(tempplayer)) return false;
-        if(Common.judgeValueIsEffect(tempplayer.player.cardValues)&&(Common.getTableSize(tempplayer.player.cardValues)== 3)){
-            return true;
-        }else if(Common.judgeValueIsEffect(tempplayer.cardValues)&&(Common.getTableSize(tempplayer.cardValues)== 3)){
-            return true;
-        }
-        return false;
+        var player= players[CSID];
+        if(!Common.judgeValueIsEffect(player)) return false;
+        return Common.judgeValueIsEffect(player.player.cardValues)&&(Common.getTableSize(player.player.cardValues)== 3);
     }
 };

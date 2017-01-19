@@ -32,7 +32,7 @@ var JinHuaTableTips= {
      */
     createSitTips:function(CSID){
         //有效性判断
-        if(Common.judgeValueIsEffect(this.sitTipSprites)) return;
+        //if(!Common.judgeValueIsEffect(this.sitTipSprites)) return;
 
         //如果已经创建完该座位上的坐下提示,直接显示即可。
         //否则,判断该座位上,是否有玩家,如果没有玩家,再创建坐下提示

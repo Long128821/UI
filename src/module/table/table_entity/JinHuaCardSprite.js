@@ -69,8 +69,7 @@ CardSprite.prototype.init= function(){
  */
 CardSprite.prototype.setCardValue= function(value){
     if(!Common.judgeValueIsEffect(value)) return;
-
-    console.log("获取牌值");
+    if(!Common.judgeValueIsEffect(this.front)) return;
 
     this.front.removeAllChildrenWithCleanup(true);//移除所有子节点
     this.cardSprite.value= value;//设置牌值(属性)

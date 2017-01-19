@@ -8,8 +8,6 @@ function JinHuaTablePlayerEntity(player){
     this.clear();//清空元素
     this.createMember(player);//创建对象
     this.init();//初始化
-    console.log("初始化");
-    console.log(this);
 }
 
 //清理数据
@@ -79,6 +77,7 @@ JinHuaTablePlayerEntity.prototype.clear= function(){
     (Common.judgeValueIsEffect(this.luckyLable))&&this.luckyLable.removeFromParent(true);
     this.luckyLable= null;
 
+    this.luckyValue= 0;
     this.clearCards();//清空手牌
 };
 //Todo:删除createMember，因为首先清空时，就已经为成员对象赋值了
@@ -106,8 +105,7 @@ JinHuaTablePlayerEntity.prototype.createMember= function(player){
     this.luckyLable = null;//幸运点label
     this.luckyValue = null;//幸运点数  用来在牌桌结算时 计算转换幸运点的差值
     this.cardSprites = {};// 牌精灵
-    this.cardValues= this.player.cardValues;
-    delete  this.player.cardValues;
+
     //Todo:可以删除的内容
     this.levelPic = null;//等级图标
     this.atlasLevelNum = null;//等级数
@@ -531,6 +529,7 @@ JinHuaTablePlayerEntity.prototype.createNotBeLookedCard= function(){
     this.cardSprites = {};
 
     //发的牌 初始无论是谁，都放在屏幕中间位置
+    //设置纸牌终点的位置的原因是(发牌动画)
     //每个人的手牌,有3张
     for(var i= 0; i< 3; ++i){
         this.cardSprites[i]= new CardSprite();
@@ -552,7 +551,7 @@ JinHuaTablePlayerEntity.prototype.createNotBeLookedCard= function(){
     }
     var cardTypePosX, cardTypePosY;
     if(this.isMe()){
-        cardTypePosX = 740;
+        cardTypePosX = 730;
         cardTypePosY = 110;
     }else{
         var player= Profile_JinHuaTableConfig.getSpritePlayers()[this.player.CSID];
@@ -565,7 +564,6 @@ JinHuaTablePlayerEntity.prototype.createNotBeLookedCard= function(){
     }
 
     //牌型背景
-    //设置纸牌终点的位置的原因是(发牌动画)
     this.cardTypeSprite = cc.Sprite.create("#bg_desk_paixing.png");
     this.cardTypeSprite.setAnchorPoint(cc.p(0.5, 0.5));
     this.cardTypeSprite.setPosition(cardTypePosX, cardTypePosY);

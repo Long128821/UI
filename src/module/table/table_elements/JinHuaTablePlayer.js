@@ -301,7 +301,7 @@ var JinHuaTablePlayer= {
         this.currentCSID= currentPlayer.CSID;
 
         //可能乱牌桌，此处没人 保底方案
-        if(this.tablePlayerEntitys[currentPlayer.CSID]== null||this.tablePlayerEntitys[currentPlayer.CSID]== undefined) return;
+        if(!Common.judgeValueIsEffect(this.tablePlayerEntitys[currentPlayer.CSID])) return;
         //更新玩家的按钮并启动计时
         this.updateMyOperationBtnsAndStartTimer(currentPlayer);
     },
@@ -501,7 +501,7 @@ var JinHuaTablePlayer= {
         if(readyData.CSID== 0
             && GameData.mySSID
             &&this.tablePlayerEntitys[0]
-            &&this.tablePlayerEntitys[0].status!= STATUS_PLAYER_READY
+            &&this.tablePlayerEntitys[0].player.status!= STATUS_PLAYER_READY
             &&readyData.status!= 0){
             var seq= cc.sequence(cc.delayTime(2.0), cc.callFunc(function(pSender){
                 JinHuaTableLogic.onReady();
@@ -699,7 +699,7 @@ var JinHuaTablePlayer= {
     updateTableAfterFoldCardByServer:function(){
         var foldCardData= Profile_JinHuaGameData.getFoldCardData();
         //别人弃牌的服务器返回
-        if(this.tablePlayerEntitys[foldCardData.CSID]&&!(this.tablePlayerEntitys[foldCardData.CSID].isMe()&&this.tablePlayerEntitys[foldCardData.CSID].status == STATUS_PLAYER_DISCARD)){
+        if(this.tablePlayerEntitys[foldCardData.CSID]&&!(this.tablePlayerEntitys[foldCardData.CSID].isMe()&&this.tablePlayerEntitys[foldCardData.CSID].player.status == STATUS_PLAYER_DISCARD)){
             this.updatePlayerStateAfterFoldCard(foldCardData.CSID);
         }
         this.updateNextPlayerAfterFoldCard(foldCardData);
@@ -714,7 +714,7 @@ var JinHuaTablePlayer= {
     //弃牌后更新玩家状态
     updatePlayerStateAfterFoldCard:function(CSID){
         if(this.tablePlayerEntitys[CSID]){
-            this.tablePlayerEntitys[CSID].status = STATUS_PLAYER_DISCARD;
+            this.tablePlayerEntitys[CSID].player.status = STATUS_PLAYER_DISCARD;
             this.addPlayerStateIcon(this.TYPE_ICON_FOLD, CSID);
             JinHuaTableBubble.showJinHuaTableBubble(CSID, BUBBLE_TYPE_DISCARD);
             this.tablePlayerEntitys[CSID].setPlayerDarkCoverVisible();
@@ -742,8 +742,6 @@ var JinHuaTablePlayer= {
     //收到服务器站起
     updateTableAfterStandUpByServer:function(){
         var standUpData= Profile_JinHuaGameData.getStandUpData();
-        console.log("站起");
-        console.log(standUpData);
         var  mySelf = Profile_JinHuaGameData.getMySelf();
         if(standUpData.result == 1){//成功站起
             if(mySelf.SSID!= null&& mySelf.SSID == standUpData.SSID){//自己站起
@@ -762,7 +760,7 @@ var JinHuaTablePlayer= {
     },
     //自己站起
     updateTableAfterStandUpMe:function(CSID){
-        console.log("自己站起！");
+        console.log("自己站起");
         //清空发牌
         this.clearTableAfterSitAndStand();
         //自己站起后，更新当前人(如果之前可操作玩家是 自己)
@@ -795,6 +793,8 @@ var JinHuaTablePlayer= {
         this.showDealerIcon();
         //视图更新-重新初始化玩家
         this.initPlayerSprites(false);
+//创建坐下提示
+//        this.createTableTips();
         //Todo:自己站起，轮到别的玩家操作，更新定时器
         this.reAddToLayer(this.myTimerBg);
         this.reAddToLayer(this.myTimer);
@@ -802,10 +802,14 @@ var JinHuaTablePlayer= {
         this.reAddToLayer(this.otherTimerBg);
         this.reAddToLayer(this.otherTimer);
         this.reAddToLayer(this.otherTimer2);
-
-        //Todo:站起时金币不足，弹出充值引导
-        //checkAndShowPayGuideAfterStand()
     },
+//    //创建牌桌上的坐下提示
+//    createTableTips:function(){
+//        for(var CSID=0; CSID< 5;++CSID){
+//            if(Profile_JinHuaGameData.hasPlayer(CSID)) continue;
+//            JinHuaTableTips.createSitTips(CSID);
+//        }
+//    },
     //收到服务器<看牌>消息更新
     updateTableAfterLookCardByServer:function(checkCardData){
         if(this.tablePlayerEntitys[checkCardData.CSID]== null||this.tablePlayerEntitys[checkCardData.CSID]== undefined) return;
@@ -818,5 +822,24 @@ var JinHuaTablePlayer= {
 
         //看牌动画
         JinHuaTableCard.lookCardAnim(this.tablePlayerEntitys, checkCardData);
+    },
+    //根据某个座位号,获取玩家数据
+    setPlayerInfoByUserID:function(info,userID){
+        if(!Common.judgeValueIsEffect(this.tablePlayerEntitys)) return null;
+        for(var key in this.tablePlayerEntitys){
+            var playerEntitys= this.tablePlayerEntitys[key];
+            if((!Common.judgeValueIsEffect(playerEntitys))||(!Common.judgeValueIsEffect(playerEntitys.player))) continue;
+            if(playerEntitys.player.userId== userID){
+                playerEntitys.player.betCoins = info.betCoins;
+                playerEntitys.player.remainCoins = info.remainCoins;
+                playerEntitys.player.shtatus = info.status;
+                playerEntitys.player.cardValues = info.cardValues;
+                playerEntitys.player.cardType = info.cardType;
+                playerEntitys.player.exp = info.exp;
+                playerEntitys.player.level = info.level;
+                playerEntitys.player.expText = info.expText;
+                playerEntitys.player.isCert = info.isCert;
+            }
+        }
     }
 };

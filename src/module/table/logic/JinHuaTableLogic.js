@@ -1504,28 +1504,21 @@ var JinHuaTableLogic= {
     },
     //弃牌
     updateJHID_DISCARD:function(){
+        //隐藏看牌提示
+        JinHuaTableCheckButton.setCheckVisible(false);
+
         JinHuaTablePlayer.updateTableAfterFoldCardByServer();
     },
     //本局结算
     updateJHID_GAME_RESULT:function(){
-        for(var i in Profile_JinHuaGameData.getPlayers()){
-            console.log("CSID:"+ i);
-            console.log(Profile_JinHuaGameData.getPlayers()[i]);
-        }
         //清空所有的定时器
         JinHuaTablePlayer.clearAllTimer();
-        for(var i in Profile_JinHuaGameData.getPlayers()){
-            console.log("CSID:"+ i);
-            console.log(Profile_JinHuaGameData.getPlayers()[i]);
-        }
         //本局结算后，操作一些数据
         this.initGameDataAfterGameResult();
-        for(var i in Profile_JinHuaGameData.getPlayers()){
-            console.log("CSID:"+ i);
-            console.log(Profile_JinHuaGameData.getPlayers()[i]);
-        }
         //显示结果
         JinHuaTableCard.startResultShow();
+        //隐藏看牌提示
+        JinHuaTableCheckButton.setCheckVisible(false);
         //获取在线时长
         if(this.GameData.roomId!= null){
             sendJHID_GET_BAOHE_STEP_INFO(this.GameData.roomId);
@@ -1571,10 +1564,11 @@ var JinHuaTableLogic= {
     initTableData:function(){
         //Todo:清理数据
         this.clear();
-        //JinHuaTableCard.clear();
+        JinHuaTableCard.clearCards();
         JinHuaTableCoin.clear();//玩空牌桌上的金币
         JinHuaTablePlayer.clear();//
         JinHuaTableTips.clear();
+        JinHuaPKAnim.clear();
 
         //更新背包道具数量
         this.updateBACKPACK_GOODS_COUNT();
@@ -2435,7 +2429,7 @@ var JinHuaTableLogic= {
             }else{//跟注
                 this.onCall();
             }
-        }else if(player.status!= STATUS_PLAYER_DISCARD){//没有弃牌
+        }else if(player.player.status!= STATUS_PLAYER_DISCARD){//没有弃牌
             //console.log("更新自己的按钮");
             if(Profile_JinHuaGameData.getGameData().round>= Profile_JinHuaTableConfig.CAN_PK_ROUND){
                 //是否已经超出一定的轮数，可以比牌
@@ -2447,7 +2441,6 @@ var JinHuaTableLogic= {
             if(!this.vibrateId){
                 //10s之后，震动提醒
                 this.vibrateId= setTimeout(this.callback_vibrate, 10000);
-                //Todo:执行的按钮的点击事件中，移除
             }
         }else{
             this.showBotButton(STATUS_BUTTON_WAIT);
@@ -2526,10 +2519,6 @@ var JinHuaTableLogic= {
     },
     //点击弃牌后做的事
     afterOnClickBtnFold:function(){
-        for(var i in JinHuaTablePlayer.getPlayers()){
-            console.log("CSID:"+ i);
-            console.log(JinHuaTablePlayer.getPlayers()[i]);
-        }
         //Todo:关闭-超时弃牌线程
         sendJHID_DISCARD(0);
         JinHuaTablePlayer.updateTableAfterSelfFoldCard();
@@ -2542,9 +2531,9 @@ var JinHuaTableLogic= {
         this.setAllInValue();
         JinHuaTablePlayer.resetCurrentCSID();
         JinHuaTableTips.initTipsData();
-        var playerTable= Profile_JinHuaGameData.getPlayers();
-
-        //Todo:移除所有的坐下提示
+//        var playerTable= Profile_JinHuaGameData.getPlayers();
+//
+//        //Todo:移除所有的坐下提示
     },
     //设置全压的金币数
     setAllInValue:function(value){
@@ -2768,9 +2757,15 @@ var JinHuaTableLogic= {
         if(this.isNextRoundStandUp){//是否下局旁观
             JinHuaTablePlayer.selfStandUp();//发起站起请求
             this.cancelStandUpNextRound();
-        }else if(GameData.mySSID== 0&&JinHuaTablePlayer.getPlayers()&&JinHuaTablePlayer.getPlayers()[0]!= null&&JinHuaTablePlayer.getPlayers()[0]!= STATUS_PLAYER_READY){
-            //如果我还在牌桌上,则准备
-            this.onReady();
+        }else{
+            if(!Common.judgeValueIsEffect(GameData.mySSID)) return;
+            var players= JinHuaTablePlayer.getPlayers();
+            if(!Common.judgeValueIsEffect(players)) return;
+            if(!Common.judgeValueIsEffect(players[0])) return;
+            if(players[0].player.status!= STATUS_PLAYER_READY){
+                //如果我还在牌桌上,则准备
+                this.onReady();
+            }
         }
     },
     //取消下局旁观

@@ -297,7 +297,7 @@ var JinHuaTableCoin= {
         //清理牌桌上的金币
         JinHuaTableCoin.clearCoins();
         //清理牌桌上的纸牌
-        //JinHuaTableCard.clearCards();
+        JinHuaTableCard.clearCards();
         //清空庄家图标
         JinHuaTablePlayer.hideDealerIcon();
 

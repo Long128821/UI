@@ -100,6 +100,19 @@ var Profile_JinHuaGameData= {
     getMySelf:function(){
         return this.mySelf;
     },
+    //判断某个座位上是否有人
+    hasPlayer:function(CSID){
+        var bHas= false;
+        var players= this.GameData["players"];
+        for(var key in players){
+            var player= players[key];
+            if(!Common.judgeValueIsEffect(player)) continue;
+            if(player.CSID== CSID){
+                bHas= true;
+            }
+        }
+        return bHas;
+    },
     //自己站起更新
     updatePlayerInfo_SelfStand:function(){
         if((this.GameData&&
@@ -328,34 +341,29 @@ var Profile_JinHuaGameData= {
         this.GameData["levelUpExp"] = this.gameResultData["levelUpExp"];
         this.GameData["level"] = this.gameResultData["level"];
         this.gameResultData.CSID = this.getUserCSID(this.gameResultData.winnerSeat);
-        console.log("本局结算2");
-        for(var key in JinHuaTablePlayer.getPlayers()){
-            console.log("CSID:"+ key);
-            console.log(JinHuaTablePlayer.getPlayers()[key].player);
-        }
+        var selfInfo;
         for(var key in this.gameResultData.users){
             var user= this.gameResultData.users[key];
-            for(var i in this.GameData["players"]){
-                var player= this.GameData["players"][i];
-                if(player&&user.userID== profile_user.getSelfUserID()&&user.userID== player.userId){
-                    player.betCoins = user.betCoins;
-                    player.remainCoins = user.remainCoins;
-                    player.shtatus = user.status;
-                    player.cardValues = user.cardValues;
-                    player.cardType = user.cardType;
-                    player.exp = user.exp;
-                    player.level = user.level;
-                    player.expText = user.expText;
-                    player.isCert = user.isCert;
-                    console.log(player.cardValues);
-                }
+            if(user.userID== profile_user.getSelfUserID()){
+                selfInfo= user;
             }
         }
-        console.log("本局结算3");
-        for(var key in JinHuaTablePlayer.getPlayers()){
-            console.log("CSID:"+ key);
-            console.log(JinHuaTablePlayer.getPlayers()[key].player);
+
+        for(var i in this.GameData["players"]){
+            var player= this.GameData["players"][i];
+            if(profile_user.getSelfUserID()== player.userId){
+                player.betCoins = selfInfo.betCoins;
+                player.remainCoins = selfInfo.remainCoins;
+                player.shtatus = selfInfo.status;
+                player.cardValues = selfInfo.cardValues;
+                player.cardType = selfInfo.cardType;
+                player.exp = selfInfo.exp;
+                player.level = selfInfo.level;
+                player.expText = selfInfo.expText;
+                player.isCert = selfInfo.isCert;
+            }
         }
+        JinHuaTablePlayer.setPlayerInfoByUserID(selfInfo, profile_user.getSelfUserID());
     },
     //比牌
     readJHID_PK:function(dataTable){

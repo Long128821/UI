@@ -1054,7 +1054,6 @@ function read82200005(nMBaseMessage){
     dataTable["nextPlayer"].compareCard = nMBaseMessage.readInt();
     //解析 0不能看牌， 1可以看牌
     dataTable["nextPlayer"].lookCard = nMBaseMessage.readInt();
-
     return dataTable;
 }
 
@@ -1109,8 +1108,6 @@ function read82200006(nMBaseMessage){
     dataTable["result"] = nMBaseMessage.readByte();
     dataTable["message"] = nMBaseMessage.readString();
     dataTable["dealerSSID"] = nMBaseMessage.readInt();
-
-//    console.log(dataTable);
     return dataTable;
 }
 
@@ -1163,7 +1160,7 @@ function read82200003(nMBaseMessage){
 
         //牌桌上的玩家数量
         var currentPlayerCnt= nMBaseMessage.readInt();
-        dataTable["currentPlayer"]["currentPlayerCnt"]= currentPlayerCnt;
+        dataTable["currentPlayerCnt"]= currentPlayerCnt;
         for(var i=0; i<currentPlayerCnt; ++i){
             //读取Loop头
             nMBaseMessage.startReadLoop();
@@ -1188,7 +1185,7 @@ function read82200003(nMBaseMessage){
 function read82200009(nMBaseMessage){
     var  dataTable = {};
     dataTable["messageType"] = ACK + JHID_GAME_RESULT;
-    dataTable["messageName"] = "GameResultRespBean";
+    dataTable["messageName"] = "JHID_GAME_RESULT";
 
     //解析 房间ID
     dataTable["roomID"] = nMBaseMessage.readInt();
@@ -1258,6 +1255,7 @@ function read82200009(nMBaseMessage){
     dataTable["level"] = nMBaseMessage.readInt();
     // luckyPoint	Int	幸运点
     dataTable["luckyPoint"] = nMBaseMessage.readLong();
+
     return dataTable;
 }
 
@@ -1403,11 +1401,11 @@ function read82200008(nMBaseMessage){
         var cnt = nMBaseMessage.readInt();
         for(var i=0; i< cnt; ++i){
             nMBaseMessage.startReadLoop();
-            dataTable["nextPlayer"]["raiseCoin"][i2] = {};
+            dataTable["nextPlayer"]["raiseCoin"][i] = {};
             //加注列表的加注的金额
-            dataTable["nextPlayer"]["raiseCoin"][i2].raiseValue = nMBaseMessage.readLong();
+            dataTable["nextPlayer"]["raiseCoin"][i].raiseValue = nMBaseMessage.readLong();
             //加注列表中加注金额的状态 0 此金额不可加注 1 此金额可加注
-            dataTable["nextPlayer"]["raiseCoin"][i2].raiseStatus = nMBaseMessage.readByte();
+            dataTable["nextPlayer"]["raiseCoin"][i].raiseStatus = nMBaseMessage.readByte();
         }
         //解析 0 不能操作，1 比牌 2 开牌
         dataTable["nextPlayer"].compareCard = nMBaseMessage.readInt();
