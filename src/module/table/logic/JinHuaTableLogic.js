@@ -2766,9 +2766,10 @@ var JinHuaTableLogic= {
                 this.onReady();
             }
         }
-
+        console.log(players);
         for(var key in players){
             if(key== 0) continue;
+            if(!Common.judgeValueIsEffect(players[key])) continue;
             if(players[key].player.status== STATUS_PLAYER_DISCARD){
                 JinHuaTablePlayer.updateTableAfterStandUpOther(key);
             }

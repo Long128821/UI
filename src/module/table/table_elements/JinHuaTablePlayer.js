@@ -569,7 +569,7 @@ var JinHuaTablePlayer= {
                 this.tablePlayerEntitys[CSID].removeCard();
             }
             //从牌桌上移除数据
-            //Profile_JinHuaGameData.removePlayerFromGameData();
+            Profile_JinHuaGameData.removePlayerFromGameData(this.tablePlayerEntitys[CSID].player.userId);
             this.tablePlayerEntitys[CSID]= null;
         }
         var GameData= Profile_JinHuaGameData.getGameData();
@@ -767,7 +767,7 @@ var JinHuaTablePlayer= {
         //清空发牌
         this.clearTableAfterSitAndStand();
         //自己站起后，更新当前人(如果之前可操作玩家是 自己)
-        var timerCSID = this.updateCurrentPlayerAfterStandUpMe();
+        this.updateCurrentPlayerAfterStandUpMe();
 
         JinHuaTableLogic.disableAllTableOperationButtons();
         //隐藏底部控件

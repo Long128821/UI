@@ -55,10 +55,11 @@ var Profile_JinHuaGameData= {
     },
     removePlayerFromGameData:function(userID){
         var players= this.GameData["players"];
-        console.log(players);
         for(var key in players){
             var player= players[key];
-            //if(player.userId)
+            if(player.userId== userID){
+                delete  this.GameData["players"][key];
+            }
         }
     },
     //本局我是否在打牌中
