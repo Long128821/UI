@@ -53,6 +53,14 @@ var Profile_JinHuaGameData= {
     getPlayers:function(){
         return this.GameData["players"];
     },
+    removePlayerFromGameData:function(userID){
+        var players= this.GameData["players"];
+        console.log(players);
+        for(var key in players){
+            var player= players[key];
+            //if(player.userId)
+        }
+    },
     //本局我是否在打牌中
     isMePlayingThisRound:function(){
         var players= this.GameData["players"];

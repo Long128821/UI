@@ -557,8 +557,9 @@ var JinHuaTablePlayer= {
     },
     //别人站起
     updateTableAfterStandUpOther:function(CSID){
+        var player= this.tablePlayerEntitys[CSID];
         //清除牌桌站起玩家
-        if(this.tablePlayerEntitys[CSID]){
+        if(player){
             //隐藏禁比图标
             this.tablePlayerEntitys[CSID].dismissJinBiIcon();
             //移除
@@ -567,6 +568,8 @@ var JinHuaTablePlayer= {
             if(this.tablePlayerEntitys[CSID].cardSprites[0]){
                 this.tablePlayerEntitys[CSID].removeCard();
             }
+            //从牌桌上移除数据
+            //Profile_JinHuaGameData.removePlayerFromGameData();
             this.tablePlayerEntitys[CSID]= null;
         }
         var GameData= Profile_JinHuaGameData.getGameData();
@@ -751,14 +754,16 @@ var JinHuaTablePlayer= {
                 mySelf.SSID= null;
             }else{//别人站起
                 if(standUpData.CSID!= null){
-                    //this.updateTableAfterStandUpOther(standUpData.CSID);
+                    var player= this.tablePlayerEntitys[standUpData.CSID];
+                    if(!Common.judgeValueIsEffect(player)) return;
+                    if(Common.getTableSize(player.cardSprites)> 0) return;
+                    this.updateTableAfterStandUpOther(standUpData.CSID);
                 }
             }
         }
     },
     //自己站起
     updateTableAfterStandUpMe:function(CSID){
-        console.log("自己站起");
         //清空发牌
         this.clearTableAfterSitAndStand();
         //自己站起后，更新当前人(如果之前可操作玩家是 自己)

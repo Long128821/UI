@@ -2773,8 +2773,6 @@ var JinHuaTableLogic= {
                 JinHuaTablePlayer.updateTableAfterStandUpOther(key);
             }
         }
-        //重新设置牌桌上的玩家
-        console.log(JinHuaTablePlayer.getPlayers());
     },
     //取消下局旁观
     cancelStandUpNextRound:function(){
