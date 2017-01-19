@@ -1530,6 +1530,9 @@ var JinHuaTableLogic= {
     },
     //更新比牌动画
     updateJHID_PK:function(){
+        //暂停游戏结束
+        MessageCenter.pauseMessage(JHID_GAME_RESULT);
+
         var PKData= Profile_JinHuaGameData.getPKData();
         if(PKData.result== 0){//比牌失败
             Common.showToast(PKData["message"], 1);
@@ -2770,7 +2773,6 @@ var JinHuaTableLogic= {
             sendJHID_SHOW_CARDS();
             this.showCard= false;
         }
-
         this.showPlayerPKBtns();
     },
     //显示用户比牌按钮
