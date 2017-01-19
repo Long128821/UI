@@ -434,6 +434,8 @@ var JinHuaTablePlayer= {
     sitDownOther:function(sitDownData){
         var GameData= Profile_JinHuaGameData.getGameData();
         var CSID= sitDownData.playerInfo.CSID;
+        //隐藏等待坐下图标
+        JinHuaTableLogic.hideSit(CSID);
         //他人坐下-创建实例(头像)
         //Todo:创建实例-封装为同一个函数
         this.tablePlayerEntitys[CSID] = new JinHuaTablePlayerEntity(sitDownData.playerInfo);
@@ -595,7 +597,6 @@ var JinHuaTablePlayer= {
                 this.sitDownOther(sitDownData);
             }
         }
-
     },
     //服务器返回的<下注>应答
     updateTableAfterBetCoinByServer:function(){
@@ -743,6 +744,7 @@ var JinHuaTablePlayer= {
         //修改Bug:别人站起时,玩家的看牌不显示。
         //Todo:可能存在的问题:牌局没散
         JinHuaTableCheckButton.setCheckVisible(false);
+        var player= this.tablePlayerEntitys[standUpData.CSID];
 
         if(standUpData.result == 1){//成功站起
             if(mySelf.SSID!= null&& mySelf.SSID == standUpData.SSID){//自己站起
@@ -750,11 +752,13 @@ var JinHuaTablePlayer= {
                     //更新自身的属性
                     sendDBID_USER_INFO(mySelf.userId);
                 }
-                this.updateTableAfterStandUpMe(standUpData.CSID);
                 mySelf.SSID= null;
+                player.player.status= STATUS_PLAYER_WATCH;
+                if(!Common.judgeValueIsEffect(player)) return;
+                if(Common.getTableSize(player.cardSprites)> 0) return;
+                this.updateTableAfterStandUpMe(standUpData.CSID);
             }else{//别人站起
                 if(standUpData.CSID!= null){
-                    var player= this.tablePlayerEntitys[standUpData.CSID];
                     if(!Common.judgeValueIsEffect(player)) return;
                     if(Common.getTableSize(player.cardSprites)> 0) return;
                     this.updateTableAfterStandUpOther(standUpData.CSID);
