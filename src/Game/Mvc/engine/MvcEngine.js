@@ -31,18 +31,25 @@ var MvcEngine= {
         var scene= new cc.Scene();
         cc.director.runScene(scene);
         //获取根节点，以后游戏的所有Layer都放置到该节点下
-        this.getRootNode(scene);
+        this.setRootNode(scene);
+    },
+    /**
+     * Func:设置根节点
+     * @param scene 游戏的整个场景
+     */
+    setRootNode:function(scene){
+        ////console.log("setRootNode");
+        if(!this.m_rootNode){
+            this.m_rootNode= new cc.Node();
+            scene.addChild(this.m_rootNode);
+        }
     },
     /**
      * Func:获取根节点
      * @param scene 游戏的整个场景
      */
-    getRootNode:function(scene){
-        ////console.log("getRootNode");
-        if(!this.m_rootNode){
-            this.m_rootNode= new cc.Node();
-            scene.addChild(this.m_rootNode);
-        }
+    getRootNode:function(){
+        return this.m_rootNode;
     },
     /**
      * Func:获取要删除的界面

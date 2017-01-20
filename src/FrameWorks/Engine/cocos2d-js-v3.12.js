@@ -40228,7 +40228,6 @@ cc.TableView = cc.ScrollView.extend({
         return offset;
     },
     _offsetFromIndex:function (index) {
-    //console.log("_offsetFromIndex");
         var offset = this.__offsetFromIndex(index);
         var cellSize = this._dataSource.tableCellSizeForIndex(this, index);
         if (this._vOrdering === cc.TABLEVIEW_FILL_TOPDOWN)
@@ -40236,7 +40235,6 @@ cc.TableView = cc.ScrollView.extend({
         return offset;
     },
     _updateCellPositions:function(){
-    //console.log("_updateCellPositions");
         var cellsCount = this._dataSource.numberOfCellsInTableView(this);
         var locCellsPositions = this._cellsPositions;
         if (cellsCount > 0){
@@ -40258,7 +40256,6 @@ cc.TableView = cc.ScrollView.extend({
         }
     },
     _updateContentSize:function () {
-    //console.log("_updateContentSize");
         var size = cc.size(0, 0);
         var cellsCount = this._dataSource.numberOfCellsInTableView(this);
         if(cellsCount > 0){
@@ -40283,7 +40280,6 @@ cc.TableView = cc.ScrollView.extend({
         }
     },
     _moveCellOutOfSight:function (cell) {
-    //console.log("_moveCellOutOfSight");
         if(this._tableViewDelegate && this._tableViewDelegate.tableCellWillRecycle)
             this._tableViewDelegate.tableCellWillRecycle(this, cell);
         this._cellsFreed.addObject(cell);
@@ -40527,7 +40523,6 @@ cc.TableView = cc.ScrollView.extend({
         return touchResult;
     },
     onTouchMoved: function(touch, event){
-    //console.log("触摸中");
         cc.ScrollView.prototype.onTouchMoved.call(this, touch, event);
         if (this._touchedCell && this.isTouchMoved()) {
             if(this._tableViewDelegate !== null && this._tableViewDelegate.tableCellUnhighlight)

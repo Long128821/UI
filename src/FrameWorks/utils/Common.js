@@ -166,4 +166,5 @@ var Common= {
 };
 
 //根据是否Debug模式，设置是否显示、启动showFPS、debugMode
-cc.director.setDisplayStats(Common.isDebugState());
+//cc.director.setDisplayStats(Common.isDebugState());
+cc.director.setDisplayStats(false);

@@ -1,10 +1,17 @@
 {
-    "debugMode"     : true,
-    "frameRate"     : 60,
-    "id"            : "gameCanvas",
-    "renderMode"    : 1,
-    "showFPS"       : true,
-    "jsList"        : [
+    "project_type": "javascript",
+
+    "debugMode" : 1,
+    "showFPS" : false,
+    "frameRate" : 60,
+    "noCache" : true,
+    "id" : "gameCanvas",
+    "renderMode" : 0,
+    "engineDir":"frameworks/cocos2d-html5",
+
+    "modules" : ["cocos2d"],
+
+    "jsList" : [
         "src/FrameWorks/Map.js",
         "src/Game/data/GUIConfig.js",
         "src/Game/data/GameConfig.js",
@@ -55,6 +62,7 @@
         "src/Common/ActivityLists.js",
         "src/Common/BackpackLists.js",
         "src/FrameWorks/utils/GamePub.js",
-        "src/Game/Mvc/utils/VipElementsUtils.js"
+        "src/Game/Mvc/utils/VipElementsUtils.js",
+        "src/Resources.js"
     ]
 }
