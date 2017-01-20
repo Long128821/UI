@@ -237,7 +237,7 @@ var SettingLogic= {
         this.img_music.setVisible(!GameConfig.getGameMusicOff());
         this.img_yinxiao.setVisible(!GameConfig.getGameSoundOff());
         //版本号ID
-        this.lab_text2.setText("游戏版本号:"+ Common.getVersion()+"."+Common.getChannelID()+"     ID:"+ profile_user.getSelfUserID());
+        this.lab_text2.setString("游戏版本号:"+ Common.getVersion()+"."+Common.getChannelID()+"     ID:"+ profile_user.getSelfUserID());
 
         this.Button_gaimi.setVisible(false);
     }

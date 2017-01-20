@@ -52,7 +52,7 @@ var ResetPasswordLogic= {
     setUserName:function(){
         //如果账户名不为空
         if(LoginLogic.edit_username.getString()){
-            this.txt_username.setText(LoginLogic.edit_username.getString());
+            this.txt_username.setString(LoginLogic.edit_username.getString());
         }
     },
     

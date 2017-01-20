@@ -40,7 +40,7 @@ var MvcEngine= {
     setRootNode:function(scene){
         ////console.log("setRootNode");
         if(!this.m_rootNode){
-            this.m_rootNode= new cc.Node();
+            this.m_rootNode= new cc.LayerColor(cc.color(255, 255, 255));
             scene.addChild(this.m_rootNode);
         }
     },

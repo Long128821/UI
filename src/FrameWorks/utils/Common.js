@@ -54,7 +54,6 @@ var Common= {
             url,
             function(){},
             function(err){
-                //加载成功
                 (err== null&&target._imageRenderer.setTexture(url));
             }
         );

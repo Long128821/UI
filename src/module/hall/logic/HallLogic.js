@@ -174,8 +174,7 @@ var HallLogic= {
 		this.Panel_miniChat = CocoStudio.getComponent(this.view, "Panel_miniChat");//Panel
         /*********初始操作*************/
         this.Panel_leftday.setVisible(false);
-//        this.Button_match.setVisible(false);
-//        this.Button_yaoqianshu.setVisible(false);
+        this.Button_match.setVisible(false);
         //隐藏掉《摇钱树》和《比赛场》按钮，根据后台传送的数据 判断是否显示
 
         //APP的非评审阶段
@@ -634,7 +633,7 @@ var HallLogic= {
     updateHallData:function(){
         this.initHallBaseData();
 
-        if(profile_user.getSelfPhotoUrl()!= null){
+        if(Common.judgeValueIsEffect(profile_user.getSelfPhotoUrl())){
             //加载网络头像
             //Todo:圆形头像(裁切节点)
             Common.setTextureByNet(profile_user.getSelfPhotoUrl(), this.Image_touxiang_default);
@@ -705,16 +704,16 @@ var HallLogic= {
                 self.Button_jingdian.addChild(armature);
             });
 
-        //千王场动画
-        Common.createArmature(
-            "res/Animation/Animation_Newhall_CheatKingRoom.ExportJson",//动画Json路径
-            "Animation_Newhall_CheatKingRoom",//要执行的动画名
-            function(armature){
-                armature.getAnimation().playWithIndex(0, 0.1, true);//循环播放
-                armature.setAnchorPoint(cc.p(0,0));
-                armature.setPosition(0, 10);
-                self.Button_qianwang.addChild(armature);
-            });
+//        //千王场动画
+//        Common.createArmature(
+//            "res/Animation/Animation_Newhall_CheatKingRoom.ExportJson",//动画Json路径
+//            "Animation_Newhall_CheatKingRoom",//要执行的动画名
+//            function(armature){
+//                armature.getAnimation().playWithIndex(0, 0.1, true);//循环播放
+//                armature.setAnchorPoint(cc.p(0,0));
+//                armature.setPosition(0, 10);
+//                self.Button_qianwang.addChild(armature);
+//            });
 
         //比赛场动画
         Common.createArmature(
@@ -754,7 +753,7 @@ var HallLogic= {
     //设置当前在线人数
     setOnlinePlayerNumber:function(){
         this.Label_online.setColor(cc.color(255,0,0));
-        this.Label_online.setText("当前在线:"+Profile_JinHuaSetting.getOnlinePlayerNumber()+"人");
+        this.Label_online.setString("当前在线:"+Profile_JinHuaSetting.getOnlinePlayerNumber()+"人");
     },
     //更新Vip等级
     setUserTitle:function(){
@@ -779,14 +778,14 @@ var HallLogic= {
                 this.Image_vip_highsign.setVisible(false);
                 this.Image_vip_lowsignbg.setVisible(true);
                 this.AtlasLabel_lowsign.setVisible(true);
-                this.AtlasLabel_vip_level.setStringValue(":"+userVipLevel);
-                this.AtlasLabel_lowsign.setStringValue(userVipLevel);
+                this.AtlasLabel_vip_level.setString(":"+userVipLevel);
+                this.AtlasLabel_lowsign.setString(userVipLevel);
             }else if(userVipLevel >= 10){
                 this.AtlasLabel_vip_level.setVisible(true);
                 this.Image_vip_highsign.setVisible(true);
                 this.Image_vip_lowsignbg.setVisible(false);
                 this.AtlasLabel_lowsign.setVisible(false);
-                this.AtlasLabel_vip_level.setStringValue(":"+userVipLevel);
+                this.AtlasLabel_vip_level.setString(":"+userVipLevel);
                 var signTexture = VipElementsUtils.getVipHighSignFromVipLevel(userVipLevel);
                 if(signTexture == null){
                     this.Image_vip_highsign.setVisible(false);

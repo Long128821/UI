@@ -467,9 +467,9 @@ var OtherUserInfoLogic= {
         this.Image_toux.setScale(1.2);
 
         //金币数
-        this.AtlasLabel_jinbi.setStringValue(profile_user.getSelfCoin());
+        this.AtlasLabel_jinbi.setString(profile_user.getSelfCoin());
         //等级
-        this.AtlasLabel_level.setStringValue(":"+ userInfoTable["Level"]);
+        this.AtlasLabel_level.setString(":"+ userInfoTable["Level"]);
         //魅力值
         this.AtlasLabel_meilizhi.setString(profile_user.getSelfCharm());
 
@@ -498,9 +498,9 @@ var OtherUserInfoLogic= {
             image.setVisible(true);
         }
         //局数
-        this.AtlasLabel_jushu.setStringValue(userInfoTable["Innings"]);
+        this.AtlasLabel_jushu.setString(userInfoTable["Innings"]);
         //胜率
-        this.AtlasLabel_shenglvshu.setStringValue(userInfoTable["winPer"]);
+        this.AtlasLabel_shenglvshu.setString(userInfoTable["winPer"]);
         //当前经验
         this.Label_exp.setString(userInfoTable["LevelExp"] + "/" + userInfoTable["LevelExpMax"]);
         //当前进度
@@ -558,14 +558,14 @@ var OtherUserInfoLogic= {
                 this.Image_vip_highsign.setVisible(false);
                 this.Image_vip_lowsignbg.setVisible(true);
                 this.AtlasLabel_lowsign.setVisible(true);
-                this.AtlasLabel_vip_level.setStringValue(":"+userVipLevel);
-                this.AtlasLabel_lowsign.setStringValue(userVipLevel);
+                this.AtlasLabel_vip_level.setString(":"+userVipLevel);
+                this.AtlasLabel_lowsign.setString(userVipLevel);
             }else if(userVipLevel >= 10){
                 this.AtlasLabel_vip_level.setVisible(true);
                 this.Image_vip_highsign.setVisible(true);
                 this.Image_vip_lowsignbg.setVisible(false);
                 this.AtlasLabel_lowsign.setVisible(false);
-                this.AtlasLabel_vip_level.setStringValue(":"+userVipLevel);
+                this.AtlasLabel_vip_level.setString(":"+userVipLevel);
                 var signTexture = VipElementsUtils.getVipHighSignFromVipLevel(userVipLevel);
                 if(signTexture == null){
                     this.Image_vip_highsign.setVisible(false);

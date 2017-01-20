@@ -62,7 +62,6 @@
         "src/Common/ActivityLists.js",
         "src/Common/BackpackLists.js",
         "src/FrameWorks/utils/GamePub.js",
-        "src/Game/Mvc/utils/VipElementsUtils.js",
-        "src/Resources.js"
+        "src/Game/Mvc/utils/VipElementsUtils.js"
     ]
 }

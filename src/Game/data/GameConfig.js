@@ -64,15 +64,19 @@ var GameConfig= {
         //如果是一级界面,设置游戏分辨率
         this.ScreenWidth = UIDesignWidth;
         this.ScreenHeight = UIDesignHeight;
-        //安卓手机高清显示
-        cc.view.enableRetina(true);
-        var width = document.documentElement.clientWidth;
-        var height = document.documentElement.clientHeight;
-        cc.view.setDesignResolutionSize(width,height,kResolution);
-        UIView.setScale(height/this.ScreenWidth,width/this.ScreenHeight);
-        UIView.setRotation(90);
-        UIView.setAnchorPoint(0,0);
-        UIView.setPosition(0, cc.winSize.height);
+        if(cc.sys.isMobile){
+            //安卓手机高清显示
+            cc.view.enableRetina(true);
+            var width = document.documentElement.clientWidth;
+            var height = document.documentElement.clientHeight;
+            cc.view.setDesignResolutionSize(width,height,kResolution);
+            UIView.setScale(height/this.ScreenWidth,width/this.ScreenHeight);
+            UIView.setRotation(90);
+            UIView.setAnchorPoint(0,0);
+            UIView.setPosition(0, cc.winSize.height);
+        }else{
+            cc.view.setDesignResolutionSize(this.ScreenWidth, this.ScreenHeight, kResolution);
+        }
     },
     //获取当前底层界面
     getCurBaseLayer:function(){

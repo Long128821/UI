@@ -193,25 +193,25 @@ var DailySalaryLogic= {
         //称谓
         Profile_JinHuaSetting.setUserTitleOnImageView(dailySalaryInfoTable["Coin"], this.Image_chengwei);
         //最大天数
-        this.AtlasLabel_maxDay.setStringValue(dailySalaryInfoTable["MaxDay"]);
+        this.AtlasLabel_maxDay.setString(dailySalaryInfoTable["MaxDay"]);
         //当前连续天数
-        this.AtlasLabel_countDay.setStringValue(dailySalaryInfoTable["CountDay"]);
+        this.AtlasLabel_countDay.setString(dailySalaryInfoTable["CountDay"]);
         //明天登录可领工资
-        this.AtlasLabel_tomorrowReward.setStringValue(dailySalaryInfoTable["TomorrowReward"]);
+        this.AtlasLabel_tomorrowReward.setString(dailySalaryInfoTable["TomorrowReward"]);
         //最大天数连续登录可领工资
-        this.AtlasLabel_maxReward.setStringValue(dailySalaryInfoTable["MaxReward"]);
+        this.AtlasLabel_maxReward.setString(dailySalaryInfoTable["MaxReward"]);
         //基础奖励
-        this.Label_baseReward.setText(dailySalaryInfoTable["BaseReward"]);
+        this.Label_baseReward.setString(dailySalaryInfoTable["BaseReward"]);
         //等级奖励
-        this.Label_levelReward.setText(dailySalaryInfoTable["LevelReward"]);
+        this.Label_levelReward.setString(dailySalaryInfoTable["LevelReward"]);
         //VIP等级奖励
-        this.Label_vipReward.setText(dailySalaryInfoTable["VipReward"]);
+        this.Label_vipReward.setString(dailySalaryInfoTable["VipReward"]);
         //设置等级
-        this.AtlasLabel_level.setStringValue(dailySalaryInfoTable["Level"]);
+        this.AtlasLabel_level.setString(dailySalaryInfoTable["Level"]);
         //设置今日奖励总数
-        this.AtlasLabel_totalReward.setStringValue(dailySalaryInfoTable["BaseReward"] + dailySalaryInfoTable["LevelReward"] + dailySalaryInfoTable["VipReward"]);
+        this.AtlasLabel_totalReward.setString(dailySalaryInfoTable["BaseReward"] + dailySalaryInfoTable["LevelReward"] + dailySalaryInfoTable["VipReward"]);
         //加载网络头像
-        Common.setTextureByNet(dailySalaryInfoTable["PhotoUrl"], this.Image_head);
+        //Common.setTextureByNet(dailySalaryInfoTable["PhotoUrl"], this.Image_head);
         this.Image_head.setScale(1.1);
 
         //Vip等级
@@ -234,14 +234,14 @@ var DailySalaryLogic= {
                 this.Image_vip_highsign.setVisible(false);
                 this.Image_vip_lowsignbg.setVisible(true);
                 this.AtlasLabel_lowsign.setVisible(true);
-                this.AtlasLabel_vip_level.setStringValue(userVipLevel);
-                this.AtlasLabel_lowsign.setStringValue(userVipLevel);
+                this.AtlasLabel_vip_level.setString(userVipLevel);
+                this.AtlasLabel_lowsign.setString(userVipLevel);
             }else if(userVipLevel >= 10){
                 this.AtlasLabel_vip_level.setVisible(true);
                 this.Image_vip_highsign.setVisible(true);
                 this.Image_vip_lowsignbg.setVisible(false);
                 this.AtlasLabel_lowsign.setVisible(false);
-                this.AtlasLabel_vip_level.setStringValue(userVipLevel);
+                this.AtlasLabel_vip_level.setString(userVipLevel);
                 var signTexture = VipElementsUtils.getVipHighSignFromVipLevel(userVipLevel);
                 if(signTexture == null){
                     this.Image_vip_highsign.setVisible(false);

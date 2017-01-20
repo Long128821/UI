@@ -1420,7 +1420,7 @@ var JinHuaTableLogic= {
         }
         this.btn_onlinebonus.setVisible(true);
         this.btn_onlinebonus.setTouchEnabled(true);
-        this.Label_onlinebonus_daojishi.setText(BaoheStepInfoTable["nowNumber"]+ "/" +BaoheStepInfoTable["nowNumberMax"]);
+        this.Label_onlinebonus_daojishi.setString(BaoheStepInfoTable["nowNumber"]+ "/" +BaoheStepInfoTable["nowNumberMax"]);
         if(BaoheStepInfoTable["nowNumber"] >= BaoheStepInfoTable["nowNumberMax"]){
             this.canGetOnlinebonus = 0;
             this.Label_onlinebonus_daojishi.setVisible(false);
@@ -1454,7 +1454,7 @@ var JinHuaTableLogic= {
                 this.canGetOnlinebonus = JinGetOnlineRewardTable["nowNumberMax"] - JinGetOnlineRewardTable["nowNumber"]
                 this.btn_onlinebonus.setVisible(true);
                 this.btn_onlinebonus.setTouchEnabled(true);
-                this.Label_onlinebonus_daojishi.setText(JinGetOnlineRewardTable["nowNumber"] + "/" +JinGetOnlineRewardTable["nowNumberMax"]);
+                this.Label_onlinebonus_daojishi.setString(JinGetOnlineRewardTable["nowNumber"] + "/" +JinGetOnlineRewardTable["nowNumberMax"]);
             }else{
                 this.btn_onlinebonus.setVisible(false);
                 this.btn_onlinebonus.setTouchEnabled(false);
@@ -2571,7 +2571,7 @@ var JinHuaTableLogic= {
                 }else{
                     coinNumber = raiseCoin.raiseValue;
                 }
-                this.AtlasLabel_jiner1.setStringValue(coinNumber);
+                this.AtlasLabel_jiner1.setString(coinNumber);
                 if(raiseCoin.raiseStatus== 1){
                     canRaise = true;
                     this.Button_raise_one.setOpacity(ALPHA_CAN_TOUCH);
@@ -2617,7 +2617,7 @@ var JinHuaTableLogic= {
                 }else{
                     coinNumber = raiseCoin.raiseValue;
                 }
-                this.AtlasLabel_jiner2.setStringValue(coinNumber);
+                this.AtlasLabel_jiner2.setString(coinNumber);
                 if(raiseCoin.raiseStatus== 1){
                     canRaise = true;
                     this.Button_raise_two.setOpacity(ALPHA_CAN_TOUCH);
@@ -2663,7 +2663,7 @@ var JinHuaTableLogic= {
                 }else{
                     coinNumber = raiseCoin.raiseValue;
                 }
-                this.AtlasLabel_jiner3.setStringValue(coinNumber);
+                this.AtlasLabel_jiner3.setString(coinNumber);
                 if(raiseCoin.raiseStatus== 1){
                     canRaise = true;
                     this.Button_raise_three.setOpacity(ALPHA_CAN_TOUCH);
@@ -2832,8 +2832,8 @@ var JinHuaTableLogic= {
             &&Common.judgeValueIsEffect(GameData["level"])){
             //初始化锁定牌桌按钮
             this.Panel_EXP.setVisible(true);
-            this.Label_level.setText("Lv." + GameData["level"]);
-            this.Label_exp.setText("经验:" + GameData["Exp"] + "/" + GameData["levelUpExp"]);
+            this.Label_level.setString("Lv." + GameData["level"]);
+            this.Label_exp.setString("经验:" + GameData["Exp"] + "/" + GameData["levelUpExp"]);
             this.ProgressBar_exp.setPercent(GameData["Exp"]/GameData["levelUpExp"]* 100);
         }
     }

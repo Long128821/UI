@@ -3,7 +3,6 @@ cc.game.onStart = function(){
         document.body.removeChild(document.getElementById("cocosLoading"));
 
     cc.view.enableRetina(cc.sys.os === cc.sys.OS_IOS ? true : false);
-    cc.view.enableRetina(true);
     cc.view.adjustViewPort(true);
     cc.view.setDesignResolutionSize(568, 320, cc.ResolutionPolicy.SHOW_ALL);
     cc.view.resizeWithBrowserSize(true);

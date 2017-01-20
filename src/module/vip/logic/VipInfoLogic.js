@@ -176,7 +176,7 @@ var VipInfoLogic= {
         }
         var VipLevel= VipsDataTable["VipLevel"];
         //设置当前Vip等级
-        this.AtlasLabel_now_vip_level.setStringValue(VipLevel);
+        this.AtlasLabel_now_vip_level.setString(VipLevel);
         if(VipLevel>= 0){
             var picPath= VipElementsUtils.getVipBgFromVipLevel(VipLevel);
             //当前等级VIP显示
@@ -194,7 +194,7 @@ var VipInfoLogic= {
                 this.AtlasLabel_now_vip_level.setVisible(true);
                 this.Image_now_vip_highsign.setVisible(true);
                 this.Image_now_vip_lowsign.setVisible(true);
-                this.AtlasLabel_now_lowsign.setStringValue(VipLevel);
+                this.AtlasLabel_now_lowsign.setString(VipLevel);
             }else if(VipLevel>= 10){
                 this.AtlasLabel_now_vip_level.setVisible(true);
                 var signPicPath= VipElementsUtils.getVipHighSignFromVipLevel(VipLevel);
@@ -209,7 +209,7 @@ var VipInfoLogic= {
 
         var nextVipLevel= VipsDataTable["nextVipLevel"];
         //设置当前Vip等级
-        this.AtlasLabel_next_vip_level.setStringValue(nextVipLevel);
+        this.AtlasLabel_next_vip_level.setString(nextVipLevel);
         if(nextVipLevel>= 0){
             var picPath= VipElementsUtils.getVipBgFromVipLevel(nextVipLevel);
             //当前等级VIP显示
@@ -227,7 +227,7 @@ var VipInfoLogic= {
                 this.AtlasLabel_next_vip_level.setVisible(true);
                 this.Image_next_vip_highsign.setVisible(true);
                 this.Image_next_vip_lowsign.setVisible(true);
-                this.AtlasLabel_next_lowsign.setStringValue(nextVipLevel);
+                this.AtlasLabel_next_lowsign.setString(nextVipLevel);
             }else if(nextVipLevel>= 10){
                 this.AtlasLabel_next_vip_level.setVisible(true);
                 var signPicPath= VipElementsUtils.getVipHighSignFromVipLevel(nextVipLevel);
@@ -244,8 +244,8 @@ var VipInfoLogic= {
         var VipNeedCoin = VipsDataTable["BuyCoin"];
         var NeedRecharge = VipsDataTable["nextRecharge"];
         this.ProgressBar_vip.setPercent(RechargeAmount/NeedRecharge* 100);
-        this.Label_needRecharge.setText((NeedRecharge- RechargeAmount)+"元】");
-        this.Label_prograss.setText(RechargeAmount+"/"+NeedRecharge);
+        this.Label_needRecharge.setString((NeedRecharge- RechargeAmount)+"元】");
+        this.Label_prograss.setString(RechargeAmount+"/"+NeedRecharge);
 
         ProfileVipInfo.curPageID= VipsDataTable["vipInfoIndex"]- 1;//当前等级(Lua的下标从1开始，JS从0开始)
         ProfileVipInfo.maxPage= VipsDataTable["vipInfoCnt"]- 1;//当前等级等级
