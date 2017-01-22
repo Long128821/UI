@@ -234,12 +234,6 @@ var JinHuaTablePlayer= {
         this.myTimerBg.setScale(0.9);
         this.myTimerBg.setLocalZOrder(12);
         this.JinHuaTablePlayerLayer.addChild(this.myTimerBg);
-        //圆形遮蔽层
-        var otherSpriteTimer = cc.Sprite.create("#desk_player_cover.png");
-        this.otherTimerBg = cc.ProgressTimer.create(otherSpriteTimer);
-        this.otherTimerBg.setType(cc.ProgressTimer.TYPE_RADIAL);
-        this.otherTimerBg.setLocalZOrder(12);
-        this.JinHuaTablePlayerLayer.addChild(this.otherTimerBg);
         /**
          * 修改Bug:倒计时不显示出来(使用cc.LabelAtlas时,宽度可以或多或少，但是高度，一定不能超过，否则显示不出来。但是可以小于，仅仅是显示不完整而已);
          */
@@ -264,6 +258,22 @@ var JinHuaTablePlayer= {
         this.otherTimer2.setLocalZOrder(2);
         this.otherTimer2.setVisible(false);
         this.JinHuaTablePlayerLayer.addChild(this.otherTimer2);
+    },
+    /**
+     * Func:创建其他玩家的倒计时
+     * 没有在初始化时创建倒计时的原因是:没有设置位置时，第一次倒计时，会出现很怪的现象(percentage从canvas左下角开始)
+     * @param pos 倒计时的位置
+     */
+    createOtherTimerBg:function(pos){
+        //圆形遮蔽层
+        if(this.otherTimerBg== null){
+            var otherSpriteTimer = cc.Sprite.create("#desk_player_cover_mine.png");
+            this.otherTimerBg = cc.ProgressTimer.create(otherSpriteTimer);
+            this.otherTimerBg.setType(cc.ProgressTimer.TYPE_RADIAL);
+            this.otherTimerBg.setLocalZOrder(12);
+            this.JinHuaTablePlayerLayer.addChild(this.otherTimerBg);
+        }
+        this.otherTimerBg.setPosition(pos);
     },
     initDealer:function(){
         this.dealer= cc.Sprite.create("#desk_icon_dealer.png");
@@ -393,6 +403,7 @@ var JinHuaTablePlayer= {
     },
     //重新加入层中，以便于能显示在上面
     reAddToLayer:function(node){
+        if(!Common.judgeValueIsEffect(node)) return;
         node.retain();
         this.getJinHuaTablePlayerLayer().removeChild(node, false);
         this.getJinHuaTablePlayerLayer().addChild(node);
@@ -628,9 +639,13 @@ var JinHuaTablePlayer= {
         this.clearAllTimer();
 
         if(this.tablePlayerEntitys[currentPlayer.CSID]== null) return;
+        var self= this;
+
         if(this.tablePlayerEntitys[currentPlayer.CSID].isMe()){
-            var self= this;
-            function timeStep(){
+            time= Profile_JinHuaTableConfig.ROUND_TIME;
+            this.myTimer.stopAllActions();
+            this.myTimer2.stopAllActions();
+            function timeStep1(){
                 if(time<= 3){
                     self.myTimer.setVisible(false);
                     self.myTimer2.setVisible(true);
@@ -643,15 +658,13 @@ var JinHuaTablePlayer= {
             var arr= [];
 
             for(var i=0; i< Profile_JinHuaTableConfig.ROUND_TIME; ++i){
-                arr.push(cc.callFunc(timeStep));
+                arr.push(cc.callFunc(timeStep1));
                 arr.push(cc.delayTime(1.0));
             }
             //更新我的可操作按钮
             JinHuaTableLogic.updateMyOperationBtns(currentPlayer);
             //是否需要启动我的计时器(超时放弃)
-            var bNeedStartTimer= JinHuaTableLogic.setMyTurnToOperate_ReturnIfNeedMyTimer(this.tablePlayerEntitys[currentPlayer.CSID]);
-            this.myTimer.stopAllActions();
-            this.myTimer2.stopAllActions();
+            JinHuaTableLogic.setMyTurnToOperate_ReturnIfNeedMyTimer(this.tablePlayerEntitys[currentPlayer.CSID]);
 
             var seq= cc.sequence(arr, cc.callFunc(function(pSender){
                 console.log("超时弃牌");
@@ -660,11 +673,10 @@ var JinHuaTablePlayer= {
             this.myTimer.setVisible(true);
             this.myTimer.runAction(seq);
         }else{
+            time= Profile_JinHuaTableConfig.ROUND_TIME;
             this.otherTimer.stopAllActions();
             this.otherTimer2.stopAllActions();
-            var self= this;
-
-            function timeStep(){
+            function timeStep2(){
                 if(time<= 3){
                     self.otherTimer.setVisible(false);
                     self.otherTimer2.setVisible(true);
@@ -674,23 +686,25 @@ var JinHuaTablePlayer= {
                 }
                 time--;
             }
-            var arr= [];
+            var arr2= [];
 
-            for(var i=0; i< Profile_JinHuaTableConfig.ROUND_TIME; ++i){
-                arr.push(cc.callFunc(timeStep));
-                arr.push(cc.delayTime(1.0));
+            for(var j=0; j< Profile_JinHuaTableConfig.ROUND_TIME; ++j){
+                arr2.push(cc.callFunc(timeStep2));
+                arr2.push(cc.delayTime(1.0));
             }
             var player= Profile_JinHuaTableConfig.getSpritePlayers()[currentPlayer.CSID];
             //更新玩家本身的可操作按钮
             JinHuaTableLogic.updateMyBetBtnsOnOthersTurn();
 
-            this.otherTimerBg.setPosition(cc.pAdd(cc.p(player.locX,player.locY),cc.p(173* 0.5,172* 0.5)));
+            //没有在初始化时创建倒计时的原因是:没有设置位置时，第一次倒计时，会出现很怪的现象(percentage从canvas左下角开始)
+            this.createOtherTimerBg(cc.pAdd(cc.p(player.locX,player.locY),cc.p(173* 0.5,172* 0.5)));
+
             this.otherTimer.setPosition(player.timerX,player.timerY);
             this.otherTimer2.setPosition(player.timerX,player.timerY);
 
             this.otherTimerBg.runAction(progressBar);
             this.otherTimer.setVisible(true);
-            this.otherTimer.runAction(cc.sequence(arr));
+            this.otherTimer.runAction(cc.sequence(arr2));
         }
     },
     //用户<弃牌>后收到服务器返回更新界面
