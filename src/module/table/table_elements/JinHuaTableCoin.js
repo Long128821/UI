@@ -9,11 +9,11 @@ var JinHuaTableCoin= {
     getJinHuaTableCoinLayer:function(){
         if(this.JinHuaTableCoinLayer== null||this.JinHuaTableCoinLayer== undefined){
             this.JinHuaTableCoinLayer= cc.Layer.create();
-            this.JinHuaTableCoinLayer.setZOrder(2);
+            this.JinHuaTableCoinLayer.setLocalZOrder(2);
         }
         if(this.CoinBatchNode== null|| this.JinHuaTableCoinLayer== undefined){
             this.CoinBatchNode= cc.SpriteBatchNode.create(Common.getJinHuaResourcePath("table_chips.png"));
-            this.CoinBatchNode.setZOrder(1);
+            this.CoinBatchNode.setLocalZOrder(1);
             this.JinHuaTableCoinLayer.addChild(this.CoinBatchNode);
         }
         return this.JinHuaTableCoinLayer;

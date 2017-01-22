@@ -35,7 +35,7 @@ var JinHuaTableBubble= {
 
         //获取玩家头像的中心点
         bubbleSprite.setPosition(players[CSID].getCenterPos());
-        bubbleSprite.setZOrder(31);
+        bubbleSprite.setLocalZOrder(31);
         //移动气泡,暂停2s后,移除
         var seq= cc.sequence(
             cc.moveBy(0.5, cc.p(0, Profile_JinHuaTableConfig.bubbleSpriteMoveDistance)),

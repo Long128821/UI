@@ -46,7 +46,7 @@ CardSprite.prototype.clear= function(){
 CardSprite.prototype.init= function(){
     //创建纸牌反面背景精灵
     this.cardSprite= cc.Sprite.create("#desk_cardbg.png");
-    this.cardSprite.setZOrder(2);
+    this.cardSprite.setLocalZOrder(2);
     //设置纸牌的高度和宽度尺寸
     this.cardSprite.setContentSize(cc.size(Profile_JinHuaTableConfig.cardWidth, Profile_JinHuaTableConfig.cardHeight));
 

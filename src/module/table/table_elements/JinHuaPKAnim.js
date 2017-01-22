@@ -38,7 +38,7 @@ var JinHuaPKAnim= {
     create:function(){
         if(!Common.judgeValueIsEffect(this.PKLayer)){
             this.PKLayer= cc.Layer.create();
-            this.PKLayer.setZOrder(6);
+            this.PKLayer.setLocalZOrder(6);
         }
         this.init();
         return this.PKLayer;

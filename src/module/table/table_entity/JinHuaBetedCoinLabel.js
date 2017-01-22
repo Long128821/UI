@@ -51,7 +51,7 @@ JinHuaBetedCoinLabel.prototype.init= function(pos){
     this.coinLabel.setPosition(bgSize.width * 6 / 10,bgSize.height / 2);
     this.coinBg.addChild(this.coinLabel);
 
-    this.coinBg.setZOrder(30);
+    this.coinBg.setLocalZOrder(30);
 };
 
 /**

@@ -73,7 +73,7 @@ var JinHuaTablePlayer= {
             iconSprite.setVisible(false);
         }
 
-        iconSprite.setZOrder(10);
+        iconSprite.setLocalZOrder(10);
         this.JinHuaTablePlayerLayer.addChild(this.iconTable[pos]);
         this.iconArray[Common.getTableSize(iconSprite)]= iconSprite;
     },
@@ -83,7 +83,7 @@ var JinHuaTablePlayer= {
         //纸牌BatchNode
         if(this.CardBatchNode== null){
             this.CardBatchNode= cc.SpriteBatchNode.create(Common.getJinHuaResourcePath("poker_cards.png"));
-            this.CardBatchNode.setZOrder(1);
+            this.CardBatchNode.setLocalZOrder(1);
             this.CardBatchNode.setVisible(false);
             this.JinHuaTablePlayerLayer.addChild(this.CardBatchNode);
         }
@@ -183,7 +183,7 @@ var JinHuaTablePlayer= {
     getJinHuaTablePlayerLayer:function(){
         if(this.JinHuaTablePlayerLayer== null){
             this.JinHuaTablePlayerLayer= cc.Layer.create();
-            this.JinHuaTablePlayerLayer.setZOrder(3);
+            this.JinHuaTablePlayerLayer.setLocalZOrder(3);
         }
         return this.JinHuaTablePlayerLayer;
     },
@@ -232,36 +232,36 @@ var JinHuaTablePlayer= {
         //遮蔽层尺寸(173* 172),玩家自己的头像框缩小0.9
         this.myTimerBg.setPosition(cc.pAdd(Profile_JinHuaTableConfig.getMySelfLocPos(), cc.p(173* 0.5* 0.9, 172* 0.5*  0.9)));
         this.myTimerBg.setScale(0.9);
-        this.myTimerBg.setZOrder(12);
+        this.myTimerBg.setLocalZOrder(12);
         this.JinHuaTablePlayerLayer.addChild(this.myTimerBg);
         //圆形遮蔽层
         var otherSpriteTimer = cc.Sprite.create("#desk_player_cover.png");
         this.otherTimerBg = cc.ProgressTimer.create(otherSpriteTimer);
         this.otherTimerBg.setType(cc.ProgressTimer.TYPE_RADIAL);
-        this.otherTimerBg.setZOrder(12);
+        this.otherTimerBg.setLocalZOrder(12);
         this.JinHuaTablePlayerLayer.addChild(this.otherTimerBg);
         /**
          * 修改Bug:倒计时不显示出来(使用cc.LabelAtlas时,宽度可以或多或少，但是高度，一定不能超过，否则显示不出来。但是可以小于，仅仅是显示不完整而已);
          */
         this.myTimer = cc.LabelAtlas.create("12", Common.getJinHuaResourcePath("ui_daojishi0-9.png"), 20, 26, "0");
         this.myTimer.setPosition(403, 150);
-        this.myTimer.setZOrder(2);
+        this.myTimer.setLocalZOrder(2);
         this.myTimer.setVisible(false);
         this.JinHuaTablePlayerLayer.addChild(this.myTimer);
 
         this.myTimer2 = cc.LabelAtlas.create("0", Common.getJinHuaResourcePath("ui_daojishi0-3.png"), 25, 40, "0");
         this.myTimer2.setPosition(403, 150);
-        this.myTimer2.setZOrder(2);
+        this.myTimer2.setLocalZOrder(2);
         this.myTimer2.setVisible(false);
         this.JinHuaTablePlayerLayer.addChild(this.myTimer2);
 
         this.otherTimer = cc.LabelAtlas.create("0", Common.getJinHuaResourcePath("ui_daojishi0-9.png"), 20, 26, "0");
-        this.otherTimer.setZOrder(2);
+        this.otherTimer.setLocalZOrder(2);
         this.otherTimer.setVisible(false);
         this.JinHuaTablePlayerLayer.addChild(this.otherTimer);
 
         this.otherTimer2 = cc.LabelAtlas.create("0", Common.getJinHuaResourcePath("ui_daojishi0-3.png"), 25, 40, "0");
-        this.otherTimer2.setZOrder(2);
+        this.otherTimer2.setLocalZOrder(2);
         this.otherTimer2.setVisible(false);
         this.JinHuaTablePlayerLayer.addChild(this.otherTimer2);
     },
@@ -269,7 +269,7 @@ var JinHuaTablePlayer= {
         this.dealer= cc.Sprite.create("#desk_icon_dealer.png");
         this.JinHuaTablePlayerLayer.addChild(this.dealer);
         this.dealer.setVisible(false);
-        this.dealer.setZOrder(30);
+        this.dealer.setLocalZOrder(30);
     },
     //设置庄家图标
     showDealerIcon:function(){

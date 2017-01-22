@@ -22,7 +22,7 @@ var JinHuaTableTips= {
     getTableTipsLayer:function(){
         if(!Common.judgeValueIsEffect(this.JinHuaTableTipsLayer)){
             this.JinHuaTableTipsLayer= cc.Layer.create();
-            this.JinHuaTableTipsLayer.setZOrder(4);
+            this.JinHuaTableTipsLayer.setLocalZOrder(4);
         }
         return this.JinHuaTableTipsLayer;
     },
@@ -61,7 +61,7 @@ var JinHuaTableTips= {
                 sitTipSprite.runAction(seq.repeatForever());
                 //添加到Table中去,便于统一管理(显示、隐藏、释放)
                 this.sitTipSprites[CSID]= sitTipSprite;
-                sitTipSprite.setZOrder(4);
+                sitTipSprite.setLocalZOrder(4);
                 //添加到view中,显示
                 //使用getTableTipsLayer(),而不使用this.JinHuaTableTipsLayer的原因是:
                 //this.JinHuaTableTipsLayer没有初始化,不是cc.Layer类型。
@@ -84,7 +84,7 @@ var JinHuaTableTips= {
         var enterTablePrompt = cc.Sprite.create("#ui_desk_qipao.png");
         enterTablePrompt.setAnchorPoint(cc.p(0, 0.5));
         enterTablePrompt.setPosition(Profile_JinHuaTableConfig.enterTablePromptX, Profile_JinHuaTableConfig.enterTablePromptY);
-        enterTablePrompt.setZOrder(4);
+        enterTablePrompt.setLocalZOrder(4);
         this.getTableTipsLayer().addChild(enterTablePrompt);
 
         //延时取消
@@ -105,7 +105,7 @@ var JinHuaTableTips= {
         var openCardTip = cc.Sprite.create("#desk_tip_opencard.png");
         var pos= this.getPKTipLoc();//获取比牌按钮的位置
         openCardTip.setPosition(cc.pAdd(pos,cc.p(0, openCardTip.getContentSize().height/2)));
-        openCardTip.setZOrder(4);
+        openCardTip.setLocalZOrder(4);
 
         this.JinHuaTableTipsLayer.addChild(openCardTip);
 

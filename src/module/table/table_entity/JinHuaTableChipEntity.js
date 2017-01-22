@@ -41,7 +41,7 @@ var JinHuaTableChipEntity= {
 
             spriteChip.setScale(0.75);
             spriteChip.setPosition(x,y);
-            spriteChip.setZOrder(1);
+            spriteChip.setLocalZOrder(1);
             this.spriteChips[i]= spriteChip;
         }
         return this.spriteChips;

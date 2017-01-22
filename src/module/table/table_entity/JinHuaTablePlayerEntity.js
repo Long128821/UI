@@ -219,7 +219,7 @@ JinHuaTablePlayerEntity.prototype.createPhotoFrame= function(){
         this.mPlayerSprite.setPosition(player.locX, player.locY);
     }
     this.mPlayerSprite.setAnchorPoint(cc.p(0, 0));//左下角
-    this.mPlayerSprite.setZOrder(11);
+    this.mPlayerSprite.setLocalZOrder(11);
 };
 
 /**
@@ -406,7 +406,7 @@ JinHuaTablePlayerEntity.prototype.createJinBiIcon= function(){
         this.jinbiSprite.setPosition(558 + 26 * 2, 130 + jinbiSize.height / 2);
     }
 
-    this.jinbiSprite.setZOrder(12);
+    this.jinbiSprite.setLocalZOrder(12);
     this.jinbiSprite.setScale(0.5);
     JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(this.jinbiSprite);
 
@@ -453,7 +453,7 @@ JinHuaTablePlayerEntity.prototype.createBetedCoinLabel= function(){
 //创建<准备>图标(默认隐藏,准备之后,显示)
 JinHuaTablePlayerEntity.prototype.createReadyIcon= function(){
     this.readyIcon = cc.Sprite.create("#desk_icon_ready.png");
-    this.readyIcon.setZOrder(12);
+    this.readyIcon.setLocalZOrder(12);
     var players= Profile_JinHuaTableConfig.getSpritePlayers();
     var player= players[this.player.CSID];
     this.readyIcon.setPosition(player.pkX, player.pkY);
@@ -576,7 +576,7 @@ JinHuaTablePlayerEntity.prototype.createNotBeLookedCard= function(){
     this.cardTypeLabel.setPosition(this.cardTypeSprite.getContentSize().width/2, this.cardTypeSprite.getContentSize().height/2);
     this.cardTypeSprite.addChild(this.cardTypeLabel);
     //将牌型，添加到JinHuaTablePlayerLayer，但是先不显示
-    this.cardTypeSprite.setZOrder(9);
+    this.cardTypeSprite.setLocalZOrder(9);
     JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(this.cardTypeSprite);
 };
 

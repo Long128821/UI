@@ -1661,7 +1661,7 @@ var JinHuaTableLogic= {
             menu.setPosition(Profile_JinHuaTableConfig.spritePlayers[i].locX,Profile_JinHuaTableConfig.spritePlayers[i].locY);
             JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(menu);
             this.sitButtonGroup[i].setVisible(false);
-            this.sitButtonGroup[i].setZOrder(3);
+            this.sitButtonGroup[i].setLocalZOrder(3);
             this.sitButtonGroup[i].setTag(i);
         }
     },
@@ -1676,7 +1676,7 @@ var JinHuaTableLogic= {
             this.pkButtonGroup[i] = cc.MenuItemImage.create(Common.getJinHuaResourcePath("table_pk_collimation.png"),Common.getJinHuaResourcePath("table_pk_collimation.png"),this.onClick_btnPK, this);
             var menu1 = cc.Menu.create(this.pkButtonGroup[i]);
             menu1.setPosition(Profile_JinHuaTableConfig.spritePlayers[i].pkX,Profile_JinHuaTableConfig.spritePlayers[i].pkY);
-            menu1.setZOrder(12);
+            menu1.setLocalZOrder(12);
             JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(menu1);
 
             this.pkButtonGroup[i].setVisible(false);
@@ -2818,7 +2818,7 @@ var JinHuaTableLogic= {
         var labelExp = cc.LabelTTF.create(expText, "Arial", 36);
         var bgSize = JinHuaTablePlayer.getJinHuaTablePlayerLayer().getContentSize();
         labelExp.setPosition(cc.p(bgSize.width / 2,bgSize.height / 2));
-        labelExp.setZOrder(10);
+        labelExp.setLocalZOrder(10);
         JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(labelExp);
         var array = [];
         array.push(cc.spawn(cc.fadeOut(1.50), cc.moveTo(1.50,cc.p(labelExp. getPositionX(),labelExp. getPositionY() + 100))));

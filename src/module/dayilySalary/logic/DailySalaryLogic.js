@@ -216,7 +216,7 @@ var DailySalaryLogic= {
         var resLists= [dailySalaryInfoTable["PhotoUrl"],"res/desk_playerhead_1.png"];
         Common.setPortraitByType(resLists, cc.rect(5,0,220,220), this.Image_head);
 
-        this.Image_head.setZOrder(-1);
+        this.Image_head.setLocalZOrder(-1);
 
         //Vip等级
         var userVipLevel = dailySalaryInfoTable["VipLevel"];

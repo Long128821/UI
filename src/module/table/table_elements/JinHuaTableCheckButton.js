@@ -34,7 +34,7 @@ var JinHuaTableCheckButton= {
         //看牌滑动条背景
         this.checkButtonBgSprite =  cc.Sprite.create("#ui_kanpaidi.png");
         this.checkButtonBgSprite.setPosition(609, 226);
-        this.checkButtonBgSprite.setZOrder(22);
+        this.checkButtonBgSprite.setLocalZOrder(22);
         JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(this.checkButtonBgSprite);
 
         var bgSize= this.checkButtonBgSprite.getContentSize();
@@ -55,7 +55,7 @@ var JinHuaTableCheckButton= {
         //看牌滑动眼睛
         this.checkButtonPointSprite = cc.Sprite.create("#ui_yanjing.png");
         this.checkButtonPointSprite.setPosition(this.eyeInitPos);
-        this.checkButtonPointSprite.setZOrder(23);
+        this.checkButtonPointSprite.setLocalZOrder(23);
         JinHuaTablePlayer.getJinHuaTablePlayerLayer().addChild(this.checkButtonPointSprite);
 
         //添加监听机制
