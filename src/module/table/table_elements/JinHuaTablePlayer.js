@@ -639,59 +639,48 @@ var JinHuaTablePlayer= {
         this.clearAllTimer();
 
         if(this.tablePlayerEntitys[currentPlayer.CSID]== null) return;
-        var self= this;
 
-        if(this.tablePlayerEntitys[currentPlayer.CSID].isMe()){
-            time= Profile_JinHuaTableConfig.ROUND_TIME;
-            this.myTimer.stopAllActions();
-            this.myTimer2.stopAllActions();
-            function timeStep1(){
-                if(time<= 3){
-                    self.myTimer.setVisible(false);
-                    self.myTimer2.setVisible(true);
-                    self.myTimer2.setString(time);
-                }else{
-                    self.myTimer.setString(time);
-                }
-                time--;
-            }
-            var arr= [];
+        //更新倒计时
+        this.updatePercentage(currentPlayer);
+    },
+    //更新倒计时
+    updatePercentage:function(currentPlayer){
+        var timer,timer2,timerBg;
+        var isMe= this.tablePlayerEntitys[currentPlayer.CSID].isMe();
+        if(isMe){
+            timer= this.myTimer;
+            timer2= this.myTimer2;
+            timerBg= this.myTimerBg;
+        }else{
+            timer= this.otherTimer;
+            timer2= this.otherTimer2;
+        }
+        timer.stopAllActions();
+        timer2.stopAllActions();
 
-            for(var i=0; i< Profile_JinHuaTableConfig.ROUND_TIME; ++i){
-                arr.push(cc.callFunc(timeStep1));
-                arr.push(cc.delayTime(1.0));
+        var time= Profile_JinHuaTableConfig.ROUND_TIME;
+        function timeStep(){
+            if(time<= 3){
+                timer.setVisible(false);
+                timer2.setVisible(true);
+                timer2.setString(time);
+            }else{
+                timer.setString(time);
             }
+            time--;
+        }
+        var arr= [];
+
+        for(var i=0; i< Profile_JinHuaTableConfig.ROUND_TIME; ++i){
+            arr.push(cc.callFunc(timeStep));
+            arr.push(cc.delayTime(1.0));
+        }
+        if(isMe){
             //更新我的可操作按钮
             JinHuaTableLogic.updateMyOperationBtns(currentPlayer);
             //是否需要启动我的计时器(超时放弃)
             JinHuaTableLogic.setMyTurnToOperate_ReturnIfNeedMyTimer(this.tablePlayerEntitys[currentPlayer.CSID]);
-
-            var seq= cc.sequence(arr, cc.callFunc(function(pSender){
-                console.log("超时弃牌");
-            }));
-            this.myTimerBg.runAction(progressBar);
-            this.myTimer.setVisible(true);
-            this.myTimer.runAction(seq);
         }else{
-            time= Profile_JinHuaTableConfig.ROUND_TIME;
-            this.otherTimer.stopAllActions();
-            this.otherTimer2.stopAllActions();
-            function timeStep2(){
-                if(time<= 3){
-                    self.otherTimer.setVisible(false);
-                    self.otherTimer2.setVisible(true);
-                    self.otherTimer2.setString(time);
-                }else{
-                    self.otherTimer.setString(time);
-                }
-                time--;
-            }
-            var arr2= [];
-
-            for(var j=0; j< Profile_JinHuaTableConfig.ROUND_TIME; ++j){
-                arr2.push(cc.callFunc(timeStep2));
-                arr2.push(cc.delayTime(1.0));
-            }
             var player= Profile_JinHuaTableConfig.getSpritePlayers()[currentPlayer.CSID];
             //更新玩家本身的可操作按钮
             JinHuaTableLogic.updateMyBetBtnsOnOthersTurn();
@@ -699,13 +688,17 @@ var JinHuaTablePlayer= {
             //没有在初始化时创建倒计时的原因是:没有设置位置时，第一次倒计时，会出现很怪的现象(percentage从canvas左下角开始)
             this.createOtherTimerBg(cc.pAdd(cc.p(player.locX,player.locY),cc.p(173* 0.5,172* 0.5)));
 
-            this.otherTimer.setPosition(player.timerX,player.timerY);
-            this.otherTimer2.setPosition(player.timerX,player.timerY);
+            timerBg= this.otherTimerBg;
 
-            this.otherTimerBg.runAction(progressBar);
-            this.otherTimer.setVisible(true);
-            this.otherTimer.runAction(cc.sequence(arr2));
+            timer.setPosition(player.timerX,player.timerY);
+            timer2.setPosition(player.timerX,player.timerY);
         }
+
+        var progressBar= cc.progressTo(time+ 1, 100);
+        var seq= cc.sequence(arr);
+        timerBg.runAction(progressBar);
+        timer.setVisible(true);
+        timer.runAction(seq);
     },
     //用户<弃牌>后收到服务器返回更新界面
     updateTableAfterFoldCardByServer:function(){
