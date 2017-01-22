@@ -1505,7 +1505,7 @@ var JinHuaTableLogic= {
     //弃牌
     updateJHID_DISCARD:function(){
         //隐藏看牌提示
-        JinHuaTableCheckButton.setCheckVisible(false);
+        JinHuaTableCheckButton.setLookedCard(true);
 
         JinHuaTablePlayer.updateTableAfterFoldCardByServer();
     },

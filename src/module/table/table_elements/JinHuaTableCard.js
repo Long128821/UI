@@ -14,7 +14,7 @@ var JinHuaTableCard= {
         //牌桌上的玩家
         var players = JinHuaTablePlayer.getPlayers();
         //显示看牌动画
-        JinHuaTableCheckButton.setCheckVisible(true);
+        JinHuaTableCheckButton.setLookedCard(false);
         //隐藏叠加牌
         JinHuaTableCard.sendCardSprite.setVisible(false);
         //获取发牌数据
@@ -312,6 +312,7 @@ var JinHuaTableCard= {
         var players = JinHuaTablePlayer.getPlayers();
         var player= players[CSID];
         if(!Common.judgeValueIsEffect(player)) return false;
+        console.log(JinHuaTableCheckButton.getCheckVisible());
         return Common.judgeValueIsEffect(player.player.cardValues)&&(Common.getTableSize(player.player.cardValues)== 3);
     }
 };

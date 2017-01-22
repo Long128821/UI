@@ -5,6 +5,7 @@ var JinHuaTableCheckButton= {
     startTouchPosX:0,//起始触摸点
     listener:null,//监听机制
     bVisible:false,//是否显示
+    bLookCard:false,//是否显示看牌提示，从而决定结算时是否翻牌
     eyeInitPos:cc.p(538, 226),//眼睛的初始位置
     hideEleID:0,//当前要隐藏的元素ID
     clear:function(){
@@ -26,6 +27,7 @@ var JinHuaTableCheckButton= {
         this.listener= null;
 
         this.bVisible= false;
+        this.bLookCard= false;
     },
     //创建看牌按钮
     createCheckButton:function(){
@@ -61,7 +63,7 @@ var JinHuaTableCheckButton= {
         //添加监听机制
         this.addTouchListener();
         //默认不显示
-        this.setCheckVisible(false);
+        this.setLookedCard(false);
     },
     //添加触摸监听机制(点击、滑动)
     addTouchListener:function(){
@@ -103,7 +105,7 @@ var JinHuaTableCheckButton= {
     },
     //可以开牌
     onLookCard:function(){
-        ((this.bVisible)&&(this.setCheckVisible(false)));
+        this.setLookedCard(true);
         //向后台发送<看牌>请求
         sendJHID_LOOK_CARDS();
     },
@@ -120,6 +122,14 @@ var JinHuaTableCheckButton= {
         }else{
             cc.eventManager.removeListener(this.listener);
         }
+    },
+    setLookedCard:function(bLookCard){
+        this.bLookCard= bLookCard== undefined?false:bLookCard;
+        this.setCheckVisible(this.bLookCard);
+    },
+    //获取是否已经开牌
+    getLookedCard:function(){
+        return this.bVisible;
     },
     //显示所有元素
     hideAllEye:function(){
