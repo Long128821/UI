@@ -3474,8 +3474,8 @@ cc.EGLView = cc.Class.extend({
             cc.container.style['-webkit-transform'] = 'rotate(0deg)';
             cc.container.style.transform = 'rotate(0deg)';
             this._isRotated = false;
-        }
-        else {
+        }else{
+            console.log("旋转");
             locFrameSize.width = h;
             locFrameSize.height = w;
             cc.container.style['-webkit-transform'] = 'rotate(90deg)';

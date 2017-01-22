@@ -23,8 +23,6 @@ var GameConfig= {
     GOODS_ID_NO_PK:25,//禁比道具物品ID
     remainSuperiorFaceTime:0,//高级表情使用剩余时间
 
-    curScale:cc.p(0,0),
-
     getMNHallInitSendMsg:function(){
         return this.mnHallInitSendMsg;
     },
@@ -66,27 +64,8 @@ var GameConfig= {
         //如果是一级界面,设置游戏分辨率
         this.ScreenWidth = UIDesignWidth;
         this.ScreenHeight = UIDesignHeight;
-        if(cc.sys.isMobile){
-            //安卓手机高清显示
-            cc.view.enableRetina(true);
-            var width = document.documentElement.clientWidth;
-            var height = document.documentElement.clientHeight;
-            cc.view.setDesignResolutionSize(width,height,kResolution);
-            var scene= cc.director.getRunningScene();
-            var scaleX= height/this.ScreenWidth;
-            var scaleY= width/this.ScreenHeight;
-            this.curScale= cc.p(scaleX, scaleY);
-            scene.setScale(scaleX, scaleY);
-            scene.setRotation(90);
-            scene.setAnchorPoint(0,0);
-            scene.setPosition(0, cc.winSize.height);
-        }else{
-            this.curScale= cc.p(1,1);
-            cc.view.setDesignResolutionSize(this.ScreenWidth, this.ScreenHeight, kResolution);
-        }
-    },
-    getCurScale:function(){
-        return this.curScale;
+        cc.view.setOrientation(cc.ORIENTATION_LANDSCAPE);//手机设备上,横屏
+        cc.view.setDesignResolutionSize(this.ScreenWidth, this.ScreenHeight, kResolution);
     },
     //获取当前底层界面
     getCurBaseLayer:function(){

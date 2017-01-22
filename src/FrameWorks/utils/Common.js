@@ -105,7 +105,6 @@ var Common= {
         //获取bgColor(this.Panel_webview._color)
         //设置背景色
         webView._renderCmd._div.style["background"]= ((color== undefined)?"rgb(56, 0, 38)":color);
-
         var canvasWidth=  cc.game.canvas.width;
         var canvasHeight=  cc.game.canvas.height;
         var leftBottomPos= cc.p((document.body.clientWidth- canvasWidth)* 0.5/cc.view.getScaleX(), (document.body.clientHeight- canvasHeight)* 0.5/cc.view.getScaleY());
@@ -143,13 +142,7 @@ var Common= {
             //根据要显示的文案的宽度和高度，设置点九图的尺寸
             var toastSp= GamePub.createPointNineSpriteForPlist("res/toast_bg.png", 20, 90, msg.width+ 50, msg.height+ 20);
             scene.addChild(toastSp);
-            var scale= GameConfig.getCurScale();
-            var clientWidth = document.documentElement.clientWidth;
-            var clientHeight = document.documentElement.clientHeight;
-            var width= (cc.sys.isMobile?clientHeight* (1+ scale.x):cc.winSize.width* 0.5);
-            var height= (cc.sys.isMobile?clientWidth* (1+ scale.y)* 0.45:cc.winSize.height* 0.35);
-
-            toastSp.setPosition(width, height);
+            toastSp.setPosition(cc.winSize.width* 0.5, cc.winSize.height* 0.35);
 
             msg.setPosition(toastSp.getContentSize().width* 0.5, toastSp.getContentSize().height* 0.5);
             toastSp.addChild(msg);
@@ -159,13 +152,7 @@ var Common= {
     },
     //上移&&不透明度逐渐降低
     toastMoveUp:function(toast, toastSecond){
-        var scale= GameConfig.getCurScale();
-        var clientWidth = document.documentElement.clientWidth;
-        var clientHeight = document.documentElement.clientHeight;
-        var width= (cc.sys.isMobile?clientHeight* (1+ scale.x):cc.winSize.width* 0.5);
-        var height= (cc.sys.isMobile?clientWidth* (1+ scale.y)* 0.75:cc.winSize.height* 0.65);
-
-        var moveTo= cc.moveTo(1, width, height);
+        var moveTo= cc.moveTo(1, cc.winSize.width* 0.5, cc.winSize.height* 0.65);
         var delay= cc.delayTime(toastSecond);
         var fadeOut= cc.fadeOut(1, 128);
         var spawn= cc.spawn(moveTo, fadeOut);

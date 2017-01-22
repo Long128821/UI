@@ -704,16 +704,16 @@ var HallLogic= {
                 self.Button_jingdian.addChild(armature);
             });
 
-//        //千王场动画
-//        Common.createArmature(
-//            "res/Animation/Animation_Newhall_CheatKingRoom.ExportJson",//动画Json路径
-//            "Animation_Newhall_CheatKingRoom",//要执行的动画名
-//            function(armature){
-//                armature.getAnimation().playWithIndex(0, 0.1, true);//循环播放
-//                armature.setAnchorPoint(cc.p(0,0));
-//                armature.setPosition(0, 10);
-//                self.Button_qianwang.addChild(armature);
-//            });
+        //千王场动画
+        Common.createArmature(
+            "res/Animation/Animation_Newhall_CheatKingRoom.ExportJson",//动画Json路径
+            "Animation_Newhall_CheatKingRoom",//要执行的动画名
+            function(armature){
+                armature.getAnimation().playWithIndex(0, 0.1, true);//循环播放
+                armature.setAnchorPoint(cc.p(0,0));
+                armature.setPosition(0, 10);
+                self.Button_qianwang.addChild(armature);
+            });
 
         //比赛场动画
         Common.createArmature(
