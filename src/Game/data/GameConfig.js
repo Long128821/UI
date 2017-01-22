@@ -64,6 +64,7 @@ var GameConfig= {
         //如果是一级界面,设置游戏分辨率
         this.ScreenWidth = UIDesignWidth;
         this.ScreenHeight = UIDesignHeight;
+        cc.view.enableRetina(true);//调整安卓手机的清晰度
         cc.view.setOrientation(cc.ORIENTATION_LANDSCAPE);//手机设备上,横屏
         cc.view.setDesignResolutionSize(this.ScreenWidth, this.ScreenHeight, kResolution);
     },
