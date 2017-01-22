@@ -224,22 +224,23 @@ JinHuaTablePlayerEntity.prototype.createPhotoFrame= function(){
 
 /**
  * Func:初始化头像,添加到头像框上(居中)
- * Todo：裁切节点-圆形
  */
 JinHuaTablePlayerEntity.prototype.createPortrait= function(){
     //头像框不能为空
     if(!Common.judgeValueIsEffect(this.mPlayerSprite)) return;
-    //获取头像框的尺寸
-    var bgSize= this.mPlayerSprite.getContentSize();
     //初始化头像
     var self= this;
-    Common.addSpriteByNet(self.player.photoUrl, function(sprite){
-        self.spritePic= ((sprite== "ERROR")?cc.Sprite.create(self.getPortraitPathBySelf()):sprite);
-        self.spritePic.setPosition(bgSize.width* 0.5, bgSize.height* 0.5);//居中
-        self.mPlayerSprite.addChild(self.spritePic, 1);
-        if(sprite!= "ERROR"){//网络图片放大
-            self.spritePic.setScale(1.2);
-    }
+    Common.loadTextureByNetwork(self.player.photoUrl, function(msg){
+        var portraitPath= ((msg== null)?self.getPortraitPathBySelf():msg);
+        var resLists= [portraitPath,"res/ui_hall_yonghu_touxiangdikuang.png"];
+        var width= msg== null?140:200;//网络头像是否加载失败
+        var height= msg== null?140:200;
+        //自己的头像小一些
+        width=  self.isMe()?width:width*1.1;
+        height=  self.isMe()?height:width*1.1;
+        Common.getPortraitByType(resLists, cc.rect(0,0,width, height), self.mPlayerSprite,function(sprite){
+            self.spritePic= sprite;
+        });
     });
 };
 

@@ -463,8 +463,10 @@ var OtherUserInfoLogic= {
         Profile_JinHuaSetting.setUserTitleOnImageView(userInfoTable["Coin"], this.Image_chengwei);
 
         //加载网络头像
-        Common.setTextureByNet(profile_user.getSelfPhotoUrl(), this.Image_toux);
-        this.Image_toux.setScale(1.2);
+//        Common.setTextureByNet(profile_user.getSelfPhotoUrl(), this.Image_toux);
+//        this.Image_toux.setScale(1.2);
+        var resLists= [profile_user.getSelfPhotoUrl(),"res/ui_hall_yonghu_touxiangdikuang.png"];
+        Common.setPortraitByType(resLists, cc.rect(0,0,150,150), this.Image_toux);
 
         //金币数
         this.AtlasLabel_jinbi.setString(profile_user.getSelfCoin());

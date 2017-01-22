@@ -50,14 +50,11 @@ var Common= {
     //ImageView换图(网络)
     setTextureByNet:function(url, target){
         //异步加载头像资源
-        cc.loader.loadImg(
-            url,
-            function(){},
-            function(err){
-                (err== null&&target._imageRenderer.setTexture(url));
-            }
-        );
+        this.loadTextureByNetwork(url, function(msg){
+            (msg!= null&&target._imageRenderer.setTexture(msg));
+        });
     },
+    //获取网络图片，添加精灵
     addSpriteByNet:function(url, callback){
         //异步加载头像资源
         cc.loader.loadImg(
@@ -68,6 +65,100 @@ var Common= {
                 }
             }
         );
+    },
+    loadTextureByNetwork:function(url,callback){
+        //异步加载头像资源
+        cc.loader.loadImg(
+            url,
+            function(){},
+            function(err){
+                var msg= err;
+                if(err== null){//加载成功
+                    msg= url;
+                }else{//加载失败
+                    msg= null;
+                }
+                callback(msg);
+            }
+        );
+    },
+    //获取网络图像
+    /**
+     *
+     * @param resLists 资源精灵[要裁切的路径,蒙版]
+     * @param rect 精灵所在的位置、尺寸
+     * @param target 目标
+     */
+    setPortraitByType:function(resLists, rect, target){
+        this.loadTextureByNetwork(resLists[0], function(msg){
+            if(msg==null) return;
+            //只有网络头像加载成功，才会执行裁切节点
+            //异步加载头像资源
+            cc.loader.load(
+                resLists,
+                function(err){
+                    var content= cc.Scale9Sprite.create(resLists[0]);
+                    var stencil = cc.Sprite.create(resLists[1]);
+                    //为了预防头像小于蒙版尺寸，出现边角的情况
+                    if(stencil.height>content.height){
+                        stencil.setScaleY(content.height/stencil.height);
+                    }
+
+                    if(stencil.width>content.width){
+                        stencil.setScaleX(content.width/stencil.width);
+                    }
+
+                    var clipper= new cc.ClippingNode();
+                    clipper.setStencil(stencil);
+                    clipper.setPosition(cc.p(target.getContentSize().width* 0.5, target.getContentSize().height* 0.5));
+                    clipper.addChild(content);
+                    target.addChild(clipper);
+                    target.setOpacity(0);
+
+                    //缩放
+                    clipper.setScale(rect.width/stencil.width, rect.height/stencil.height);
+                }
+            );
+        });
+    },
+    //获取网络图像
+    /**
+     *
+     * @param resLists 资源精灵[要裁切的路径,蒙版]
+     * @param rect 精灵所在的位置、尺寸
+     * @param target 目标
+     */
+    getPortraitByType:function(resLists, rect, target, callback){
+        this.loadTextureByNetwork(resLists[0], function(msg){
+            if(msg==null) return;//只有网络头像加载成功，才会执行裁切节点
+            //异步加载头像资源
+            cc.loader.load(
+                resLists,
+                function(err){
+                    var content= cc.Scale9Sprite.create(resLists[0]);
+                    var stencil = cc.Sprite.create(resLists[1]);
+                    //为了预防头像小于蒙版尺寸，出现边角的情况
+                    if(stencil.height>content.height){
+                        stencil.setScaleY(content.height/stencil.height);
+                    }
+
+                    if(stencil.width>content.width){
+                        stencil.setScaleX(content.width/stencil.width);
+                    }
+
+                    var clipper= new cc.ClippingNode();
+                    clipper.setStencil(stencil);
+                    clipper.setPosition(cc.p(target.getContentSize().width* 0.5, target.getContentSize().height* 0.5));
+                    clipper.addChild(content);
+                    target.addChild(clipper);
+
+                    //缩放
+                    clipper.setScale(rect.width/stencil.width, rect.height/stencil.height);
+
+                    (callback!= undefined)&&(callback(content));
+                }
+            );
+        });
     },
     createArmature:function(jsonPath, armatureName, callback){
         this.loadArmature(jsonPath, function(){

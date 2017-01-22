@@ -211,8 +211,12 @@ var DailySalaryLogic= {
         //设置今日奖励总数
         this.AtlasLabel_totalReward.setString(dailySalaryInfoTable["BaseReward"] + dailySalaryInfoTable["LevelReward"] + dailySalaryInfoTable["VipReward"]);
         //加载网络头像
-        //Common.setTextureByNet(dailySalaryInfoTable["PhotoUrl"], this.Image_head);
-        this.Image_head.setScale(1.1);
+//        //Common.setTextureByNet(dailySalaryInfoTable["PhotoUrl"], this.Image_head);
+//        this.Image_head.setScale(1.1);
+        var resLists= [dailySalaryInfoTable["PhotoUrl"],"res/desk_playerhead_1.png"];
+        Common.setPortraitByType(resLists, cc.rect(5,0,220,220), this.Image_head);
+
+        this.Image_head.setZOrder(-1);
 
         //Vip等级
         var userVipLevel = dailySalaryInfoTable["VipLevel"];

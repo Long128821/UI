@@ -636,7 +636,8 @@ var HallLogic= {
         if(Common.judgeValueIsEffect(profile_user.getSelfPhotoUrl())){
             //加载网络头像
             //Todo:圆形头像(裁切节点)
-            Common.setTextureByNet(profile_user.getSelfPhotoUrl(), this.Image_touxiang_default);
+            var resLists= [profile_user.getSelfPhotoUrl(),"res/ui_hall_yonghu_touxiangdikuang.png"];
+            Common.setPortraitByType(resLists, cc.rect(0,0,170,170), this.Image_touxiang_default);
         }
     },
     //添加小红点
@@ -724,6 +725,7 @@ var HallLogic= {
                 armature.setAnchorPoint(cc.p(0,0));
                 armature.setPosition(-16, 10);
                 self.Button_match.addChild(armature);
+                self.Button_match.setVisible(true);
             });
     },
     //设置活动列表和小游戏列表可否使用
