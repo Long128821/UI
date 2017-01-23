@@ -406,7 +406,6 @@ ModuleTable["SystemPromptDialog"]["resLists"] = [
 
 ModuleTable["JinHuaTable"] = {};
 ModuleTable["JinHuaTable"]["jsLists"] = [
-    "src/module/table/logic/JinHuaTableMyOperation.js",
     "src/module/table/table_elements/JinHuaTableCard.js",
     "src/module/table/table_elements/JinHuaTablePlayer.js",
     "src/module/table/table_elements/JinHuaTableTips.js",

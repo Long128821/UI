@@ -157,7 +157,7 @@ var JinHuaTablePlayer= {
                 //显示玩家金币数
                 tablePlayerEntity.setCoin();
                 //设置玩家的头像
-                this.setPlayerPhoto(tablePlayerEntity);
+                //this.setPlayerPhoto(tablePlayerEntity);
 
                 //判断是否为玩家自身
                 if(tablePlayerEntity.isMe()== true){
@@ -217,17 +217,6 @@ var JinHuaTablePlayer= {
                 default :
                     tablePlayerEntity.setPlayerDarkCoverVisible();
             }
-        }
-    },
-    //设置玩家头像
-    setPlayerPhoto:function(tablePlayerEntity){
-        if(tablePlayerEntity!=null
-            &&tablePlayerEntity.player.photoUrl!= ""
-            &&tablePlayerEntity.player.photoUrl){
-            //更新头像
-            tablePlayerEntity.setPortrait(tablePlayerEntity.player.photoUrl);
-        }else{
-            tablePlayerEntity.setPortrait();
         }
     },
     //倒计时[文案、遮蔽层]
@@ -414,7 +403,7 @@ var JinHuaTablePlayer= {
     reAddToLayer:function(node){
         if(!Common.judgeValueIsEffect(node)) return;
         node.retain();
-        this.getJinHuaTablePlayerLayer().removeChild(node, false);
+        node.removeFromParent(true);
         this.getJinHuaTablePlayerLayer().addChild(node);
     },
     //自己坐下
@@ -460,7 +449,7 @@ var JinHuaTablePlayer= {
         //Todo:创建实例-封装为同一个函数
         this.tablePlayerEntitys[CSID] = new JinHuaTablePlayerEntity(sitDownData.playerInfo);
         this.showPlayerStatus(this.tablePlayerEntitys[CSID]);
-        this.setPlayerPhoto(this.tablePlayerEntitys[CSID]);
+        //this.setPlayerPhoto(this.tablePlayerEntitys[CSID]);
         this.tablePlayerEntitys[CSID].createCard();
         this.tablePlayerEntitys[CSID].addPlayerElementToLayer(this.getJinHuaTablePlayerLayer());
         this.tablePlayerEntitys[CSID].setCoin();
@@ -765,9 +754,12 @@ var JinHuaTablePlayer= {
                     sendDBID_USER_INFO(mySelf.userId);
                 }
                 mySelf.SSID= null;
-                player.player.status= STATUS_PLAYER_WATCH;
-                if(!Common.judgeValueIsEffect(player)) return;
-                if(Common.getTableSize(player.cardSprites)> 0) return;
+                if(!JinHuaTableLogic.getIsNextRoundStandUp()){
+                    player.player.status= STATUS_PLAYER_WATCH;
+                    if(!Common.judgeValueIsEffect(player)) return;
+                    if(Common.getTableSize(player.cardSprites)> 0) return;
+                }
+                JinHuaTableLogic.cancelStandUpNextRound();
                 this.updateTableAfterStandUpMe(standUpData.CSID);
             }else{//别人站起
                 if(standUpData.CSID!= null){

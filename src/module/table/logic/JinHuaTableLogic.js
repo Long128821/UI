@@ -235,10 +235,20 @@ var JinHuaTableLogic= {
     betData:null,//我的下注数据
     vibrateId:null,//震动定时ID(最后几秒)
     GameData:null,//牌桌数据
+    isNextRoundStandUp:false,//下局是否旁观
+    getIsNextRoundStandUp:function(){
+        return this.isNextRoundStandUp;
+    },
+    setIsNextRoundStandUp:function(isNextRoundStandUp){
+        this.isNextRoundStandUp= isNextRoundStandUp== undefined?true:isNextRoundStandUp;
+    },
+    //清理数据
     clear:function(){
         this.labelNotice&&this.labelNotice.removeFromParent(true);
         this.updateTimer&&clearInterval(this.updateTimer);
     },
+    //Todo：清空内存图集
+    //cc.spriteFrameCache.removeSpriteFrames();
     createView:function(){
         //在内存中，添加图片集
         cc.spriteFrameCache.addSpriteFrames(Common.getJinHuaResourcePath("chat_popup.plist"),Common.getJinHuaResourcePath("chat_popup.png"));
@@ -1367,10 +1377,6 @@ var JinHuaTableLogic= {
     
     requestMsg:function(){
     
-    },
-    //清理数据
-    clear:function(){
-
     },
     //更新背包道具数量
     updateBACKPACK_GOODS_COUNT:function(){
@@ -2742,9 +2748,17 @@ var JinHuaTableLogic= {
     gameResultOperation:function(){
         var GameData= Profile_JinHuaGameData.getGameData();
         var players= JinHuaTablePlayer.getPlayers();
+        for(var key in players){
+            if(!Common.judgeValueIsEffect(players[key])) continue;
+            if(key!= 0&&players[key].player.status== STATUS_PLAYER_DISCARD){//别的玩家站起
+                JinHuaTablePlayer.updateTableAfterStandUpOther(key);
+                //}else if(key==0&&players[key].player.status== STATUS_PLAYER_PLAYING){//自己玩家
+            }else if(key==0&&players[key].player.status== STATUS_PLAYER_WATCH){//自己玩家
+                JinHuaTablePlayer.updateTableAfterStandUpMe(key);
+            }
+        }
         if(this.isNextRoundStandUp){//是否下局旁观
             JinHuaTablePlayer.selfStandUp();//发起站起请求
-            this.cancelStandUpNextRound();
         }else{
             if(!Common.judgeValueIsEffect(GameData.mySSID)) return;
             if(!Common.judgeValueIsEffect(players)) return;
@@ -2752,15 +2766,6 @@ var JinHuaTableLogic= {
             if(players[0].player.status!= STATUS_PLAYER_READY){
                 //如果我还在牌桌上,则准备
                 this.onReady();
-            }
-        }
-        for(var key in players){
-            if(!Common.judgeValueIsEffect(players[key])) continue;
-            if(key!= 0&&players[key].player.status== STATUS_PLAYER_DISCARD){//别的玩家站起
-                JinHuaTablePlayer.updateTableAfterStandUpOther(key);
-            //}else if(key==0&&players[key].player.status== STATUS_PLAYER_PLAYING){//自己玩家
-            }else if(key==0&&players[key].player.status== STATUS_PLAYER_WATCH){//自己玩家
-                JinHuaTablePlayer.updateTableAfterStandUpMe(0);
             }
         }
     },

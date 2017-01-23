@@ -190,7 +190,7 @@ var JinHuaTableMoreLogic= {
         var moveTo= cc.moveTo(0.2, cc.p(-2, -3));
         this.Panel_btnList_Left.runAction(moveTo);
 
-        this.Image_duihao.setVisible(JinHuaTableMyOperation.getIsNextRoundStandUp());
+        this.Image_duihao.setVisible(JinHuaTableLogic.getIsNextRoundStandUp());
     },
     //退出动画 0-退出 1-设置 2-牌型
     exitAction:function(tag){
@@ -257,6 +257,6 @@ var JinHuaTableMoreLogic= {
     //下局旁观
     lookForNext:function(){
         MvcEngine.destroyModule(GUI_JINHUATABLEMORE);
-        JinHuaTableMyOperation.setIsNextRoundStandUp(!JinHuaTableMyOperation.getIsNextRoundStandUp());
+        JinHuaTableLogic.setIsNextRoundStandUp(!JinHuaTableLogic.getIsNextRoundStandUp());
     }
 };

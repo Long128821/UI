@@ -142,16 +142,6 @@ JinHuaTablePlayerEntity.prototype.getPhotoFrame= function(){
     return this.mPlayerSprite;
 };
 
-//设置玩家头像
-JinHuaTablePlayerEntity.prototype.setPortrait= function(path){
-    if(!Common.judgeValueIsEffect(path)) return;
-    if((!Common.judgeValueIsEffect(this.mPlayerSprite))||(!Common.judgeValueIsEffect((this.spritePic)))) return;
-
-    //没有头像纹理路径
-    //根据是否文玩家自身,获取纹理(cc.texture)
-    this.spritePic.setTexture(cc.textureCache.addImage(this.getPortraitPathBySelf()));
-};
-
 //根据是否为玩家本身,获取默认的头像图片
 JinHuaTablePlayerEntity.prototype.getPortraitPathBySelf= function(){
     var imagePath= this.isMe()?"desk_playerhead.png":"desk_playerhead_mine.png";
