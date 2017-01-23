@@ -90,13 +90,11 @@ var JinHuaPKAnim= {
 
         (Common.judgeValueIsEffect(this.cardLeft3))&&this.cardLeft3.removeFromParent(true);
         this.cardLeft3= null;
+
         (Common.judgeValueIsEffect(this.cardLeft4))&&this.cardLeft4.removeFromParent(true);
         this.cardLeft4= null;
 
         (Common.judgeValueIsEffect(this.cardLeft5))&&this.cardLeft5.removeFromParent(true);
-        this.cardLeft5= null;
-
-        (Common.judgeValueIsEffect(this.cardLeft6))&&this.cardLeft6.removeFromParent(true);
         this.cardLeft5= null;
 
         (Common.judgeValueIsEffect(this.PKLayer))&&this.PKLayer.removeFromParent(true);
@@ -359,7 +357,7 @@ var JinHuaPKAnim= {
         if(players[this.pkData.aimCSID].player.userId != profile_user.getSelfUserID()){
             array.push(cc.moveTo(0.5, cc.p(spritePlayers[this.pkData.aimCSID].locX + this.mRightSprite.mPlayerSprite.getContentSize().width / 2, spritePlayers[this.pkData.aimCSID].locY + this.mRightSprite.mPlayerSprite.getContentSize().height / 2)))
         }else{
-            array.push(cc.moveTo(0.5, cc.pAdd(Profile_JinHuaTableConfig.getMySelfLocPos(), cc.p(90, 90))))
+            array.push(cc.moveTo(0.5, cc.pAdd(Profile_JinHuaTableConfig.getMySelfLocPos(), cc.p(75, 80))))
         }
         array.push(cc.scaleTo(0.5,1.5));
         array.push(cc.scaleTo(0.5,1));

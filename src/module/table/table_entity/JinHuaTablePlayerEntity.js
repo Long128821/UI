@@ -265,7 +265,7 @@ JinHuaTablePlayerEntity.prototype.createDarkCoverOnPortrait= function(){
     //this.playerDarkCover.setVisible(false);//默认不显示
     this.mPlayerSprite.addChild(this.playerDarkCover, 3);
     //设置玩家遮蔽层正好在圆中
-    this.isMe()&&this.playerDarkCover.setScale(0.9);
+    this.isMe()?this.playerDarkCover.setScale(0.9):this.playerDarkCover.setScale(1.1);
 };
 
 /**

@@ -391,7 +391,7 @@ var JinHuaTablePlayer= {
     //清理玩家状态图标
     clearPlayerStateIcons:function(){
         for(var key in this.iconArray){
-            if(this.iconArray[key]== null||this.iconArray[key]== undefined) continue;
+            if(!Common.judgeValueIsEffect(this.iconArray[key])) continue;
             this.iconArray[key].removeFromParent(true);
         }
         this.iconArray = {};
