@@ -1567,6 +1567,13 @@ var JinHuaTableLogic= {
         //更新是否可换牌提示
         this.updateIsCanChangeCardState();
     },
+    //换桌
+    updateJHID_CHANGE_TABLE:function(){
+        var changeTable= Profile_JinHuaGameData.getChangeTable();
+        if(changeTable.Result == 0){
+            Common.showToast(changeTable.ResultTxt, 2);
+        }
+    },
     //初始化界面
     initTableData:function(){
         //Todo:清理数据

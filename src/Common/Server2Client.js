@@ -1414,7 +1414,7 @@ function read82200008(nMBaseMessage){
     }
     return dataTable;
 }
-
+//换桌
 function read80210008(nMBaseMessage){
     var dataTable = {};
     dataTable["messageType"] = ACK + JHID_CHANGE_TABLE;

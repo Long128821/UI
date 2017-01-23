@@ -101,8 +101,7 @@ var ProfileJinHuaTable= {
     },
     //换桌
     slot_JHID_CHANGE_TABLE:function(dataTable){
-        console.log("换桌");
-        console.log(dataTable);
         Profile_JinHuaGameData.readJHID_CHANGE_TABLE(dataTable);
+        JinHuaTableLogic.updateJHID_CHANGE_TABLE();
     }
 };

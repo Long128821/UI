@@ -19,6 +19,7 @@ var Profile_JinHuaGameData= {
     PKData:null,//PK数据
     checkCardData:null,//看牌
     showCardData:null,//展开牌
+    changeTable:null,//换桌
     clearData:function(){
         this.backPackGoodsCountData= {};
         this.GameData= {};
@@ -202,6 +203,10 @@ var Profile_JinHuaGameData= {
     //获取本局结算数据
     getGameResultData:function(){
         return this.gameResultData;
+    },
+    //换桌数据
+    getChangeTable:function(){
+        return this.changeTable;
     },
     //PK数据
     getPKData:function(){
@@ -430,6 +435,6 @@ var Profile_JinHuaGameData= {
     },
     //换桌
     readJHID_CHANGE_TABLE:function(dataTable){
-
+        this.changeTable= dataTable;
     }
 };
