@@ -77,10 +77,11 @@ var OtherUserInfoLogic= {
         cc.spriteFrameCache.addSpriteFrames(Common.getJinHuaResourcePath("co_desk.plist"),Common.getJinHuaResourcePath("co_desk.png"));
         cc.spriteFrameCache.addSpriteFrames(Common.getJinHuaResourcePath("userinfo_mine.plist"),Common.getJinHuaResourcePath("userinfo_mine.png"));
         cc.spriteFrameCache.addSpriteFrames(Common.getJinHuaResourcePath("table_elements.plist"),Common.getJinHuaResourcePath("table_elements.png"));
-    	this.initLayer();
+
+        this.initLayer();
         
         this.view.setTag(ModuleTable["OtherUserInfo"]["Layer"]);
-        
+
         this.initView();
 
         this.initData();
@@ -451,6 +452,7 @@ var OtherUserInfoLogic= {
     },
     initData:function(){
         var userInfoTable= Profile_JinHuaOtherUserInfo.getUserInfoTable();
+        console.log(userInfoTable);
         if(Common.getTableSize(userInfoTable)== 0){
             MvcEngine.destroyModule(GUI_OTHERUSERINFO);
             return;
@@ -458,18 +460,15 @@ var OtherUserInfoLogic= {
 
         //设置头像
         this.Label_name.setString(userInfoTable["nickName"]);
-        //Todo：可以删除称谓
         //[称谓-等级]
         Profile_JinHuaSetting.setUserTitleOnImageView(userInfoTable["Coin"], this.Image_chengwei);
 
         //加载网络头像
-//        Common.setTextureByNet(profile_user.getSelfPhotoUrl(), this.Image_toux);
-//        this.Image_toux.setScale(1.2);
         var resLists= [profile_user.getSelfPhotoUrl(),"res/ui_hall_yonghu_touxiangdikuang.png"];
         Common.setPortraitByType(resLists, cc.rect(0,0,150,150), this.Image_toux);
 
         //金币数
-        this.AtlasLabel_jinbi.setString(profile_user.getSelfCoin());
+        this.AtlasLabel_jinbi.setStringValue("10000");
         //等级
         this.AtlasLabel_level.setString(":"+ userInfoTable["Level"]);
         //魅力值
@@ -502,11 +501,11 @@ var OtherUserInfoLogic= {
         //局数
         this.AtlasLabel_jushu.setString(userInfoTable["Innings"]);
         //胜率
-        this.AtlasLabel_shenglvshu.setString(userInfoTable["winPer"]);
+        this.AtlasLabel_shenglvshu.setStringValue(userInfoTable["winPer"]);
         //当前经验
         this.Label_exp.setString(userInfoTable["LevelExp"] + "/" + userInfoTable["LevelExpMax"]);
         //当前进度
-        if(userInfoTable["LevelExp"]== 0||userInfoTable["LevelExpMax"]){
+        if(userInfoTable["LevelExp"]== 0||userInfoTable["LevelExpMax"]== 0){
             this.Image_jindu.setScaleX(0);
         }else{
             this.Image_jindu.setScaleX(userInfoTable["LevelExp"]/userInfoTable["LevelExpMax"]);
