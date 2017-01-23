@@ -116,7 +116,7 @@ var Common= {
                     target.setOpacity(0);
 
                     //缩放
-                    clipper.setScale(rect.width/stencil.width, rect.height/stencil.height);
+                    clipper.setScale(rect.width/(stencil.width* stencil.getScaleX()), rect.height/(stencil.height* stencil.getScaleY()));
                 }
             );
         });
@@ -126,9 +126,8 @@ var Common= {
      *
      * @param resLists 资源精灵[要裁切的路径,蒙版]
      * @param rect 精灵所在的位置、尺寸
-     * @param target 目标
      */
-    getPortraitByType:function(resLists, rect, target, callback){
+    getPortraitByType:function(resLists, rect, callback){
         this.loadTextureByNetwork(resLists[0], function(msg){
             if(msg==null) return;//只有网络头像加载成功，才会执行裁切节点
             //异步加载头像资源
@@ -148,14 +147,11 @@ var Common= {
 
                     var clipper= new cc.ClippingNode();
                     clipper.setStencil(stencil);
-                    clipper.setPosition(cc.p(target.getContentSize().width* 0.5, target.getContentSize().height* 0.5));
-                    clipper.addChild(content);
-                    target.addChild(clipper);
-
+                    clipper.addChild(content, 1, 1);
                     //缩放
-                    clipper.setScale(rect.width/stencil.width, rect.height/stencil.height);
+                    clipper.setScale(rect.width/(stencil.width* stencil.getScaleX()), rect.height/(stencil.height* stencil.getScaleY()));
 
-                    (callback!= undefined)&&(callback(content));
+                    (callback!= undefined)&&(callback(clipper));
                 }
             );
         });

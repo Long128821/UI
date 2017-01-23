@@ -161,6 +161,7 @@ JinHuaTablePlayerEntity.prototype.setPortraitTexture= function(path){
     cc.loader.loadImg(path, function(){}, function(err){
         //err为空时,表示加载网络图片成功
         var portraitPath= err== null?path:self.getPortraitPathBySelf();
+        console.log(self.spritePic);
         self.spritePic.setTexture(cc.textureCache.addImage(portraitPath));
     });
 };
@@ -233,13 +234,16 @@ JinHuaTablePlayerEntity.prototype.createPortrait= function(){
     Common.loadTextureByNetwork(self.player.photoUrl, function(msg){
         var portraitPath= ((msg== null)?self.getPortraitPathBySelf():msg);
         var resLists= [portraitPath,"res/ui_hall_yonghu_touxiangdikuang.png"];
-        var width= msg== null?140:200;//网络头像是否加载失败
-        var height= msg== null?140:200;
+        var width= 135;//网络头像是否加载失败
+        var height= 135;
         //自己的头像小一些
         width=  self.isMe()?width:width*1.1;
         height=  self.isMe()?height:width*1.1;
-        Common.getPortraitByType(resLists, cc.rect(0,0,width, height), self.mPlayerSprite,function(sprite){
-            self.spritePic= sprite;
+        Common.getPortraitByType(resLists, cc.rect(0,0,width, height), function(clipper){
+            self.spritePic= clipper.getChildByTag(1);
+            var size= self.mPlayerSprite.getContentSize();
+            clipper.setPosition(cc.p(size.width* 0.5, size.height* 0.5));
+            self.mPlayerSprite.addChild(clipper);
         });
     });
 };
