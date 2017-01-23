@@ -312,7 +312,8 @@ var JinHuaTableCard= {
         var players = JinHuaTablePlayer.getPlayers();
         var player= players[CSID];
         if(!Common.judgeValueIsEffect(player)) return false;
-        console.log(JinHuaTableCheckButton.getCheckVisible());
+        console.log(JinHuaTableCheckButton.getLookedCard());
+        if(JinHuaTableCheckButton.getLookedCard()) return false;
         return Common.judgeValueIsEffect(player.player.cardValues)&&(Common.getTableSize(player.player.cardValues)== 3);
     }
 };

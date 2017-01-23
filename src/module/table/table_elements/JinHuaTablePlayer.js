@@ -379,7 +379,7 @@ var JinHuaTablePlayer= {
         //清空手牌
         JinHuaTableCard.clearCards();
         //隐藏看牌提示
-        JinHuaTableCheckButton.setCheckVisible(false);
+        JinHuaTableCheckButton.setLookedCard(false);
         //隐藏庄家图标
         this.dealer.setVisible(false);
     },
@@ -750,7 +750,7 @@ var JinHuaTablePlayer= {
         var  mySelf = Profile_JinHuaGameData.getMySelf();
         //修改Bug:别人站起时,玩家的看牌不显示。
         //Todo:可能存在的问题:牌局没散
-        JinHuaTableCheckButton.setCheckVisible(false);
+        JinHuaTableCheckButton.setLookedCard(true);
         var player= this.tablePlayerEntitys[standUpData.CSID];
 
         if(standUpData.result == 1){//成功站起

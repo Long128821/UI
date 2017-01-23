@@ -255,7 +255,7 @@ var JinHuaPKAnim= {
         }
         //撒花动画
         JinHuaPKAnim.armature.setVisible(true);
-        JinHuaPKAnim.armature.getAnimation().playByIndex(0);
+        JinHuaPKAnim.armature.getAnimation().playWithIndex(0);
         JinHuaPKAnim.PKLayer.runAction(cc.sequence(cc.delayTime(2.0),cc.callFunc(JinHuaPKAnim.pkOver)));
     },
     //闪电
@@ -394,7 +394,7 @@ var JinHuaPKAnim= {
         this.armature.setPosition(position);
         //撒花动画
         this.armature.setVisible(true);
-        this.armature.getAnimation().playByIndex(0);
+        this.armature.getAnimation().playWithIndex(0);
         this.PKLayer.runAction(cc.sequence(cc.delayTime(2.0),cc.callFunc(this.scatterFlowerOver)));
         var players = JinHuaTablePlayer.getPlayers();
         if(this.pkData != null && players[this.pkData.lossCSID] && players[this.pkData.lossCSID].isMe()){

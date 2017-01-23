@@ -402,8 +402,6 @@ var LoginLogic= {
         if(this.check_agree.getSelectedState()){
             //粗鲁检测一下是否为空
             if(ProfileLogin.getLoginUserName().length!= 0&&ProfileLogin.getLoginPassword().length!= 0){
-                console.log(ProfileLogin.getLoginUserName());
-                console.log(ProfileLogin.getLoginPassword());
                 sendBASEID_LOGIN(ProfileLogin.getLoginUserName(), ProfileLogin.getLoginPassword());
             }else{
                 Common.showToast("用户名和密码不能为空！");

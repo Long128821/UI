@@ -236,7 +236,6 @@ var Profile_JinHuaGameData= {
         this.setUserArrayOrder();
         //设置是否为比赛
         this.setIsMatch();
-        console.log("牌桌同步");
         //Todo：是否支持断线重玩
         //Todo：设置牌桌可比牌手数
     },

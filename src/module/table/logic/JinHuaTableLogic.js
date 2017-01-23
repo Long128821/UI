@@ -1505,7 +1505,7 @@ var JinHuaTableLogic= {
     //弃牌
     updateJHID_DISCARD:function(){
         //隐藏看牌提示
-        JinHuaTableCheckButton.setLookedCard(true);
+        JinHuaTableCheckButton.setCheckVisible(false);
 
         JinHuaTablePlayer.updateTableAfterFoldCardByServer();
     },
@@ -1548,7 +1548,7 @@ var JinHuaTableLogic= {
         var checkCardData= Profile_JinHuaGameData.getCheckCardData();
         //看牌失败
         if(checkCardData.Result== null||checkCardData.Result== undefined||checkCardData.Result== 2){
-            JinHuaTableCard.setCheckVisible(true);
+            JinHuaTableCard.setLookedCard(false);
         }
         JinHuaTablePlayer.updateTableAfterLookCardByServer(checkCardData);
     },
@@ -2154,7 +2154,7 @@ var JinHuaTableLogic= {
         for(var i=0; i< GameData["playersCnt"];++i){
             if(playerTable[i]!= null && playerTable[i].userId== profile_user.getSelfUserID){
                 //是否显示看牌提示
-                JinHuaTableCheckButton.setCheckVisible(playerTable[i]["cardCnt"]== 0);
+                JinHuaTableCheckButton.setLookedCard(playerTable[i]["cardCnt"]!= 0);
             }
         }
     },

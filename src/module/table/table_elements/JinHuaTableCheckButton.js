@@ -63,7 +63,8 @@ var JinHuaTableCheckButton= {
         //添加监听机制
         this.addTouchListener();
         //默认不显示
-        this.setLookedCard(false);
+        this.setCheckVisible(false);
+        this.bLookCard= false;;
     },
     //添加触摸监听机制(点击、滑动)
     addTouchListener:function(){
@@ -123,13 +124,18 @@ var JinHuaTableCheckButton= {
             cc.eventManager.removeListener(this.listener);
         }
     },
+    //设置是否已经看牌
+    /**
+     * bVisible 显示看牌动画  显示 true
+     * bLookCard  已看牌 true
+     */
     setLookedCard:function(bLookCard){
         this.bLookCard= bLookCard== undefined?false:bLookCard;
-        this.setCheckVisible(this.bLookCard);
+        this.setCheckVisible(!this.bLookCard);
     },
     //获取是否已经开牌
     getLookedCard:function(){
-        return this.bVisible;
+        return this.bLookCard;
     },
     //显示所有元素
     hideAllEye:function(){
