@@ -5800,6 +5800,7 @@ cc.eventManager = {
             listener = cc.EventListener.create(listener);
         } else {
             if(listener._isRegistered()){
+                cc.assert(0);
                 cc.log(cc._LogInfos.eventManager_addListener_4);
                 return;
             }

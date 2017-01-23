@@ -119,7 +119,9 @@ var JinHuaTableCheckButton= {
             //还原眼睛位置
             this.checkButtonPointSprite.setPosition(this.eyeInitPos);
             this.startEyeAnimation();
-            cc.eventManager.addListener(this.listener, this.checkButtonBgSprite);
+            if(!this.listener._isRegistered()){
+                cc.eventManager.addListener(this.listener, this.checkButtonBgSprite);
+            }
         }else{
             cc.eventManager.removeListener(this.listener);
         }
