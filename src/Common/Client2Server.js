@@ -443,6 +443,8 @@ function sendDBID_BACKPACK_GOODS_COUNT(itemID){
 
 //金花退出牌桌
 function sendJHID_QUIT_TABLE(roomId,tableId){
+    console.log("退出房间");
+    console.log(roomId+" "+tableId);
     //断网状态
     if(!Network.getInstance().getWebSocketConnecting()) return;
 
@@ -653,6 +655,23 @@ function sendJHID_SHOW_CARDS(){
 
     var nmBaseMessage = new NMBaseMessage();
     nmBaseMessage.setMessageType(REQ + JHID_SHOW_CARDS);
+    nmBaseMessage.setExtData(3);
+
+    nmBaseMessage.writeStart();
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//换桌
+function sendJHID_CHANGE_TABLE(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JHID_CHANGE_TABLE);
     nmBaseMessage.setExtData(3);
 
     nmBaseMessage.writeStart();

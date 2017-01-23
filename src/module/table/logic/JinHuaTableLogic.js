@@ -1324,6 +1324,7 @@ var JinHuaTableLogic= {
         Frameworks.addSlot2Signal(JHID_PK, ProfileJinHuaTable.slot_JHID_PK);//比牌
         Frameworks.addSlot2Signal(JHID_LOOK_CARDS, ProfileJinHuaTable.slot_JHID_LOOK_CARDS);//看牌
         Frameworks.addSlot2Signal(JHID_SHOW_CARDS, ProfileJinHuaTable.slot_JHID_SHOW_CARDS);//展示牌
+        Frameworks.addSlot2Signal(JHID_CHANGE_TABLE, ProfileJinHuaTable.slot_JHID_CHANGE_TABLE);//换桌
 },
     //移除信号
     removeSlot:function(){
@@ -1345,6 +1346,7 @@ var JinHuaTableLogic= {
     	Frameworks.removeSlotFromSignal(JHID_PK, ProfileJinHuaTable.slot_JHID_PK);
     	Frameworks.removeSlotFromSignal(JHID_LOOK_CARDS, ProfileJinHuaTable.slot_JHID_LOOK_CARDS);
     	Frameworks.removeSlotFromSignal(JHID_SHOW_CARDS, ProfileJinHuaTable.slot_JHID_SHOW_CARDS);
+    	Frameworks.removeSlotFromSignal(JHID_CHANGE_TABLE, ProfileJinHuaTable.slot_JHID_CHANGE_TABLE);
     },
     
     //释放界面的私有数据
@@ -2796,7 +2798,6 @@ var JinHuaTableLogic= {
             }
         }
     },
-
     onPK_ID:function(CSID){
         this.clickPkBtnFunc(CSID);
     },

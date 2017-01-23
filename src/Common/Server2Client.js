@@ -1414,4 +1414,16 @@ function read82200008(nMBaseMessage){
     }
     return dataTable;
 }
+
+function read80210008(nMBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JHID_CHANGE_TABLE;
+    dataTable["messageName"] = "JHID_CHANGE_TABLE";
+
+    //Result  换桌结果 0失败 1成功
+    dataTable["Result"] = nMBaseMessage.readByte();
+    dataTable["ResultTxt"] = nMBaseMessage.readString();
+    return dataTable;
+}
+
 //需要联调的消息有readUTF(JHID_STAND_UP、JHID_READY、JHID_BET)

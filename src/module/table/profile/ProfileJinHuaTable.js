@@ -8,6 +8,7 @@ var ProfileJinHuaTable= {
     },
     //退出房间
     slot_JHID_QUIT_TABLE:function(dataTable){
+        console.log("退出房间！");
         Profile_JinHuaGameData.readJHID_QUIT_TABLE(dataTable);
         //Todo:需要联调-没有下行-是不是因为此时大厅已经被屏蔽的缘故？
     },
@@ -97,5 +98,11 @@ var ProfileJinHuaTable= {
     slot_JHID_SHOW_CARDS:function(dataTable){
         Profile_JinHuaGameData.readJHID_SHOW_CARDS(dataTable);
         JinHuaTableLogic.updateJHID_SHOW_CARDS();
+    },
+    //换桌
+    slot_JHID_CHANGE_TABLE:function(dataTable){
+        console.log("换桌");
+        console.log(dataTable);
+        Profile_JinHuaGameData.readJHID_CHANGE_TABLE(dataTable);
     }
 };

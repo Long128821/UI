@@ -205,7 +205,7 @@ var JinHuaTableMoreLogic= {
                     self.showSettings();
                     break;
                 case 3://换桌
-                    self.changeTable();
+                    self.onChangeTable();
                     break;
                 case 4://旁观
                     self.look();
@@ -237,9 +237,9 @@ var JinHuaTableMoreLogic= {
         MvcEngine.createModule(GUI_JINHUATABLECARDTYPEPOP);
     },
     //换桌
-    changeTable:function(){
+    onChangeTable:function(){
         MvcEngine.destroyModule(GUI_JINHUATABLEMORE);
-
+        sendJHID_CHANGE_TABLE();
     },
     //旁观
     look:function(){

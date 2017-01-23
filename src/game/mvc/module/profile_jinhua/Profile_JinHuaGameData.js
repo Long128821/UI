@@ -427,5 +427,9 @@ var Profile_JinHuaGameData= {
                 this.GameData["players"][this.showCardData.CSID].remainCoins = this.showCardData.remainCoins;
             }
         }
+    },
+    //换桌
+    readJHID_CHANGE_TABLE:function(dataTable){
+
     }
 };

@@ -7,8 +7,8 @@ function sendIdleMsg(){
     //断网状态
     if(!Network.getInstance().getWebSocketConnecting()) return;
     var nmBaseMessage= new NMBaseMessage();
-    nmBaseMessage.setMessageType(REQ);//消息ID
-    nmBaseMessage.setMsgVer(0);//设置消息版本
+    nmBaseMessage.setMessageType(REQ+ MSG_IDLE);//消息ID
+    //nmBaseMessage.setMsgVer(0);//设置消息版本
 
     nmBaseMessage.writeStart();
 

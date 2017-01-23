@@ -164,4 +164,6 @@ var Frameworks= {
     }
 };
 
-//Frameworks.addSlot2Signal(MSG_IDLE);
+Frameworks.addSlot2Signal(MSG_IDLE, function(){
+    console.log("心跳包！");
+});
