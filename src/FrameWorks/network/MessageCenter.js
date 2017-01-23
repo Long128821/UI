@@ -8,7 +8,6 @@ var MessageControlType= {
  */
 var MessageCenter= {
     m_isWebSocketPause:true,//当前WebSocket是否暂停
-    arrPauseMessage:[],
     getIsWebSocketPause:function(){
         return this.m_isWebSocketPause;
     },
@@ -25,9 +24,6 @@ var MessageCenter= {
 
         //不可以接收、发送消息
         this.setIsWebSocketPause(false);
-
-        //清空
-        this.arrPauseMessage= [];
     },
     //更新登陆界面的状态
     updateSign:function(){
@@ -107,6 +103,7 @@ var MessageCenter= {
      * @param buffer 网络中的二进制数组buffer
      */
     acceptMessage:function(buffer){
+        //console.log("接收消息");
         if(!MessageCenter.getIsWebSocketPause()){//可否接受信息
             //重置最后一次心跳时间
             NetworkMonitor.initLastRecvTime();
@@ -145,37 +142,6 @@ var MessageCenter= {
                 MessageRouting.sendMessage(this.getBaseMessage(controlType));
             }
         }
-    },
-    //暂停分发某个消息
-    pauseMessage:function(msgID){
-        var id= this.getMessageIndex();
-        if(id== -1){
-            this.arrPauseMessage.push(msgID);
-        }else{
-            this.arrPauseMessage[msgID]= msgID;
-        }
-        this.setIsWebSocketPause(true);
-    },
-    //恢复分发某个消息
-    resumeMessage:function(msgID){
-        var id= this.getMessageIndex(msgID);
-        if(id!= -1){
-            delete this.arrPauseMessage[id];
-        }
-        this.setIsWebSocketPause(false);
-    },
-    //数组中是否包含某个消息ID,返回下标
-    getMessageIndex:function(msgID){
-        for(var i=0; i< this.arrPauseMessage.length; ++i){
-            if(this.arrPauseMessage[i]== msgID){
-                return i;
-            }
-        }
-        return -1;
-    },
-    //获取消息暂停数组
-    getPauseMessage:function(){
-        return this.arrPauseMessage;
     }
 };
 //Todo:同一个按钮，可以发送多个消息
