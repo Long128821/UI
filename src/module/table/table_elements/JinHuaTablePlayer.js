@@ -573,10 +573,6 @@ var JinHuaTablePlayer= {
                 break;
         }
     },
-    //自己站起后，更新当前人(如果之前可操作玩家是 自己)
-    updateCurrentPlayerAfterStandUpMe:function(){
-
-    },
     //别人站起
     updateTableAfterStandUpOther:function(CSID){
         var player= this.tablePlayerEntitys[CSID];
@@ -786,8 +782,6 @@ var JinHuaTablePlayer= {
     updateTableAfterStandUpMe:function(CSID){
         //清空发牌
         this.clearTableAfterSitAndStand();
-        //自己站起后，更新当前人(如果之前可操作玩家是 自己)
-        this.updateCurrentPlayerAfterStandUpMe();
 
         JinHuaTableLogic.disableAllTableOperationButtons();
         //隐藏底部控件
@@ -816,8 +810,6 @@ var JinHuaTablePlayer= {
         this.showDealerIcon();
         //视图更新-重新初始化玩家
         this.initPlayerSprites(false);
-//创建坐下提示
-//        this.createTableTips();
         //Todo:自己站起，轮到别的玩家操作，更新定时器
         this.reAddToLayer(this.myTimerBg);
         this.reAddToLayer(this.myTimer);
@@ -825,14 +817,10 @@ var JinHuaTablePlayer= {
         this.reAddToLayer(this.otherTimerBg);
         this.reAddToLayer(this.otherTimer);
         this.reAddToLayer(this.otherTimer2);
+        //自己看牌之后，隐藏看牌提示
+        JinHuaTableCheckButton.setLookedCard(false);
+        JinHuaTableCheckButton.setCheckVisible(false);
     },
-//    //创建牌桌上的坐下提示
-//    createTableTips:function(){
-//        for(var CSID=0; CSID< 5;++CSID){
-//            if(Profile_JinHuaGameData.hasPlayer(CSID)) continue;
-//            JinHuaTableTips.createSitTips(CSID);
-//        }
-//    },
     //收到服务器<看牌>消息更新
     updateTableAfterLookCardByServer:function(checkCardData){
         if(this.tablePlayerEntitys[checkCardData.CSID]== null||this.tablePlayerEntitys[checkCardData.CSID]== undefined) return;

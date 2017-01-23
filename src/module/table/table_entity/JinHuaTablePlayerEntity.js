@@ -144,26 +144,12 @@ JinHuaTablePlayerEntity.prototype.getPhotoFrame= function(){
 
 //设置玩家头像
 JinHuaTablePlayerEntity.prototype.setPortrait= function(path){
+    if(!Common.judgeValueIsEffect(path)) return;
     if((!Common.judgeValueIsEffect(this.mPlayerSprite))||(!Common.judgeValueIsEffect((this.spritePic)))) return;
 
-    if(!Common.judgeValueIsEffect(path)){//没有头像纹理路径
-        //根据是否文玩家自身,获取纹理(cc.texture)
-        this.spritePic.setTexture(cc.textureCache.addImage(this.getPortraitPathBySelf()));
-    }else{//网络纹理
-        this.setPortraitTexture(path);
-    }
-};
-
-//加载头像(网络纹理)
-JinHuaTablePlayerEntity.prototype.setPortraitTexture= function(path){
-    var self= this;
-    //头像可能会加载失败(头像删除)
-    cc.loader.loadImg(path, function(){}, function(err){
-        //err为空时,表示加载网络图片成功
-        var portraitPath= err== null?path:self.getPortraitPathBySelf();
-        console.log(self.spritePic);
-        self.spritePic.getChildByTag(1).setTexture(cc.textureCache.addImage(portraitPath));
-    });
+    //没有头像纹理路径
+    //根据是否文玩家自身,获取纹理(cc.texture)
+    this.spritePic.setTexture(cc.textureCache.addImage(this.getPortraitPathBySelf()));
 };
 
 //根据是否为玩家本身,获取默认的头像图片
