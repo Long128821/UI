@@ -162,7 +162,7 @@ JinHuaTablePlayerEntity.prototype.setPortraitTexture= function(path){
         //err为空时,表示加载网络图片成功
         var portraitPath= err== null?path:self.getPortraitPathBySelf();
         console.log(self.spritePic);
-        self.spritePic.setTexture(cc.textureCache.addImage(portraitPath));
+        self.spritePic.getChildByTag(1).setTexture(cc.textureCache.addImage(portraitPath));
     });
 };
 

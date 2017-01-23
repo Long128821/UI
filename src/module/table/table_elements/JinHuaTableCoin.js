@@ -300,6 +300,8 @@ var JinHuaTableCoin= {
         JinHuaTableCard.clearCards();
         //清空庄家图标
         JinHuaTablePlayer.hideDealerIcon();
+        //清空看牌标记
+        JinHuaTablePlayer.clearPlayerStateIcons();
 
         var winnerPlayer= JinHuaTablePlayer.getPlayers()[JinHuaTablePlayer.getWinPlayerPos()];
 

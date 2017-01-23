@@ -1574,6 +1574,7 @@ var JinHuaTableLogic= {
         JinHuaTablePlayer.clear();//
         JinHuaTableTips.clear();
         JinHuaPKAnim.clear();
+        JinHuaTablePlayer.clear();//清空看牌标记
 
         //更新背包道具数量
         this.updateBACKPACK_GOODS_COUNT();

@@ -75,7 +75,7 @@ var JinHuaTablePlayer= {
 
         iconSprite.setLocalZOrder(10);
         this.JinHuaTablePlayerLayer.addChild(this.iconTable[pos]);
-        this.iconArray[Common.getTableSize(iconSprite)]= iconSprite;
+        this.iconArray[Common.getTableSize(this.iconArray)]= iconSprite;
     },
     //牌桌玩家
     create:function(){
@@ -107,10 +107,17 @@ var JinHuaTablePlayer= {
         var GameData= Profile_JinHuaGameData.getGameData();
         //断线重连-玩家在游戏中，更新玩家的可操作按钮
         if(GameData.status== STATUS_TABLE_PLAYING && GameData.currentPlayer){
-            //更新当前玩家
-            this.refreshCurrentPlayer(GameData.currentPlayer);
+            this.refreshCurrentPlayer(GameData.currentPlayer);//更新当前玩家
+            this.setAllPlayerDarkCoveredDone();//所有玩家头像上的遮蔽层，隐藏
         }
         return this.JinHuaTablePlayerLayer;
+    },
+    //所有玩家头像上的遮蔽层，隐藏
+    setAllPlayerDarkCoveredDone:function(){
+        for(var key in this.tablePlayerEntitys){
+            if(!Common.judgeValueIsEffect(this.tablePlayerEntitys[key])) continue;
+            this.tablePlayerEntitys[key].setPlayerDarkCoveredDone();
+        }
     },
     //初始化用户信息显示界面
     initPlayerSprites:function(isShowAnim){
@@ -382,6 +389,8 @@ var JinHuaTablePlayer= {
         JinHuaTableCheckButton.setLookedCard(false);
         //隐藏庄家图标
         this.dealer.setVisible(false);
+        //清空看牌标记
+        JinHuaTablePlayer.clearPlayerStateIcons();
     },
     //隐藏庄家图标
     hideDealerIcon:function(){
