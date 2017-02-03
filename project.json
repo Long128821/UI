@@ -12,7 +12,6 @@
     "modules" : ["cocos2d"],
 
     "jsList" : [
-        "src/FrameWorks/Map.js",
         "src/Game/data/GUIConfig.js",
         "src/Game/data/GameConfig.js",
         "src/Globals.js",

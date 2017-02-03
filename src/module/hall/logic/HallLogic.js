@@ -535,7 +535,6 @@ var HallLogic= {
         Frameworks.addSlot2Signal(MAIL_SYSTEM_MESSGE_LIST, ProfileHall.slot_MAIL_SYSTEM_MESSGE_LIST);//扎金花好友是否有红点
         Frameworks.addSlot2Signal(MANAGERID_HINT_BIND_WECHAT, ProfileHall.slot_MANAGERID_HINT_BIND_WECHAT);//获取微信绑定
         Frameworks.addSlot2Signal(JINHUA_MGR_RECHARGE_REBATE_INFO, ProfileHall.slot_JINHUA_MGR_RECHARGE_REBATE_INFO);//首充翻倍
-        Frameworks.addSlot2Signal(BASEID_THIRD_PART_PLAT_LOGIN, ProfileHall.slot_BASEID_THIRD_PART_PLAT_LOGIN);//第三方渠道登录
     },
     //移除信号
     removeSlot:function(){
@@ -556,7 +555,6 @@ var HallLogic= {
         Frameworks.removeSlotFromSignal(MAIL_SYSTEM_MESSGE_LIST, ProfileHall.slot_MAIL_SYSTEM_MESSGE_LIST);//扎金花好友是否有红点
         Frameworks.removeSlotFromSignal(MANAGERID_HINT_BIND_WECHAT, ProfileHall.slot_MANAGERID_HINT_BIND_WECHAT);//扎金花好友是否有红点
         Frameworks.removeSlotFromSignal(JINHUA_MGR_RECHARGE_REBATE_INFO, ProfileHall.slot_JINHUA_MGR_RECHARGE_REBATE_INFO);//首充翻倍
-        Frameworks.removeSlotFromSignal(BASEID_THIRD_PART_PLAT_LOGIN, ProfileHall.slot_BASEID_THIRD_PART_PLAT_LOGIN);//第三方渠道登录
     },
     
     //释放界面的私有数据

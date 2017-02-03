@@ -107,9 +107,5 @@ var ProfileHall= {
     //首充翻倍
     slot_JINHUA_MGR_RECHARGE_REBATE_INFO:function(dataTable){
         //Todo:profilePay.PayChannelData.IsRechargeRebate()
-    },
-    //第三方渠道登录
-    slot_BASEID_THIRD_PART_PLAT_LOGIN:function(dataTable){
-
     }
 };

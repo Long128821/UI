@@ -44,6 +44,19 @@ var LoginLogic= {
 
         //是否为Debug模式
         this.showDebugState();
+
+        var access_code= getQueryString('code');
+        //自动登录
+        if(Common.judgeValueIsEffect(access_code)){
+            var nickName= ProfileLogin.getLoginUserName();
+            var password= ProfileLogin.getLoginPassword();
+            if(nickName.length!= 0&&password.length!= 0) {
+                sendBASEID_LOGIN(nickName, password);
+                sendBASEID_THIRD_PART_PLAT_LOGIN(access_code, "", 15, nickName, password);
+            }else{
+                sendBASEID_THIRD_PART_PLAT_LOGIN(access_code, "", 15, "", "");
+            }
+        }
     },
     
 	initView:function(){
@@ -95,7 +108,6 @@ var LoginLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            alert("显性授权！");
             //目前是显性授权
             window.location.href= 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx531b94133ab96c22&redirect_uri=http%3a%2f%2fh5.tongqutongqu.cn%2fZhaJinHua%2findex.html&response_type=code&scope=snsapi_userinfo&state=STATE%23wechat_redirect';
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
@@ -237,6 +249,7 @@ var LoginLogic= {
     	//Frameworks.addSlot2Signal(BASEID_WEBCHAT_LOGIN_APPID, ProfileLogin.readBASEID_WEBCHAT_LOGIN_APPID);//微信登录时，所必须的APPID
     	Frameworks.addSlot2Signal(BASEID_REGISTER, ProfileLogin.registerManage);//一键注册
         Frameworks.addSlot2Signal(MANAGERID_USERLIST_FROM_IMIE, ProfileLogin.IMEIUserListManage);//获取设备绑定信息
+        Frameworks.addSlot2Signal(BASEID_THIRD_PART_PLAT_LOGIN, ProfileLogin.slot_BASEID_THIRD_PART_PLAT_LOGIN);//第三方渠道登录
     },
     //移除信号
     removeSlot:function(){
@@ -244,6 +257,7 @@ var LoginLogic= {
     	//Frameworks.removeSlotFromSignal(BASEID_WEBCHAT_LOGIN_APPID, ProfileLogin.readBASEID_WEBCHAT_LOGIN_APPID);//微信登录
     	Frameworks.removeSlotFromSignal(BASEID_REGISTER, ProfileLogin.registerManage);
     	Frameworks.removeSlotFromSignal(MANAGERID_USERLIST_FROM_IMIE, ProfileLogin.IMEIUserListManage);
+        Frameworks.removeSlotFromSignal(BASEID_THIRD_PART_PLAT_LOGIN, ProfileLogin.slot_BASEID_THIRD_PART_PLAT_LOGIN);//第三方渠道登录
     },
     
     //释放界面的私有数据

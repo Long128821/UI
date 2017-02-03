@@ -55,7 +55,7 @@ var ProfileLogin= {
     //读取账户和密码
     readLocalStorageData:function(){
         if(window.localStorage) {//支持本地存储
-            if (window.localStorage.getItem("userInfo") != null) {//已有数据
+            if(window.localStorage.getItem("userInfo") != null) {//已有数据
                 var userInfo = window.localStorage.getItem("userInfo");//本地存储中，已经存在用户数据
                 var userInfo_map = JSON.parse(userInfo);//将Json串转为Json对象
 
@@ -73,6 +73,15 @@ var ProfileLogin= {
                 ProfileLogin.setLoginPassword("128821");
             }
         }
+    },
+    getLocalStorageData:function(){
+        if(window.localStorage) {//支持本地存储
+            if (window.localStorage.getItem("userInfo") != null) {//已有数据
+                var userInfo = window.localStorage.getItem("userInfo");//本地存储中，已经存在用户数据
+                return JSON.parse(userInfo);//将Json串转为Json对象
+            }
+        }
+        return null;
     },
     //界面收到登录信息后处理
     loginManage:function(dataTable){
@@ -122,6 +131,10 @@ var ProfileLogin= {
     //根据IMEI获得绑定该设备的用户列表
     IMEIUserListManage:function(dataTable){
         console.log("Profile");
+    },
+    //第三方渠道登录
+    slot_BASEID_THIRD_PART_PLAT_LOGIN:function(dataTable){
+
     }
 };
 
