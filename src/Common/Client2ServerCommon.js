@@ -228,6 +228,49 @@ function sendDBID_FIND_PASSWORD(dataTable){
 
     delete nmBaseMessage;
 }
+//请求支付
+function sendMANAGERID_V3_RECHARGE(ProductDetail, PaymentInformation, payChannel, position){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+    var nmBaseMessage= new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + MANAGERID_V3_RECHARGE);
+    nmBaseMessage.writeStart();
+    
+    // GameID Byte 游戏ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+    // rechargeAmount Int 充值金额（fen）
+	nmBaseMessage.writeInt(ProductDetail.price);
+    // ChannelID Int 渠道id
+    nmBaseMessage.writeInt(Common.getChannelID());
+    // ScreenSize Text 屏幕尺寸
+    nmBaseMessage.writeString("800");
+    // IsDirectExchangeCoin Byte 是否直接兑换成金币 1是0否
+    nmBaseMessage.writeByte(PaymentInformation.isChangeCoin);
+    // RechargeWay Byte 1：充值卡，2：支付宝，3：银联
+    // 模拟支付测试
+    //nMBaseMessage.writeByte(999);
+    nmBaseMessage.writeByte(payChannel);
+    // GiftBagID int 礼包ID 若不为0，则充值后直接购买礼包；
+	nmBaseMessage.writeInt(PaymentInformation.giftID);
+    // Position Int 位置编码
+    nmBaseMessage.writeInt(position);
+    //SerialNumber long 流水号
+    nmBaseMessage.writeLong(ProductDetail.SerialNumber);
+
+    // 微信子协议
+    nmBaseMessage.writeByte(0);
+
+    //AimUserID	int	代充金币目标用户
+    nmBaseMessage.writeInt(GameConfig.giftUserID);
+    //	miniGameID	int	小游戏ID
+    nmBaseMessage.writeInt(0);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
 
 //得到短信通道号码
 function sendDBID_GET_SMS_NUMBER(dataTable){

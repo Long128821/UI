@@ -410,7 +410,7 @@ var HallLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            HallLogic.callPayment();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -535,6 +535,7 @@ var HallLogic= {
         Frameworks.addSlot2Signal(MAIL_SYSTEM_MESSGE_LIST, ProfileHall.slot_MAIL_SYSTEM_MESSGE_LIST);//扎金花好友是否有红点
         Frameworks.addSlot2Signal(MANAGERID_HINT_BIND_WECHAT, ProfileHall.slot_MANAGERID_HINT_BIND_WECHAT);//获取微信绑定
         Frameworks.addSlot2Signal(JINHUA_MGR_RECHARGE_REBATE_INFO, ProfileHall.slot_JINHUA_MGR_RECHARGE_REBATE_INFO);//首充翻倍
+        Frameworks.addSlot2Signal(MANAGERID_V3_RECHARGE, ProfileHall.slot_MANAGERID_V3_RECHARGE);//充值
     },
     //移除信号
     removeSlot:function(){
@@ -555,6 +556,7 @@ var HallLogic= {
         Frameworks.removeSlotFromSignal(MAIL_SYSTEM_MESSGE_LIST, ProfileHall.slot_MAIL_SYSTEM_MESSGE_LIST);//扎金花好友是否有红点
         Frameworks.removeSlotFromSignal(MANAGERID_HINT_BIND_WECHAT, ProfileHall.slot_MANAGERID_HINT_BIND_WECHAT);//扎金花好友是否有红点
         Frameworks.removeSlotFromSignal(JINHUA_MGR_RECHARGE_REBATE_INFO, ProfileHall.slot_JINHUA_MGR_RECHARGE_REBATE_INFO);//首充翻倍
+        Frameworks.removeSlotFromSignal(MANAGERID_V3_RECHARGE, ProfileHall.slot_MANAGERID_V3_RECHARGE);//充值
     },
     
     //释放界面的私有数据
@@ -850,6 +852,19 @@ var HallLogic= {
         sendJINHUA_MGR_FRIEND_HAVE_REDP();
         //获取站内信列表  主要需要数据来检测是否需要显示小红点
         sendMAIL_SYSTEM_MESSGE_LIST(0,100);
+    },
+
+    //微信支付
+    callPayment:function(){
+        var PaymentTable= {};
+        PaymentTable.SerialNumber = new Date().getTime();
+        PaymentTable.price = 1;
+        var payChannel= 999;
+        var PaymentInformation= {};
+        PaymentInformation.isChangeCoin= 0;
+        PaymentInformation.giftID= 1;
+
+        sendMANAGERID_V3_RECHARGE(PaymentTable, PaymentInformation, payChannel, 0);
     }
 };
 

@@ -737,5 +737,56 @@ function read80040008(nMBaseMessage){
     dataTable["ImageUrl"] = nMBaseMessage.readString();
     return dataTable;
 }
+//解析支付
+function read80070079(nMBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + MANAGERID_V3_RECHARGE;
+    dataTable["messageName"] = "MANAGERID_V3_RECHARGE";
+    //result byte 兑换结果 0失败 1成功
+    dataTable["result"] = nMBaseMessage.readByte();
+    //msg text 信息
+    dataTable["payMsg"] = nMBaseMessage.readString();
+    //msg text 信息
+    dataTable["payMsg"] = nMBaseMessage.readString();
+    //OrderId text 订单号/银联签名
+    dataTable["OrderId"] = nMBaseMessage.readString();
+    //支付渠道
+    dataTable["payChannel"] = nMBaseMessage.readByte();
+    //KvLoop loop KeyValue循环 用于微信支付或其他扩展信息
+    dataTable["KvLoop"] = {};
+
+    var  KvLoopNum = nMBaseMessage.readInt();
+    for(var i=0; i< KvLoopNum; ++i){
+        nMBaseMessage.startReadLoop();
+        //…Key Text
+        var key = nMBaseMessage.readString();
+        //…Value Text
+        dataTable["KvLoop"][key] = nMBaseMessage.readString();
+    }
+    dataTable["smsList"] = {};
+    //SmsData loop 多条短信指令和目标号码循环
+    var smscnt= nMBaseMessage.readInt();
+    for(var i=0; i< smscnt; ++i){
+        nMBaseMessage.startReadLoop();
+        dataTable["smsList"][i]= {};
+        //…TelephoneNumber text 目标号码
+        dataTable["smsList"][i].number = nMBaseMessage.readString();
+        //…SmsMsg text 短信内容
+        dataTable["smsList"][i].smsContent = nMBaseMessage.readString();
+        //…IsDataSms byte 是否二进制短信	0文本短信 1二进制短信
+        dataTable["smsList"][i].IsDataSms = nMBaseMessage.readByte();
+        //…DestinationPort	short	二进制短信目标端口
+        dataTable["smsList"][i].DestinationPort = nMBaseMessage.readShort()
+    }
+    //SmsHint text 短信发出后的弹框提示
+    dataTable["SmsHint"] = nMBaseMessage.readString();
+    //SerialNumber long 流水号
+    dataTable["SerialNumber"] = nMBaseMessage.readLong();
+    //Position Int	位置编码	默认为0
+    dataTable["Position"] = nMBaseMessage.readInt();
+
+    return dataTable;
+}
+
 
 //Todo:领取工资之后，GAMEID_IMAGE_TOAST
