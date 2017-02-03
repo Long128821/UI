@@ -71,6 +71,80 @@ function sendBASEID_RESGISTER(IMEI){
     delete nmBaseMessage;
 }
 
+//发起微信登录请求
+function sendBASEID_WEBCHAT_LOGIN_APPID(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+    var nmBaseMessage= new NMBaseMessage();
+    //现在仅仅只是测试，不需要设置消息ID
+    nmBaseMessage.setMessageType(REQ + BASEID_WEBCHAT_LOGIN_APPID);
+    nmBaseMessage.writeStart();//准备写消息
+
+    nmBaseMessage.writeOver();//写完
+
+    //写结束，同时设置对应的回调函数(如果需要处理的话)
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    //清空数据
+    delete nmBaseMessage;
+}
+//3.1.32 第三方渠道登录
+function sendBASEID_THIRD_PART_PLAT_LOGIN(strToken, strThirdPartPlatUID, nThirdPartPlatId, strUsername, strPassword){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+    var nmBaseMessage= new NMBaseMessage();
+    //现在仅仅只是测试，不需要设置消息ID
+    nmBaseMessage.setMessageType(REQ + BASEID_THIRD_PART_PLAT_LOGIN);
+    nmBaseMessage.writeStart();//准备写消息
+
+    //IMIE	text	IMIE号和MAC	以html5/android/ios +’_’开头+IMIE_MAC
+    nmBaseMessage.writeString("html5_"+ "357523056663693");//IMEI
+    //Token	Text	第三方登录token或Session
+    nmBaseMessage.writeString(strToken);
+
+    //AppVersionCode	Int	游戏版本号	版本号+渠道号
+    nmBaseMessage.writeInt(Common.getVersion() + Common.getChannelID());
+    //LoginChannelID	text	登录渠道号
+    nmBaseMessage.writeString(Common.getChannelID());
+    //mobile	Text	手机号码
+    nmBaseMessage.writeString("");
+    //GameID	byte	发起注册的GameId	0平台--1斗地主--2德州--3麻将--4 扎金花
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+
+    nmBaseMessage.writeByte(2);//客户端类型
+    //thirdPartPlatUID	Text	第三方渠道的用户ID
+    nmBaseMessage.writeString(strThirdPartPlatUID);
+    //thirdPartPlatId	Int	第三方登录平台的id
+    //THIRD_PART_PLAT_DIANJIN = 1
+    //THIRD_PART_PLAT_UC = 2 THIRD_PART_PLAT_XIAOMI = 3
+    //THIRD_PART_PLAY_ANZHI = 4;
+    //THIRD_PART_PLAY_GAME_BASE = 5;
+    //THIRD_PART_PLAY_IDREAM_SKY = 6;
+    //THIRD_PART_PLAY_LEYOU = 7;
+    //THIRD_PART_OURPALM_GAMEBASE = 8;
+    //THIRD_PART_PLAT_OPPO = 9;
+    //THIRD_PART_PLAT_7K =10;
+    //THIRD_PART_PLAT_XY = 11;
+    //THIRD_PART_PLAT_HAIMA = 12;
+    //THIRD_PART_PLAT_QIHU360 = 13;
+    //THIRD_PART_PLAT_WEIXIN = 15;
+    nmBaseMessage.writeInt(nThirdPartPlatId);
+    //UserName	text	同趣用户名
+    nmBaseMessage.writeString(strUsername);
+    //Password	text	同趣密码
+    nmBaseMessage.writeString(strPassword);
+    //PhoneType	String	手机型号
+    nmBaseMessage.writeString("Sun");
+
+    nmBaseMessage.writeOver();//写完
+
+    //写结束，同时设置对应的回调函数(如果需要处理的话)
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    //清空数据
+    delete nmBaseMessage;
+}
+
 //发送登录请求，获取AppID
 //@callback 登陆成功之后的回调函数
 //Todo:拿不到的数据有  IMEI 手机型号

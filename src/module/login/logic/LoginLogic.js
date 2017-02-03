@@ -95,9 +95,9 @@ var LoginLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            //MvcEngine.createModule(GUI_USERAGREEMENT);
-            console.log(ProfileLogin.getLoginUserName()+" "+ ProfileLogin.getLoginPassword());
-            sendBASEID_LOGIN(ProfileLogin.getLoginUserName(), ProfileLogin.getLoginPassword());
+            alert("显性授权！");
+            //目前是显性授权
+            window.location.href= 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx531b94133ab96c22&redirect_uri=http%3a%2f%2fh5.tongqutongqu.cn%2fZhaJinHua%2findex.html&response_type=code&scope=snsapi_userinfo&state=STATE%23wechat_redirect';
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -233,13 +233,15 @@ var LoginLogic= {
     },
     //添加信号
     addSlot:function(){
-    	Frameworks.addSlot2Signal(BASEID_LOGIN, ProfileLogin.loginManage);
-    	Frameworks.addSlot2Signal(BASEID_REGISTER, ProfileLogin.registerManage);
-        Frameworks.addSlot2Signal(MANAGERID_USERLIST_FROM_IMIE, ProfileLogin.IMEIUserListManage);
+    	Frameworks.addSlot2Signal(BASEID_LOGIN, ProfileLogin.loginManage);//普通登录
+    	//Frameworks.addSlot2Signal(BASEID_WEBCHAT_LOGIN_APPID, ProfileLogin.readBASEID_WEBCHAT_LOGIN_APPID);//微信登录时，所必须的APPID
+    	Frameworks.addSlot2Signal(BASEID_REGISTER, ProfileLogin.registerManage);//一键注册
+        Frameworks.addSlot2Signal(MANAGERID_USERLIST_FROM_IMIE, ProfileLogin.IMEIUserListManage);//获取设备绑定信息
     },
     //移除信号
     removeSlot:function(){
     	Frameworks.removeSlotFromSignal(BASEID_LOGIN, ProfileLogin.loginManage);
+    	//Frameworks.removeSlotFromSignal(BASEID_WEBCHAT_LOGIN_APPID, ProfileLogin.readBASEID_WEBCHAT_LOGIN_APPID);//微信登录
     	Frameworks.removeSlotFromSignal(BASEID_REGISTER, ProfileLogin.registerManage);
     	Frameworks.removeSlotFromSignal(MANAGERID_USERLIST_FROM_IMIE, ProfileLogin.IMEIUserListManage);
     },

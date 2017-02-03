@@ -535,6 +535,7 @@ var HallLogic= {
         Frameworks.addSlot2Signal(MAIL_SYSTEM_MESSGE_LIST, ProfileHall.slot_MAIL_SYSTEM_MESSGE_LIST);//扎金花好友是否有红点
         Frameworks.addSlot2Signal(MANAGERID_HINT_BIND_WECHAT, ProfileHall.slot_MANAGERID_HINT_BIND_WECHAT);//获取微信绑定
         Frameworks.addSlot2Signal(JINHUA_MGR_RECHARGE_REBATE_INFO, ProfileHall.slot_JINHUA_MGR_RECHARGE_REBATE_INFO);//首充翻倍
+        Frameworks.addSlot2Signal(BASEID_THIRD_PART_PLAT_LOGIN, ProfileLogin.readBASEID_THIRD_PART_PLAT_LOGIN);//第三方渠道登录
     },
     //移除信号
     removeSlot:function(){
@@ -555,6 +556,7 @@ var HallLogic= {
         Frameworks.removeSlotFromSignal(MAIL_SYSTEM_MESSGE_LIST, ProfileHall.slot_MAIL_SYSTEM_MESSGE_LIST);//扎金花好友是否有红点
         Frameworks.removeSlotFromSignal(MANAGERID_HINT_BIND_WECHAT, ProfileHall.slot_MANAGERID_HINT_BIND_WECHAT);//扎金花好友是否有红点
         Frameworks.removeSlotFromSignal(JINHUA_MGR_RECHARGE_REBATE_INFO, ProfileHall.slot_JINHUA_MGR_RECHARGE_REBATE_INFO);//首充翻倍
+        Frameworks.removeSlotFromSignal(BASEID_THIRD_PART_PLAT_LOGIN, ProfileLogin.readBASEID_THIRD_PART_PLAT_LOGIN);//第三方渠道登录
     },
     
     //释放界面的私有数据
@@ -842,7 +844,7 @@ var HallLogic= {
         dataTable["NickName"] = profile_user.getSelfNickName();
         dataTable["IsFirstEnter"] = 1;
         dataTable["ChatRoomName"] = "";
-        sendIMID_ENTER_CHAT_ROOM(dataTable);
+        //sendIMID_ENTER_CHAT_ROOM(dataTable);
     },
     //唤醒大厅，主要是这期间如果有了新的好友和消息
     refreshHall:function(){
@@ -853,14 +855,9 @@ var HallLogic= {
     }
 };
 
-//Todo:公告
 //Todo:没有做礼包数据的原因是:没有应用版本号和版本名
 //Todo:没有做活动的原因是:GameLoadModuleConfig.getTaskGameConfigList()活动文件列表不知道
-//Todo:在Logic中，添加各种setBaseLayer
-//Todo:小红点
-//Todo:Toast
 //Todo:新手引导
-//Todo:动画
 //Todo:领取金币toast(图片)
 
 //Todo:MINI_COMMON_WINNING_RECORD 小游戏公告 不知道读写数据内容

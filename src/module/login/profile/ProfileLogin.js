@@ -119,13 +119,13 @@ var ProfileLogin= {
             alert(resultText);
         }
     },
-    //界面收到登录成功
-    loginSuccess:function(){
-
-    },
     //根据IMEI获得绑定该设备的用户列表
     IMEIUserListManage:function(dataTable){
         console.log("Profile");
+    },
+    //第三方渠道登录
+    readBASEID_THIRD_PART_PLAT_LOGIN:function(dataTable){
+
     }
 };
 

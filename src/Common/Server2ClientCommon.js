@@ -41,7 +41,7 @@ function read80010001(nmBaseMessage){
     return dataTable;
 }
 
-//读取微信登录(ACK+ BASEID_LOGIN)
+//读取登录(ACK+ BASEID_LOGIN)
 function read80010002(nmBaseMessage){
     var dataTable= {};
     //存放消息类型和消息名
@@ -71,6 +71,32 @@ function read80010002(nmBaseMessage){
     dataTable["VipLevel"]= nmBaseMessage.readInt();
     //yuanbao Int 元宝
     dataTable["yuanbao"]= nmBaseMessage.readInt();
+    return dataTable;
+}
+
+//读取微信登录时，所需要的AppID(ACK+ BASEID_WEBCHAT_LOGIN_APPID)
+function read80010007(nmBaseMessage){
+    var dataTable= {};
+    //存放消息类型和消息名
+    dataTable["messageType"]= ACK + BASEID_WEBCHAT_LOGIN_APPID;
+    dataTable["messageName"]= "BASEID_WEBCHAT_LOGIN_APPID";
+
+    //appID UTF16 AppID
+    dataTable["appID"]= nmBaseMessage.readString();
+    return dataTable;
+}
+
+//第三方渠道登录(THIRD_PART_PLAT_LOGIN)
+function read80010020(nmBaseMessage){
+    var dataTable= {};
+    //存放消息类型和消息名
+    dataTable["messageType"]= ACK + BASEID_THIRD_PART_PLAT_LOGIN;
+    dataTable["messageName"]= "BASEID_THIRD_PART_PLAT_LOGIN";
+
+    //Password UTF16 密码
+    dataTable["Password"] = nmBaseMessage.readString();
+    //1为新注册用户;0为老用户
+    dataTable["IsRegister"] = nmBaseMessage.readByte();
     return dataTable;
 }
 

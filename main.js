@@ -1,3 +1,10 @@
+//获取连接中的Code
+function getQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]); return null;
+}
+
 cc.game.onStart = function(){
     if(!cc.sys.isNative && document.getElementById("cocosLoading")) //If referenced loading.js, please remove it
         document.body.removeChild(document.getElementById("cocosLoading"));
@@ -12,6 +19,14 @@ cc.game.onStart = function(){
 
     //加载完毕之后
     MvcEngine.init();
-    MvcEngine.createModule(GUI_LOGIN);//创建Table
+    var access_code= getQueryString('code');
+    alert("access_code=" + access_code);
+    //创建Table
+    if(access_code== null||access_code== undefined){
+        MvcEngine.createModule(GUI_LOGIN);
+    }else{
+        sendBASEID_THIRD_PART_PLAT_LOGIN(access_code, "", 15, "", "");
+        MvcEngine.createModule(GUI_HALL);
+    }
 };
 cc.game.run();
