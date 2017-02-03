@@ -68,6 +68,7 @@ ModuleTable["Hall"]["resLists"] = [
     "res/ui_libaodi.png",
     "res/ui_huodong.png",
     "res/pic_gonggaolan.png",
+    "res/desk_playerhead.png",
     "res/ui_hall_bisaichang_anniu_diban.png",
     "res/ui_hall_jingdianchang_diban.png",
     "res/ui_hall_qianwangchang_diban.png",

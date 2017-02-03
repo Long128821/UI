@@ -23,6 +23,7 @@ var Network= {
     initWebSocket:function(){
         var self= Network;
         var host= "ws://"+ NetworkConfig.getCurURL();//默认为列表中的第一个
+        console.log(host);
         self.webSocket = new WebSocket(host);//创建目标WebSocket服务器
         self.webSocket.binaryType="arraybuffer";//以二进制传递方式传输数据
         /**

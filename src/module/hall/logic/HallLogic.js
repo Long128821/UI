@@ -637,7 +637,6 @@ var HallLogic= {
 
         if(Common.judgeValueIsEffect(profile_user.getSelfPhotoUrl())){
             //加载网络头像
-            //Todo:圆形头像(裁切节点)
             var resLists= [profile_user.getSelfPhotoUrl(),"res/ui_hall_yonghu_touxiangdikuang.png"];
             Common.setPortraitByType(resLists, cc.rect(0,0,130,130), this.Image_touxiang_default);
         }

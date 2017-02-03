@@ -315,7 +315,8 @@ var FriendListLogic= {
             Common.getJinHuaResourcePath("btn_lingqu_1.png"),
             Common.getJinHuaResourcePath("ui_lingqujinbi.png"),
             Common.getJinHuaResourcePath("btn_lingqu_1.png"),
-            Common.getJinHuaResourcePath("ui_xinyoujiantubiao.png")
+            Common.getJinHuaResourcePath("ui_xinyoujiantubiao.png"),
+            Common.getJinHuaResourcePath("desk_playerhead.png")
         ];
 
         //代码先执行，但是精灵尺寸为空,不能正确显示
@@ -377,17 +378,17 @@ var FriendListLogic= {
         //背景
         var bgUrl= unreadCnt> 0?"ui_xinxiaoxidi.png":"ui_yiduxiaoxidi.png";
         var sprite= GamePub.createPointNineSpriteForPlist(Common.getJinHuaResourcePath(bgUrl), 25, 25, tableSize.width- 30,115- 6);
+        //Todo:点九图改为监听
+        sprite.setAnchorPoint(cc.p(0,0));
+        sprite.setTag(idx);
+        itemParentNode.addChild(sprite, 0);
+
+        this.addTouchListener(sprite);
+
         //操作
         var menu = cc.Menu.create();
         menu.setPosition(cc.p(0,0));
-        itemParentNode.addChild(menu);
-
-        var button= cc.MenuItemSprite.create(
-            sprite,
-            null, this.onShow, this);
-        button.setAnchorPoint(0,0);
-        button.setTag(idx);
-        menu.addChild(button);
+        itemParentNode.addChild(menu, 1);
 
         //点九图的尺寸
         var spriteSize= sprite.getContentSize();
@@ -404,7 +405,7 @@ var FriendListLogic= {
         itemParentNode.addChild(labelName);
 
         //玩家财富
-        var labelMoney = cc.LabelTTF.create("财富:      "+TaskListLoop[idx]["coin"], "Arial", 18);
+        var labelMoney = cc.LabelTTF.create("财富:        "+TaskListLoop[idx]["coin"], "Arial", 18);
         labelMoney.setAnchorPoint(0, 0.5);
         labelMoney.setPosition(cc.p(spriteSize.width* 0.15, spriteSize.height* 0.25));
         itemParentNode.addChild(labelMoney);
@@ -443,22 +444,27 @@ var FriendListLogic= {
         itemParentNode.addChild(messageIcon, 1);
 
         //玩家头像
-        Common.addSpriteByNet(TaskListLoop[idx]["photoUrl"], function(sprite){
-            sprite.setPosition(spriteSize.width* 0.08, spriteSize.height* 0.5);
-            sprite.setScale(0.85);
-            itemParentNode.addChild(sprite);
+        Common.loadTextureByNetwork(TaskListLoop[idx]["photoUrl"], function(msg){
+            var portraitPath= ((msg== null)?Common.getJinHuaResourcePath("desk_playerhead.png"):msg);
+            var resLists= [portraitPath,"res/ui_hall_yonghu_touxiangdikuang.png"];
+            Common.getPortraitByType(resLists, cc.rect(0,0,115,115), function(clipper){
+                clipper.setPosition(spriteSize.width* 0.08, spriteSize.height* 0.5);
+                itemParentNode.addChild(clipper);
+            });
         });
+
         //头像框
         var avatarSp= cc.Sprite.create(Common.getJinHuaResourcePath("ui_touxiangkuang.png"));
         avatarSp.setPosition(spriteSize.width* 0.08, spriteSize.height* 0.5);
         avatarSp.setScale(0.85);
         itemParentNode.addChild(avatarSp, 1);
 
-        //[称谓-等级]
-        var chengweiSp= cc.Sprite.create(Profile_JinHuaSetting.getUserTitlePath(TaskListLoop[idx]["coin"]));
-        chengweiSp.setPosition(spriteSize.width* 0.08, spriteSize.height* 0.15);
-        itemParentNode.addChild(chengweiSp, 1);
-        chengweiSp.setScale(0.85);
+        //Todo:昵称和称谓，在每个地方所使用的图片不一致
+//        //[称谓-等级]
+//        var chengweiSp= cc.Sprite.create("#"+ Profile_JinHuaSetting.getUserTitlePath(TaskListLoop[idx]["coin"]));
+//        chengweiSp.setPosition(spriteSize.width* 0.08, spriteSize.height* 0.15);
+//        itemParentNode.addChild(chengweiSp, 1);
+//        chengweiSp.setScale(0.85);
 
         //Vip等级
         var userVipLevel = TaskListLoop[idx]["vipLevel"];
@@ -539,7 +545,7 @@ var FriendListLogic= {
     onClick:function(pSender){
         var id= pSender.getTag();
         var userID= ProfileFriendList.m_friendListTable["FriendList"][id]["userID"];
-        sendJINHUA_MGR_SIGN_FRIEND_REWARD(userID,id+ 1)
+        sendJINHUA_MGR_SIGN_FRIEND_REWARD(userID,id+ 1);
     },
     //显示头像
     onShow:function(pSender){
@@ -575,5 +581,40 @@ var FriendListLogic= {
         }else{
             this.Panel_haoyoushangxian.setVisible(false);
         }
+    },
+    //添加触摸监听机制(点击、滑动)
+    addTouchListener:function(target){
+        var self= this;
+        self.listener= cc.EventListener.create({
+            event:cc.EventListener.TOUCH_ONE_BY_ONE,//点对点触摸
+            swallowTouches:false,//是否吞噬其他监听事件
+            onTouchBegan:self.onTouchBegan,
+            onTouchEnded:self.onTouchEnded
+        });
+        cc.eventManager.addListener(self.listener, target);
+    },
+    //开始触摸
+    onTouchBegan:function(touch, event){
+        console.log("开始触摸！");
+        //获取对象
+        var target= event.getCurrentTarget();
+        var size= target.getContentSize();
+        var locationPos= touch.getLocation();
+        var pos= target.getParent().convertToNodeSpace(target.getPosition());
+        console.log(pos);
+        console.log(size);
+        var rect= cc.rect(pos.x, pos.y, size.width, size.height);
+        //判断是否在对象的范围点击
+        console.log(rect);
+        console.log(locationPos);
+        if(cc.rectContainsPoint(rect, locationPos)){
+            JinHuaTableCheckButton.startTouchPosX= locationPos.x;
+            return true;
+        }
+        return false;
+    },
+    //结束监听
+    onTouchEnded:function(touch, event){
+        JinHuaTableCheckButton.onShow(event.getCurrentTarget());
     }
 };
