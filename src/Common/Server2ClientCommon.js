@@ -746,8 +746,6 @@ function read80070079(nMBaseMessage){
     dataTable["result"] = nMBaseMessage.readByte();
     //msg text 信息
     dataTable["payMsg"] = nMBaseMessage.readString();
-    //msg text 信息
-    dataTable["payMsg"] = nMBaseMessage.readString();
     //OrderId text 订单号/银联签名
     dataTable["OrderId"] = nMBaseMessage.readString();
     //支付渠道
@@ -756,6 +754,7 @@ function read80070079(nMBaseMessage){
     dataTable["KvLoop"] = {};
 
     var  KvLoopNum = nMBaseMessage.readInt();
+    alert("KvLoopNum= "+ KvLoopNum);
     for(var i=0; i< KvLoopNum; ++i){
         nMBaseMessage.startReadLoop();
         //…Key Text

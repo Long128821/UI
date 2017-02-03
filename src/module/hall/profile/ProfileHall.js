@@ -110,7 +110,29 @@ var ProfileHall= {
     },
     //充值
     slot_MANAGERID_V3_RECHARGE:function(dataTable){
-        alert("支付");
-        alert(dataTable);
+        console.log("支付");
+        console.log(dataTable);
+        if (typeof WeixinJSBridge == "undefined"){
+            console.log("微信没有该接口！");
+        }else{
+            WeixinJSBridge.invoke(
+                'getBrandWCPayRequest', {
+                    "appId" : "wx531b94133ab96c22",//公众号名称，由商户传入
+                    "timeStamp": ""+ dataTable["SerialNumber"],//时间戳，自1970年以来的秒数
+                    "nonceStr" : "", //随机串
+                    "package" : "",
+                    "signType" : "MD5",//微信签名方式：
+                    "paySign" : dataTable["payMsg"]//微信签名
+                },
+                function(res){
+                    // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+                    if(res.err_msg == "get_brand_wcpay_request：ok" ) {
+                        alert("微信支付成功!");
+                    }else{
+                        alert("微信支付失败:"+ res.err_msg);
+                    }
+                }
+            );
+        }
     }
 };
