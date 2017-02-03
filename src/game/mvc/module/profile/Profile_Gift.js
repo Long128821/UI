@@ -21,7 +21,6 @@ var Profile_Gift={
     //推送双核礼包(GIFTBAGID_PUSH_DUAL_GIFTBAG)
     slot_GIFTBAGID_PUSH_DUAL_GIFTBAG:function(dataTable){
         Profile_Gift.m_GiftData= dataTable;
-        console.log(Profile_Gift.m_GiftData);
     },
     //用户礼包状态
     slot_GIFTBAGID_GET_GIFTBAG_MSG:function(dataTable){

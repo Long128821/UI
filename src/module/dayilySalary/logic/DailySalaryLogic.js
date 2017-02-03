@@ -214,7 +214,7 @@ var DailySalaryLogic= {
 //        //Common.setTextureByNet(dailySalaryInfoTable["PhotoUrl"], this.Image_head);
 //        this.Image_head.setScale(1.1);
         var resLists= [dailySalaryInfoTable["PhotoUrl"],"res/desk_playerhead_1.png"];
-        Common.setPortraitByType(resLists, cc.rect(5,0,220,220), this.Image_head);
+        Common.setPortraitByType(resLists, cc.rect(5,0,157,157), this.Image_head);
 
         this.Image_head.setLocalZOrder(-1);
 

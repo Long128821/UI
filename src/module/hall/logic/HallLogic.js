@@ -637,7 +637,7 @@ var HallLogic= {
             //加载网络头像
             //Todo:圆形头像(裁切节点)
             var resLists= [profile_user.getSelfPhotoUrl(),"res/ui_hall_yonghu_touxiangdikuang.png"];
-            Common.setPortraitByType(resLists, cc.rect(0,0,170,170), this.Image_touxiang_default);
+            Common.setPortraitByType(resLists, cc.rect(0,0,130,130), this.Image_touxiang_default);
         }
     },
     //添加小红点
@@ -705,16 +705,16 @@ var HallLogic= {
                 self.Button_jingdian.addChild(armature);
             });
 
-//        //千王场动画
-//        Common.createArmature(
-//            "res/Animation/Animation_Newhall_CheatKingRoom.ExportJson",//动画Json路径
-//            "Animation_Newhall_CheatKingRoom",//要执行的动画名
-//            function(armature){
-//                armature.getAnimation().playWithIndex(0, 0.1, true);//循环播放
-//                armature.setAnchorPoint(cc.p(0,0));
-//                armature.setPosition(0, 10);
-//                self.Button_qianwang.addChild(armature);
-//            });
+        //千王场动画
+        Common.createArmature(
+            "res/Animation/Animation_Newhall_CheatKingRoom.ExportJson",//动画Json路径
+            "Animation_Newhall_CheatKingRoom",//要执行的动画名
+            function(armature){
+                armature.getAnimation().playWithIndex(0, 0.1, true);//循环播放
+                armature.setAnchorPoint(cc.p(0,0));
+                armature.setPosition(20, 10);
+                self.Button_qianwang.addChild(armature);
+            });
 
         //比赛场动画
         Common.createArmature(
