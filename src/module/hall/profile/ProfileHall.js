@@ -110,31 +110,25 @@ var ProfileHall= {
     },
     //充值
     slot_MANAGERID_V3_RECHARGE:function(dataTable){
-        alert("支付回调！");
+        var json= {
+            "appId" : dataTable["KvLoop"]["appid"],//公众号名称，由商户传入
+            "timeStamp": ""+ dataTable["KvLoop"]["timestamp"],//时间戳，自1970年以来的秒数
+            "nonceStr" : dataTable["KvLoop"]["noncestr"], //随机串
+            "package" : "prepay_id="+ dataTable["KvLoop"]["prepayid"],
+            "signType" : "MD5",//微信签名方式
+            "paySign" : dataTable["KvLoop"]["sign"]//微信签名
+        };
         if (typeof WeixinJSBridge == "undefined"){
             console.log("微信没有该接口！");
         }else{
-            alert("APPID:"+ dataTable["KvLoop"]["appid"]);
-            alert("时间戳:"+ dataTable["KvLoop"]["timestamp"]);
-            alert("随机串:"+ dataTable["KvLoop"]["noncestr"]);
-            alert("Package:"+ dataTable["KvLoop"]["package"]);
-            alert("PrepayID:"+ dataTable["KvLoop"]["prepayid"]);
-            alert("微信签名:"+ dataTable["KvLoop"]["sign"]);
             WeixinJSBridge.invoke(
-                'getBrandWCPayRequest', {
-                    "appId" : dataTable["KvLoop"]["appid"],//公众号名称，由商户传入
-                    "timeStamp": ""+ dataTable["KvLoop"]["timestamp"],//时间戳，自1970年以来的秒数
-                    "nonceStr" : dataTable["KvLoop"]["noncestr"], //随机串
-                    "package" : dataTable["KvLoop"]["package"],
-                    "signType" : "MD5",//微信签名方式
-                    "paySign" : dataTable["KvLoop"]["sign"]//微信签名
-                },
+                'getBrandWCPayRequest', json,
                 function(res){
                     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
-                    if(res.err_msg == "get_brand_wcpay_request：ok" ) {
+                    if(res.err_msg == "get_brand_wcpay_request:ok" ) {
                         alert("微信支付成功!");
                     }else{
-                        alert("微信支付失败:"+ res.err_msg);
+                        alert(JSON.stringify(res));
                     }
                 }
             );

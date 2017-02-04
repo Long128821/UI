@@ -109,7 +109,7 @@ var LoginLogic= {
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
             //目前是显性授权
-            window.location.href= 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx531b94133ab96c22&redirect_uri=http%3a%2f%2fh5.tongqutongqu.cn%2fZhaJinHua%2findex.html&response_type=code&scope=snsapi_userinfo&state=STATE%23wechat_redirect';
+            window.location.href= 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx531b94133ab96c22&redirect_uri=http%3a%2f%2fh5.tongqutongqu.cn%2findex.html&response_type=code&scope=snsapi_userinfo&state=STATE%23wechat_redirect';
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 

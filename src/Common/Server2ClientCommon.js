@@ -754,7 +754,6 @@ function read80070079(nMBaseMessage){
     dataTable["KvLoop"] = {};
 
     var  KvLoopNum = nMBaseMessage.readInt();
-    alert("KvLoopNum= "+ KvLoopNum);
     for(var i=0; i< KvLoopNum; ++i){
         nMBaseMessage.startReadLoop();
         //…Key Text

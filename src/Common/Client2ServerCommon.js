@@ -269,8 +269,6 @@ function sendMANAGERID_V3_RECHARGE(ProductDetail, PaymentInformation, payChannel
 
     Network.getInstance().sendMessage(nmBaseMessage);
 
-    alert("微信支付！");
-
     delete nmBaseMessage;
 }
 

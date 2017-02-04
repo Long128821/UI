@@ -194,7 +194,11 @@ var Common= {
         webView._renderCmd._div.style["background"]= ((color== undefined)?"rgb(56, 0, 38)":color);
         var canvasWidth=  cc.game.canvas.width;
         var canvasHeight=  cc.game.canvas.height;
-        var leftBottomPos= cc.p((document.body.clientWidth- canvasWidth)* 0.5/cc.view.getScaleX(), (document.body.clientHeight- canvasHeight)* 0.5/cc.view.getScaleY());
+        var posX= (document.body.clientWidth- canvasWidth)* 0.5/cc.view.getScaleX();
+        var posY= (document.body.clientHeight- canvasHeight)* 0.5/cc.view.getScaleY();
+        alert("高度1:"+ document.body.clientHeight);
+        alert("宽度1:"+ document.body.clientWidth);
+        var leftBottomPos= ((cc.sys.isMobile&&cc.view._orientation== cc.ORIENTATION_LANDSCAPE)?cc.p(document.body.clientHeight- canvasHeight, document.body.clientWidth- canvasWidth):cc.p(posX, posY));
         webView.setPosition(cc.pAdd(leftBottomPos, pos));
 
         target.addChild(webView);
