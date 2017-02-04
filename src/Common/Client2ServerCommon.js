@@ -261,13 +261,15 @@ function sendMANAGERID_V3_RECHARGE(ProductDetail, PaymentInformation, payChannel
     nmBaseMessage.writeByte(0);
 
     //AimUserID	int	代充金币目标用户
-    nmBaseMessage.writeInt(GameConfig.giftUserID);
+    nmBaseMessage.writeInt(0);
     //	miniGameID	int	小游戏ID
     nmBaseMessage.writeInt(0);
 
     nmBaseMessage.writeOver();
 
     Network.getInstance().sendMessage(nmBaseMessage);
+
+    alert("微信支付！");
 
     delete nmBaseMessage;
 }

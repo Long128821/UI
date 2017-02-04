@@ -22,6 +22,8 @@ var FriendListLogic= {
 	Label_haoyoushangxian:null,
 	Button_closeShangxian:null,
 	Panel_TableView:null,
+
+    startTouchPosY:0,//起始触摸点,用来判断是否滑动
 	
     createView:function(){
     	this.initLayer();
@@ -595,26 +597,24 @@ var FriendListLogic= {
     },
     //开始触摸
     onTouchBegan:function(touch, event){
-        console.log("开始触摸！");
         //获取对象
         var target= event.getCurrentTarget();
         var size= target.getContentSize();
         var locationPos= touch.getLocation();
-        var pos= target.getParent().convertToNodeSpace(target.getPosition());
-        console.log(pos);
-        console.log(size);
+        var pos= target.getParent().getParent().convertToWorldSpace(target.getPosition());
         var rect= cc.rect(pos.x, pos.y, size.width, size.height);
         //判断是否在对象的范围点击
-        console.log(rect);
-        console.log(locationPos);
         if(cc.rectContainsPoint(rect, locationPos)){
-            JinHuaTableCheckButton.startTouchPosX= locationPos.x;
+            FriendListLogic.startTouchPosY= locationPos.y;
             return true;
         }
         return false;
     },
     //结束监听
     onTouchEnded:function(touch, event){
-        JinHuaTableCheckButton.onShow(event.getCurrentTarget());
+        var locationPos= touch.getLocation();
+        if(Math.abs(FriendListLogic.startTouchPosY- locationPos.y)< 5){
+            FriendListLogic.onShow(event.getCurrentTarget());
+        }
     }
 };

@@ -27,7 +27,7 @@ FORTUNE_ID = 0x00630000;
 MAILID = 0x00670000;
 
 //消息版本号
-CHANGEID= 3;
+CHANNEL_ID= 165;
 
 MSG_IDLE = 0;//心跳
 NETERR_CONN_FAILED = 1001;//建立连接失败(每连续出现三次，则弹出网络异常对话框)

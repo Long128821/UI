@@ -1,15 +1,15 @@
 var Common= {
     debugState:true,//是否为调试模式
-    changeID:CHANGEID,//渠道号
+    channelID:CHANNEL_ID,//渠道号
     version:0x04000000,//版本号
     isDebugState:function(){
         return this.debugState;
     },
     getChannelID:function(){
-        return this.changeID;
+        return this.channelID;
     },
-    setChangeID:function(changeID){
-        this.changeID= changeID;
+    setChannelID:function(changeID){
+        this.channelID= changeID;
     },
     getVersion:function(){
         return this.version;
