@@ -112,6 +112,7 @@ var FriendListLogic= {
 			//抬起
             ProfileFriendList.m_curPageID= 0;
             FriendListLogic.showPanel();
+            FriendListLogic.createTableView();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -126,6 +127,7 @@ var FriendListLogic= {
 			//抬起
             ProfileFriendList.m_curPageID= 1;
             FriendListLogic.showPanel();
+            FriendListLogic.createTableView();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -140,6 +142,7 @@ var FriendListLogic= {
 			//抬起
             ProfileFriendList.m_curPageID= 2;
             FriendListLogic.showPanel();
+            FriendListLogic.createTableView();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -275,13 +278,20 @@ var FriendListLogic= {
     },
     //创建视图
     createTableView:function(){
+
         //避免打开之后，重新添加一些相同的元素
         if(this.m_tableView!= null){
             this.m_tableView.removeFromParent(true);
+            this.m_tableView= null;
         }
         var friendListTable= ProfileFriendList.m_friendListTable;
-        this.Label_haoyoushangxian.setString(friendListTable["Maxfriendcnt"]);
-        this.Button_shuaxin.setVisible(false);
+        if(ProfileFriendList.m_curPageID== 0){
+            this.Label_haoyoushangxian.setString(friendListTable["Maxfriendcnt"]);
+            this.Button_shuaxin.setVisible(false);
+        }else{
+
+        }
+
         this.showPanel();
 
         var self= this;
@@ -363,10 +373,178 @@ var FriendListLogic= {
     tableCellAtIndex:function (table, idx) {
         var cell = table.dequeueCell();
         cell = new cc.TableViewCell();
-        return this.createItem(cell, idx);
+        var tableCell;
+        switch(ProfileFriendList.m_curPageID){
+            case 0:
+                tableCell= this.createItemOfGoodFriend(cell, idx);
+                break;
+            case 1:
+                tableCell= this.createItemOfTrack(cell, idx);
+                break;
+            case 2:
+                break;
+        }
+        return tableCell;
     },
-    //创建某一个右邮件项
-    createItem:function(cell, idx){
+    //追踪项
+    createItemOfTrack:function(cell, idx) {
+        var tableSize= this.Panel_TableView.getContentSize();
+        var ListTable= ProfileFriendList.m_traceListTable;
+
+        if(!Common.judgeValueIsEffect(ListTable)) return cell;
+        var TaskListLoop= ListTable["TraceList"];
+        if(!Common.judgeValueIsEffect(TaskListLoop)) return cell;
+
+        var itemParentNode= cc.Node.create();
+        cell.addChild(itemParentNode);
+
+        //背景
+        var sprite= GamePub.createPointNineSpriteForPlist(Common.getJinHuaResourcePath("ui_xinxiaoxidi.png"), 25, 25, tableSize.width- 30,115- 6);
+        //Todo:点九图改为监听
+        sprite.setAnchorPoint(cc.p(0,0));
+        sprite.setTag(idx);
+        itemParentNode.addChild(sprite, 0);
+
+        //this.addTouchListener(sprite);
+
+        //操作
+        var menu = cc.Menu.create();
+        menu.setPosition(cc.p(0,0));
+        itemParentNode.addChild(menu, 1);
+
+        //点九图的尺寸
+        var spriteSize= sprite.getContentSize();
+        //等级
+        var labelVip = cc.LabelTTF.create("Lv."+ TaskListLoop[idx]["level"], "Arial", 20);
+        labelVip.setAnchorPoint(0, 0.5);
+        labelVip.setPosition(cc.p(spriteSize.width* 0.15, spriteSize.height* 0.75));
+        itemParentNode.addChild(labelVip);
+
+        //玩家名
+        var labelName = cc.LabelTTF.create(TaskListLoop[idx]["name"], "Arial", 18);
+        labelName.setAnchorPoint(0, 0.5);
+        labelName.setPosition(cc.p(spriteSize.width* 0.24, spriteSize.height* 0.75));
+        itemParentNode.addChild(labelName);
+
+        //玩家财富
+        var labelMoney = cc.LabelTTF.create("财富:        "+TaskListLoop[idx]["coin"], "Arial", 18);
+        labelMoney.setAnchorPoint(0, 0.5);
+        labelMoney.setPosition(cc.p(spriteSize.width* 0.15, spriteSize.height* 0.25));
+        itemParentNode.addChild(labelMoney);
+        //图标
+        var moneySp= cc.Sprite.create(Common.getJinHuaResourcePath("ic_tongqian.png"));
+        moneySp.setPosition(spriteSize.width* 0.21, spriteSize.height* 0.22);
+        itemParentNode.addChild(moneySp, 1);
+
+
+        //玩家头像
+        Common.loadTextureByNetwork(TaskListLoop[idx]["photoUrl"], function(msg){
+            var portraitPath= ((msg== null)?Common.getJinHuaResourcePath("desk_playerhead.png"):msg);
+            var resLists= [portraitPath,"res/ui_hall_yonghu_touxiangdikuang.png"];
+            Common.getPortraitByType(resLists, cc.rect(0,0,115,115), function(clipper){
+                clipper.setPosition(spriteSize.width* 0.08, spriteSize.height* 0.5);
+                itemParentNode.addChild(clipper);
+            });
+        });
+
+        //头像框
+        var avatarSp= cc.Sprite.create(Common.getJinHuaResourcePath("ui_touxiangkuang.png"));
+        avatarSp.setPosition(spriteSize.width* 0.08, spriteSize.height* 0.5);
+        avatarSp.setScale(0.85);
+        itemParentNode.addChild(avatarSp, 1);
+
+        //Todo:昵称和称谓，在每个地方所使用的图片不一致
+        //[称谓-等级]
+        var chengweiSp= cc.Sprite.create("#"+ Profile_JinHuaSetting.getUserTitlePath(TaskListLoop[idx]["coin"]));
+        chengweiSp.setPosition(spriteSize.width* 0.08, spriteSize.height* 0.15);
+        itemParentNode.addChild(chengweiSp, 1);
+        chengweiSp.setScale(0.85);
+
+        //Vip等级
+        var userVipLevel = TaskListLoop[idx]["vipLevel"];
+
+        var path = VipElementsUtils.getVipBgFromVipLevel(userVipLevel);
+        var vipBgSprite;
+        //Todo:资源重复，该部分资源在Plist中也存在
+        if(path!= null){
+            vipBgSprite= cc.Sprite.create(Common.getJinHuaResourcePath(path));
+        }else{
+            vipBgSprite= cc.Sprite.create(Common.getJinHuaResourcePath("ic_vip_0.png"));
+        }
+        itemParentNode.addChild(vipBgSprite, 1);
+        var vipBgSize= vipBgSprite.getContentSize();
+
+        var AtlasLabel_vip_level= cc.LabelAtlas.create("", Common.getJinHuaResourcePath("ui_vip_lvshuzi_gaoji.png"), 14, 20, "0");
+        AtlasLabel_vip_level.setString(":"+userVipLevel);
+        AtlasLabel_vip_level.setAnchorPoint(cc.p(0.5, 0.5));
+        AtlasLabel_vip_level.setPosition(vipBgSize.width* 0.5, vipBgSize.height* 0.5);
+        vipBgSprite.addChild(AtlasLabel_vip_level);
+
+        if(userVipLevel> 0 &&userVipLevel< 10){
+            var AtlasLabel_lowsign= cc.LabelAtlas.create("", Common.getJinHuaResourcePath("ui_vip_jiaobiaoshuzi.png"), 12, 14, "0");
+            AtlasLabel_lowsign.setString(userVipLevel);
+            AtlasLabel_lowsign.setAnchorPoint(cc.p(0.5, 0.5));
+            AtlasLabel_lowsign.setPosition(vipBgSize.width, vipBgSprite.height);
+            vipBgSprite.addChild(AtlasLabel_lowsign);
+
+            var Image_vip_lowsignbg = cc.Sprite.create(Common.getJinHuaResourcePath("ic_vip_jiaobiao_shuzichendi.png"));
+            Image_vip_lowsignbg.setAnchorPoint(cc.p(0.5, 0.5));
+            Image_vip_lowsignbg.setPosition(vipBgSize.width,vipBgSize.height);
+            vipBgSprite.addChild(Image_vip_lowsignbg);
+        }else if(userVipLevel>= 10){
+            var highSignTexture = VipElementsUtils.getVipHighSignFromVipLevel(userVipLevel);
+            var Image_vip_highsign = null;
+            if(highSignTexture != null){
+                Image_vip_highsign = cc.Sprite.create(Common.getJinHuaResourcePath(highSignTexture));
+                Image_vip_highsign.setAnchorPoint(cc.p(0.5, 0.5));
+                Image_vip_highsign.setPosition(vipBgSize.width,vipBgSize.height);
+                vipBgSprite.addChild(Image_vip_highsign);
+            }
+        }
+
+        vipBgSprite.setScale(0.85);
+        vipBgSprite.setAnchorPoint(cc.p(0, 0.5));
+        vipBgSprite.setPosition(cc.p(spriteSize.width* 0.01, spriteSize.height* 0.85));
+
+        var buttonName = "btn_lingqu_1.png";
+        var buttonWord = "ic_wanjiaxinxi_zhuizong.png";
+
+        if(TaskListLoop[idx]["visibility"]== 0){//按钮状态
+            buttonWord = "ui_yilingqu.png";
+        }
+        var bgSprite= cc.Sprite.create(Common.getJinHuaResourcePath(buttonName));
+        var button1= cc.MenuItemSprite.create(
+            bgSprite,
+            null, this.onTrace, this);
+        button1.setPosition(spriteSize.width* 0.9, spriteSize.height* 0.5);
+        button1.setTag(idx);
+        menu.addChild(button1);
+
+        var wordSprite= cc.Sprite.create(Common.getJinHuaResourcePath(buttonWord));
+        wordSprite.setPosition(bgSprite.getContentSize().width* 0.5, bgSprite.getContentSize().height* 0.6);
+        button1.addChild(wordSprite);
+
+        if(TaskListLoop[idx].isTrace== 0){//按钮状态
+            button1.setOpacity(120);
+        }
+
+        //玩家状态
+        var  loginStateLab = cc.LabelTTF.create(""+TaskListLoop[idx].loginState, "Arial", 24);
+        loginStateLab.setPosition(spriteSize.width* 0.5, spriteSize.height* 0.5);
+        var arrColor= TaskListLoop[idx].stateColor.split(",");
+        loginStateLab.setColor(cc.color(parseInt(arrColor[0]), parseInt(arrColor[1]), parseInt(arrColor[2])));
+        itemParentNode.addChild(loginStateLab);
+        //位置
+        var  locationLab = cc.LabelTTF.create(""+TaskListLoop[idx].location, "Arial", 24);
+        locationLab.setPosition(spriteSize.width* 0.65, spriteSize.height* 0.5);
+        itemParentNode.addChild(locationLab);
+
+        ProfileFriendList.m_arrFriendButton[idx]= button1;
+
+        return cell;
+    },
+    //创建某一个好友项
+    createItemOfGoodFriend:function(cell, idx){
         var tableSize= this.Panel_TableView.getContentSize();
         var ListTable= ProfileFriendList.m_friendListTable;
         var TaskListLoop= ListTable["FriendList"];
@@ -541,7 +719,19 @@ var FriendListLogic= {
     },
     //单元数量-重写TableView的tableCellAtIndex函数
     numberOfCellsInTableView:function (table){
-        return ProfileFriendList.m_friendListTable["FriendListCnt"];
+        var number= 0;
+        switch (ProfileFriendList.m_curPageID){
+            case 0:
+                number= ProfileFriendList.m_friendListTable["FriendListCnt"];
+                break;
+            case 1:
+                number= ProfileFriendList.m_traceListTable.TraceListCnt;
+                break;
+            case 2:
+                break;
+        }
+        if(!Common.judgeValueIsEffect(number)) number= 0;
+        return number;
     },
     //按钮的回调函数,利用Tag来区分是列表中的第几个
     onClick:function(pSender){
@@ -624,10 +814,18 @@ var FriendListLogic= {
         var arrFriendButton= ProfileFriendList.m_arrFriendButton;
         for(var i=0; i< arrFriendButton.length; ++i){
             var button= arrFriendButton[i];
-            console.log(button);
             if(!Common.judgeValueIsEffect(button)) continue;
             button.setEnabled(bEnabled== undefined?false:bEnabled);
         }
         ProfileFriendList.m_bTouchEnabled= ((bEnabled== undefined)?false:bEnabled);
+    },
+    //追踪
+    onTrace:function(pSender){
+        var id= pSender.getTag();
+        var canTrace= ProfileFriendList.m_traceListTable["TraceList"][id]["isTrace"];
+        if(canTrace){
+            var userID= ProfileFriendList.m_traceListTable["TraceList"][id]["userID"];
+            sendJINHUA_MGR_DO_TRACE(userID);
+        }
     }
 };

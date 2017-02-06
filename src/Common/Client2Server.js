@@ -681,3 +681,26 @@ function sendJHID_CHANGE_TABLE(){
 
     delete nmBaseMessage;
 }
+
+//追踪
+function sendJINHUA_MGR_DO_TRACE(userID){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JINHUA_MGR_DO_TRACE);
+    nmBaseMessage.writeStart();
+
+    //targerId	Int	被追踪的玩家
+    nmBaseMessage.writeInt(userID);
+    //GameID  游戏ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+    //Todo:ERROR-填写参数不正确
+    nmBaseMessage.writeInt(Common.getChannelID());
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}

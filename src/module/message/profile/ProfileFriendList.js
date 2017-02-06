@@ -14,10 +14,12 @@ var ProfileFriendList= {
     //追踪列表
     slot_JINHUA_MGR_TRACE_LIST:function(dataTable){
         ProfileFriendList.m_traceListTable= dataTable;
+        FriendListLogic.createTableView();
     },
     //陌生人列表
     slot_JINHUA_MGR_STRANGER_LIST:function(dataTable){
         ProfileFriendList.m_strangerLisTable= dataTable;
+        FriendListLogic.createTableView();
     },
     //前往领取(slot_JINHUA_MGR_SIGN_FRIEND_REWARD)
     slot_JINHUA_MGR_SIGN_FRIEND_REWARD:function(dataTable){
