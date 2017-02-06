@@ -244,18 +244,16 @@ var RenWuLogic= {
         DB_progress.setPosition(spriteSize.width* 0.375, spriteSize.height* 0.5);
         sprite.addChild(DB_progress);
 
-        var progress = cc.ProgressTimer.create(cc.Sprite.create(Common.getJinHuaResourcePath("ui_renwujindutiao.png")));
-        progress.setBarChangeRate(cc.p(1,0));//设置进度条的长度和高度开始变化的大小
-        progress.setType(cc.ProgressTimer.TYPE_BAR);
-        progress.setMidpoint(cc.p(0,0));//设置中心点
-        progress.setPosition(cc.p(DB_progress.getContentSize().width* 0.5, DB_progress.getContentSize().height* 0.5));
-        progress.setPercentage(TaskListLoop[idx]["Progress"]);
+        var progress = cc.Sprite.create(Common.getJinHuaResourcePath("ui_renwujindutiao.png"));
+        progress.setAnchorPoint(cc.p(0, 0.5));
+        progress.setPosition(cc.p(0, DB_progress.getContentSize().height* 0.5));
+        progress.setTextureRect(cc.rect(0, 0, TaskListLoop[idx]["Progress"]* 0.01* progress.getContentSize().width, progress.getContentSize().height));
         DB_progress.addChild(progress);
 
         //文本-任务进度
         var labelProgress = cc.LabelTTF.create(TaskListLoop[idx]["Process"], "Arial", 16);
         labelProgress.setPosition(cc.p(DB_progress.getContentSize().width* 0.5, DB_progress.getContentSize().height* 0.5));
-        progress.addChild(labelProgress);
+        DB_progress.addChild(labelProgress);
 
         //奖励
         var PrizeName = cc.LabelTTF.create(TaskListLoop[idx]["PrizeName"], "Arial", 20);
