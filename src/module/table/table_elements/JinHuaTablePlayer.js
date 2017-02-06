@@ -551,14 +551,10 @@ var JinHuaTablePlayer= {
         //Todo:JinHuaTableChat
         switch (chatMsg.type){
             case TYPE_CHAT_TEXT:
-                console.log(chatMsg.msg);
-//                JinHuaTableChat.checkAndPlayerChatSound(chatMsg.CSID, chatMsg.msg)
-//                JinHuaTableChat.showChatText(chatMsg.CSID, chatMsg.msg)
+                JinHuaTableChat.showChatText(chatMsg.CSID, chatMsg.msg);
                 break;
             case TYPE_CHAT_COMMON_V2:
-                console.log(chatMsg.msg);
-//                JinHuaTableChat.playChatCommonEmotion(chatMsg.CSID, chatMsg.msg)
-//                JinHuaTableChat.checkAndPlayCommonSound(chatMsg.msg)
+                JinHuaTableChat.playChatCommonEmotion(chatMsg.CSID, chatMsg.msg);
                 break;
         }
     },

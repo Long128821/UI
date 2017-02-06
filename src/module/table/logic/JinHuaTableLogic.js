@@ -1651,13 +1651,15 @@ var JinHuaTableLogic= {
         }
         //筹码
         this.view.addChild(JinHuaTableCoin.getJinHuaTableCoinLayer());
-        //坐下提示模块
-        this.view.addChild(JinHuaTableTips.getTableTipsLayer());
 
         ProfileJinHuaTable.JinHuaTablePlayer= JinHuaTablePlayer.create();
         this.view.addChild(ProfileJinHuaTable.JinHuaTablePlayer, 100);
+
+        //坐下提示模块
+        this.view.addChild(JinHuaTableTips.getTableTipsLayer(), 101);
+
         //比赛动画
-        this.view.addChild(JinHuaPKAnim.create(), 101);
+        this.view.addChild(JinHuaPKAnim.create(), 102);
 
         //设置牌桌数据
         this.createLayerFarm();
