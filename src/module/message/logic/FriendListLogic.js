@@ -559,6 +559,7 @@ var FriendListLogic= {
             FriendListLogic.m_tableView.setVisible(false);
             MvcEngine.createModule(GUI_XIAOMEIINFO);
         }else{
+            FriendListLogic.setAllButtonEnable(false);
             //其他玩家列表
             sendJINHUA_MGR_USER_INFO(userID);
         }
@@ -604,6 +605,7 @@ var FriendListLogic= {
         var pos= target.getParent().getParent().convertToWorldSpace(target.getPosition());
         var rect= cc.rect(pos.x, pos.y, size.width, size.height);
         //判断是否在对象的范围点击
+        if(!ProfileFriendList.m_bTouchEnabled) return false;
         if(cc.rectContainsPoint(rect, locationPos)){
             FriendListLogic.startTouchPosY= locationPos.y;
             return true;
@@ -616,5 +618,16 @@ var FriendListLogic= {
         if(Math.abs(FriendListLogic.startTouchPosY- locationPos.y)< 5){
             FriendListLogic.onShow(event.getCurrentTarget());
         }
+    },
+    //所有的控制按钮是否可用
+    setAllButtonEnable:function(bEnabled){
+        var arrFriendButton= ProfileFriendList.m_arrFriendButton;
+        for(var i=0; i< arrFriendButton.length; ++i){
+            var button= arrFriendButton[i];
+            console.log(button);
+            if(!Common.judgeValueIsEffect(button)) continue;
+            button.setEnabled(bEnabled== undefined?false:bEnabled);
+        }
+        ProfileFriendList.m_bTouchEnabled= ((bEnabled== undefined)?false:bEnabled);
     }
 };
