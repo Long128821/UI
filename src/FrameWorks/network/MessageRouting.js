@@ -8,8 +8,6 @@ var MessageRouting= {
      */
     messageDistribute:function(nmBaseMessage){
         if(!Common.judgeValueIsEffect(nmBaseMessage)) return;
-
-//        console.log("下行消息ID:0x"+ nmBaseMessage.getMsgType());
         //读取消息
         var funcName= "read"+ nmBaseMessage.getMsgType();
         //将字符串80010002-->16进制表示-->10进制表示
@@ -19,6 +17,11 @@ var MessageRouting= {
         if(Frameworks.isContainsSignal(msgID)){
             var dataTable= eval(funcName)(nmBaseMessage);
             if(!Common.judgeValueIsEffect(Frameworks.m_signalSlotTable[msgID])) return;
+            //如果消息对列中，有需要暂停的消息,将本消息添加到消息缓存列表中
+            if(-1!= MessageCenter.getMessageIndex(msgID)){
+                MessageCenter.addBaseMessage(MessageControlType.Response, nmBaseMessage);
+                return;
+            }
             //分发消息
             Frameworks.emit(msgID, dataTable);
         }else{

@@ -121,7 +121,7 @@ var JinHuaPKAnim= {
         this.nameRight = cc.LabelTTF.create("playerRight", "Arial", 24);
         var photoLeftSize= this.photoLeft.getContentSize();
         var photoLeftPos= this.photoLeft.getPosition();
-        this.nameY = photoLeftPos.y+ photoLeftSize.height/2+5 * Profile_JinHuaTableConfig.TableScaleY+ photoLeftSize.height/2;
+        this.nameY = photoLeftPos.y+5 * Profile_JinHuaTableConfig.TableScaleY+ photoLeftSize.height/2;
         this.nameLeft.setPosition(this.photoLeftX,this.nameY);
         this.nameRight.setPosition(this.photoRightX,this.nameY);
 
@@ -232,6 +232,8 @@ var JinHuaPKAnim= {
 
         //刷新下一个玩家
         JinHuaTablePlayer.refreshCurrentPlayer(JinHuaPKAnim.pkData.nextPlayer);
+        //暂停游戏结束
+        MessageCenter.resumeMessage(JHID_GAME_RESULT);
     },
     startWinIconScale:function(){
         JinHuaPKAnim.lightingSprite.setVisible(false);

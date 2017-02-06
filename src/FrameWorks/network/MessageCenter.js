@@ -8,6 +8,7 @@ var MessageControlType= {
  */
 var MessageCenter= {
     m_isWebSocketPause:true,//当前WebSocket是否暂停
+    arrPauseMessage:[],
     getIsWebSocketPause:function(){
         return this.m_isWebSocketPause;
     },
@@ -142,6 +143,34 @@ var MessageCenter= {
                 MessageRouting.sendMessage(this.getBaseMessage(controlType));
             }
         }
+    },
+    //暂停分发某个消息
+    pauseMessage:function(msgID){
+        var id= this.getMessageIndex(msgID);
+        if(id== -1){
+            this.arrPauseMessage.push(msgID);
+        }else{
+            this.arrPauseMessage[msgID]= msgID;
+        }
+    },
+    //恢复分发某个消息
+    resumeMessage:function(msgID){
+        var id= this.getMessageIndex(msgID);
+        if(id!= -1){
+            delete this.arrPauseMessage[id];
+        }
+    },
+    //数组中是否包含某个消息ID,返回下标
+    getMessageIndex:function(msgID){
+        for(var i=0; i< this.arrPauseMessage.length; ++i){
+            if(this.arrPauseMessage[i]== msgID){
+                return i;
+            }
+        }
+        return -1;
+    },
+    //获取消息暂停数组
+    getPauseMessage:function(){
+        return this.arrPauseMessage;
     }
 };
-//Todo:同一个按钮，可以发送多个消息
