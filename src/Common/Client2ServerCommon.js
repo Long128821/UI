@@ -157,12 +157,12 @@ function sendBASEID_LOGIN(nickName, password){
     nmBaseMessage.writeStart();//准备写消息
 
     nmBaseMessage.writeString("html5_"+ "357523056663693");//IMEI
-    nmBaseMessage.writeString(nickName);//昵称
-    nmBaseMessage.writeString(password);//密码
+    nmBaseMessage.writeString(nickName);//昵称（若为空则自动生成）
+    nmBaseMessage.writeString(password);//密码（若为空则自动生成）
 
-    nmBaseMessage.writeInt(Common.getVersion());//版本号
+    nmBaseMessage.writeInt(Common.getVersion() + Common.getChannelID());//版本号
 
-    nmBaseMessage.writeString("ChangeID");//注册渠道号
+    nmBaseMessage.writeString(Common.getChannelID());//注册渠道号
 
     nmBaseMessage.writeByte(2);//客户端类型
 
@@ -176,7 +176,6 @@ function sendBASEID_LOGIN(nickName, password){
 
     //写结束，同时设置对应的回调函数(如果需要处理的话)
     Network.getInstance().sendMessage(nmBaseMessage);
-
     //清空数据
     delete nmBaseMessage;
 }

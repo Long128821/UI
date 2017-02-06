@@ -246,7 +246,6 @@ var LoginLogic= {
     //添加信号
     addSlot:function(){
     	Frameworks.addSlot2Signal(BASEID_LOGIN, ProfileLogin.loginManage);//普通登录
-    	//Frameworks.addSlot2Signal(BASEID_WEBCHAT_LOGIN_APPID, ProfileLogin.readBASEID_WEBCHAT_LOGIN_APPID);//微信登录时，所必须的APPID
     	Frameworks.addSlot2Signal(BASEID_REGISTER, ProfileLogin.registerManage);//一键注册
         Frameworks.addSlot2Signal(MANAGERID_USERLIST_FROM_IMIE, ProfileLogin.IMEIUserListManage);//获取设备绑定信息
         Frameworks.addSlot2Signal(BASEID_THIRD_PART_PLAT_LOGIN, ProfileLogin.slot_BASEID_THIRD_PART_PLAT_LOGIN);//第三方渠道登录
@@ -254,7 +253,6 @@ var LoginLogic= {
     //移除信号
     removeSlot:function(){
     	Frameworks.removeSlotFromSignal(BASEID_LOGIN, ProfileLogin.loginManage);
-    	//Frameworks.removeSlotFromSignal(BASEID_WEBCHAT_LOGIN_APPID, ProfileLogin.readBASEID_WEBCHAT_LOGIN_APPID);//微信登录
     	Frameworks.removeSlotFromSignal(BASEID_REGISTER, ProfileLogin.registerManage);
     	Frameworks.removeSlotFromSignal(MANAGERID_USERLIST_FROM_IMIE, ProfileLogin.IMEIUserListManage);
         Frameworks.removeSlotFromSignal(BASEID_THIRD_PART_PLAT_LOGIN, ProfileLogin.slot_BASEID_THIRD_PART_PLAT_LOGIN);//第三方渠道登录

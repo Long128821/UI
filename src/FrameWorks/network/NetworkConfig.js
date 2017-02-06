@@ -1,8 +1,7 @@
 var URLList= [
-    //"10.10.0.128:65031",
-    "10.10.0.119:65031",
-    "10.10.0.120:65031",
-    "10.10.0.66:65031"
+    "10.10.0.119",
+    "10.10.0.120",
+    "10.10.0.66"
 ];
 
 //当前
@@ -31,13 +30,14 @@ var NetworkConfig= {
         this.curUrlID= urlID;
         this.setCurURL(URLList[urlID]);
     },
+    //H5使用的端口号,一定是65031;APP使用的是65002
     getCurURL:function(){
         return this.URL;
     },
-    setCurURL:function(URL){
-        this.URL= URL;
-        this.IP= URL.substring(0,URL.indexOf(":"));
-        this.Port= URL.substring(URL.indexOf(":")+ 1, URL.length);
+    setCurURL:function(IP){
+        this.IP= IP;
+        this.Port= 65031;
+        this.URL= this.IP+":"+this.Port;
     }
 };
 

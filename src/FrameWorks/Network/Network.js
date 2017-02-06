@@ -10,7 +10,6 @@ var Network= {
     //初始化网络配置
     initNetwork:function(){
         this.clearData();
-
         console.log('network initSocket...');
         //判断浏览器是否支持WebSocket
         if(window.WebSocket){
@@ -23,7 +22,6 @@ var Network= {
     initWebSocket:function(){
         var self= Network;
         var host= "ws://"+ NetworkConfig.getCurURL();//默认为列表中的第一个
-        console.log(host);
         self.webSocket = new WebSocket(host);//创建目标WebSocket服务器
         self.webSocket.binaryType="arraybuffer";//以二进制传递方式传输数据
         /**
