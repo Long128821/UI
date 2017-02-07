@@ -1,4 +1,3 @@
-JINHUA_GAME_ID = 4;//炸金花gameID
 var GameConfig= {
     GAME_ID:4,
     JINHUA_GAME_ID:4,//金花游戏ID

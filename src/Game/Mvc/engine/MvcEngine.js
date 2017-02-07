@@ -159,9 +159,6 @@ var MvcEngine= {
             if(Common.getTableSize(this.wakeModuleTable)> 0){
                 //筛选需要的唤醒的界面中层级最高的
                 var wakeModule= this.getMaxModule(this.wakeModuleTable);
-                console.log("销毁时，唤醒的界面中层级最高的");
-                console.log(wakeModule);
-
                 //有需要唤醒的界面，同时view也不为空
                 if(Common.judgeValueIsEffect(wakeModule)&&(Common.judgeValueIsEffect(wakeModule.getLayer()))){
                     wakeModule.wakeModule();
@@ -354,7 +351,6 @@ var MvcEngine= {
         var self= this;
         //加载该页面中所使用的js文件
         Load.LoadResOfTable(GUI_LOADING, function(msg){
-            if(callback!= undefined) callback();
             //添加信号， 监听该页面的销毁和休眠
             Frameworks.addSlot2Signal(SignalCommon.Signal_SleepModule_Done, self.slot_Destroy_Sleep_Done);
             Frameworks.addSlot2Signal(SignalCommon.Signal_DestroyModule_Done, self.slot_Destroy_Sleep_Done);

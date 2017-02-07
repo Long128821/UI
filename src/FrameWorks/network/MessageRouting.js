@@ -8,11 +8,12 @@ var MessageRouting= {
      */
     messageDistribute:function(nmBaseMessage){
         if(!Common.judgeValueIsEffect(nmBaseMessage)) return;
+        var msgType= nmBaseMessage.getMsgType();
         //读取消息
-        var funcName= "read"+ nmBaseMessage.getMsgType();
+        var funcName= "read"+ msgType;
         //将字符串80010002-->16进制表示-->10进制表示
-        var value= parseInt(nmBaseMessage.getMsgType(), 16);
-        var msgID= value> ACK?parseInt(nmBaseMessage.getMsgType(), 16)- ACK:value;
+        var value= parseInt(msgType, 16);
+        var msgID= value> ACK?parseInt(msgType, 16)- ACK:value;
         //已注册消息中，是否包含该消息ID
         if(Frameworks.isContainsSignal(msgID)){
             var dataTable= eval(funcName)(nmBaseMessage);
@@ -25,7 +26,7 @@ var MessageRouting= {
             //分发消息
             Frameworks.emit(msgID, dataTable);
         }else{
-            console.warn("\nMessageRouting.js-function is not define!MsgType:0x"+ nmBaseMessage.getMsgType());
+            console.warn("MessageRouting.js-消息没有注册!MsgType:0x"+ nmBaseMessage.getMsgType());
         }
 
         //清除数据
