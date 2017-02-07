@@ -528,3 +528,16 @@ ModuleTable["JinHuaTableSetPop"]["resLists"] = [
     "res/ic_text_beijingyinyue.png",
     "res/ic_xitongshezhi.png",
     "res/JinHuaTableSetPop.json"];
+
+ModuleTable["NetErrExitDialog"] = {};
+ModuleTable["NetErrExitDialog"]["jsLists"] = [
+    "src/module/commondialog/profile/ProfileNetErrExitDialog.js",
+    "src/module/commondialog/logic/NetErrExitDialogLogic.js",
+    "src/module/commondialog/controller/NetErrExitDialogController.js"];
+ModuleTable["NetErrExitDialog"]["Layer"] = Layer.Third_Layer;
+ModuleTable["NetErrExitDialog"]["resLists"] = [
+    "res/bg_tongyongdi.png",
+    "res/btn_tongyongfangdi.png",
+    "res/btn_tichupaizhuo.png",
+    "res/btn_tongyongfangdi.png",
+    "res/NetErrExitDialog.json"];

@@ -4,6 +4,7 @@
  */
 var Network= {
     webSocket:null,//WebSocket连接单例
+    m_bCloseBySelf:false,//是否为玩家自己主动关闭网络(设置IP时)
     getInstance:function(){
         return this;
     },
@@ -53,8 +54,6 @@ var Network= {
         self.webSocket.onerror = function(evt){
             console.log('network onError...');
             self.clearData();//清空数据
-            //拒绝接受和转发消息
-            MessageCenter.unConnect();
         };
 
         //Socket关闭时，自动调用该函数
@@ -62,6 +61,7 @@ var Network= {
             console.log('network onClose...');
             self.clearData();//清空数据
             MessageCenter.unConnect();
+            self.m_bCloseBySelf= false;
         };
     },
     //清空数据，关闭心跳连接
@@ -71,6 +71,7 @@ var Network= {
     },
     //关闭连接
     closeWebSocket:function(){
+        this.m_bCloseBySelf= true;
         (this.webSocket!=null)&&this.webSocket.close();
         this.clearData();
     },

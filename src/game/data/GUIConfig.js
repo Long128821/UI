@@ -81,3 +81,6 @@ GUI_JINHUATABLECARDTYPEPOP= "JinHuaTableCardTypePop";
 
 //牌桌-设置
 GUI_JINHUATABLESETPOP= "JinHuaTableSetPop";
+
+//断线重连
+GUI_NETERREXITDIALOG= "NetErrExitDialog";

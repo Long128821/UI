@@ -38,8 +38,10 @@ var MessageCenter= {
         this.setIsWebSocketPause(true);
         //断开了连接，更新文本
         this.updateSign();
-        //断线重连
-        //this.reConnect();
+        if(!Network.m_bCloseBySelf){
+            //显示断网提示
+            MvcEngine.createModule(GUI_NETERREXITDIALOG);
+        }
     },
     //WebSocket断线重连
     reConnect:function(){

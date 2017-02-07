@@ -349,7 +349,6 @@ var MvcEngine= {
         this.createLoadingModule(moduleName, callback);
     },
     createLoadingModule:function(moduleName, callback){
-        console.log(ModuleTable[GUI_LOADING]["Layer"]);
         Frameworks.releaseClick();//释放当前按钮
 
         var self= this;
