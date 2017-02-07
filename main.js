@@ -12,6 +12,6 @@ cc.game.onStart = function(){
 
     //加载完毕之后
     MvcEngine.init();
-    MvcEngine.createModule(GUI_LOGIN);
+    MvcEngine.preCreateModule(GUI_LOGIN);
 };
 cc.game.run();

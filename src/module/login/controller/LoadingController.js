@@ -10,7 +10,6 @@ var LoadingController = BaseController.extend({
 
     createView:function(){
         LoadingLogic.createView();
-        //Frameworks.setOnKeypadEventListener(LoadingLogic.view, LoadingLogic.onKeypad);
     },
     
     requestMsg:function(){
@@ -24,11 +23,11 @@ var LoadingController = BaseController.extend({
 	removeSlot:function(){
 		LoadingLogic.removeSlot();
 	},
-    
+
     addCallback:function(){
 
     },
-    
+
     removeCallback:function(){
 
     },
@@ -42,19 +41,14 @@ var LoadingController = BaseController.extend({
 	},
     
     sleepModule:function(){
-		//Frameworks.releaseOnKeypadEventListener(LoadingLogic.view);
-		LoadingLogic.view.setTouchEnabled(false);
 		Frameworks.emit(SignalCommon.Signal_SleepModule_Done);
     },
 
     wakeModule:function(){
-    	//Frameworks.setOnKeypadEventListener(LoadingLogic.view, LoadingLogic.onKeypad);
-        LoadingLogic.view.setTouchEnabled(true);
         this.addCallback();
     },
 
     destroyModule:function(destroyType){
-        //Frameworks.releaseOnKeypadEventListener(LoadingLogic.view);
 		this.destroy();
 
 		if(destroyType == DESTROY_TYPE_EFFECT){
@@ -64,7 +58,7 @@ var LoadingController = BaseController.extend({
 			Frameworks.moduleCleanUp(LoadingLogic);
 			LoadingLogic.releaseData();
 		}
-	
+        LoadingLogic.view.stopAction();
 		LoadingLogic.view.removeFromParent(true);
 		this.reset();
 	

@@ -136,7 +136,7 @@ var SettingLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            MvcEngine.createModule(GUI_GAMEHELP);
+            MvcEngine.preCreateModule(GUI_GAMEHELP);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -162,7 +162,7 @@ var SettingLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            MvcEngine.createModule(GUI_LOGIN);
+            MvcEngine.preCreateModule(GUI_LOGIN);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 

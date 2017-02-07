@@ -1,9 +1,7 @@
 var LoadingLogic= {
     view:null,//视图
-    
-	/******工具导出的控件名******/
-	Panel_20:null,
-	
+    labelMsg:null,//加载中
+    m_curActionTimers:0,//动画次数
     createView:function(){
     	this.initLayer();
         
@@ -13,23 +11,31 @@ var LoadingLogic= {
     },
     
 	initView:function(){
-		this.Panel_20 = CocoStudio.getComponent(this.view, "Panel_20");//Panel
+        this.labelMsg= cc.LabelTTF.create("玩命加载中", "微软雅黑", 36);
+        this.labelMsg.setColor(cc.color(0, 255, 0));
+        this.labelMsg.setPosition(cc.p(cc.winSize.width* 0.5, cc.winSize.height* 0.5));
+        this.view.addChild(this.labelMsg);
+        this.m_curActionTimers= 0;
+        var self= this;
+        var seq= cc.sequence(cc.delayTime(0.5), cc.callFunc(function(pSender){
+            self.m_curActionTimers++;
+            self.m_curActionTimers= self.m_curActionTimers%4;
+            self.labelMsg.setString(self.getMsg(self.m_curActionTimers));
+        }));
+        this.view.runAction(seq.repeatForever());
 	},
+    //更新文案
+    getMsg:function(num){
+        var msg= "玩命加载中";
+        while(num--){
+            msg+= ".";
+        }
+        return msg;
+    },
 
     initLayer:function(){
-		var gui = GUI_LOADING; 
-//		if(GameConfig.RealProportion > GameConfig.SCREEN_PROPORTION_SMALL){
-//			//适配方案 1136x640
-//			this.view = CocoStudio.createView("res/Loading.json");
-//			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.EXACT_FIT);
-//		}else if(GameConfig.RealProportion <= GameConfig.SCREEN_PROPORTION_SMALL){
-//			//适配方案 Pad加黑边
-//			this.view = CocoStudio.createView("res/Loading.json");
-//			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL);
-//		}
         //适配方案 Pad加黑边
-        this.view = CocoStudio.createView("res/Loading.json");
-        GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL);
+        this.view = cc.LayerColor.create(cc.color(255, 255, 255, 100));
     },
     
 

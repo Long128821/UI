@@ -10,6 +10,6 @@ var ManageConfig= {
     //进入牌桌
     openTable:function(){
         GameConfig.setCurBaseLayer(GUI_HALL);
-        MvcEngine.createModule(GUI_JINHUATABLE);
+        MvcEngine.preCreateModule(GUI_JINHUATABLE);
     }
 };

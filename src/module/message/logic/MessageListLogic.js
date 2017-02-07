@@ -246,6 +246,6 @@ var MessageListLogic= {
         if(messageFlag== 0){
             sendMAIL_SYSTEM_MESSAGE_READ(messageID);
         }
-        MvcEngine.createModule(GUI_MESSAGESERVER);
+        MvcEngine.preCreateModule(GUI_MESSAGESERVER);
     }
 };

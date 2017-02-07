@@ -746,7 +746,7 @@ var FriendListLogic= {
         if(userID== 1001){//同趣小妹
             //隐藏列表
             FriendListLogic.m_tableView.setVisible(false);
-            MvcEngine.createModule(GUI_XIAOMEIINFO);
+            MvcEngine.preCreateModule(GUI_XIAOMEIINFO);
         }else{
             FriendListLogic.setAllButtonEnable(false);
             //其他玩家列表

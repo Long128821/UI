@@ -249,7 +249,7 @@ var OtherUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            MvcEngine.createModule(GUI_CHANGEINFOPOP);
+            MvcEngine.preCreateModule(GUI_CHANGEINFOPOP);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -352,7 +352,7 @@ var OtherUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            MvcEngine.createModule(GUI_DOUBLEBUTTONCONFIRM);
+            MvcEngine.preCreateModule(GUI_DOUBLEBUTTONCONFIRM);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 

@@ -100,7 +100,7 @@ var ProfileLogin= {
 
             //本地保存用户数据
             ProfileLogin.saveUserData();
-            MvcEngine.createModule(GUI_HALL);
+            MvcEngine.preCreateModule(GUI_HALL);
         }else{
             //Todo:Toast:登录失败提示
             Common.showToast(resultText);
@@ -122,7 +122,7 @@ var ProfileLogin= {
 
             //本地保存用户数据
             ProfileLogin.saveUserData();
-            MvcEngine.createModule(GUI_HALL);
+            MvcEngine.preCreateModule(GUI_HALL);
         }else{
             //Todo:Toast:登录失败提示
             alert(resultText);

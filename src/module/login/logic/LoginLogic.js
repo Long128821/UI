@@ -151,7 +151,7 @@ var LoginLogic= {
             LoginLogic.edit_username.setVisible(false);
             LoginLogic.edit_password.setVisible(false);
 			//抬起
-            MvcEngine.createModule(GUI_USERAGREEMENT);
+            MvcEngine.preCreateModule(GUI_USERAGREEMENT);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -190,7 +190,7 @@ var LoginLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            MvcEngine.createModule(GUI_RESETPASSWORD);
+            MvcEngine.preCreateModule(GUI_RESETPASSWORD);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 

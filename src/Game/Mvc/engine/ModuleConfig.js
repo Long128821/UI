@@ -97,16 +97,6 @@ ModuleTable["Hall"]["resLists"] = [
     "res/userinfo_mine.png",
     "res/Hall.json"];
 
-ModuleTable["Loading"] = {};
-ModuleTable["Loading"]["jsLists"] = [
-    "src/module/login/profile/ProfileLoading.js",
-    "src/module/login/logic/LoadingLogic.js",
-    "src/module/login/controller/LoadingController.js"];
-ModuleTable["Loading"]["Layer"] = Layer.Base_Layer;
-ModuleTable["Loading"]["resLists"] = [
-    "res/bg1_hall.png",
-    "res/Loading.json"];
-
 ModuleTable["Login"] = {};
 ModuleTable["Login"]["jsLists"] = [
     "src/module/login/profile/ProfileLogin.js",

@@ -12,7 +12,7 @@ var ProfileHall= {
         Profile_JinHuaOtherUserInfo.readJINHUA_MGR_USER_INFO(dataTable);
         profile_user.readJINHUA_MGR_USER_INFO(dataTable);
 
-        MvcEngine.createModule(GUI_OTHERUSERINFO);
+        MvcEngine.preCreateModule(GUI_OTHERUSERINFO);
     },
     //更新玩家用户信息(DBID_USER_INFO)
     slot_DBID_USER_INFO:function(dataTable){
@@ -44,7 +44,7 @@ var ProfileHall= {
         Profile_DailySalary.setDailySalaryInfoTable(dataTable);
         //可否领取今日工资
         if(dataTable["CanReceive"]== 1){
-            MvcEngine.createModule(GUI_DAILYSALARY);
+            MvcEngine.preCreateModule(GUI_DAILYSALARY);
         }
     },
     //初始化图片列表
@@ -54,7 +54,7 @@ var ProfileHall= {
     //金花玩家登录请求领节日礼物
     slot_JINHUA_MGR_JH_ACTIVITY:function(dataTable){
         //Todo:mvcEngine.logicModuleIsShow(GUI_DAILYSALARY)
-        //mvcEngine.createModule(GUI_SYSTEMPROMPTDIALOG)
+        //mvcEngine.preCreateModule(GUI_SYSTEMPROMPTDIALOG)
     },
     //请求进入聊天室
     slot_IMID_ENTER_CHAT_ROOM:function(dataTable){
@@ -101,7 +101,7 @@ var ProfileHall= {
     slot_MANAGERID_HINT_BIND_WECHAT:function(dataTable){
 //        local isHint = profileCommon.BindWechat.isHintBindWeChat()
 //        if isHint then
-//        mvcEngine.createModule(GUI_BINDWECHAT);
+//        mvcEngine.preCreateModule(GUI_BINDWECHAT);
 //        end
     },
     //首充翻倍

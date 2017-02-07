@@ -89,7 +89,7 @@ var JinHuaTableMoreLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            MvcEngine.createModule(GUI_JINHUATABLECARDTYPEPOP);
+            MvcEngine.preCreateModule(GUI_JINHUATABLECARDTYPEPOP);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -223,18 +223,18 @@ var JinHuaTableMoreLogic= {
     //关闭
     close:function(){
         MvcEngine.destroyModule(GUI_JINHUATABLEMORE);
-        MvcEngine.createModule(GUI_JINHUATABLECONFIRMPOP, function(){
+        MvcEngine.preCreateModule(GUI_JINHUATABLECONFIRMPOP, function(){
             ProfileJinHuaTableConfirmPop.setMsg(TableConfirmPopTag.TAG_QUIT);
         });
     },
     //设置
     showSettings:function(){
         MvcEngine.destroyModule(GUI_JINHUATABLEMORE);
-        MvcEngine.createModule(GUI_JINHUATABLESETPOP);
+        MvcEngine.preCreateModule(GUI_JINHUATABLESETPOP);
     },
     //显示牌型
     showCardType:function(){
-        MvcEngine.createModule(GUI_JINHUATABLECARDTYPEPOP);
+        MvcEngine.preCreateModule(GUI_JINHUATABLECARDTYPEPOP);
     },
     //换桌
     onChangeTable:function(){
@@ -249,7 +249,7 @@ var JinHuaTableMoreLogic= {
             return;
         }
 
-        MvcEngine.createModule(GUI_JINHUATABLECONFIRMPOP, function(){
+        MvcEngine.preCreateModule(GUI_JINHUATABLECONFIRMPOP, function(){
             //站起
             ProfileJinHuaTableConfirmPop.setMsg(TableConfirmPopTag.TAG_STANDUP);
         });
