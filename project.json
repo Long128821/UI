@@ -61,6 +61,9 @@
         "src/Common/ActivityLists.js",
         "src/Common/BackpackLists.js",
         "src/FrameWorks/utils/GamePub.js",
-        "src/Game/Mvc/utils/VipElementsUtils.js"
+        "src/Game/Mvc/utils/VipElementsUtils.js",
+        "src/module/login/profile/ProfileLoading.js",
+        "src/module/login/logic/LoadingLogic.js",
+        "src/module/login/controller/LoadingController.js"
     ]
 }

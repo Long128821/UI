@@ -436,7 +436,6 @@ var FriendListLogic= {
         moneySp.setPosition(spriteSize.width* 0.21, spriteSize.height* 0.22);
         itemParentNode.addChild(moneySp, 1);
 
-
         //玩家头像
         Common.loadTextureByNetwork(TaskListLoop[idx]["photoUrl"], function(msg){
             var portraitPath= ((msg== null)?Common.getJinHuaResourcePath("desk_playerhead.png"):msg);

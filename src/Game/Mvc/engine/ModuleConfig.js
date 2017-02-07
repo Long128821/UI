@@ -13,7 +13,17 @@ var Layer= {
     Ninth_Layer:8
 };
 
-var ModuleTable = {};//UI�����б�
+var ModuleTable = {};
+
+ModuleTable["Loading"] = {};
+ModuleTable["Loading"]["jsLists"] = [
+    "src/module/login/profile/ProfileLoading.js",
+    "src/module/login/logic/LoadingLogic.js",
+    "src/module/login/controller/LoadingController.js"];
+ModuleTable["Loading"]["Layer"] = Layer.Ninth_Layer;
+ModuleTable["Loading"]["resLists"] = [
+    "res/bg1_hall.png",
+    "res/Loading.json"];
 
 ModuleTable["DeleteUser"] = {};
 ModuleTable["DeleteUser"]["jsLists"] = [

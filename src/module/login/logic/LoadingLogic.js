@@ -18,16 +18,19 @@ var LoadingLogic= {
 
     initLayer:function(){
 		var gui = GUI_LOADING; 
-		if(GameConfig.RealProportion > GameConfig.SCREEN_PROPORTION_SMALL){
-			//适配方案 1136x640  
-			this.view = CocoStudio.createView("res/Loading.json"); 
-			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.EXACT_FIT); 
-		}else if(GameConfig.RealProportion <= GameConfig.SCREEN_PROPORTION_SMALL){
-			//适配方案 Pad加黑边  
-			this.view = CocoStudio.createView("res/Loading.json"); 
-			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL); 
-		}
-	},
+//		if(GameConfig.RealProportion > GameConfig.SCREEN_PROPORTION_SMALL){
+//			//适配方案 1136x640
+//			this.view = CocoStudio.createView("res/Loading.json");
+//			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.EXACT_FIT);
+//		}else if(GameConfig.RealProportion <= GameConfig.SCREEN_PROPORTION_SMALL){
+//			//适配方案 Pad加黑边
+//			this.view = CocoStudio.createView("res/Loading.json");
+//			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL);
+//		}
+        //适配方案 Pad加黑边
+        this.view = CocoStudio.createView("res/Loading.json");
+        GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL);
+    },
     
 
     //安卓手机的返回键的监听事件
