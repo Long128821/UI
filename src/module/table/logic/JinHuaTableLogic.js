@@ -1687,6 +1687,7 @@ var JinHuaTableLogic= {
     },
     //按钮：PK
     initPkBtn:function(){
+        this.pkButtonGroup= [];
         for(var i=1; i<=4; ++i){
             this.pkButtonGroup[i] = cc.MenuItemImage.create(Common.getJinHuaResourcePath("table_pk_collimation.png"),Common.getJinHuaResourcePath("table_pk_collimation.png"),this.onClick_btnPK, this);
             var menu1 = cc.Menu.create(this.pkButtonGroup[i]);

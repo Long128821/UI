@@ -4,7 +4,7 @@ cc.game.onStart = function(){
 
     cc.view.enableRetina(cc.sys.os === cc.sys.OS_IOS);
     cc.view.adjustViewPort(true);
-    cc.view.setDesignResolutionSize(0, 0, cc.ResolutionPolicy.SHOW_ALL);
+    cc.view.setDesignResolutionSize(document.body.clientWidth, document.body.clientHeight, cc.ResolutionPolicy.SHOW_ALL);
     cc.view.resizeWithBrowserSize(true);
 
     //自动登录——初始化WbSocket

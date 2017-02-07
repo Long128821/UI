@@ -103,6 +103,8 @@ var JinHuaTableConfirmPopLogic= {
         switch(ProfileJinHuaTableConfirmPop.tag){
             case TableConfirmPopTag.TAG_QUIT:
                 sendJHID_QUIT_TABLE(GameData.roomId,GameData.tableId);
+                Profile_JinHuaGameData.clearData();
+                MvcEngine.preCreateModule(GUI_HALL);
                 break;
             case TableConfirmPopTag.TAG_STANDUP://自己站起
                 JinHuaTablePlayer.selfStandUp();

@@ -191,10 +191,12 @@ var MvcEngine= {
             var self= this;
             //加载该页面中所使用的js文件
             Load.LoadResOfTable(self.needCreateModuleName, function(msg){
-                //字符串拼接层名(GUI_Config.js中的层名+ "Controller")
-                var className= self.needCreateModuleName+"Controller";
-                var classFunc= eval(className);//将字符串转换为类名
-                self._setModuleSettings(new classFunc());
+                if(Common.judgeValueIsEffect(self.needCreateModuleName)){
+                    //字符串拼接层名(GUI_Config.js中的层名+ "Controller")
+                    var className= self.needCreateModuleName+"Controller";
+                    var classFunc= eval(className);//将字符串转换为类名
+                    self._setModuleSettings(new classFunc());
+                }
             });
         }
     },
