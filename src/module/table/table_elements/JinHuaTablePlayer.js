@@ -738,12 +738,11 @@ var JinHuaTablePlayer= {
     //收到服务器站起
     updateTableAfterStandUpByServer:function(){
         var standUpData= Profile_JinHuaGameData.getStandUpData();
-        var  mySelf = Profile_JinHuaGameData.getMySelf();
+        var mySelf = Profile_JinHuaGameData.getMySelf();
         //修改Bug:别人站起时,玩家的看牌不显示。
         //Todo:可能存在的问题:牌局没散
         JinHuaTableCheckButton.setLookedCard(true);
         var player= this.tablePlayerEntitys[standUpData.CSID];
-
         if(standUpData.result == 1){//成功站起
             if(mySelf.SSID!= null&& mySelf.SSID == standUpData.SSID){//自己站起
                 if(mySelf.userId!= null&&mySelf.userId!= undefined){
@@ -761,7 +760,6 @@ var JinHuaTablePlayer= {
             }else{//别人站起
                 if(standUpData.CSID!= null){
                     if(!Common.judgeValueIsEffect(player)) return;
-                    if(Common.getTableSize(player.cardSprites)> 0) return;
                     this.updateTableAfterStandUpOther(standUpData.CSID);
                 }
             }
