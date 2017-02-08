@@ -35,7 +35,7 @@ var LoadingLogic= {
 
     initLayer:function(){
         //适配方案 Pad加黑边
-        this.view = cc.LayerColor.create(cc.color(255, 255, 255, 100));
+        this.view = cc.LayerColor.create(cc.color(255, 255, 255, 10));
     },
     
 

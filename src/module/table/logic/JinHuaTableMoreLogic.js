@@ -90,7 +90,7 @@ var JinHuaTableMoreLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            MvcEngine.preCreateModule(GUI_JINHUATABLECARDTYPEPOP);
+            MvcEngine.createModule(GUI_JINHUATABLECARDTYPEPOP);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
