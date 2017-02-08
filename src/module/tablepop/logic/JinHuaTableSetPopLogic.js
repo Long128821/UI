@@ -91,8 +91,7 @@ var JinHuaTableSetPopLogic= {
     },
     //初始化界面
     initData:function(){
-        console.log(this.img_bgmusic);
-        //this.img_effect.setSelectedState(GameConfig.getGameSoundOff());
-        //this.img_bgmusic.setSelectedState(GameConfig.getGameMusicOff());
+//        this.img_effect.setSelectedState(GameConfig.getGameSoundOff());
+//        this.img_bgmusic.setSelectedState(GameConfig.getGameMusicOff());
     }
 };
