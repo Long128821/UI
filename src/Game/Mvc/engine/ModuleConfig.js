@@ -311,7 +311,7 @@ ModuleTable["MessageServer"]["jsLists"] = [
     "src/module/message/profile/ProfileMessageServer.js",
     "src/module/message/logic/MessageServerLogic.js",
     "src/module/message/controller/MessageServerController.js"];
-ModuleTable["MessageServer"]["Layer"] = Layer.Second_Layer;
+ModuleTable["MessageServer"]["Layer"] = Layer.Third_Layer;
 ModuleTable["MessageServer"]["resLists"] = [
     "res/ui_nothing.png",
     "res/btn_zengsongliwu.png",

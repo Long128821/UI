@@ -573,6 +573,7 @@ var JinHuaTableLogic= {
 			//按下
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
+            console.log("callback_Button_geweihao");
 			//抬起
             sendJHID_CHAT_REQ(TYPE_CHAT_TEXT,JinHuaTableLogic.Label_geweihao.getStringValue());
             JinHuaTableLogic.hideAllQuickChatButton();
@@ -587,6 +588,7 @@ var JinHuaTableLogic= {
 			//按下
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
+            console.log("callback_Button_wolaishouqian");
 			//抬起
             sendJHID_CHAT_REQ(TYPE_CHAT_TEXT,JinHuaTableLogic.Label_wolaishouqian.getStringValue());
             JinHuaTableLogic.hideAllQuickChatButton();
@@ -601,6 +603,7 @@ var JinHuaTableLogic= {
 			//按下
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
+            console.log("callback_Button_guarenlaile");
 			//抬起
             sendJHID_CHAT_REQ(TYPE_CHAT_TEXT,JinHuaTableLogic.Label_guarenlaile.getStringValue());
             JinHuaTableLogic.hideAllQuickChatButton();
@@ -616,6 +619,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
+            console.log("callback_Button_waiting_emo1");
             sendJHID_CHAT_REQ(TYPE_CHAT_COMMON_V2,3);
             JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
@@ -630,6 +634,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
+            console.log("callback_Button_waiting_emo2");
             sendJHID_CHAT_REQ(TYPE_CHAT_COMMON_V2,4);
             JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
@@ -644,6 +649,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
+            console.log("callback_Button_ptcl");
             sendJHID_CHAT_REQ(TYPE_CHAT_TEXT,JinHuaTableLogic.Label_ptcl.getStringValue());
             JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
@@ -984,6 +990,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
+            console.log("callback_Button_raise_one");
             JinHuaTableLogic.onRaise_1();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
@@ -997,6 +1004,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
+            console.log("callback_Button_raise_two");
             JinHuaTableLogic.onRaise_2();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
@@ -1010,6 +1018,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
+            console.log("callback_Button_raise_three");
             JinHuaTableLogic.onRaise_3();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
@@ -1022,6 +1031,7 @@ var JinHuaTableLogic= {
 			//按下
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
+            console.log("callback_Button_raise_cancel");
 			//抬起
             JinHuaTableLogic.onRaise_Cancel();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
@@ -2706,21 +2716,26 @@ var JinHuaTableLogic= {
     },
     //加注按钮列表-1
     onRaise_1:function(){
+        console.log("加注1");
         JinHuaTableLogic.clickRaiseBtnFunc(2);
     },
     //加注按钮列表-2
     onRaise_2:function(){
+        console.log("加注2");
         JinHuaTableLogic.clickRaiseBtnFunc(3);
     },
     //加注按钮列表-3
     onRaise_3:function(){
+        console.log("加注3");
         JinHuaTableLogic.clickRaiseBtnFunc(4);
     },
     //点击加注按钮执行
     //index 加注码位置
     clickRaiseBtnFunc:function(index){
+        console.log(index);
+        console.log(this.betData);
         //如果当前下注人并不是我,我的加注列表不需要更新
-        if(this.betData== null||(this.betData!= null &&this.betData.raiseCoin== null&&this.betData.raiseCoin== undefined)){
+        if(this.betData== null||(this.betData!= null &&(this.betData.raiseCoin== null||this.betData.raiseCoin== undefined))){
             return;
         }
         //向服务器发送下注请求

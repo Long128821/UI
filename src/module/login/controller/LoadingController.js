@@ -58,7 +58,7 @@ var LoadingController = BaseController.extend({
 			Frameworks.moduleCleanUp(LoadingLogic);
 			LoadingLogic.releaseData();
 		}
-        LoadingLogic.view.stopAction();
+        LoadingLogic.view.stopAllActions();
 		LoadingLogic.view.removeFromParent(true);
 		this.reset();
 	

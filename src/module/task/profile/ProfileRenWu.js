@@ -16,6 +16,8 @@ var ProfileRenWu= {
     //成就任务列表
     slot_COMMONS_LIFETIME_TASKLIST:function(dataTable){
         ProfileRenWu.lifeTimeTaskListTable= dataTable;
+        console.log("成就任务列表！");
+        console.log(dataTable);
         //创建TableView列表
         RenWuLogic.createTableView();
     },
@@ -25,9 +27,6 @@ var ProfileRenWu= {
     },
     //任务奖励
     slot_COMMONS_GET_DAILYTASK_PRIZE:function(dataTable){
-        console.log(dataTable);
-        console.log(dataTable["IsSuccess"]);
-        console.log(dataTable["Msg"]);
         //刷新列表
         sendCOMMONS_DAILYTASK();
     },

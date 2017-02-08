@@ -47,6 +47,7 @@ var MessageListController = BaseController.extend({
     //休眠
     sleepModule:function(){
 		//Frameworks.releaseOnKeypadEventListener(MessageListLogic.view);
+        MessageListLogic.setTouchEnabled(false);
 		MessageListLogic.view.setTouchEnabled(false);
 		this.removeCallback();
 		Frameworks.emit(SignalCommon.Signal_SleepModule_Done);
@@ -54,6 +55,7 @@ var MessageListController = BaseController.extend({
     //唤醒
     wakeModule:function(){
     	//Frameworks.setOnKeypadEventListener(MessageListLogic.view, MessageListLogic.onKeypad);
+        MessageListLogic.setTouchEnabled(true);
         MessageListLogic.view.setTouchEnabled(true);
         this.addCallback();
     },
@@ -69,7 +71,7 @@ var MessageListController = BaseController.extend({
 			Frameworks.moduleCleanUp(MessageListLogic);
 			MessageListLogic.releaseData();
 		}
-	
+        MessageListLogic.setTouchEnabled(false);
 		MessageListLogic.view.removeFromParent(true);
 		this.reset();
 	

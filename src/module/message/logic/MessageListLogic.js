@@ -10,7 +10,8 @@ var MessageListLogic= {
 	Button_leftArrow:null,
 	Button_rightArrow:null,
 	Label_fanye:null,
-	
+	//TableView 是否可被点击
+    m_bTouchEnabled:true,
     createView:function(){
     	this.initLayer();
         
@@ -147,6 +148,9 @@ var MessageListLogic= {
             tableView.setTouchEnabled(true);
             tableView.setPosition(leftBottomPos);
 
+            //重新加载数据
+            tableView.reloadData();
+
             self.m_tableView= tableView;
             //在view中，添加节点，zOrder为2
             self.view.addChild(self.m_tableView, 2);
@@ -237,15 +241,21 @@ var MessageListLogic= {
     },
     //触摸结束-重写TableView的tableCellAtIndex函数
     tableCellTouched:function (table, cell) {
+        if(!MessageListLogic.m_bTouchEnabled) return;
         //触摸结束
         ProfileMessageList.m_curMsgID= cell.getIdx();
         var messageListTable= Profile_Message.getMessageListTable();
         var messageID= messageListTable[cell.getIdx()]["MessageId"];
         var messageFlag= messageListTable[cell.getIdx()]["MessageFlag"];
-        console.log(messageFlag);
         if(messageFlag== 0){
             sendMAIL_SYSTEM_MESSAGE_READ(messageID);
         }
-        MvcEngine.preCreateModule(GUI_MESSAGESERVER);
+        MvcEngine.createModule(GUI_MESSAGESERVER);
+    },
+    //设置TableView是否可被点击
+    setTouchEnabled:function(bEnabled){
+        this.m_bTouchEnabled= bEnabled== undefined?false:bEnabled;
     }
 };
+
+//Todo:在唤醒和休眠时，设置tableView不可使用。
