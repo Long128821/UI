@@ -1029,7 +1029,7 @@ function read82200005(nMBaseMessage){
     //解析Bean 下一个玩家位置
     var nextPlayerCnt = nMBaseMessage.readInt();
     dataTable["nextPlayerCnt"]= nextPlayerCnt;
-    if(nextPlayerCnt== 0){
+    if(nextPlayerCnt!= 0){
         dataTable["nextPlayer"] = {};
         nMBaseMessage.startReadLoop();
         //解析 下一个玩家位置
@@ -1049,11 +1049,11 @@ function read82200005(nMBaseMessage){
             //加注列表中加注金额的状态 0 此金额不可加注 1 此金额可加注
             dataTable["nextPlayer"]["raiseCoin"][i].raiseStatus = nMBaseMessage.readByte();
         }
+        //解析 0 不能操作，1 比牌 2 开牌
+        dataTable["nextPlayer"].compareCard = nMBaseMessage.readInt();
+        //解析 0不能看牌， 1可以看牌
+        dataTable["nextPlayer"].lookCard = nMBaseMessage.readInt();
     }
-    //解析 0 不能操作，1 比牌 2 开牌
-    dataTable["nextPlayer"].compareCard = nMBaseMessage.readInt();
-    //解析 0不能看牌， 1可以看牌
-    dataTable["nextPlayer"].lookCard = nMBaseMessage.readInt();
     return dataTable;
 }
 

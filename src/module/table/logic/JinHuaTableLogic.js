@@ -2750,10 +2750,7 @@ var JinHuaTableLogic= {
         var players= JinHuaTablePlayer.getPlayers();
         for(var key in players){
             if(!Common.judgeValueIsEffect(players[key])) continue;
-            if(key!= 0&&players[key].player.status== STATUS_PLAYER_DISCARD){//别的玩家站起
-                JinHuaTablePlayer.updateTableAfterStandUpOther(key);
-                //}else if(key==0&&players[key].player.status== STATUS_PLAYER_PLAYING){//自己玩家
-            }else if(key==0&&players[key].player.status== STATUS_PLAYER_WATCH){//自己玩家
+            if(key==0&&players[key].player.status== STATUS_PLAYER_WATCH){//自己玩家
                 JinHuaTablePlayer.updateTableAfterStandUpMe(key);
             }
         }

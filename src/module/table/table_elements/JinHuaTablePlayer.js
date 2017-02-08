@@ -164,7 +164,6 @@ var JinHuaTablePlayer= {
                     isMe= true;
                 }
 
-                this.tablePlayerEntitys[i]= {};
                 this.tablePlayerEntitys[i]= tablePlayerEntity;
             }else{//等待玩家坐下
                 if(!Profile_JinHuaGameData.getIsMatch()){
@@ -693,6 +692,8 @@ var JinHuaTablePlayer= {
     //用户<弃牌>后收到服务器返回更新界面
     updateTableAfterFoldCardByServer:function(){
         var foldCardData= Profile_JinHuaGameData.getFoldCardData();
+        console.log(foldCardData);
+        console.log(this.tablePlayerEntitys);
         //别人弃牌的服务器返回
         if(this.tablePlayerEntitys[foldCardData.CSID]&&!(this.tablePlayerEntitys[foldCardData.CSID].isMe()&&this.tablePlayerEntitys[foldCardData.CSID].player.status == STATUS_PLAYER_DISCARD)){
             this.updatePlayerStateAfterFoldCard(foldCardData.CSID);
