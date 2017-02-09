@@ -446,10 +446,8 @@ var HallLogic= {
 	callback_Button_Return:function(pSender, event){
 		if(event == ccui.Widget.TOUCH_BEGAN){
 			//按下
-
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -569,6 +567,7 @@ var HallLogic= {
     },
     //发送全局消息
     sendGameCommonMessage:function(){
+        console.log(profile_user.getSelfUserID());
         if(profile_user.getSelfUserID()!= 0){
             //获取当前玩家的资料
             sendDBID_USER_INFO(profile_user.getSelfUserID());

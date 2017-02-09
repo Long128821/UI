@@ -177,7 +177,6 @@ var RoomListLogic= {
         var tableView = new cc.TableView(self, cc.size(tableSize.width* 0.9, tableSize.height));
         tableView.setDirection(cc.SCROLLVIEW_DIRECTION_HORIZONTAL);//水平滑动
         tableView.setTouchEnabled(true);
-        tableView.setDelegate(self);
         tableView.setPosition(leftBottomPos);
         //重新加载数据，如果不添加该句，会出现各种各样的奇葩问题(例如:缺少cell)
         tableView.reloadData();
@@ -201,24 +200,26 @@ var RoomListLogic= {
         var offset= ((Profile_JinHuaRoomData.TYPE_JINGDIAN== Profile_JinHuaRoomData.getCurRoomType())?0:Common.getTableSize(Profile_JinHuaRoomData.getJingDianRoomList()));
         var tableSize= this.Panel_roomTableView.getContentSize();
         var roomListTable= Profile_JinHuaRoomData.getCurActiveRoomList();
-
-        var sprite= cc.Sprite.create();
-        sprite.setAnchorPoint(0, 0);
-        sprite.setPosition(cc.p(0,0));
-        cell.addChild(sprite);
         var tag= idx+ offset;
         cell.setTag(tag);
-
-        if((Profile_JinHuaRoomData.TYPE_QIANWANG== Profile_JinHuaRoomData.getCurRoomType())){
-            sprite.setPositionY(tableSize.height* (0.1));
-            //避免发生截取
-            if(idx== 2){
-                sprite.setPositionY(0);
-            }
-        }
-
+        var self= this;
         Load.LoadJsonOrPic(roomListTable[tag].roomPic, function(){
-           sprite.setTexture(roomListTable[tag].roomPic);
+            var menu= cc.Menu.create();
+            menu.setAnchorPoint(0, 0);
+            menu.setPosition(cc.p(0,0));
+            var button= cc.MenuItemImage.create(roomListTable[tag].roomPic,roomListTable[tag].roomPic,self.onEnterTable, self);
+            button.setPosition(cc.p(button.getContentSize().width* 0.5, button.getContentSize().height* 0.5));
+            button.setTag(tag);
+            menu.addChild(button);
+
+            if((Profile_JinHuaRoomData.TYPE_QIANWANG== Profile_JinHuaRoomData.getCurRoomType())){
+                menu.setPositionY(tableSize.height* (0.1));
+                //避免发生截取
+                if(idx== 2){
+                    menu.setPositionY(0);
+                }
+            }
+            cell.addChild(menu);
         });
 
         return cell;
@@ -227,11 +228,11 @@ var RoomListLogic= {
     numberOfCellsInTableView:function (table){
         return Common.getTableSize(Profile_JinHuaRoomData.getCurActiveRoomList());
     },
-    //触摸结束-重写TableView的tableCellAtIndex函数
-    tableCellTouched:function (table, cell){
+    onEnterTable:function(pSender){
         RoomListLogic.m_tableView.setTouchEnabled(false);
+        pSender.setEnabled(false);
         var seq= cc.sequence(cc.scaleTo(0.5,0.9), cc.scaleTo(0.5, 1));
-        cell.runAction(seq);
-        sendJHID_ENTER_ROOM(cell.getTag()+ 1);
+        pSender.runAction(seq);
+        sendJHID_ENTER_ROOM(pSender.getTag()+ 1);
     }
 };
