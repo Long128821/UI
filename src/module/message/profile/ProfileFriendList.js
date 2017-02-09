@@ -24,6 +24,8 @@ var ProfileFriendList= {
     //前往领取(slot_JINHUA_MGR_SIGN_FRIEND_REWARD)
     slot_JINHUA_MGR_SIGN_FRIEND_REWARD:function(dataTable){
         if(dataTable["Result"]== 1){
+            sendDBID_USER_INFO(profile_user.getSelfUserID());
+
             FriendListLogic.changeBtnState(dataTable["Flag"]- 1);
         }
     },

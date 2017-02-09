@@ -259,11 +259,14 @@ var DailySalaryLogic= {
     acceptResult:function(){
         //每日工资领取结果
         var getDailySalaryTable= Profile_DailySalary.getGetDailySalaryTable();
+        console.log("领取每日工资！");
+        console.log(getDailySalaryTable);
         if(getDailySalaryTable== null){
             console.log("领取奖励失败,请重试!");
         }
         if(getDailySalaryTable.Success== 1){
             //领取成功
+            sendDBID_USER_INFO(profile_user.getSelfUserID());
             MvcEngine.destroyModule(GUI_DAILYSALARY);
         }else{
             console.log(getDailySalaryTable.Msg);
