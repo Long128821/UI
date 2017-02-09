@@ -80,6 +80,7 @@ var BackpackLists= {
     },
     //设置TouchEnabled可否使用
     setTouchEnabled:function(bEnabled){
+        if(!Common.judgeValueIsEffect(this.m_tableView)) return;
         this.m_tableView.setDelegate(bEnabled?this:null);
         //设置TableView不可滑动
         this.m_tableView.setTouchEnabled(bEnabled?false:bEnabled);
@@ -109,6 +110,7 @@ var BackpackLists= {
         });
     },
     setBackpackListsVisible:function(bVisible){
+        if(!Common.judgeValueIsEffect(this.m_tableView)) return;
         this.m_tableView.setVisible(bVisible);
     }
 };

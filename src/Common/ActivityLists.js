@@ -162,6 +162,7 @@ var ActivityLists= {
             var button = this.m_arrCellButton[i];
             button.setTouchEnabled(bEnabled== undefined?false:bEnabled);
         }
+        if(!Common.judgeValueIsEffect(this.m_tableView)) return;
         //设置PageView控件不可滑动
         this.m_tableView.setTouchEnabled(bEnabled== undefined?false:bEnabled);
     }

@@ -191,7 +191,7 @@ var profile_user= {
         this.setSelfNickName(dataTable["NickName"]);
         this.setSelfPassword(dataTable["Password"]);
         this.setSelfCoin(dataTable["Coin"]);
-        this.setSelfYuanBao(dataTable["YuanBao"]);
+        this.setSelfYuanBao(dataTable["Yuanbao"]);
         this.setSelfHonor(dataTable["honor"]);
     },
     //进入大厅

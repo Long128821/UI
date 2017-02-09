@@ -467,7 +467,7 @@ var OtherUserInfoLogic= {
         Common.setPortraitByType(resLists, cc.rect(0,0,135,135), this.Image_toux);
 
         //金币数
-        this.AtlasLabel_jinbi.setString("10000");
+        this.AtlasLabel_jinbi.setString(profile_user.getSelfCoin());
         //等级
         this.AtlasLabel_level.setString(":"+ userInfoTable["Level"]);
         //魅力值
