@@ -228,7 +228,7 @@ var HallLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            MvcEngine.preCreateModule(GUI_SETTING);
+            MvcEngine.createModule(GUI_SETTING);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -241,7 +241,7 @@ var HallLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            MvcEngine.preCreateModule(GUI_MESSAGELIST);
+            MvcEngine.createModule(GUI_MESSAGELIST);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -280,7 +280,7 @@ var HallLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            MvcEngine.preCreateModule(GUI_FRIENDLIST);
+            MvcEngine.createModule(GUI_FRIENDLIST);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -293,7 +293,7 @@ var HallLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            MvcEngine.preCreateModule(GUI_RENWU);
+            MvcEngine.createModule(GUI_RENWU);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -345,7 +345,7 @@ var HallLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            MvcEngine.preCreateModule(GUI_VIPINFO);
+            MvcEngine.createModule(GUI_VIPINFO);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -397,7 +397,7 @@ var HallLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            MvcEngine.preCreateModule(GUI_MONTHCARD);
+            MvcEngine.createModule(GUI_MONTHCARD);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -476,7 +476,7 @@ var HallLogic= {
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
             Profile_JinHuaRoomData.setCurRoomType(Profile_JinHuaRoomData.TYPE_JINGDIAN);
-            MvcEngine.preCreateModule(GUI_ROOMLIST);
+            MvcEngine.createModule(GUI_ROOMLIST);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -490,7 +490,7 @@ var HallLogic= {
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
             Profile_JinHuaRoomData.setCurRoomType(Profile_JinHuaRoomData.TYPE_QIANWANG);
-            MvcEngine.preCreateModule(GUI_ROOMLIST);
+            MvcEngine.createModule(GUI_ROOMLIST);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -503,7 +503,7 @@ var HallLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            MvcEngine.preCreateModule(GUI_VIPINFO);
+            MvcEngine.createModule(GUI_VIPINFO);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -732,8 +732,8 @@ var HallLogic= {
     },
     //设置活动列表和小游戏列表可否使用
     setListenerEnabled:function(bEnabled){
-        MiniGameLists.setTouchEnabled(bEnabled);
-        ActivityLists.setTouchEnabled(bEnabled);
+        //MiniGameLists.setTouchEnabled(bEnabled);
+        //ActivityLists.setTouchEnabled(bEnabled);
     },
     //分割线动画
     showLightLineAnimate:function(){

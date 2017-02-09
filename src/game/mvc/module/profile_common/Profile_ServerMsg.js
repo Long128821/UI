@@ -69,7 +69,7 @@ var Profile_ServerMsg= {
             }
             case ServerMsgType.SEVER_MSG_EXIT://强制退出
             {
-                MvcEngine.preCreateModule(GUI_SYSTEMPROMPTDIALOG);
+                MvcEngine.createModule(GUI_SYSTEMPROMPTDIALOG);
                 Profile_SystemPromptDialog.setCurMsg(msg);
                 break;
             }

@@ -460,7 +460,7 @@ ModuleTable["RoomList"]["jsLists"] = [
     "src/module/hall/profile/ProfileRoomList.js",
     "src/module/hall/logic/RoomListLogic.js",
     "src/module/hall/controller/RoomListController.js"];
-ModuleTable["RoomList"]["Layer"] = Layer.Second_Layer;
+ModuleTable["RoomList"]["Layer"] = Layer.Third_Layer;
 ModuleTable["RoomList"]["resLists"] = [
     "res/ic_jingdianchang.png",
     "res/btn_item_close.png",

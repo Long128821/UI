@@ -259,8 +259,6 @@ var DailySalaryLogic= {
     acceptResult:function(){
         //每日工资领取结果
         var getDailySalaryTable= Profile_DailySalary.getGetDailySalaryTable();
-        console.log("领取每日工资！");
-        console.log(getDailySalaryTable);
         if(getDailySalaryTable== null){
             console.log("领取奖励失败,请重试!");
         }

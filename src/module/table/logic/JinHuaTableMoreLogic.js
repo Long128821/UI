@@ -224,18 +224,18 @@ var JinHuaTableMoreLogic= {
     //关闭
     close:function(){
         MvcEngine.destroyModule(GUI_JINHUATABLEMORE);
-        MvcEngine.preCreateModule(GUI_JINHUATABLECONFIRMPOP, function(){
+        MvcEngine.createModule(GUI_JINHUATABLECONFIRMPOP, function(){
             ProfileJinHuaTableConfirmPop.setMsg(TableConfirmPopTag.TAG_QUIT);
         });
     },
     //设置
     showSettings:function(){
         MvcEngine.destroyModule(GUI_JINHUATABLEMORE);
-        MvcEngine.preCreateModule(GUI_JINHUATABLESETPOP);
+        MvcEngine.createModule(GUI_JINHUATABLESETPOP);
     },
     //显示牌型
     showCardType:function(){
-        MvcEngine.preCreateModule(GUI_JINHUATABLECARDTYPEPOP);
+        MvcEngine.createModule(GUI_JINHUATABLECARDTYPEPOP);
     },
     //换桌
     onChangeTable:function(){
@@ -250,7 +250,7 @@ var JinHuaTableMoreLogic= {
             return;
         }
 
-        MvcEngine.preCreateModule(GUI_JINHUATABLECONFIRMPOP, function(){
+        MvcEngine.createModule(GUI_JINHUATABLECONFIRMPOP, function(){
             //站起
             ProfileJinHuaTableConfirmPop.setMsg(TableConfirmPopTag.TAG_STANDUP);
         });

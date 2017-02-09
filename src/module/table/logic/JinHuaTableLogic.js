@@ -1207,8 +1207,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            console.log("任务列表");
-            MvcEngine.preCreateModule(GUI_RENWU);
+            MvcEngine.createModule(GUI_RENWU);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1234,7 +1233,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            MvcEngine.preCreateModule(GUI_JINHUATABLEMORE);
+            MvcEngine.createModule(GUI_JINHUATABLEMORE);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -2515,7 +2514,7 @@ var JinHuaTableLogic= {
         var GameData= Profile_JinHuaGameData.getGameData();
         //第6轮点击换桌会弹出提示框
         if(GameData.round> 5){
-            MvcEngine.preCreateModule(GUI_JINHUATABLECONFIRMPOP, function(){
+            MvcEngine.createModule(GUI_JINHUATABLECONFIRMPOP, function(){
                 ProfileJinHuaTableConfirmPop.setMsg(TableConfirmPopTag.TAG_FOLD_TIPS);
             })
         }else{

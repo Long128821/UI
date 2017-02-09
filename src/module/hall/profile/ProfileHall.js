@@ -12,7 +12,7 @@ var ProfileHall= {
         Profile_JinHuaOtherUserInfo.readJINHUA_MGR_USER_INFO(dataTable);
         profile_user.readJINHUA_MGR_USER_INFO(dataTable);
 
-        MvcEngine.preCreateModule(GUI_OTHERUSERINFO);
+        MvcEngine.createModule(GUI_OTHERUSERINFO);
     },
     //更新玩家用户信息(DBID_USER_INFO)
     slot_DBID_USER_INFO:function(dataTable){
@@ -44,7 +44,7 @@ var ProfileHall= {
         Profile_DailySalary.setDailySalaryInfoTable(dataTable);
         //可否领取今日工资
         if(dataTable["CanReceive"]== 1){
-            MvcEngine.preCreateModule(GUI_DAILYSALARY);
+            MvcEngine.createModule(GUI_DAILYSALARY);
         }
     },
     //初始化图片列表

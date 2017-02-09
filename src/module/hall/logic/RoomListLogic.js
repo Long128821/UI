@@ -174,7 +174,7 @@ var RoomListLogic= {
         leftBottomPos= cc.pAdd(leftBottomPos, offsetPos);
 
         //加载成功的回调函数
-        var tableView = new cc.TableView(self, tableSize);
+        var tableView = new cc.TableView(self, cc.size(tableSize.width* 0.9, tableSize.height));
         tableView.setDirection(cc.SCROLLVIEW_DIRECTION_HORIZONTAL);//水平滑动
         tableView.setTouchEnabled(true);
         tableView.setDelegate(self);
@@ -229,7 +229,9 @@ var RoomListLogic= {
     },
     //触摸结束-重写TableView的tableCellAtIndex函数
     tableCellTouched:function (table, cell){
-//        console.log("进入房间"+ (cell.getTag()+ 1));
+        RoomListLogic.m_tableView.setTouchEnabled(false);
+        var seq= cc.sequence(cc.scaleTo(0.5,0.9), cc.scaleTo(0.5, 1));
+        cell.runAction(seq);
         sendJHID_ENTER_ROOM(cell.getTag()+ 1);
     }
 };

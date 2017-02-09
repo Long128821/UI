@@ -20,6 +20,7 @@ var ProfileJinHuaTable= {
     },
     //站起(超时站起、旁观)
     slot_JHID_STAND_UP:function(dataTable){
+        console.log("站起");
         Profile_JinHuaGameData.readJHID_STAND_UP(dataTable);
         //更新<站起>操作
         JinHuaTableLogic.updateJHID_STAND_UP();
@@ -76,6 +77,7 @@ var ProfileJinHuaTable= {
     },
     //弃牌
     slot_JHID_DISCARD:function(dataTable){
+        console.log("弃牌");
         Profile_JinHuaGameData.readJHID_DISCARD(dataTable);
         JinHuaTableLogic.updateJHID_DISCARD();
     },
