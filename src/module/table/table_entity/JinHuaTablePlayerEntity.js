@@ -178,7 +178,8 @@ JinHuaTablePlayerEntity.prototype.init= function(){
 };
 //更新玩家的称谓(小乞丐、富可敌国),在图集缓存中
 JinHuaTablePlayerEntity.prototype.updatePlayerTips= function(){
-    Profile_JinHuaSetting.setUserTitleOnSprite(this.player.remainCoins, this.tips);//玩家剩余金币
+    //玩家剩余金币
+    Profile_JinHuaSetting.setUserTitleOnSprite(this.player.remainCoins, this.tips);
 };
 
 /**
@@ -334,10 +335,16 @@ JinHuaTablePlayerEntity.prototype.createPlayerVipPic= function(){
 JinHuaTablePlayerEntity.prototype.setVipInfo= function (vipLevel){
     if(!Common.judgeValueIsEffect(this.mPlayerSprite)) return;
     if(!Common.judgeValueIsEffect(vipLevel)) return;
-    if(vipLevel< 1) return;
 
     var sizeBg = this.mPlayerSprite.getContentSize();
     var vipPicSize= this.vipLevelPic.getContentSize();
+    //玩家本身,缩放Vip等级
+    this.isMe()&&this.vipLevelPic.setScale(0.9);
+
+    this.vipLevelPic.setPosition(sizeBg.width * 5/ 6, this.goldSpriteBg.getPositionY() + this.goldSpriteBg.getContentSize().height / 4);
+    this.mPlayerSprite.addChild(this.vipLevelPic, 2);
+
+    if(vipLevel< 1) return;
 
     //Vip等级
     var AtlasLabel_vip_level = cc.LabelAtlas.create("0", Common.getJinHuaResourcePath("ui_vip_lvshuzi_gaoji.png"), 14, 20, "0");
@@ -363,12 +370,6 @@ JinHuaTablePlayerEntity.prototype.setVipInfo= function (vipLevel){
             this.vipLevelPic.addChild(Image_vip_highsign);
         }
     }
-
-    //玩家本身,缩放Vip等级
-    this.isMe()&&this.vipLevelPic.setScale(0.9);
-
-    this.vipLevelPic.setPosition(sizeBg.width * 5/ 6, this.goldSpriteBg.getPositionY() + this.goldSpriteBg.getContentSize().height / 4);
-    this.mPlayerSprite.addChild(this.vipLevelPic, 2);
 };
 
 //创建禁比图标

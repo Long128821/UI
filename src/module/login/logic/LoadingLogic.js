@@ -20,6 +20,7 @@ var LoadingLogic= {
         var seq= cc.sequence(cc.delayTime(0.5), cc.callFunc(function(pSender){
             self.m_curActionTimers++;
             self.m_curActionTimers= self.m_curActionTimers%4;
+            if(!Common.judgeValueIsEffect(self.labelMsg)) return;
             self.labelMsg.setString(self.getMsg(self.m_curActionTimers));
         }));
         this.view.runAction(seq.repeatForever());

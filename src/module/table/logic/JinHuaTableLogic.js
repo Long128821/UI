@@ -267,6 +267,8 @@ var JinHuaTableLogic= {
 
         //设置基层
         GameConfig.setCurBaseLayer(GUI_JINHUATABLE);
+
+        sendJINHUA_MGR_SETTING(Profile_JinHuaSetting.getTimeStamp());
     },
     
 	initView:function(){
@@ -605,7 +607,7 @@ var JinHuaTableLogic= {
 		}else if(event == ccui.Widget.TOUCH_ENDED){
             console.log("callback_Button_guarenlaile");
 			//抬起
-            sendJHID_CHAT_REQ(TYPE_CHAT_TEXT,JinHuaTableLogic.Label_guarenlaile.getStringValue());
+            sendJHID_CHAT_REQ(TYPE_CHAT_TEXT,JinHuaTableLogic.Label_guarenlaile.getString());
             JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消

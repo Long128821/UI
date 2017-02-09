@@ -20,7 +20,7 @@ var ProfileHall= {
         //更新大厅数据
         HallLogic.updateHallData();
     },
-    //在线时长
+    //在线人数
     slot_JINHUA_MGR_SETTING:function(dataTable){
         //设置金花数据
         Profile_JinHuaSetting.readJINHUA_MGR_SETTING(dataTable);

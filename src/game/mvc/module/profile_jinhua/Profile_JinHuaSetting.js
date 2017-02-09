@@ -5,15 +5,15 @@ var Profile_JinHuaSetting= {
     JinHuaTitleListTable:null,//称为列表
     isRecharged:false,//是否充过值
     arrUserTitle:[//玩家称谓(小乞丐)
-        "ui_xiaoqigai.png",
-        "ui_pingming.png",
-        "ui_xiaokang.png",
-        "ui_caizhu.png",
-        "ui_tuhao.png",
-        "ui_yidiajujia.png",
-        "ui_fujiatianxia.png",
-        "ui_fukediguo.png",
-        "ui_guominlaogong.png"
+        "ui_xiaoqigai.png",//小乞丐
+        "ui_pingmin.png",//平民
+        "ui_xiaokang.png",//小康
+        "ui_caizhu.png",//财主
+        "ui_tuhao.png",//土豪
+        "ui_yidaijujia.png",//一代巨贾
+        "ui_fujiatianxia.png",//富甲天下
+        "ui_fukediguo.png",//富可敌国
+        "ui_guominlaogong.png"//国民老公
     ],
     //获取时间戳
     getTimeStamp:function(){
@@ -80,6 +80,7 @@ var Profile_JinHuaSetting= {
      */
     setUserTitleOnSprite:function(coin, target){
         var url= this.getUserTitlePath(coin);
+        if(cc.spriteFrameCache.getSpriteFrame(url)== undefined) return;
         target.setSpriteFrame(url);
     },
     /**
@@ -89,6 +90,8 @@ var Profile_JinHuaSetting= {
      */
     setUserTitleOnImageView:function(coin, target){
         var url= this.getUserTitlePath(coin);
+        //在图集中，没有对应的资源
+        if(cc.spriteFrameCache.getSpriteFrame(url)== undefined) return;
         target._imageRenderer.setSpriteFrame(url);
     }
 };

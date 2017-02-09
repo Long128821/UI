@@ -200,7 +200,7 @@ function read80680003(nmBaseMessage){
 
     //Timestamp	Long	时间
     dataTable["Timestamp"] = nmBaseMessage.readLong();
-    //TitleList	LoopMsg		称谓配置
+    //RecordList	LoopMsg		称谓配置
     dataTable["RecordList"] = {};
     var RecordListCnt = nmBaseMessage.readInt();
     dataTable["RecordListCnt"]= RecordListCnt;
