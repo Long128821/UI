@@ -2801,6 +2801,8 @@ var JinHuaTableLogic= {
             sendJHID_SHOW_CARDS();
             this.showCard= false;
         }
+        //比牌时，隐藏看牌提示
+        JinHuaTableCheckButton.setCheckVisible(false);
 
         this.showPlayerPKBtns();
     },

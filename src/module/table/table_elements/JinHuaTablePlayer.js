@@ -260,14 +260,17 @@ var JinHuaTablePlayer= {
      * @param pos 倒计时的位置
      */
     createOtherTimerBg:function(pos){
+        /**
+         * 使用cc.ProgressTimer时自动倒计时时，如果倒计时完毕之后，
+         * 改变位置，重新倒计时，刚开始倒计时，会从原来的位置开始指引(删除原来的，重新创建);
+         */
         //圆形遮蔽层
-        if(this.otherTimerBg== null){
-            var otherSpriteTimer = cc.Sprite.create("#desk_player_cover_mine.png");
-            this.otherTimerBg = cc.ProgressTimer.create(otherSpriteTimer);
-            this.otherTimerBg.setType(cc.ProgressTimer.TYPE_RADIAL);
-            this.otherTimerBg.setLocalZOrder(12);
-            this.JinHuaTablePlayerLayer.addChild(this.otherTimerBg);
-        }
+        (Common.judgeValueIsEffect(this.otherTimerBg))&&(this.otherTimerBg.removeFromParent(true));
+        var otherSpriteTimer = cc.Sprite.create("#desk_player_cover_mine.png");
+        this.otherTimerBg = cc.ProgressTimer.create(otherSpriteTimer);
+        this.otherTimerBg.setType(cc.ProgressTimer.TYPE_RADIAL);
+        this.otherTimerBg.setLocalZOrder(12);
+        this.JinHuaTablePlayerLayer.addChild(this.otherTimerBg);
         this.otherTimerBg.setPosition(pos);
     },
     initDealer:function(){
@@ -693,8 +696,6 @@ var JinHuaTablePlayer= {
     //用户<弃牌>后收到服务器返回更新界面
     updateTableAfterFoldCardByServer:function(){
         var foldCardData= Profile_JinHuaGameData.getFoldCardData();
-        console.log(foldCardData);
-        console.log(this.tablePlayerEntitys);
         //别人弃牌的服务器返回
         if(this.tablePlayerEntitys[foldCardData.CSID]&&!(this.tablePlayerEntitys[foldCardData.CSID].isMe()&&this.tablePlayerEntitys[foldCardData.CSID].player.status == STATUS_PLAYER_DISCARD)){
             this.updatePlayerStateAfterFoldCard(foldCardData.CSID);

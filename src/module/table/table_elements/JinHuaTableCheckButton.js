@@ -64,7 +64,7 @@ var JinHuaTableCheckButton= {
         this.addTouchListener();
         //默认不显示
         this.setCheckVisible(false);
-        this.bLookCard= false;;
+        this.bLookCard= false;
     },
     //添加触摸监听机制(点击、滑动)
     addTouchListener:function(){
