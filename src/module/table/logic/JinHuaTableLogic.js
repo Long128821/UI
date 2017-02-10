@@ -511,7 +511,6 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            console.log("callback_Panel_PrivateRoom");
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -524,7 +523,6 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            console.log("callback_Panel_roominfo");
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -537,7 +535,6 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            console.log("callback_Panel_lunshu");
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -550,7 +547,6 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            console.log("callback_Panel_danzhu");
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -563,7 +559,6 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            console.log("callback_Panel_zongxiazhu");
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -575,7 +570,6 @@ var JinHuaTableLogic= {
 			//按下
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
-            console.log("callback_Button_geweihao");
 			//抬起
             sendJHID_CHAT_REQ(TYPE_CHAT_TEXT,JinHuaTableLogic.Label_geweihao.getStringValue());
             JinHuaTableLogic.hideAllQuickChatButton();
@@ -590,7 +584,6 @@ var JinHuaTableLogic= {
 			//按下
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
-            console.log("callback_Button_wolaishouqian");
 			//抬起
             sendJHID_CHAT_REQ(TYPE_CHAT_TEXT,JinHuaTableLogic.Label_wolaishouqian.getStringValue());
             JinHuaTableLogic.hideAllQuickChatButton();
@@ -605,7 +598,6 @@ var JinHuaTableLogic= {
 			//按下
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
-            console.log("callback_Button_guarenlaile");
 			//抬起
             sendJHID_CHAT_REQ(TYPE_CHAT_TEXT,JinHuaTableLogic.Label_guarenlaile.getString());
             JinHuaTableLogic.hideAllQuickChatButton();
@@ -621,7 +613,6 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            console.log("callback_Button_waiting_emo1");
             sendJHID_CHAT_REQ(TYPE_CHAT_COMMON_V2,3);
             JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
@@ -636,7 +627,6 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            console.log("callback_Button_waiting_emo2");
             sendJHID_CHAT_REQ(TYPE_CHAT_COMMON_V2,4);
             JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
@@ -651,7 +641,6 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            console.log("callback_Button_ptcl");
             sendJHID_CHAT_REQ(TYPE_CHAT_TEXT,JinHuaTableLogic.Label_ptcl.getStringValue());
             JinHuaTableLogic.hideAllQuickChatButton();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
@@ -862,7 +851,6 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -992,8 +980,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            console.log("callback_Button_raise_one");
-            JinHuaTableLogic.onRaise_1();
+            JinHuaTableLogic.onRaiseCoin(2, pSender);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1006,8 +993,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            console.log("callback_Button_raise_two");
-            JinHuaTableLogic.onRaise_2();
+            JinHuaTableLogic.onRaiseCoin(3, pSender);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1020,8 +1006,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            console.log("callback_Button_raise_three");
-            JinHuaTableLogic.onRaise_3();
+            JinHuaTableLogic.onRaiseCoin(4, pSender);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1033,7 +1018,6 @@ var JinHuaTableLogic= {
 			//按下
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
-            console.log("callback_Button_raise_cancel");
 			//抬起
             JinHuaTableLogic.onRaise_Cancel();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
@@ -1048,9 +1032,6 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            for(var i in Profile_JinHuaGameData.getPlayers()){
-                console.log(Profile_JinHuaGameData.getPlayers()[i]);
-            }
             JinHuaTableLogic.onFold();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
@@ -1077,7 +1058,6 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1090,7 +1070,6 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1116,7 +1095,6 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1142,7 +1120,6 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1155,7 +1132,6 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1168,7 +1144,6 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1181,7 +1156,6 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1194,7 +1168,6 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1246,7 +1219,6 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1259,7 +1231,6 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1272,7 +1243,6 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1285,7 +1255,6 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1298,7 +1267,6 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1311,7 +1279,6 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -2229,6 +2196,7 @@ var JinHuaTableLogic= {
                 this.Button_mine_raise.setTouchEnabled(true);
                 this.Button_mine_call.setVisible(true);
                 this.Button_mine_call.setTouchEnabled(true);
+                console.log("能否加注:"+ this.CanRaise);
                 if(!this.CanRaise){//不能加注
                     this.Button_mine_raise.setTouchEnabled(false);
                     this.Button_mine_raise.setOpacity(ALPHA_CAN_NOT_TOUCH);
@@ -2546,18 +2514,19 @@ var JinHuaTableLogic= {
     //更新加注按钮列表
     updateMyRaiseCoinBtns:function(){
         //没有下注数据 || 加注数据不是有效值
-        if(this.betData== null||(this.betData!= null &&(this.betData.raiseCoin== null||this.betData.raiseCoin== undefined))){
+        if(this.betData== null||(this.betData!= null &&(!Common.judgeValueIsEffect(this.betData.raiseCoin)))){
             return;
         }
 
         //加注列表，如果数组数量不为0，则只能显示押满按钮或加注列表
         var  canRaiseCnt = 0;
+        console.log(this.betData);
 
         //加注列表
         for(var i in this.betData.raiseCoin){
-            var canRaise = false;
             var raiseCoin = this.betData.raiseCoin[i];
-            if(!raiseCoin) break;
+            if(!Common.judgeValueIsEffect(raiseCoin)) continue;
+            var canRaise = false;
             if(i== 0){
                 if(raiseCoin.raiseStatus == 1){
                     canRaiseCnt++;
@@ -2565,7 +2534,7 @@ var JinHuaTableLogic= {
             }else if(i== 2){
                 var coinNumber = "";
                 var valueLen= raiseCoin.raiseValue.length;
-                if(valueLen> 9){//亿
+                if(valueLen>= 9){//亿
                     var beforeDel = Math.floor(raiseCoin.raiseValue / 100000000);
                     var afterDel = raiseCoin.raiseValue % 100000000;
                     if(afterDel> 0){
@@ -2582,7 +2551,7 @@ var JinHuaTableLogic= {
                     }else{
                         coinNumber= beforeDel+";";
                     }
-                }else if(valueLen> 5) {//万
+                }else if(valueLen>= 5){//万
                     var beforeDel = Math.floor(raiseCoin.raiseValue / 10000);
                     var afterDel = raiseCoin.raiseValue % 10000;
                     if (afterDel > 0) {
@@ -2611,7 +2580,7 @@ var JinHuaTableLogic= {
             }else if(i==3){
                 var coinNumber = "";
                 var valueLen= raiseCoin.raiseValue.length;
-                if(valueLen> 9){//亿
+                if(valueLen>= 9){//亿
                     var beforeDel = Math.floor(raiseCoin.raiseValue / 100000000);
                     var afterDel = raiseCoin.raiseValue % 100000000;
                     if(afterDel> 0){
@@ -2628,7 +2597,7 @@ var JinHuaTableLogic= {
                     }else{
                         coinNumber= beforeDel+";";
                     }
-                }else if(valueLen> 5) {//万
+                }else if(valueLen>= 5) {//万
                     var beforeDel = Math.floor(raiseCoin.raiseValue / 10000);
                     var afterDel = raiseCoin.raiseValue % 10000;
                     if (afterDel > 0) {
@@ -2657,7 +2626,7 @@ var JinHuaTableLogic= {
             }else if(i== 4){
                 var coinNumber = "";
                 var valueLen= raiseCoin.raiseValue.length;
-                if(valueLen> 9){//亿
+                if(valueLen>= 9){//亿
                     var beforeDel = Math.floor(raiseCoin.raiseValue / 100000000);
                     var afterDel = raiseCoin.raiseValue % 100000000;
                     if(afterDel> 0){
@@ -2674,7 +2643,7 @@ var JinHuaTableLogic= {
                     }else{
                         coinNumber= beforeDel+";";
                     }
-                }else if(valueLen> 5) {//万
+                }else if(valueLen>= 5) {//万
                     var beforeDel = Math.floor(raiseCoin.raiseValue / 10000);
                     var afterDel = raiseCoin.raiseValue % 10000;
                     if (afterDel > 0) {
@@ -2705,7 +2674,6 @@ var JinHuaTableLogic= {
                     canRaiseCnt++;
                 }
             }
-
             this.CanRaise= canRaise;
         }
     },
@@ -2715,26 +2683,14 @@ var JinHuaTableLogic= {
         JinHuaTableLogic.updateMyRaiseCoinBtns();
         JinHuaTableLogic.showBotButton(STATUS_BUTTON_RAISE);
     },
-    //加注按钮列表-1
-    onRaise_1:function(){
-        console.log("加注1");
-        JinHuaTableLogic.clickRaiseBtnFunc(2);
-    },
-    //加注按钮列表-2
-    onRaise_2:function(){
-        console.log("加注2");
-        JinHuaTableLogic.clickRaiseBtnFunc(3);
-    },
-    //加注按钮列表-3
-    onRaise_3:function(){
-        console.log("加注3");
-        JinHuaTableLogic.clickRaiseBtnFunc(4);
+    //加注-详细按钮列表
+    onRaiseCoin:function(tag, pSender){
+        pSender.setTouchEnabled(false);
+        JinHuaTableLogic.clickRaiseBtnFunc(tag);
     },
     //点击加注按钮执行
     //index 加注码位置
     clickRaiseBtnFunc:function(index){
-        console.log(index);
-        console.log(this.betData);
         //如果当前下注人并不是我,我的加注列表不需要更新
         if(this.betData== null||(this.betData!= null &&(this.betData.raiseCoin== null||this.betData.raiseCoin== undefined))){
             return;
