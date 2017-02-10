@@ -11,6 +11,7 @@ var MessageListLogic= {
 	Button_rightArrow:null,
 	Label_fanye:null,
 	//TableView 是否可被点击
+    //Todo:尝试该对象是否可以删除，利用吞噬事件来避免多次点击
     m_bTouchEnabled:true,
     createView:function(){
     	this.initLayer();
@@ -147,6 +148,8 @@ var MessageListLogic= {
             tableView.setDelegate(self);
             tableView.setTouchEnabled(true);
             tableView.setPosition(leftBottomPos);
+            //销毁该界面时,设置为不可点击，第二次创建时，该页面不会执行唤醒操作，所以仍然是不可点击状态
+            self.m_bTouchEnabled= true;
 
             //重新加载数据
             tableView.reloadData();

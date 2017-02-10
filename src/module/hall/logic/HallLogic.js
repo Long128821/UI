@@ -567,7 +567,6 @@ var HallLogic= {
     },
     //发送全局消息
     sendGameCommonMessage:function(){
-        console.log(profile_user.getSelfUserID());
         if(profile_user.getSelfUserID()!= 0){
             //获取当前玩家的资料
             sendDBID_USER_INFO(profile_user.getSelfUserID());
@@ -617,7 +616,6 @@ var HallLogic= {
         this.Label_NickName.setString(profile_user.getSelfNickName());//昵称
         //判断金币数，金币数
         var myCoin= GamePub.convertCoin(profile_user.getSelfCoin());
-        console.log("玩家金币数:"+ profile_user.getSelfCoin());
         this.Label_Coin.setString(myCoin);
 
         //当前玩家的称谓等级

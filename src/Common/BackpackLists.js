@@ -21,8 +21,11 @@ var BackpackLists= {
         this.m_rowSize= cnt;
     },
     init:function(parent){
+        //解决Bug:多次点击道具,一直在增加节点
+        (Common.judgeValueIsEffect(this.m_tableView))&&(this.m_tableView.removeFromParent(true));
         this.m_arrCell= [];
         this.m_parent= parent;
+        this.m_tableView= null;
         this.m_tableViewPos= cc.p(tableViewPos.x, tableViewPos.y);
         this.preLoad();
     },

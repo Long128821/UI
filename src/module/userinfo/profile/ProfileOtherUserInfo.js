@@ -23,7 +23,7 @@ var ProfileOtherUserInfo= {
     },
     //JHID_STRONG_BOX_INFO
     slot_JHID_STRONG_BOX_INFO:function(dataTable){
-        console.log(dataTable);
+
     },
     //获取道具Table
     getBackpackTable:function(){

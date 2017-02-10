@@ -10,7 +10,7 @@ var MvcEngine= {
     needHandleModuleCount:0,//记录当前需要处理的界面数
     needAddActiveModuleTable : {},//记录当前需要添加到活跃队列的界面
     activeModuleTable : {},//当前显示的层(包括休眠的层)
-    wakeModuleTable : {},//需要唤醒的层
+    //wakeModuleTable : {},//需要唤醒的层
     //delayTime : 0.2,//延时添加界面
     m_rootNode:null,//根节点，用户存放用户
     /**
@@ -21,7 +21,7 @@ var MvcEngine= {
     init:function(){
         this.needAddActiveModuleTable= {};
         this.activeModuleTable= {};
-        this.wakeModuleTable= {};
+        //this.wakeModuleTable= {};
         //this.delayTime= 0.2;
         this.needCreateModuleName= null;
         this.needDestroyModuleName= null;
@@ -137,39 +137,39 @@ var MvcEngine= {
             //休眠界面数组
             this.sleepModuleTable(sleepModuleTable);
 
-            //有需要销毁的界面时，唤醒当前活动的最高一层
-            if(Common.judgeValueIsEffect(this.needDestroyModuleName)){
-                var destroyModuleLayer= ModuleTable[this.needDestroyModuleName]["Layer"];//要销毁的层级
-                for(var key in this.activeModuleTable){
-                    var value= this.activeModuleTable[key];
-                    if(Common.judgeValueIsEffect(value)){
-                        var moduleLayer= value.getModuleLayer();
-                        if(destroyModuleLayer< moduleLayer){
-                            //高于关闭界面的层级，则说明有演示弹出的界面
-                            this.wakeModuleTable= {};
-                        }else if(destroyModuleLayer> moduleLayer){
-                            //填充唤醒界面Table, 长度+1 为key value为controller
-                            this.wakeModuleTable[Common.getTableSize(this.wakeModuleTable)+ 1]= value;
-                        }
-                    }
-                }
-            }
+//            //有需要销毁的界面时，唤醒当前活动的最高一层
+//            if(Common.judgeValueIsEffect(this.needDestroyModuleName)){
+//                var destroyModuleLayer= ModuleTable[this.needDestroyModuleName]["Layer"];//要销毁的层级
+//                for(var key in this.activeModuleTable){
+//                    var value= this.activeModuleTable[key];
+//                    if(Common.judgeValueIsEffect(value)){
+//                        var moduleLayer= value.getModuleLayer();
+//                        if(destroyModuleLayer< moduleLayer){
+//                            //高于关闭界面的层级，则说明有演示弹出的界面
+//                            this.wakeModuleTable= {};
+//                        }else if(destroyModuleLayer> moduleLayer){
+//                            //填充唤醒界面Table, 长度+1 为key value为controller
+//                            this.wakeModuleTable[Common.getTableSize(this.wakeModuleTable)+ 1]= value;
+//                        }
+//                    }
+//                }
+//            }
 
-            //销毁时，唤醒的界面中层级最高的
-            if(Common.getTableSize(this.wakeModuleTable)> 0){
-                //筛选需要的唤醒的界面中层级最高的
-                var wakeModule= this.getMaxModule(this.wakeModuleTable);
-                //有需要唤醒的界面，同时view也不为空
-                if(Common.judgeValueIsEffect(wakeModule)&&(Common.judgeValueIsEffect(wakeModule.getLayer()))){
-                    wakeModule.wakeModule();
-                }
-                //清空唤醒列表
-                this.wakeModuleTable= {};
-            }
+//            //销毁时，唤醒的界面中层级最高的
+//            if(Common.getTableSize(this.wakeModuleTable)> 0){
+//                //筛选需要的唤醒的界面中层级最高的
+//                var wakeModule= this.getMaxModule(this.wakeModuleTable);
+//                //有需要唤醒的界面，同时view也不为空
+//                if(Common.judgeValueIsEffect(wakeModule)&&(Common.judgeValueIsEffect(wakeModule.getLayer()))){
+                      //此处应该注释掉，原因是:第二次唤醒某界面之后，在该界面上，添加上一级界面时，该界面应该被休眠，但是该界面被唤醒
+//                    //wakeModule.wakeModule();
+//                }
+//                //清空唤醒列表
+//                this.wakeModuleTable= {};
+//            }
             //清空休眠数组，临时变量
             sleepModuleTable= null;
             this.needDestroyModuleName= null;
-
         }else{
             //没有需要创建的module，则唤醒最高级别的界面
             this.wakeMaxModule();

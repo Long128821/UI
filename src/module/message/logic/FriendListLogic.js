@@ -744,8 +744,6 @@ var FriendListLogic= {
         var id= pSender.getTag();
         var userID= ProfileFriendList.m_friendListTable["FriendList"][id]["userID"];
         if(userID== 1001){//同趣小妹
-            //隐藏列表
-            FriendListLogic.m_tableView.setVisible(false);
             MvcEngine.createModule(GUI_XIAOMEIINFO);
         }else{
             FriendListLogic.setAllButtonEnable(false);
