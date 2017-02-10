@@ -2196,7 +2196,6 @@ var JinHuaTableLogic= {
                 this.Button_mine_raise.setTouchEnabled(true);
                 this.Button_mine_call.setVisible(true);
                 this.Button_mine_call.setTouchEnabled(true);
-                console.log("能否加注:"+ this.CanRaise);
                 if(!this.CanRaise){//不能加注
                     this.Button_mine_raise.setTouchEnabled(false);
                     this.Button_mine_raise.setOpacity(ALPHA_CAN_NOT_TOUCH);
@@ -2210,7 +2209,7 @@ var JinHuaTableLogic= {
                 this.Panel_raise.setVisible(true);
 
                 this.Button_raise_one.setVisible(true);
-                this.Button_raise_one.setTouchEnabled(true)
+                this.Button_raise_one.setTouchEnabled(true);
                 this.Button_raise_two.setVisible(true);
                 this.Button_raise_two.setTouchEnabled(true);
                 this.Button_raise_three.setVisible(true);
@@ -2445,7 +2444,10 @@ var JinHuaTableLogic= {
     updateMyOperationBtns:function(currentPlayer){
         //下注数据
         this.betData= currentPlayer;
+        //更新看牌提示
         this.updateMyPKAndShowCardBtns();
+        //无论是玩家，或者别人，押注到本地的最大时，加注按钮不可用;
+        this.updateMyRaiseCoinBtns();
     },
     // 更新我的pk和开牌按钮
     //比牌按钮  0 不能操作，1 比牌 2 开牌
@@ -2514,168 +2516,97 @@ var JinHuaTableLogic= {
     //更新加注按钮列表
     updateMyRaiseCoinBtns:function(){
         //没有下注数据 || 加注数据不是有效值
-        if(this.betData== null||(this.betData!= null &&(!Common.judgeValueIsEffect(this.betData.raiseCoin)))){
+        if((!Common.judgeValueIsEffect(this.betData))||(!Common.judgeValueIsEffect(this.betData.raiseCoin))){
             return;
         }
-
         //加注列表，如果数组数量不为0，则只能显示押满按钮或加注列表
-        var  canRaiseCnt = 0;
-        console.log(this.betData);
-
         //加注列表
-        for(var i in this.betData.raiseCoin){
-            var raiseCoin = this.betData.raiseCoin[i];
+        for(var key in this.betData.raiseCoin){
+            var raiseCoin = this.betData.raiseCoin[key];
             if(!Common.judgeValueIsEffect(raiseCoin)) continue;
             var canRaise = false;
-            if(i== 0){
-                if(raiseCoin.raiseStatus == 1){
-                    canRaiseCnt++;
-                }
-            }else if(i== 2){
-                var coinNumber = "";
-                var valueLen= raiseCoin.raiseValue.length;
-                if(valueLen>= 9){//亿
-                    var beforeDel = Math.floor(raiseCoin.raiseValue / 100000000);
-                    var afterDel = raiseCoin.raiseValue % 100000000;
-                    if(afterDel> 0){
-                        if(afterDel % 10000000 == 0) {
-                            afterDel = afterDel / 10000000;
-                        }else if(afterDel % 1000000 == 0) {
-                            afterDel = afterDel / 1000000;
-                        }else if(afterDel % 100000 == 0) {
-                            afterDel = afterDel / 100000;
-                        }else {
-                            afterDel = afterDel / 100000;
-                        }
-                        coinNumber = beforeDel + "<" + afterDel + ";"
-                    }else{
-                        coinNumber= beforeDel+";";
-                    }
-                }else if(valueLen>= 5){//万
-                    var beforeDel = Math.floor(raiseCoin.raiseValue / 10000);
-                    var afterDel = raiseCoin.raiseValue % 10000;
-                    if (afterDel > 0) {
-                        if (afterDel % 1000 == 0) {
-                            afterDel = afterDel / 1000;
-                        }else{
-                            afterDel = afterDel / 100;
-                        }
-                        coinNumber = beforeDel + "<" + afterDel + ":"
+            var coinNumber= this.convertCoinNumber(raiseCoin);
+            switch(key){
+                case "2":{
+                    this.AtlasLabel_jiner1.setString(coinNumber);
+                    if (raiseCoin.raiseStatus == 1) {
+                        canRaise = true;
+                        this.Button_raise_one.setOpacity(ALPHA_CAN_TOUCH);
+                        this.AtlasLabel_jiner1.setOpacity(ALPHA_CAN_TOUCH);
                     } else {
-                        coinNumber = beforeDel + ":";
+                        this.Button_raise_one.setTouchEnabled(false);
+                        this.Button_raise_one.setOpacity(ALPHA_CAN_NOT_TOUCH);
+                        this.AtlasLabel_jiner1.setOpacity(ALPHA_CAN_NOT_TOUCH);
                     }
-                }else{
-                    coinNumber = raiseCoin.raiseValue;
-                }
-                this.AtlasLabel_jiner1.setString(coinNumber);
-                if(raiseCoin.raiseStatus== 1){
-                    canRaise = true;
-                    this.Button_raise_one.setOpacity(ALPHA_CAN_TOUCH);
-                    this.AtlasLabel_jiner1.setOpacity(ALPHA_CAN_TOUCH);
-                }else{
-                    this.Button_raise_one.setTouchEnabled(false);
-                    this.Button_raise_one.setOpacity(ALPHA_CAN_NOT_TOUCH);
-                    this.AtlasLabel_jiner1.setOpacity(ALPHA_CAN_NOT_TOUCH);
-                }
-            }else if(i==3){
-                var coinNumber = "";
-                var valueLen= raiseCoin.raiseValue.length;
-                if(valueLen>= 9){//亿
-                    var beforeDel = Math.floor(raiseCoin.raiseValue / 100000000);
-                    var afterDel = raiseCoin.raiseValue % 100000000;
-                    if(afterDel> 0){
-                        if(afterDel % 10000000 == 0) {
-                            afterDel = afterDel / 10000000;
-                        }else if(afterDel % 1000000 == 0) {
-                            afterDel = afterDel / 1000000;
-                        }else if(afterDel % 100000 == 0) {
-                            afterDel = afterDel / 100000;
-                        }else {
-                            afterDel = afterDel / 100000;
-                        }
-                        coinNumber = beforeDel + "<" + afterDel + ";"
-                    }else{
-                        coinNumber= beforeDel+";";
-                    }
-                }else if(valueLen>= 5) {//万
-                    var beforeDel = Math.floor(raiseCoin.raiseValue / 10000);
-                    var afterDel = raiseCoin.raiseValue % 10000;
-                    if (afterDel > 0) {
-                        if (afterDel % 1000 == 0) {
-                            afterDel = afterDel / 1000;
-                        }else{
-                            afterDel = afterDel / 100;
-                        }
-                        coinNumber = beforeDel + "<" + afterDel + ":"
+                    break;}
+                case "3":{
+                    this.AtlasLabel_jiner2.setString(coinNumber);
+                    if (raiseCoin.raiseStatus == 1) {
+                        canRaise = true;
+                        this.Button_raise_two.setOpacity(ALPHA_CAN_TOUCH);
+                        this.AtlasLabel_jiner2.setOpacity(ALPHA_CAN_TOUCH);
                     } else {
-                        coinNumber = beforeDel + ":";
+                        this.Button_raise_two.setTouchEnabled(false);
+                        this.Button_raise_two.setOpacity(ALPHA_CAN_NOT_TOUCH);
+                        this.AtlasLabel_jiner2.setOpacity(ALPHA_CAN_NOT_TOUCH);
                     }
-                }else{
-                    coinNumber = raiseCoin.raiseValue;
-                }
-                this.AtlasLabel_jiner2.setString(coinNumber);
-                if(raiseCoin.raiseStatus== 1){
-                    canRaise = true;
-                    this.Button_raise_two.setOpacity(ALPHA_CAN_TOUCH);
-                    this.AtlasLabel_jiner2.setOpacity(ALPHA_CAN_TOUCH);
-                }else{
-                    this.Button_raise_two.setTouchEnabled(false);
-                    this.Button_raise_two.setOpacity(ALPHA_CAN_NOT_TOUCH);
-                    this.AtlasLabel_jiner2.setOpacity(ALPHA_CAN_NOT_TOUCH);
-                }
-            }else if(i== 4){
-                var coinNumber = "";
-                var valueLen= raiseCoin.raiseValue.length;
-                if(valueLen>= 9){//亿
-                    var beforeDel = Math.floor(raiseCoin.raiseValue / 100000000);
-                    var afterDel = raiseCoin.raiseValue % 100000000;
-                    if(afterDel> 0){
-                        if(afterDel % 10000000 == 0) {
-                            afterDel = afterDel / 10000000;
-                        }else if(afterDel % 1000000 == 0) {
-                            afterDel = afterDel / 1000000;
-                        }else if(afterDel % 100000 == 0) {
-                            afterDel = afterDel / 100000;
-                        }else {
-                            afterDel = afterDel / 100000;
-                        }
-                        coinNumber = beforeDel + "<" + afterDel + ";"
+                    break;}
+                case "4":{
+                    this.AtlasLabel_jiner3.setString(coinNumber);
+                    if(raiseCoin.raiseStatus == 1){
+                        canRaise = true;
+                        this.Button_raise_three.setOpacity(ALPHA_CAN_TOUCH);
+                        this.AtlasLabel_jiner3.setOpacity(ALPHA_CAN_TOUCH);
                     }else{
-                        coinNumber= beforeDel+";";
+                        this.Button_raise_three.setTouchEnabled(false);
+                        this.Button_raise_three.setOpacity(ALPHA_CAN_NOT_TOUCH);
+                        this.AtlasLabel_jiner3.setOpacity(ALPHA_CAN_NOT_TOUCH);
                     }
-                }else if(valueLen>= 5) {//万
-                    var beforeDel = Math.floor(raiseCoin.raiseValue / 10000);
-                    var afterDel = raiseCoin.raiseValue % 10000;
-                    if (afterDel > 0) {
-                        if (afterDel % 1000 == 0) {
-                            afterDel = afterDel / 1000;
-                        }else{
-                            afterDel = afterDel / 100;
-                        }
-                        coinNumber = beforeDel + "<" + afterDel + ":"
-                    } else {
-                        coinNumber = beforeDel + ":";
-                    }
-                }else{
-                    coinNumber = raiseCoin.raiseValue;
-                }
-                this.AtlasLabel_jiner3.setString(coinNumber);
-                if(raiseCoin.raiseStatus== 1){
-                    canRaise = true;
-                    this.Button_raise_three.setOpacity(ALPHA_CAN_TOUCH);
-                    this.AtlasLabel_jiner3.setOpacity(ALPHA_CAN_TOUCH);
-                }else{
-                    this.Button_raise_three.setTouchEnabled(false);
-                    this.Button_raise_three.setOpacity(ALPHA_CAN_NOT_TOUCH);
-                    this.AtlasLabel_jiner3.setOpacity(ALPHA_CAN_NOT_TOUCH);
-                }
-            }else{
-                if(raiseCoin.raiseStatus== 1){
-                    canRaiseCnt++;
-                }
+                    break;}
             }
-            this.CanRaise= canRaise;
         }
+        this.CanRaise= canRaise;
+    },
+    //转换金币数
+    convertCoinNumber:function(raiseCoin){
+        var coinNumber = "";
+        var valueLen= raiseCoin.raiseValue.toString().length;
+        var beforeDel= "";
+        var afterDel= "";
+        if(valueLen>= 9){//亿
+            beforeDel = Math.floor(raiseCoin.raiseValue / 100000000);
+            afterDel = raiseCoin.raiseValue % 100000000;
+            if(afterDel> 0){
+                if(afterDel % 10000000 == 0) {
+                    afterDel = afterDel / 10000000;
+                }else if(afterDel % 1000000 == 0) {
+                    afterDel = afterDel / 1000000;
+                }else if(afterDel % 100000 == 0) {
+                    afterDel = afterDel / 100000;
+                }else {
+                    afterDel = afterDel / 100000;
+                }
+                coinNumber = beforeDel + "<" + afterDel + ";"
+            }else{
+                coinNumber= beforeDel+";";
+            }
+        }else if(valueLen>= 5) {//万
+            beforeDel = Math.floor(raiseCoin.raiseValue / 10000);
+            afterDel = raiseCoin.raiseValue % 10000;
+            if (afterDel > 0) {
+                if (afterDel % 1000 == 0) {
+                    afterDel = afterDel / 1000;
+                }else{
+                    afterDel = afterDel / 100;
+                }
+                coinNumber = beforeDel + "<" + afterDel + ":"
+            } else {
+                coinNumber = beforeDel + ":";
+            }
+        }else{
+            coinNumber = raiseCoin.raiseValue;
+        }
+        return coinNumber;
     },
     //加注
     onRaise:function(){

@@ -627,11 +627,9 @@ var JinHuaTablePlayer= {
     //更新玩家的按钮并启动计时
     updateMyOperationBtnsAndStartTimer:function(currentPlayer){
         var time= Profile_JinHuaTableConfig.ROUND_TIME;
-        var progressBar= cc.progressTo(time+ 1, 100);
-
         this.clearAllTimer();
 
-        if(this.tablePlayerEntitys[currentPlayer.CSID]== null) return;
+        if(!Common.judgeValueIsEffect(this.tablePlayerEntitys[currentPlayer.CSID])) return;
 
         //更新倒计时
         this.updatePercentage(currentPlayer);
@@ -668,6 +666,8 @@ var JinHuaTablePlayer= {
             arr.push(cc.callFunc(timeStep));
             arr.push(cc.delayTime(1.0));
         }
+
+        JinHuaTableLogic.betData= currentPlayer;
         if(isMe){
             //更新我的可操作按钮
             JinHuaTableLogic.updateMyOperationBtns(currentPlayer);
