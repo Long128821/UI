@@ -21,9 +21,7 @@ ModuleTable["Loading"]["jsLists"] = [
     "src/module/login/logic/LoadingLogic.js",
     "src/module/login/controller/LoadingController.js"];
 ModuleTable["Loading"]["Layer"] = Layer.Ninth_Layer;
-ModuleTable["Loading"]["resLists"] = [
-    "res/bg1_hall.png",
-    "res/Loading.json"];
+ModuleTable["Loading"]["resLists"] = [];
 
 ModuleTable["DeleteUser"] = {};
 ModuleTable["DeleteUser"]["jsLists"] = [

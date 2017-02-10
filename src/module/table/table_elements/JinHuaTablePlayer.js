@@ -574,12 +574,13 @@ var JinHuaTablePlayer= {
             Profile_JinHuaGameData.removePlayerFromGameData(this.tablePlayerEntitys[CSID].player.userId);
             this.tablePlayerEntitys[CSID]= null;
         }
+
         var GameData= Profile_JinHuaGameData.getGameData();
         //显示坐下按钮
         if(!GameData.mySSID){
-            JinHuaTableLogic.showSitButton(CSID);
             JinHuaTableTips.createSitTips(CSID);
         }
+        JinHuaTableLogic.showSitButton(CSID);
     },
     //收到服务器传来的<坐下>消息
     updateTableSitDownByServer:function(){

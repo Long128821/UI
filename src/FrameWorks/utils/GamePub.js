@@ -14,6 +14,7 @@ var GamePub= {
         view.runAction(seq.repeatForever());
     },
     //精确保留多少位消息
+    //保留操作后得到数的最后一位数，如果是0或者小数点，不要
     getPreciseDecimal:function(nNum, n){
         if(typeof nNum!= "number"){
             console.warn(nNum+ " is not number");
@@ -24,18 +25,22 @@ var GamePub= {
         if(n< 0){
             n= 0;
         }
-        var nDecimal = 1/Math.pow(10, n);
-        if(nDecimal == 1) {
-            nDecimal = nNum;
+        var strNum= nNum.toFixed(n).toString();
+        if(strNum.length< 1) return 0;
+        var lastIndex= strNum.length- 1;//最后一位的索引
+        var lastNum= strNum[lastIndex];//最后一位数
+        while((lastNum== '0'||lastNum== '.')){
+            strNum= strNum.substring(0, lastIndex);
+            lastIndex= strNum.length- 1;
+            lastNum= strNum[lastIndex];
         }
-        var nLeft= nNum%nDecimal;
-        return nNum- nLeft;
+        return strNum;
     },
     //转换金币数(使用万、亿为单位)
     convertCoin:function(coin){
         if(coin>= 100000000){
             return this.getPreciseDecimal(coin / 100000000, 2)+"亿"
-        }else if(coin >= 10000) {
+        }else if(coin >= 10000){
             return this.getPreciseDecimal(coin / 10000, 2)+"万";
         }
         return coin;

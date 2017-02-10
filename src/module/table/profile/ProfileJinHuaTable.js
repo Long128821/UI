@@ -8,9 +8,7 @@ var ProfileJinHuaTable= {
     },
     //退出房间
     slot_JHID_QUIT_TABLE:function(dataTable){
-        console.log("退出房间！");
         Profile_JinHuaGameData.readJHID_QUIT_TABLE(dataTable);
-        //Todo:需要联调-没有下行-是不是因为此时大厅已经被屏蔽的缘故？
     },
     //更新系统公告
     slot_JINHUA_MGR_NOTICE:function(dataTable){
@@ -20,7 +18,6 @@ var ProfileJinHuaTable= {
     },
     //站起(超时站起、旁观)
     slot_JHID_STAND_UP:function(dataTable){
-        console.log("站起");
         Profile_JinHuaGameData.readJHID_STAND_UP(dataTable);
         //更新<站起>操作
         JinHuaTableLogic.updateJHID_STAND_UP();
@@ -77,7 +74,6 @@ var ProfileJinHuaTable= {
     },
     //弃牌
     slot_JHID_DISCARD:function(dataTable){
-        console.log("弃牌");
         Profile_JinHuaGameData.readJHID_DISCARD(dataTable);
         JinHuaTableLogic.updateJHID_DISCARD();
     },

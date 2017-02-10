@@ -614,7 +614,7 @@ var HallLogic= {
     },
     initHallBaseData:function(){
         this.Label_NickName.setString(profile_user.getSelfNickName());//昵称
-        //判断金币数，金币数
+        //转换金币数
         var myCoin= GamePub.convertCoin(profile_user.getSelfCoin());
         this.Label_Coin.setString(myCoin);
 
