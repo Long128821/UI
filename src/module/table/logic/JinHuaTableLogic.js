@@ -1683,7 +1683,7 @@ var JinHuaTableLogic= {
         }
     },
     onClick_btnPK:function(pSender){
-        console.log("PK:"+ pSender.getTag());
+        this.clickPkBtnFunc(pSender.getTag());
     },
     //放大缩小PK按钮
     blinkPK:function(button){
@@ -2221,18 +2221,18 @@ var JinHuaTableLogic= {
                 this.Button_raise_cancel.setVisible(true);
                 this.Button_raise_cancel.setTouchEnabled(true);
                 break;
-            case STATUS_BUTTON_ALLIN:
-                this.Panel_allin.setVisible(true);
-
-                this.Button_allin_fold.setVisible(true);
-                this.Button_allin_fold.setTouchEnabled(true);
-                this.Button_allin_pk.setVisible(true);
-                this.Button_allin_pk.setTouchEnabled(true);
-                this.Button_allin_allin.setVisible(true);
-                this.Button_allin_allin.setTouchEnabled(true);
-                this.Button_allin_call.setVisible(true);
-                this.Button_allin_call.setTouchEnabled(true);
-                break;
+//            case STATUS_BUTTON_ALLIN:
+//                this.Panel_allin.setVisible(true);
+//
+//                this.Button_allin_fold.setVisible(true);
+//                this.Button_allin_fold.setTouchEnabled(true);
+//                this.Button_allin_pk.setVisible(true);
+//                this.Button_allin_pk.setTouchEnabled(true);
+//                this.Button_allin_allin.setVisible(true);
+//                this.Button_allin_allin.setTouchEnabled(true);
+//                this.Button_allin_call.setVisible(true);
+//                this.Button_allin_call.setTouchEnabled(true);
+//                break;
             case STATUS_BUTTON_CANPK://可以比牌
                 this.Panel_canpk.setVisible(true);
 
@@ -2431,7 +2431,6 @@ var JinHuaTableLogic= {
             this.onAllIn();
             return;
         }
-        console.log(this.isAlwaysBetCoin);
         //下注列表
         JinHuaTablePlayer.selfClickToBetCoin(TYPE_BET_CALL,this.betData.callCoin);
         //更新按钮

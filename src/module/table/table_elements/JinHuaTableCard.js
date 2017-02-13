@@ -13,16 +13,22 @@ var JinHuaTableCard= {
     sendCardAnimEnd:function(pSender){
         //牌桌上的玩家
         var players = JinHuaTablePlayer.getPlayers();
-        //显示看牌动画
-        JinHuaTableCheckButton.setLookedCard(false);
         //隐藏叠加牌
         JinHuaTableCard.sendCardSprite.setVisible(false);
+        //显示看牌动画
+        for(var key in players){
+            if(!Common.judgeValueIsEffect(players[key])) continue;
+            if(players[key].player.userId== profile_user.getSelfUserID()){
+                JinHuaTableCheckButton.setLookedCard(false);
+                break;;
+            }
+        }
         //获取发牌数据
         var initCardData= Profile_JinHuaGameData.getInitCardData();
         //金花游戏
         if(GameConfig.GAME_ID== GameConfig.JINHUA_GAME_ID){
-            //Todo:?显示下排列表(隐藏) 作用
-            if(players[0]&&players[0].isMe()&&players[0].status== STATUS_PLAYER_PLAYING){
+            //显示下排列表(隐藏) 作用，显示看牌提示
+            if((players[0].player.userId== profile_user.getSelfUserID())&&players[0].player.status== STATUS_PLAYER_PLAYING){
                 JinHuaTableLogic.showBotButton(STATUS_BUTTON_OTHERTURN);
             }
         }

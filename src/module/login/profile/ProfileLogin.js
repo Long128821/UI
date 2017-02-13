@@ -102,7 +102,6 @@ var ProfileLogin= {
             ProfileLogin.saveUserData();
             MvcEngine.preCreateModule(GUI_HALL);
         }else{
-            //Todo:Toast:登录失败提示
             Common.showToast(resultText);
         }
     },
