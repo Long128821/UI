@@ -362,6 +362,7 @@ var Profile_JinHuaGameData= {
             }
         }
 
+        if(!Common.judgeValueIsEffect(selfInfo)) return;
         for(var i in this.GameData["players"]){
             var player= this.GameData["players"][i];
             if(profile_user.getSelfUserID()== player.userId){

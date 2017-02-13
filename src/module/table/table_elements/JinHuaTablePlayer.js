@@ -579,8 +579,8 @@ var JinHuaTablePlayer= {
         }
 
         var GameData= Profile_JinHuaGameData.getGameData();
-        //显示坐下按钮
-        if(!GameData.mySSID){
+        //显示坐下按钮,如果玩家没有在牌桌上，显示坐下提示
+        if(!(GameData.mySSID>= 0&& GameData.mySSID<= 4)){
             JinHuaTableTips.createSitTips(CSID);
         }
         JinHuaTableLogic.showSitButton(CSID);
@@ -626,7 +626,6 @@ var JinHuaTablePlayer= {
     },
     //更新玩家的按钮并启动计时
     updateMyOperationBtnsAndStartTimer:function(currentPlayer){
-        var time= Profile_JinHuaTableConfig.ROUND_TIME;
         this.clearAllTimer();
 
         if(!Common.judgeValueIsEffect(this.tablePlayerEntitys[currentPlayer.CSID])) return;

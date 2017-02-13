@@ -1070,6 +1070,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
+
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1521,6 +1522,9 @@ var JinHuaTableLogic= {
             Common.showToast(PKData["message"], 1);
             return;
         }
+        //比牌时，隐藏看牌提示
+        JinHuaTableCheckButton.setCheckVisible(false);
+
         JinHuaPKAnim.startPK(PKData);
         //更新牌桌上的牌桌信息
         this.updateTableTitle();
@@ -1530,7 +1534,7 @@ var JinHuaTableLogic= {
     updateJHID_LOOK_CARDS:function(){
         var checkCardData= Profile_JinHuaGameData.getCheckCardData();
         //看牌失败
-        if(checkCardData.Result== null||checkCardData.Result== undefined||checkCardData.Result== 2){
+        if(!Common.judgeValueIsEffect(checkCardData.Result)||checkCardData.Result== 2){
             JinHuaTableCard.setLookedCard(false);
         }
         JinHuaTablePlayer.updateTableAfterLookCardByServer(checkCardData);
@@ -2332,7 +2336,7 @@ var JinHuaTableLogic= {
         this.Button_allin_call.setVisible(false);
         this.Button_allin_call.setTouchEnabled(false);
 
-        this.Button_onlyraise_raise.setTouchEnabled(false)
+        this.Button_onlyraise_raise.setTouchEnabled(false);
         this.Button_onlycall_call.setTouchEnabled(false);
         this.Button_onlypk_pk.setTouchEnabled(false);
 
@@ -2401,7 +2405,6 @@ var JinHuaTableLogic= {
                 this.onCall();
             }
         }else if(player.player.status!= STATUS_PLAYER_DISCARD){//没有弃牌
-            //console.log("更新自己的按钮");
             if(Profile_JinHuaGameData.getGameData().round>= Profile_JinHuaTableConfig.CAN_PK_ROUND){
                 //是否已经超出一定的轮数，可以比牌
                 this.showBotButton(STATUS_BUTTON_CANPK);
@@ -2423,18 +2426,18 @@ var JinHuaTableLogic= {
     },
     //下注、跟注
     onCall:function(){
-        if(this.betData== null||this.betData== undefined) return;
+        if(!Common.judgeValueIsEffect(this.betData)) return;
         if(this.betData.callCoin<= 0){//如果跟注按钮小于0，则All In
             this.onAllIn();
             return;
         }
-        //向服务器端发起下注请求
-        //新手引导时，可以不发起
-        sendJHID_BET(this.betData.callCoin,TYPE_BET_CALL);
-        //更新按钮
-        this.showBotButton(STATUS_BUTTON_OTHERTURN);
+        console.log(this.isAlwaysBetCoin);
         //下注列表
         JinHuaTablePlayer.selfClickToBetCoin(TYPE_BET_CALL,this.betData.callCoin);
+        //更新按钮
+        this.showBotButton(STATUS_BUTTON_OTHERTURN);
+        //向服务器端发起下注请求
+        sendJHID_BET(this.betData.callCoin,TYPE_BET_CALL);
     },
     //震动提醒
     callback_vibrate:function(){
@@ -2577,13 +2580,13 @@ var JinHuaTableLogic= {
             beforeDel = Math.floor(raiseCoin.raiseValue / 100000000);
             afterDel = raiseCoin.raiseValue % 100000000;
             if(afterDel> 0){
-                if(afterDel % 10000000 == 0) {
+                if(afterDel % 10000000 == 0){
                     afterDel = afterDel / 10000000;
-                }else if(afterDel % 1000000 == 0) {
+                }else if(afterDel % 1000000 == 0){
                     afterDel = afterDel / 1000000;
-                }else if(afterDel % 100000 == 0) {
+                }else if(afterDel % 100000 == 0){
                     afterDel = afterDel / 100000;
-                }else {
+                }else{
                     afterDel = afterDel / 100000;
                 }
                 coinNumber = beforeDel + "<" + afterDel + ";"
@@ -2688,8 +2691,6 @@ var JinHuaTableLogic= {
             sendJHID_SHOW_CARDS();
             this.showCard= false;
         }
-        //比牌时，隐藏看牌提示
-        JinHuaTableCheckButton.setCheckVisible(false);
 
         this.showPlayerPKBtns();
     },

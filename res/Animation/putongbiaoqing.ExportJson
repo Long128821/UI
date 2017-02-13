@@ -9,7 +9,7 @@
         {
           "name": "Layer4",
           "parent": "",
-          "dI": -1,
+          "dI": 0,
           "x": 0.0,
           "y": 0.0,
           "z": 5,
@@ -41,7 +41,7 @@
         {
           "name": "Layer3",
           "parent": "",
-          "dI": -1,
+          "dI": 1,
           "x": 0.0,
           "y": 0.0,
           "z": 4,
@@ -129,7 +129,7 @@
         {
           "name": "Layer2",
           "parent": "",
-          "dI": -1,
+          "dI": 0,
           "x": 0.0,
           "y": 0.0,
           "z": 3,
@@ -189,7 +189,7 @@
         {
           "name": "Layer1",
           "parent": "",
-          "dI": 10,
+          "dI": 1,
           "x": 0.0,
           "y": 0.0,
           "z": 2,
@@ -389,7 +389,7 @@
         {
           "name": "Layer0",
           "parent": "",
-          "dI": 8,
+          "dI": 1,
           "x": 0.0,
           "y": 0.0,
           "z": 1,
@@ -720,7 +720,7 @@
         },
         {
           "name": "weiqu",
-          "dr": 21,
+          "dr": 20,
           "lp": false,
           "to": 0,
           "drTW": 0,
@@ -1109,7 +1109,7 @@
         },
         {
           "name": "huaixiao",
-          "dr": 21,
+          "dr": 20,
           "lp": false,
           "to": 0,
           "drTW": 0,
@@ -1156,7 +1156,7 @@
         },
         {
           "name": "haixiu",
-          "dr": 21,
+          "dr": 20,
           "lp": false,
           "to": 0,
           "drTW": 0,
@@ -1203,7 +1203,7 @@
         },
         {
           "name": "zaijian",
-          "dr": 21,
+          "dr": 20,
           "lp": false,
           "to": 0,
           "drTW": 0,
@@ -1784,7 +1784,7 @@
         },
         {
           "name": "shuzhongzhi",
-          "dr": 21,
+          "dr": 20,
           "lp": false,
           "to": 0,
           "drTW": 0,
@@ -1831,7 +1831,7 @@
         },
         {
           "name": "shaoxiang",
-          "dr": 21,
+          "dr": 20,
           "lp": false,
           "to": 0,
           "drTW": 0,
@@ -1929,7 +1929,7 @@
         },
         {
           "name": "bishi",
-          "dr": 21,
+          "dr": 20,
           "lp": false,
           "to": 0,
           "drTW": 0,
@@ -2042,7 +2042,7 @@
         },
         {
           "name": "cuicu",
-          "dr": 21,
+          "dr": 20,
           "lp": false,
           "to": 0,
           "drTW": 0,
@@ -2425,7 +2425,7 @@
         },
         {
           "name": "daxiao",
-          "dr": 21,
+          "dr": 20,
           "lp": false,
           "to": 0,
           "drTW": 0,
@@ -2553,7 +2553,7 @@
         },
         {
           "name": "jing",
-          "dr": 21,
+          "dr": 20,
           "lp": false,
           "to": 0,
           "drTW": 0,
@@ -2672,7 +2672,7 @@
         },
         {
           "name": "zan",
-          "dr": 21,
+          "dr": 20,
           "lp": false,
           "to": 0,
           "drTW": 0,
@@ -2719,7 +2719,7 @@
         },
         {
           "name": "nu",
-          "dr": 21,
+          "dr": 20,
           "lp": false,
           "to": 0,
           "drTW": 0,
@@ -3279,7 +3279,7 @@
         },
         {
           "name": "kuqi",
-          "dr": 21,
+          "dr": 20,
           "lp": false,
           "to": 0,
           "drTW": 0,

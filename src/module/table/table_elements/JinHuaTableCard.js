@@ -222,7 +222,8 @@ var JinHuaTableCard= {
     startWinAnim:function(){
         var gameResultData = Profile_JinHuaGameData.getGameResultData();
         if(JinHuaTablePlayer.getPlayers()[gameResultData.CSID]){
-            if(gameResultData.CSID == 0&& Profile_JinHuaGameData.getGameData().mySSID== 0){//如果是否玩家本身
+            //if(gameResultData.CSID == 0&& Profile_JinHuaGameData.getGameData().mySSID== 0){//如果是否玩家本身
+            if(gameResultData.CSID == 0){//如果是否玩家本身
                 //显示<赢了>快速聊天按钮列表
                 JinHuaTableLogic.showQuickChatButton(STATUS_QUICK_CHAT_WIN);
             }
