@@ -70,7 +70,6 @@ var JinHuaTableCard= {
     sendCardAnim:function(parentLayer, players){
         //发牌结束以后，隐藏所有的快速聊天按钮列表(进入牌桌、失败、等待、弃牌后、赢了)
         JinHuaTableLogic.hideAllQuickChatButton();
-        //Todo:可以删除
         if(this.sendCardSprite== null){
             this.sendCardSprite = cc.Sprite.create("#desk_pokerback.png");
             this.sendCardSprite.setAnchorPoint(cc.p(0.5,1));
@@ -83,14 +82,15 @@ var JinHuaTableCard= {
         }
         //遍历牌桌上的所有玩家，并且有了手牌数据,创建三张纸牌，实现发牌动画
         for(var key in players){
-            if(!Common.judgeValueIsEffect(players[key])) continue;//此玩家无效,遍历下一个Table
-            if(Common.getTableSize(players[key].cardSprites)== 0) continue;//没有手牌
-            if(!Common.judgeValueIsEffect(players[key].cardSprites[0])) continue;//第一张牌无效
+            var player= players[key];
+            if(!Common.judgeValueIsEffect(player)) continue;//此玩家无效,遍历下一个Table
+            if(Common.getTableSize(player.cardSprites)== 0) continue;//没有手牌
+            if(!Common.judgeValueIsEffect(player.cardSprites[0])) continue;//第一张牌无效
 
-            var bMySelf= players[key].isMe();
+            var bMySelf= player.isMe();
             for(var i=0; i< 3; ++i){
                 //获取每张手牌的最终位置，移动过去
-                var spriteCard = players[key].cardSprites[i].getCardSprite();
+                var spriteCard = player.cardSprites[i].getCardSprite();
                 var endPos= spriteCard.getPosition();
 
                 //发牌的时候初始化牌 的缩放，旋转角度，位置
