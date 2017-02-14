@@ -214,6 +214,7 @@ if(typeof g_DataType== "undefined"){
         },
         /**
          * 从缓冲区读取8个字节的长度并转换为Long值,position往后移8位
+         * Long类型占用64位，共用8个字节
          * @returns {Number} 读取到的数字
          * @description 如果position大于等于缓冲区的长度则返回-1
          */

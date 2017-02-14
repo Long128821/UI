@@ -236,6 +236,7 @@ var JinHuaTableLogic= {
     vibrateId:null,//震动定时ID(最后几秒)
     GameData:null,//牌桌数据
     isNextRoundStandUp:false,//下局是否旁观
+    allInValue:0,//全部下注的金币数
     getIsNextRoundStandUp:function(){
         return this.isNextRoundStandUp;
     },
@@ -2427,7 +2428,8 @@ var JinHuaTableLogic= {
     //下注、跟注
     onCall:function(){
         if(!Common.judgeValueIsEffect(this.betData)) return;
-        if(this.betData.callCoin<= 0){//如果跟注按钮小于0，则All In
+        //后台传过来的是64位1
+        if(this.betData.callCoin== 18446744073709552000){//如果跟注按钮== 18446744073709552000，则All In
             this.onAllIn();
             return;
         }
@@ -2471,9 +2473,15 @@ var JinHuaTableLogic= {
     overTimeGiveUpCard:function(){
 
     },
-    //All In
+    //All In-全下操作
     onAllIn:function(){
-
+        sendJHID_BET(0,TYPE_BET_ALLIN);
+        var minCoin= ((this.allInValue== 0)?JinHuaTablePlayer.getMiniCoin():this.allInValue);
+        JinHuaTablePlayer.selfClickToBetCoin(TYPE_BET_ALLIN, minCoin);
+        JinHuaTablePlayer.updateTableAfterSelfFoldCard(true);
+        JinHuaTablePlayer.closeMyTimer();
+        //隐藏比牌按钮
+        this.hidePkButton();
     },
     //所以操作按钮不可点
     disableAllTableOperationButtons:function(){
@@ -2495,7 +2503,6 @@ var JinHuaTableLogic= {
     },
     //点击弃牌后做的事
     afterOnClickBtnFold:function(){
-        //Todo:关闭-超时弃牌线程
         sendJHID_DISCARD(0);
         JinHuaTablePlayer.updateTableAfterSelfFoldCard();
         JinHuaTablePlayer.closeMyTimer();
@@ -2507,13 +2514,10 @@ var JinHuaTableLogic= {
         this.setAllInValue();
         JinHuaTablePlayer.resetCurrentCSID();
         JinHuaTableTips.initTipsData();
-//        var playerTable= Profile_JinHuaGameData.getPlayers();
-//
-//        //Todo:移除所有的坐下提示
     },
     //设置全压的金币数
     setAllInValue:function(value){
-        this.allInValue = value==undefined?null:value;
+        this.allInValue = value==undefined?0:value;
     },
     //更新加注按钮列表
     updateMyRaiseCoinBtns:function(){

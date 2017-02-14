@@ -43,19 +43,25 @@ var JinHuaTableCoin= {
     createAllInBetCoins:function(pos, thisTimeBetCoins){
         var startX, startY, endX, endY;
         var players= JinHuaTablePlayer.getPlayers();
-        if(players[pos]== null||players[pos]== undefined) return;//牌桌上没有玩家
-        startX = players[pos].getPositionX() + players[pos].getContentSize().width / 2;
-        startY = players[pos].getPositionY() + players[pos].getContentSize().height / 2;
+        if(!Common.judgeValueIsEffect(players[pos])) return;//牌桌上没有玩家
+        if(!Common.judgeValueIsEffect()) return;//牌桌上没有玩家
+        var playerSprite= players[pos].mPlayerSprite;
+        startX = playerSprite.getPositionX() + playerSprite.getContentSize().width / 2;
+        startY = playerSprite.getPositionY() + playerSprite.getContentSize().height / 2;
         players[pos].setCoin();
 
         var coinTable = this.getAllInChipArray(thisTimeBetCoins);
         //读取table 绘制金币
         for(var i in coinTable){
-            if(coinTable[i]== null ||coinTable[i]== undefined|| coinTable[i]== 0) continue;
+            var coin= coinTable[i];
+            if(!Common.judgeValueIsEffect(coin)) continue;
+            if(coin== 0) continue;
             //牌桌上的筹码精灵
-            var spriteChips = JinHuaTableChipEntity.createTableChipEntity(coinTable[i],parseInt(i));
+            var spriteChips = JinHuaTableChipEntity.createTableChipEntity(coin,parseInt(i));
             for(var j in spriteChips){
-                if(spriteChips[j]== null ||spriteChips[j]== undefined||spriteChips[j]== 0) continue;
+                var coinSprite= spriteChips[j];
+                if(!Common.judgeValueIsEffect(coinSprite)) continue;
+                if(coinSprite== 0) continue;
                 //筹码随机区间
                 var xStep= Profile_JinHuaTableConfig.rangRight- Profile_JinHuaTableConfig.rangLeft;
                 var yStep= Profile_JinHuaTableConfig.rangTop- Profile_JinHuaTableConfig.rangBottom;
@@ -63,14 +69,14 @@ var JinHuaTableCoin= {
                 endX= Math.random()* xStep+ Profile_JinHuaTableConfig.rangLeft;
                 endY= Math.random()* yStep+ Profile_JinHuaTableConfig.rangBottom;
                 //设置初始位置
-                spriteChips[j].setPosition(startX, startY);
+                coinSprite.setPosition(startX, startY);
 
-                spriteChips[j].runAction(cc.moveTo(0.3, cc.p(endX, endY)));
+                coinSprite.runAction(cc.moveTo(0.3, cc.p(endX, endY)));
 
-                this.getJinHuaTableCoinLayer().addChild(spriteChips[j]);
+                this.getJinHuaTableCoinLayer().addChild(coinSprite);
 
                 //添加到金币数组中
-                this.coinArray[Common.getTableSize(this.coinArray)]= spriteChips[j];
+                this.coinArray[Common.getTableSize(this.coinArray)]= coinSprite;
             }
             this.betCoinEnd();
         }
@@ -175,7 +181,21 @@ var JinHuaTableCoin= {
                 JinHuaTableBubble.showJinHuaTableBubble(betChipData.CSID, BUBBLE_TYPE_RAISE);
                 break;
             case TYPE_BET_ALLIN://All In
-                console.log("玩家ID:"+ betChipData.CSID+ "All In!");
+                JinHuaTableLogic.setAllInValue(betChipData.thisTimeBetCoins);
+                //摇钱树动画
+                var self= this;
+                Common.createArmature(
+                    "res/Animation/yaman.ExportJson",//动画Json路径
+                    "yaman",//要执行的动画名
+                    function(armature){
+                        //该模板中共制作了三个动画，你可以将索引修改为0/1/2中的任意值来查看不同效果
+                        armature.setPosition(GameConfig.ScreenWidth * Profile_JinHuaTableConfig.TableScaleX/2,(Profile_JinHuaTableConfig.rangBottom+Profile_JinHuaTableConfig.rangTop)/2);
+                        //然后选择播放动画0，并进行缩放和位置设置
+                        armature.getAnimation().playByIndex(0);
+                        armature.runAction(cc.sequence(cc.delayTime(1.5), cc.removeSelf(true)));
+                        armature.setZOrder(3);
+                        self.JinHuaTableCoinLayer.addChild(armature);
+                });
                 break;
             case TYPE_BET_PK://比牌
                 break;

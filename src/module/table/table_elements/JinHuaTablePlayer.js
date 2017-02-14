@@ -723,11 +723,14 @@ var JinHuaTablePlayer= {
         }
     },
     //自己弃牌后更新
-    updateTableAfterSelfFoldCard:function(){
+    updateTableAfterSelfFoldCard:function(bAllIn){
         if(!Common.judgeValueIsEffect(this.tablePlayerEntitys[0])) return;
         //自己弃牌的座位号0，而不是1
         this.updatePlayerStateAfterFoldCard(0);
-        JinHuaTableLogic.showQuickChatButton(STATUS_QUICK_CHAT_FOLD);
+        //压满时,不显示《棋牌快速聊天》
+        if(!bAllIn){
+            JinHuaTableLogic.showQuickChatButton(STATUS_QUICK_CHAT_FOLD);
+        }
     },
     //更新所有的人等级
     updateAllPlayersLevel:function(){
@@ -760,6 +763,7 @@ var JinHuaTablePlayer= {
                 this.updateTableAfterStandUpMe(standUpData.CSID);
             }else{//别人站起
                 if(standUpData.CSID!= null){
+                    console.log("别人站起！");
                     if(!Common.judgeValueIsEffect(player)) return;
                     this.updateTableAfterStandUpOther(standUpData.CSID);
                 }
@@ -768,6 +772,7 @@ var JinHuaTablePlayer= {
     },
     //自己站起
     updateTableAfterStandUpMe:function(CSID){
+        console.log("自己站起！");
         //清空发牌
         this.clearTableAfterSitAndStand();
 
@@ -840,5 +845,23 @@ var JinHuaTablePlayer= {
                 playerEntitys.player.isCert = info.isCert;
             }
         }
+    },
+    //获取玩家的最小金币数
+    getMiniCoin:function(){
+        //Todo:此处为什么使用-1?玩家的金币数可能为0
+        var minCoin= -1;
+        for(var key in this.tablePlayerEntitys){
+            var playerEntitys= this.tablePlayerEntitys[key];
+            if((!Common.judgeValueIsEffect(playerEntitys))||(!Common.judgeValueIsEffect(playerEntitys.player))) continue;
+            var player= playerEntitys.player;
+            if(minCoin== -1){
+                minCoin= player.remainCoins;
+            }else{
+                if(minCoin> player.remainCoins){
+                    minCoin= player.remainCoins;
+                }
+            }
+        }
+        return minCoin;
     }
 };
