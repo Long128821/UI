@@ -20,7 +20,7 @@ var JinHuaTableCard= {
             if(!Common.judgeValueIsEffect(players[key])) continue;
             if(players[key].player.userId== profile_user.getSelfUserID()){
                 JinHuaTableCheckButton.setLookedCard(false);
-                break;;
+                break;
             }
         }
         //获取发牌数据
@@ -28,7 +28,8 @@ var JinHuaTableCard= {
         //金花游戏
         if(GameConfig.GAME_ID== GameConfig.JINHUA_GAME_ID){
             //显示下排列表(隐藏) 作用，显示看牌提示
-            if((players[0].player.userId== profile_user.getSelfUserID())&&players[0].player.status== STATUS_PLAYER_PLAYING){
+            //修改Bug:玩家旁观别的玩家正在玩牌，坐下时，报错
+            if(Common.judgeValueIsEffect(players[0])&&(players[0].player.userId== profile_user.getSelfUserID())&&players[0].player.status== STATUS_PLAYER_PLAYING){
                 JinHuaTableLogic.showBotButton(STATUS_BUTTON_OTHERTURN);
             }
         }

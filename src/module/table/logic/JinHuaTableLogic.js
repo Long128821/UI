@@ -2534,7 +2534,7 @@ var JinHuaTableLogic= {
             switch(key){
                 case "2":{
                     this.AtlasLabel_jiner1.setString(coinNumber);
-                    if (raiseCoin.raiseStatus == 1) {
+                    if (raiseCoin.raiseStatus == 1){
                         canRaise = true;
                         this.Button_raise_one.setOpacity(ALPHA_CAN_TOUCH);
                         this.AtlasLabel_jiner1.setOpacity(ALPHA_CAN_TOUCH);
@@ -2543,10 +2543,11 @@ var JinHuaTableLogic= {
                         this.Button_raise_one.setOpacity(ALPHA_CAN_NOT_TOUCH);
                         this.AtlasLabel_jiner1.setOpacity(ALPHA_CAN_NOT_TOUCH);
                     }
-                    break;}
+                    break;
+                }
                 case "3":{
                     this.AtlasLabel_jiner2.setString(coinNumber);
-                    if (raiseCoin.raiseStatus == 1) {
+                    if (raiseCoin.raiseStatus == 1){
                         canRaise = true;
                         this.Button_raise_two.setOpacity(ALPHA_CAN_TOUCH);
                         this.AtlasLabel_jiner2.setOpacity(ALPHA_CAN_TOUCH);
@@ -2555,7 +2556,8 @@ var JinHuaTableLogic= {
                         this.Button_raise_two.setOpacity(ALPHA_CAN_NOT_TOUCH);
                         this.AtlasLabel_jiner2.setOpacity(ALPHA_CAN_NOT_TOUCH);
                     }
-                    break;}
+                    break;
+                }
                 case "4":{
                     this.AtlasLabel_jiner3.setString(coinNumber);
                     if(raiseCoin.raiseStatus == 1){
@@ -2567,7 +2569,8 @@ var JinHuaTableLogic= {
                         this.Button_raise_three.setOpacity(ALPHA_CAN_NOT_TOUCH);
                         this.AtlasLabel_jiner3.setOpacity(ALPHA_CAN_NOT_TOUCH);
                     }
-                    break;}
+                    break;
+                }
             }
         }
         this.CanRaise= canRaise;

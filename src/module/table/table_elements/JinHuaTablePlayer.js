@@ -563,6 +563,8 @@ var JinHuaTablePlayer= {
     //别人站起
     updateTableAfterStandUpOther:function(CSID){
         var player= this.tablePlayerEntitys[CSID];
+        console.log(CSID);
+        console.log(this.tablePlayerEntitys);
         //清除牌桌站起玩家
         if(player){
             //隐藏禁比图标
@@ -745,7 +747,8 @@ var JinHuaTablePlayer= {
         JinHuaTableCheckButton.setLookedCard(true);
         var player= this.tablePlayerEntitys[standUpData.CSID];
         if(standUpData.result == 1){//成功站起
-            if((mySelf.SSID!= null&& mySelf.SSID == standUpData.SSID)||(mySelf.SSID== null)){//自己主动站起，或者被强制站起
+            //比牌失败
+            if((mySelf.SSID!= null&& mySelf.SSID == standUpData.SSID)||(mySelf.SSID== null&&player.player.status== STATUS_PLAYER_PK_FAILURE)){//自己主动站起，或者被强制站起
                 if(mySelf.userId!= null&&mySelf.userId!= undefined){
                     //更新自身的属性
                     sendDBID_USER_INFO(mySelf.userId);

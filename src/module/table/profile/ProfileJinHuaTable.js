@@ -20,6 +20,8 @@ var ProfileJinHuaTable= {
     slot_JHID_STAND_UP:function(dataTable){
         Profile_JinHuaGameData.readJHID_STAND_UP(dataTable);
         //更新<站起>操作
+        console.log("别人站起");
+        console.log(dataTable);
         JinHuaTableLogic.updateJHID_STAND_UP();
     },
     //坐下
