@@ -418,21 +418,21 @@ var JinHuaTablePlayer= {
         var GameData= Profile_JinHuaGameData.getGameData();
         //玩家本身
         if(GameData.mySSID){
-            this.updateTableAfterStandUpMe();
             var mySelf= Profile_JinHuaGameData.getMySelf();
+            this.updateTableAfterStandUpMe(mySelf.CSID);
             mySelf.SSID= null;
         }
         //显示toast
         Common.showToast(sitDownData.message, 2);
-        //获取对应房间信息
-        var roomInfo= Profile_JinHuaRoomData.getRoomByID(GameData.roomId);
-        //剩余金币数
-        var self_coinnum= parseInt(Profile_JinHuaGameData.getMySelf().remainCoins);
-        if(roomInfo&&roomInfo.minCoin> self_coinnum){
-            //还缺少多少钱
-            var coinCnt= roomInfo.minCoin- self_coinnum;
-            //Todo:充值引导
-        }
+//        //获取对应房间信息
+//        var roomInfo= Profile_JinHuaRoomData.getRoomByID(GameData.roomId);
+//        //剩余金币数
+//        var self_coinnum= parseInt(Profile_JinHuaGameData.getMySelf().remainCoins);
+//        if(roomInfo&&roomInfo.minCoin> self_coinnum){
+//            //还缺少多少钱
+//            var coinCnt= roomInfo.minCoin- self_coinnum;
+//            //Todo:充值引导
+//        }
     },
     //自己坐下-服务器应答处理
     selfSitDownByServer:function(){
@@ -723,14 +723,11 @@ var JinHuaTablePlayer= {
         }
     },
     //自己弃牌后更新
-    updateTableAfterSelfFoldCard:function(bAllIn){
+    updateTableAfterSelfFoldCard:function(){
         if(!Common.judgeValueIsEffect(this.tablePlayerEntitys[0])) return;
         //自己弃牌的座位号0，而不是1
         this.updatePlayerStateAfterFoldCard(0);
-        //压满时,不显示《棋牌快速聊天》
-        if(!bAllIn){
-            JinHuaTableLogic.showQuickChatButton(STATUS_QUICK_CHAT_FOLD);
-        }
+        JinHuaTableLogic.showQuickChatButton(STATUS_QUICK_CHAT_FOLD);
     },
     //更新所有的人等级
     updateAllPlayersLevel:function(){
@@ -748,7 +745,7 @@ var JinHuaTablePlayer= {
         JinHuaTableCheckButton.setLookedCard(true);
         var player= this.tablePlayerEntitys[standUpData.CSID];
         if(standUpData.result == 1){//成功站起
-            if(mySelf.SSID!= null&& mySelf.SSID == standUpData.SSID){//自己站起
+            if((mySelf.SSID!= null&& mySelf.SSID == standUpData.SSID)||(mySelf.SSID== null)){//自己主动站起，或者被强制站起
                 if(mySelf.userId!= null&&mySelf.userId!= undefined){
                     //更新自身的属性
                     sendDBID_USER_INFO(mySelf.userId);
@@ -757,13 +754,13 @@ var JinHuaTablePlayer= {
                 if(!JinHuaTableLogic.getIsNextRoundStandUp()){
                     player.player.status= STATUS_PLAYER_WATCH;
                     if(!Common.judgeValueIsEffect(player)) return;
-                    if(Common.getTableSize(player.cardSprites)> 0) return;
+                    //删除下列代码，原因是:金币不足时，强制站起，此处返回
+                    //if(Common.getTableSize(player.cardSprites)> 0) return;
                 }
                 JinHuaTableLogic.cancelStandUpNextRound();
                 this.updateTableAfterStandUpMe(standUpData.CSID);
             }else{//别人站起
                 if(standUpData.CSID!= null){
-                    console.log("别人站起！");
                     if(!Common.judgeValueIsEffect(player)) return;
                     this.updateTableAfterStandUpOther(standUpData.CSID);
                 }
@@ -772,7 +769,6 @@ var JinHuaTablePlayer= {
     },
     //自己站起
     updateTableAfterStandUpMe:function(CSID){
-        console.log("自己站起！");
         //清空发牌
         this.clearTableAfterSitAndStand();
 

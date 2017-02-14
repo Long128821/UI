@@ -2478,7 +2478,6 @@ var JinHuaTableLogic= {
         sendJHID_BET(0,TYPE_BET_ALLIN);
         var minCoin= ((this.allInValue== 0)?JinHuaTablePlayer.getMiniCoin():this.allInValue);
         JinHuaTablePlayer.selfClickToBetCoin(TYPE_BET_ALLIN, minCoin);
-        JinHuaTablePlayer.updateTableAfterSelfFoldCard(true);
         JinHuaTablePlayer.closeMyTimer();
         //隐藏比牌按钮
         this.hidePkButton();
