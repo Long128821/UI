@@ -17,6 +17,9 @@ var Common= {
     setVersion:function(version){
         this.version= version;
     },
+    getVersionName:function(){
+        return Profile_JinHuaTableConfig.JinHuaGameVersion;
+    },
     /**
      * Func:判断一个值是否有效
      * @param value
@@ -253,6 +256,32 @@ var Common= {
             toast.removeFromParent(true);
         }));
         toast.runAction(seq);
+    },
+    /**
+     * Func:获得应用版本号(不带渠道号)
+     * 16进制
+     * .左右 分别占用8位
+     * 因为JS没有匹配字符串的%p模式,所以在使用时,必须以.作为分割。
+     */
+    getVersionCode:function(mVersionName){
+        var versionName= "";
+        if(mVersionName== undefined){
+            versionName= Profile_JinHuaTableConfig.JinHuaGameVersion;
+        }else{
+            versionName= mVersionName;
+        }
+        var id=versionName.indexOf(".");
+        if(id== -1){
+            console.warn("转换应用版本号失败！"+mVersionName);
+            return;
+        }
+        var version1= versionName.substring(0, id);
+        var version2= versionName.substring(id+ 1, versionName.length);
+        return Load.leftShiftOp(version1, 24)+ Load.leftShiftOp(version2, 16);
+    },
+    //得到版本编号
+    getScriptVerCode:function(sVersionCode){
+        return this.getVersionCode(sVersionCode);
     }
 };
 

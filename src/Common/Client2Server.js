@@ -333,7 +333,7 @@ function sendJINHUA_ROOMID_ROOM_LIST(time){
     //gameID	Byte	游戏id
     nmBaseMessage.writeByte(GameConfig.GAME_ID);
     //gameVersion	Int	扎金花游戏主版本号
-    nmBaseMessage.writeInt(Common.getVersion() + Common.getChannelID());
+    nmBaseMessage.writeInt(Common.getScriptVerCode(Profile_JinHuaTableConfig.JinHuaGameVersion) + Common.getChannelID());
 
     nmBaseMessage.writeOver();
 
@@ -373,7 +373,7 @@ function sendJHID_QUICK_START(){
     nmBaseMessage.writeByte(GameConfig.GAME_ID);
     nmBaseMessage.writeByte(0);
     //ScriptVerCode	Int	脚本版本号	(游戏版本号+渠道号)
-    nmBaseMessage.writeInt(Common.getVersion() + Common.getChannelID());
+    nmBaseMessage.writeInt(Common.getScriptVerCode(Profile_JinHuaTableConfig.JinHuaGameVersion) + Common.getChannelID());
 
     nmBaseMessage.writeOver();
 
@@ -397,7 +397,7 @@ function sendJHID_ENTER_ROOM(roomID){
     nmBaseMessage.writeByte(GameConfig.GAME_ID);
     nmBaseMessage.writeByte(0);
     //ScriptVerCode	Int	脚本版本号	(游戏版本号+渠道号)
-    nmBaseMessage.writeInt(Common.getVersion() + Common.getChannelID());
+    nmBaseMessage.writeInt(Common.getScriptVerCode(Profile_JinHuaTableConfig.JinHuaGameVersion) + Common.getChannelID());
 
     nmBaseMessage.writeOver();
 
@@ -443,8 +443,6 @@ function sendDBID_BACKPACK_GOODS_COUNT(itemID){
 
 //金花退出牌桌
 function sendJHID_QUIT_TABLE(roomId,tableId){
-    console.log("退出房间");
-    console.log(roomId+" "+tableId);
     //断网状态
     if(!Network.getInstance().getWebSocketConnecting()) return;
 
@@ -695,9 +693,29 @@ function sendJINHUA_MGR_DO_TRACE(userID){
     nmBaseMessage.writeInt(userID);
     //GameID  游戏ID
     nmBaseMessage.writeByte(GameConfig.GAME_ID);
-    //Todo:ERROR-填写参数不正确
-    nmBaseMessage.writeInt(Common.getChannelID());
+    //版本号和渠道号
+    //FF FF FF FF
+    //前两个是版本号(4.30)
+    //第三个是版本号中的4.30.0
+    //最后一个是渠道号
+    nmBaseMessage.writeInt(Common.getScriptVerCode(Profile_JinHuaTableConfig.JinHuaGameVersion) + Common.getChannelID());
 
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//禁比
+function sendJHID_NO_COMPARE(){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JHID_NO_COMPARE);
+    nmBaseMessage.setExtData(3);
+    nmBaseMessage.writeStart();
     nmBaseMessage.writeOver();
 
     Network.getInstance().sendMessage(nmBaseMessage);

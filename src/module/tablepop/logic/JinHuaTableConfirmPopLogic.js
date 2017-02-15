@@ -109,8 +109,8 @@ var JinHuaTableConfirmPopLogic= {
             case TableConfirmPopTag.TAG_STANDUP://自己站起
                 JinHuaTablePlayer.selfStandUp();
                 break;
-            case TableConfirmPopTag.TAG_NOPK:
-
+            case TableConfirmPopTag.TAG_NOPK://禁比
+                sendJHID_NO_COMPARE();
                 break;
             case TableConfirmPopTag.TAG_FOLD_TIPS://弃牌
                 JinHuaTableLogic.afterOnClickBtnFold();

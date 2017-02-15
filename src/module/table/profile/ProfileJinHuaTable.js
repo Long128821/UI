@@ -104,5 +104,10 @@ var ProfileJinHuaTable= {
     slot_JHID_CHANGE_TABLE:function(dataTable){
         Profile_JinHuaGameData.readJHID_CHANGE_TABLE(dataTable);
         JinHuaTableLogic.updateJHID_CHANGE_TABLE();
+    },
+    //禁比
+    slot_JHID_NO_COMPARE:function(dataTable){
+        Profile_JinHuaGameData.readJHID_NO_COMPARE(dataTable);
+        JinHuaTableLogic.updateJHID_NO_COMPARE();
     }
 };

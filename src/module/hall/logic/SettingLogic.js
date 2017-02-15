@@ -107,7 +107,6 @@ var SettingLogic= {
 			//按下
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
-            console.log("音乐！");
 			//抬起
             SettingLogic.switchState(0);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
@@ -121,7 +120,6 @@ var SettingLogic= {
 			//按下
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
-            console.log("音效！");
 			//抬起
             SettingLogic.switchState(1);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
@@ -237,10 +235,8 @@ var SettingLogic= {
         this.img_music.setVisible(!GameConfig.getGameMusicOff());
         this.img_yinxiao.setVisible(!GameConfig.getGameSoundOff());
         //版本号ID
-        this.lab_text2.setString("游戏版本号:"+ Common.getVersion()+"."+Common.getChannelID()+"     ID:"+ profile_user.getSelfUserID());
+        this.lab_text2.setString("游戏版本号:"+ Common.getVersionName()+"."+Common.getChannelID()+"     ID:"+ profile_user.getSelfUserID());
 
         this.Button_gaimi.setVisible(false);
     }
 };
-
-//Todo:没有将游戏版本 改为4.15的原因是:不知道其规则

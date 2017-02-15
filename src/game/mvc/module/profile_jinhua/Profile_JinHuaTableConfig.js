@@ -214,6 +214,7 @@ var Profile_JinHuaTableConfig= {
     myCard3Rotation:15,//我的牌的旋转角度
     ROUND_TIME:14,//金花每回合时间
     CAN_PK_ROUND:3,//几回合后可以比牌
+    JinHuaGameVersion:"4.15",//金花游戏消息版本号
     clear:function(){
 
     },

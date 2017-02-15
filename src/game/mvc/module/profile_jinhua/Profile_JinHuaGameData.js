@@ -20,6 +20,7 @@ var Profile_JinHuaGameData= {
     checkCardData:null,//看牌
     showCardData:null,//展开牌
     changeTable:null,//换桌
+    noPKData:null,//禁比
     clearData:function(){
         this.backPackGoodsCountData= {};
         this.GameData= {};
@@ -33,6 +34,8 @@ var Profile_JinHuaGameData= {
         this.gameResultData= {};
         this.PKData= {};
         this.checkCardData= {};
+        this.changeTable= {};
+        this.noPKData= {};
     },
     getBackPackGoodsCountData:function(){
         return this.backPackGoodsCountData;
@@ -53,6 +56,10 @@ var Profile_JinHuaGameData= {
     //获取桌面上的玩家
     getPlayers:function(){
         return this.GameData["players"];
+    },
+    //获取禁比数据
+    getNoPKData:function(){
+        return this.noPKData;
     },
     removePlayerFromGameData:function(userID){
         var players= this.GameData["players"];
@@ -437,5 +444,13 @@ var Profile_JinHuaGameData= {
     //换桌
     readJHID_CHANGE_TABLE:function(dataTable){
         this.changeTable= dataTable;
+    },
+    //读取禁比数据
+    readJHID_NO_COMPARE:function(dataTable){
+        this.noPKData= dataTable;
+        this.noPKData.CSID= this.getUserCSID(this.noPKData["SSID"]);
+        if(this.GameData["players"]&&this.GameData["players"][this.noPKData.CSID]){
+            this.GameData["players"][this.noPKData.CSID].noPK = true;
+        }
     }
 };

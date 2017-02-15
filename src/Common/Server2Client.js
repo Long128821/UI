@@ -1426,4 +1426,22 @@ function read80210008(nMBaseMessage){
     return dataTable;
 }
 
+//禁比
+function read8020000c(nMBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JHID_NO_COMPARE;
+    dataTable["messageName"] = "JHID_NO_COMPARE";
+
+    //result 发送结果 0失败 1成功
+    dataTable["Result"] = nMBaseMessage.readByte();
+    //msg
+    dataTable["message"] = nMBaseMessage.readUTF8();
+    //座位号
+    dataTable["SSID"] = nMBaseMessage.readInt();
+    //禁比道具剩余数量
+    dataTable["propCnt"] = nMBaseMessage.readInt();
+
+    return dataTable;
+}
+
 //需要联调的消息有readUTF(JHID_STAND_UP、JHID_READY、JHID_BET)

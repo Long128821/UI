@@ -826,6 +826,22 @@ var JinHuaTablePlayer= {
         //看牌动画
         JinHuaTableCard.lookCardAnim(this.tablePlayerEntitys, checkCardData);
     },
+    //收到服务器<禁比>消息更新
+    updateTableAfterJinbiByServer:function(noPKData){
+        var GameData= Profile_JinHuaGameData.getGameData();
+        if(noPKData["Result"]== 0){
+            Common.showToast(noPKData["message"], 2)
+        }else{
+            var player= this.tablePlayerEntitys[noPKData.CSID];
+            if(!Common.judgeValueIsEffect(player)) return;
+            player.showJinbiAnim();//显示禁比动画
+            JinHuaTableBubble.showJinHuaTableBubble(noPKData.CSID, BUBBLE_TYPE_NO_PK);
+            if(noPKData.CSID== 0&&GameData.mySSID){
+                Profile_JinHuaTableConfig.remainNoPKCnt= noPKData.propCnt;
+                JinHuaTableLogic.updateNoPkCountText();
+            }
+        }
+    },
     //根据某个座位号,获取玩家数据
     setPlayerInfoByUserID:function(info,userID){
         if(!Common.judgeValueIsEffect(this.tablePlayerEntitys)) return null;

@@ -1158,6 +1158,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
+            JinHuaTableLogic.onNoPK();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -1315,6 +1316,7 @@ var JinHuaTableLogic= {
         Frameworks.addSlot2Signal(JHID_LOOK_CARDS, ProfileJinHuaTable.slot_JHID_LOOK_CARDS);//看牌
         Frameworks.addSlot2Signal(JHID_SHOW_CARDS, ProfileJinHuaTable.slot_JHID_SHOW_CARDS);//展示牌
         Frameworks.addSlot2Signal(JHID_CHANGE_TABLE, ProfileJinHuaTable.slot_JHID_CHANGE_TABLE);//换桌
+        Frameworks.addSlot2Signal(JHID_NO_COMPARE, ProfileJinHuaTable.slot_JHID_NO_COMPARE);//禁比
 },
     //移除信号
     removeSlot:function(){
@@ -1337,6 +1339,7 @@ var JinHuaTableLogic= {
     	Frameworks.removeSlotFromSignal(JHID_LOOK_CARDS, ProfileJinHuaTable.slot_JHID_LOOK_CARDS);
     	Frameworks.removeSlotFromSignal(JHID_SHOW_CARDS, ProfileJinHuaTable.slot_JHID_SHOW_CARDS);
     	Frameworks.removeSlotFromSignal(JHID_CHANGE_TABLE, ProfileJinHuaTable.slot_JHID_CHANGE_TABLE);
+    	Frameworks.removeSlotFromSignal(JHID_NO_COMPARE, ProfileJinHuaTable.slot_JHID_NO_COMPARE);
     },
     
     //释放界面的私有数据
@@ -1560,9 +1563,13 @@ var JinHuaTableLogic= {
             Common.showToast(changeTable.ResultTxt, 2);
         }
     },
+    //禁比
+    updateJHID_NO_COMPARE:function(){
+        var noPKData= Profile_JinHuaGameData.getNoPKData();
+        JinHuaTablePlayer.updateTableAfterJinbiByServer(noPKData);
+    },
     //初始化界面
     initTableData:function(){
-        //Todo:清理数据
         this.clear();
         JinHuaTableCard.clearCards();
         JinHuaTableCoin.clear();//玩空牌桌上的金币
@@ -2495,7 +2502,7 @@ var JinHuaTableLogic= {
         if(GameData.round> 5){
             MvcEngine.createModule(GUI_JINHUATABLECONFIRMPOP, function(){
                 ProfileJinHuaTableConfirmPop.setMsg(TableConfirmPopTag.TAG_FOLD_TIPS);
-            })
+            });
         }else{
             this.afterOnClickBtnFold();
         }
@@ -2725,6 +2732,7 @@ var JinHuaTableLogic= {
     //点击pk执行操作
     clickPkBtnFunc:function(playerCSID){
         var  players = JinHuaTablePlayer.getPlayers();
+        console.log("比牌玩家:"+ playerCSID);
         if(players[playerCSID]){
             //修改Bug:noPK是player的属性。
             if(players[playerCSID].player.noPK){
@@ -2759,8 +2767,35 @@ var JinHuaTableLogic= {
             this.Label_exp.setString("经验:" + GameData["Exp"] + "/" + GameData["levelUpExp"]);
             this.ProgressBar_exp.setPercent(GameData["Exp"]/GameData["levelUpExp"]* 100);
         }
+    },
+    //禁比
+    onNoPK:function(){
+        var GameData = Profile_JinHuaGameData.getGameData();
+        var players = JinHuaTablePlayer.getPlayers();
+        if(Profile_JinHuaTableConfig.remainNoPKCnt > 0){
+            var mySelf = Profile_JinHuaGameData.getMySelf();
+            if((GameData.mySSID>=0&&GameData.mySSID<=4)
+                &&Common.judgeValueIsEffect(mySelf)
+                &&Common.judgeValueIsEffect(players[0])
+                &&players[0].cardSprites[0]
+                &&(players[0].player.status== STATUS_PLAYER_LOOKCARD ||players[0].player.status== STATUS_PLAYER_PLAYING)){
+                if(mySelf.noPK){
+                    Common.showToast("本局已使用过禁比卡", 2);
+                }else{
+                    MvcEngine.createModule(GUI_JINHUATABLECONFIRMPOP, function(){
+                        ProfileJinHuaTableConfirmPop.setMsg(TableConfirmPopTag.TAG_NOPK);
+                    });
+                }
+            }else{
+                Common.showToast("请等待下局开始", 2);
+            }
+        }else{
+            console.log("弹出购买");
+            //Todo:购买
+                //MvcEngine.createModule(GUI_JINHUA_TABLEGOODSBUYPOP);
+                //JinHuaTableGoodsBuyPopLogic.setGoodsInfo(QuickPay.Pay_Guide_no_pk_GuideTypeID,JinHuaRechargeGuidePositionID.TablePositionH)
+        }
     }
 };
 
 //Todo:大喇叭
-//Todo:游戏结果

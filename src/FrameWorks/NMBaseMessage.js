@@ -186,5 +186,13 @@ function NMBaseMessage(arraybuffer){
             console.log(new Uint8Array(arrayBuffe).join("-"));
             return "ERROR";
         }
+    };
+    //读取字符串
+    this.readUTF8= function(){
+        var len= this.m_binaryStream.readShort();
+        if(this.checkBinaryStream(g_DataType.UTF16, 1)||len== 0){
+            return "";
+        }
+        return this.m_binaryStream.readUTF8(len);
     }
 } 

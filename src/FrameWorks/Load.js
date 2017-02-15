@@ -57,5 +57,9 @@ var Load= {
                     callback();
                 }
             });
+    },
+    //左移num位
+    leftShiftOp:function(left,num){
+        return left* Math.pow(2, num);
     }
 };
