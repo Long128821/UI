@@ -255,6 +255,8 @@ var JinHuaTableCard= {
             if(player.isMe()){
                 JinHuaTableCard.hideCardType(player);
             }
+            //移除禁比图标
+            player.dismissJinBiIcon();
         }
     },
     //看牌动画

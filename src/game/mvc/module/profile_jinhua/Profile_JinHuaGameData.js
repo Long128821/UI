@@ -385,6 +385,8 @@ var Profile_JinHuaGameData= {
             }
         }
         JinHuaTablePlayer.setPlayerInfoByUserID(selfInfo, profile_user.getSelfUserID());
+        //本局结束后，禁比失效
+        this.mySelf.noPK= false;
     },
     //比牌
     readJHID_PK:function(dataTable){

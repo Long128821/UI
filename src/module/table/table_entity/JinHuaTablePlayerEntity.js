@@ -381,7 +381,7 @@ JinHuaTablePlayerEntity.prototype.createJinBiIcon= function(){
     var jinbiSize = this.jinbiSprite.getContentSize();
 
     var players= Profile_JinHuaTableConfig.getSpritePlayers();
-    if(this.isMe()) {
+    if(!this.isMe()) {
         this.jinbiSprite.setPosition(players[this.player.CSID].cards[1].locX, players[this.player.CSID].cards[1].locY + 30)
     }else{
         this.jinbiSprite.setPosition(558 + 26 * 2, 130 + jinbiSize.height / 2);

@@ -563,8 +563,6 @@ var JinHuaTablePlayer= {
     //别人站起
     updateTableAfterStandUpOther:function(CSID){
         var player= this.tablePlayerEntitys[CSID];
-        console.log(CSID);
-        console.log(this.tablePlayerEntitys);
         //清除牌桌站起玩家
         if(player){
             //隐藏禁比图标
@@ -836,7 +834,7 @@ var JinHuaTablePlayer= {
             if(!Common.judgeValueIsEffect(player)) return;
             player.showJinbiAnim();//显示禁比动画
             JinHuaTableBubble.showJinHuaTableBubble(noPKData.CSID, BUBBLE_TYPE_NO_PK);
-            if(noPKData.CSID== 0&&GameData.mySSID){
+            if(noPKData.CSID== 0&&GameData.mySSID>= 0&&GameData.mySSID<= 4){
                 Profile_JinHuaTableConfig.remainNoPKCnt= noPKData.propCnt;
                 JinHuaTableLogic.updateNoPkCountText();
             }

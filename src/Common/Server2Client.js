@@ -723,6 +723,7 @@ function read82200001(nMBaseMessage){
     dataTable["BUILDOverTime"] = parseInt(nMBaseMessage.readLong());
     //matchTitle	Text	比赛是哪个场	比赛专用
     dataTable["matchTitle"] = nMBaseMessage.readString();
+
     return dataTable;
 }
 
@@ -1223,7 +1224,6 @@ function read82200009(nMBaseMessage){
         //解析 Vip等级
         dataTable["users"][i].vipLevel = nMBaseMessage.readInt();
         dataTable["users"][i].sex = nMBaseMessage.readByte();
-
         dataTable["users"][i].noPK = (nMBaseMessage.readByte() == 1);
         //解析 牌值
         dataTable["users"][i]["cardValues"] = {};
