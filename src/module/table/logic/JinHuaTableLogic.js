@@ -1529,7 +1529,11 @@ var JinHuaTableLogic= {
         //比牌时，隐藏看牌提示
         JinHuaTableCheckButton.setCheckVisible(false);
 
+        //暂停游戏结束
+        MessageCenter.pauseMessage(JHID_GAME_RESULT);
+
         JinHuaPKAnim.startPK(PKData);
+
         //更新牌桌上的牌桌信息
         this.updateTableTitle();
         this.updateIsCanChangeCardState()

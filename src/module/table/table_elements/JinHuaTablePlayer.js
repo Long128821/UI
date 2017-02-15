@@ -828,7 +828,7 @@ var JinHuaTablePlayer= {
     updateTableAfterJinbiByServer:function(noPKData){
         var GameData= Profile_JinHuaGameData.getGameData();
         if(noPKData["Result"]== 0){
-            Common.showToast(noPKData["message"], 2)
+            Common.showToast(noPKData["message"], 2);
         }else{
             var player= this.tablePlayerEntitys[noPKData.CSID];
             if(!Common.judgeValueIsEffect(player)) return;
