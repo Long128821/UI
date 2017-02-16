@@ -24,8 +24,6 @@ var JinHuaTableBubble= {
     showJinHuaTableBubble:function(CSID, bubbleType){
         //非有效气泡类型
         if(!Common.judgeValueIsEffect(this.bubblePicTable[bubbleType])) return;
-        //在图片集缓存(在JinHuaTableLogic.js加载)中,创建精灵
-        var bubbleSprite= cc.Sprite.create("#"+ this.bubblePicTable[bubbleType]);
         //获取牌桌上的所有玩家信息
         var players= JinHuaTablePlayer.getPlayers();
         //牌桌上有玩家 && 在牌桌上,有对应ID的玩家 && 玩家头像不为空
@@ -33,6 +31,8 @@ var JinHuaTableBubble= {
             ||!Common.judgeValueIsEffect(players[CSID])
             ||!Common.judgeValueIsEffect(players[CSID].getPhotoFrame())) return;
 
+        //在图片集缓存(在JinHuaTableLogic.js加载)中,创建精灵
+        var bubbleSprite= cc.Sprite.create("#"+ this.bubblePicTable[bubbleType]);
         //获取玩家头像的中心点
         bubbleSprite.setPosition(players[CSID].getCenterPos());
         bubbleSprite.setLocalZOrder(31);

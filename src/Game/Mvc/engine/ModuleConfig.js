@@ -405,6 +405,11 @@ ModuleTable["SystemPromptDialog"]["resLists"] = [
 
 ModuleTable["JinHuaTable"] = {};
 ModuleTable["JinHuaTable"]["jsLists"] = [
+    //消息列表
+    "src/module/chatpop/elements/CommonTextTableView.js",
+    "src/module/chatpop/elements/TextLogTableView.js",
+    "src/module/chatpop/profile/ProfileJinHuaChatPop.js",
+
     "src/module/table/table_elements/JinHuaTableCard.js",
     "src/module/table/table_elements/JinHuaTablePlayer.js",
     "src/module/table/table_elements/JinHuaTableTips.js",

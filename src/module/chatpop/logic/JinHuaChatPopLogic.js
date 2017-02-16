@@ -81,11 +81,15 @@ var JinHuaChatPopLogic= {
 
     m_curChatCommonTextTable:{},//当前聊天Table
     m_curCommonTextTableView:null,//普通列表TableView
+    m_curTextLogTableView:null,//聊天信息列表TableView
     //清空数据
     clear:function(){
         this.m_curChatCommonTextTable= {};
         Common.judgeValueIsEffect(this.m_curCommonTextTableView)&&this.m_curCommonTextTableView.removeFromParent(true);
         this.m_curCommonTextTableView= null;
+
+        Common.judgeValueIsEffect(this.m_curTextLogTableView)&&this.m_curTextLogTableView.removeFromParent(true);
+        this.m_curTextLogTableView= null;
     },
     createView:function(){
         this.clear();//清空数据
@@ -449,60 +453,9 @@ var JinHuaChatPopLogic= {
         }
         if(Common.getTableSize(this.m_curChatCommonTextTable)== 0) return;
         //初始化常用聊天列表
-        this.initCommonTextTableView();
-    },
-    initCommonTextTableView:function(){
-        var textureSize= cc.Sprite.create("#table2.png").getContentSize();
-        var PanelListSize= this.panel_common.getContentSize();
-        //创建TableView区域大小(子节点的宽度，Panel的高度)
-        //如果不是以子节点宽度作为Panel的宽度,而是以Panel的宽度作为宽度，那么
-        var tableView = new cc.TableView(this, cc.size(textureSize.width, PanelListSize.height));
-        tableView.setDirection(cc.SCROLLVIEW_DIRECTION_VERTICAL);//竖直滑动
-        tableView.setDelegate(this);//设置回调函数的路径(this.tableCellTouched)
-        tableView.setPosition(cc.p(textureSize.width* 0.1,textureSize.height* 0.25));
-        this.panel_common.addChild(tableView, 2);
-        //重新加载数据
-        tableView.reloadData();
-
-        this.m_curCommonTextTableView= tableView;
-    },
-    //重写TableView的tableCellSizeForIndex函数
-    tableCellSizeForIndex:function (table, idx){
-        var PanelListSize= this.panel_common.getContentSize();
-        return cc.size(PanelListSize.width, 85);
-    },
-    //重写TableView的tableCellAtIndex函数
-    tableCellAtIndex:function (table, idx){
-        idx= this.m_curChatCommonTextTable.length- 1- idx;
-        var cell = table.dequeueCell();
-        cell = new cc.TableViewCell();
-        var sprite = new cc.Sprite("#table2.png");
-        sprite.setAnchorPoint(0,0);
-        sprite.setPosition(0,0);
-        cell.addChild(sprite);
-
-        var bgSize= sprite.getContentSize();
-        var msg= cc.LabelTTF.create(this.m_curChatCommonTextTable[idx],"Arial",17);
-        msg.setAnchorPoint(cc.p(0,0.5));
-        msg.setPosition(cc.p(bgSize.width* 0.05, bgSize.height* 0.5));
-        //设置文本自动换行区域
-        //1- 左右两边的空白区域
-        var width= bgSize.width* (1- 0.05* 2);
-        msg._setBoundingWidth(width);
-        sprite.addChild(msg);
-        return cell;
-    },
-    //单元数量-重写TableView的tableCellAtIndex函数
-    numberOfCellsInTableView:function(table){
-        return this.m_curChatCommonTextTable.length;
-    },
-    //触摸结束-重写TableView的tableCellAtIndex函数
-    tableCellTouched:function(table, cell){
-        if(!Common.judgeValueIsEffect(this.m_curCommonTextTableView)) return;
-        if(!this.m_curCommonTextTableView.isVisible()) return;
-
-        var ID= this.m_curChatCommonTextTable.length- 1- cell.getIdx();
-        this.onSendText(this.m_curChatCommonTextTable[ID]);
+        CommonTextTableView.initCommonTextTableView();
+        //历史信息列表
+        TextLogTableView.initTextLogTableView();
     },
     //发送聊天表情
     onSendEmotion:function(tag){

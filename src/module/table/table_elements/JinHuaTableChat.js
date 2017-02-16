@@ -5,6 +5,9 @@ var JinHuaTableChat= {
         //此玩家不存在
         if(!Common.judgeValueIsEffect(players[CSID])) return;
 
+        //在牌桌上,添加历史聊天信息
+        ProfileJinHuaChatPop.pushLogList(players[CSID].player.nickName, msg);
+
         var parentAnchorPoint;
         var locX,locY;
         var arrowsDir;
