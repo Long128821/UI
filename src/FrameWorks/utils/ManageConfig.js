@@ -1,6 +1,6 @@
 var ManageConfig= {
     slot_JHID_TABLE_SYNC:function(dataTable){
-        Profile_JinHuaGameData.updateJHID_TABLE_SYNC(dataTable);
+        Profile_JinHuaGameData.readJHID_TABLE_SYNC(dataTable);
         ManageConfig.openTable();
     },
     //获取房间列表

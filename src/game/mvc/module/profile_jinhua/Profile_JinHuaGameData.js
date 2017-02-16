@@ -233,23 +233,30 @@ var Profile_JinHuaGameData= {
         }
         return expText;
     },
+    saveMyData:function(){
+        for(var key in this.GameData["players"]){
+            var player= this.GameData["players"][key];
+            if(!Common.judgeValueIsEffect(player)) continue;
+            if(profile_user.getSelfUserID()!= player.userId) continue;
+            profile_user.setSelfUserID(player.userId);
+            profile_user.setSelfNickName(player.nickName);
+            profile_user.setSelfPhotoUrl(player.photoUrl);
+            profile_user.setSelfCoin(player.remainCoins);
+            profile_user.setSelfVipLevel(player.vipLevel);
+            profile_user.setSelfSex(player.sex);
+            profile_user.setSelfLevel(player.level);
+        }
+    },
     //牌桌同步
-    updateJHID_TABLE_SYNC:function(dataTable){
+    readJHID_TABLE_SYNC:function(dataTable){
         this.clearData();
-        //Todo:JinHuaTableRealFace.resetRealFaceList() --清除牌桌真人头像列表
         this.GameData= dataTable;
-        //存储我的数据
-        this.setMySSID();
-        //设置庄家
-        this.setDealerCSID();
-        //更新所有的玩家
-        this.setAllUserCSID();
-        //设置牌桌上玩家的位置
-        this.setUserArrayOrder();
-        //设置是否为比赛
-        this.setIsMatch();
-        //Todo：是否支持断线重玩
-        //Todo：设置牌桌可比牌手数
+        this.saveMyData();//存储我的数据
+        this.setMySSID();//设置我的座位号
+        this.setDealerCSID();//设置庄家
+        this.setAllUserCSID();//更新所有的玩家
+        this.setUserArrayOrder();//设置牌桌上玩家的位置
+        this.setIsMatch();//设置是否为比赛
     },
     //背包数量
     readDBID_BACKPACK_GOODS_COUNT:function(dataTable){

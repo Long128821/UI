@@ -442,8 +442,6 @@ var JinHuaChatPopLogic= {
     //初始化界面
     initData:function(){
         //根据性别，获取当前活动的通用消息列表
-        console.log(profile_user.getSelfSex());
-        console.log(profile_user.getSelfSex()!= null&&profile_user.getSelfSex()== Profile_JinHuaGameData.MALE);
         if(profile_user.getSelfSex()!= null&&profile_user.getSelfSex()== Profile_JinHuaGameData.MALE){
             this.m_curChatCommonTextTable= g_tableMaleChatCommonText;
         }else{
