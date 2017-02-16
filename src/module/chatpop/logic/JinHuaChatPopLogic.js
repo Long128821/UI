@@ -375,7 +375,7 @@ var JinHuaChatPopLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            JinHuaChatPopLogic.onSendMsg();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -388,7 +388,7 @@ var JinHuaChatPopLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            JinHuaChatPopLogic.onBugle();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -470,5 +470,24 @@ var JinHuaChatPopLogic= {
     //关闭当前界面
     close:function(){
         MvcEngine.destroyModule(GUI_JINHUACHATPOP)
+    },
+    onSendMsg:function(){
+        var msg= this.et_msg_log.getString();
+        msg= msg.trim();
+        if(msg.length>0){
+            this.onSendText(msg);
+        }else{
+            Common.showToast("请输入内容",1);
+        }
+    },
+    onBugle:function(){
+        var msg= this.et_msg_log.getString();
+        msg= msg.trim();
+        if(msg.length>0){
+//            sendOPERID_MGR_SEND_BUGLE(sendChat);
+//            this.close();
+        }else{
+            Common.showToast("请输入内容",1);
+        }
     }
 };

@@ -2688,6 +2688,8 @@ var JinHuaTableLogic= {
                 this.onReady();
             }
         }
+        //清空聊天记录
+        //ProfileJinHuaChatPop.clearLogList();
     },
     //取消下局旁观
     cancelStandUpNextRound:function(){
