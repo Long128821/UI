@@ -542,3 +542,17 @@ ModuleTable["NetErrExitDialog"]["resLists"] = [
     "res/btn_tichupaizhuo.png",
     "res/btn_tongyongfangdi.png",
     "res/NetErrExitDialog.json"];
+
+ModuleTable["JinHuaTableGoodsBuyPop"] = {};
+ModuleTable["JinHuaTableGoodsBuyPop"]["jsLists"] = [
+    "src/module/tablepop/profile/ProfileJinHuaTableGoodsBuyPop.js",
+    "src/module/tablepop/logic/JinHuaTableGoodsBuyPopLogic.js",
+    "src/module/tablepop/controller/JinHuaTableGoodsBuyPopController.js"];
+ModuleTable["JinHuaTableGoodsBuyPop"]["Layer"] = Layer.Third_Layer;
+ModuleTable["JinHuaTableGoodsBuyPop"]["resLists"] = [
+    "res/bg_tongyongdi.png",
+    "res/btn_item_close.png",
+    "res/jinbi_recharge.png",
+    "res/btn_tichupaizhuo.png",
+    "res/ui_jinbikashuliangbuzhu.png",
+    "res/JinHuaTableGoodsBuyPop.json"];

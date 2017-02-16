@@ -84,3 +84,6 @@ GUI_JINHUATABLESETPOP= "JinHuaTableSetPop";
 
 //断线重连
 GUI_NETERREXITDIALOG= "NetErrExitDialog";
+
+//牌桌-购买禁比卡
+GUI_JINHUATABLEGOODSBUYPOP= "JinHuaTableGoodsBuyPop";

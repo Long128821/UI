@@ -2736,7 +2736,6 @@ var JinHuaTableLogic= {
     //点击pk执行操作
     clickPkBtnFunc:function(playerCSID){
         var  players = JinHuaTablePlayer.getPlayers();
-        console.log("比牌玩家:"+ playerCSID);
         if(players[playerCSID]){
             //修改Bug:noPK是player的属性。
             if(players[playerCSID].player.noPK){
@@ -2794,10 +2793,11 @@ var JinHuaTableLogic= {
                 Common.showToast("请等待下局开始", 2);
             }
         }else{
-            console.log("弹出购买");
-            //Todo:购买
-                //MvcEngine.createModule(GUI_JINHUA_TABLEGOODSBUYPOP);
-                //JinHuaTableGoodsBuyPopLogic.setGoodsInfo(QuickPay.Pay_Guide_no_pk_GuideTypeID,JinHuaRechargeGuidePositionID.TablePositionH)
+            alert("目前还没有实现该功能！");
+//            MvcEngine.createModule(GUI_JINHUATABLEGOODSBUYPOP, function(){
+//                ProfileJinHuaTableGoodsBuyPop.setGoodsInfo();
+//            });
+            //JinHuaTableGoodsBuyPopLogic.setGoodsInfo(QuickPay.Pay_Guide_no_pk_GuideTypeID,JinHuaRechargeGuidePositionID.TablePositionH)
         }
     }
 };

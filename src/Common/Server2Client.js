@@ -543,7 +543,7 @@ function read80210007(nMBaseMessage){
     //Result  byte  是否成功  1成功 0失败
     dataTable["Result"] = nMBaseMessage.readByte();
     //ResultTxt text  提示语内容
-    dataTable["ResultTxt"] = nMBaseMessage.readString();
+    dataTable["ResultTxt"] = nMBaseMessage.readUTF8();
     return dataTable;
 }
 
@@ -791,7 +791,6 @@ function read82210001(nMBaseMessage){
     return dataTable;
 }
 
-//Todo:解析UTF16
 //解析EnterRoomRespBean
 function read80210002(nMBaseMessage){
     var dataTable = {};
@@ -801,7 +800,7 @@ function read80210002(nMBaseMessage){
     //解析 是否成功 0 失败，1 成功
     dataTable["result"] = nMBaseMessage.readByte();
     //解析 回复消息
-    dataTable["message"] = nMBaseMessage.readString();
+    dataTable["message"] = nMBaseMessage.readUTF8();
 
     return dataTable;
 }
@@ -883,7 +882,7 @@ function read80210005(nMBaseMessage){
     //解析 请求结果，0 失败 1成功
     dataTable["result"] = nMBaseMessage.readByte();
     //解析 返回消息
-    dataTable["message"] = nMBaseMessage.readString();
+    dataTable["message"] = nMBaseMessage.readUTF8();
     return dataTable
 }
 
@@ -964,8 +963,7 @@ function read80210004(nMBaseMessage){
     //解析 结果 0失败 1成功
     dataTable["result"] = nMBaseMessage.readByte();
     //解析 结果信息
-    //Todo:使用readUtf
-    dataTable["message"] = nMBaseMessage.readString();
+    dataTable["message"] = nMBaseMessage.readUTF8();
     return dataTable
 }
 
@@ -980,7 +978,7 @@ function read80200002(nMBaseMessage){
     dataTable["result"] = nMBaseMessage.readByte();
 
     //ResultTxt text  提示语内容
-    dataTable["message"] = nMBaseMessage.readString();
+    dataTable["message"] = nMBaseMessage.readUTF8();
     return dataTable;
 }
 
@@ -1422,7 +1420,7 @@ function read80210008(nMBaseMessage){
 
     //Result  换桌结果 0失败 1成功
     dataTable["Result"] = nMBaseMessage.readByte();
-    dataTable["ResultTxt"] = nMBaseMessage.readString();
+    dataTable["ResultTxt"] = nMBaseMessage.readUTF8();
     return dataTable;
 }
 
@@ -1443,5 +1441,3 @@ function read8020000c(nMBaseMessage){
 
     return dataTable;
 }
-
-//需要联调的消息有readUTF(JHID_STAND_UP、JHID_READY、JHID_BET)
