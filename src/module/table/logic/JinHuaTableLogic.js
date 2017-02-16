@@ -852,6 +852,7 @@ var JinHuaTableLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
+            MvcEngine.createModule(GUI_JINHUACHATPOP);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -2793,10 +2794,9 @@ var JinHuaTableLogic= {
                 Common.showToast("请等待下局开始", 2);
             }
         }else{
-            alert("目前还没有实现该功能！");
-//            MvcEngine.createModule(GUI_JINHUATABLEGOODSBUYPOP, function(){
-//                ProfileJinHuaTableGoodsBuyPop.setGoodsInfo();
-//            });
+            MvcEngine.createModule(GUI_JINHUATABLEGOODSBUYPOP, function(){
+                ProfileJinHuaTableGoodsBuyPop.setGoodsInfo();
+            });
             //JinHuaTableGoodsBuyPopLogic.setGoodsInfo(QuickPay.Pay_Guide_no_pk_GuideTypeID,JinHuaRechargeGuidePositionID.TablePositionH)
         }
     }

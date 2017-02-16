@@ -556,3 +556,16 @@ ModuleTable["JinHuaTableGoodsBuyPop"]["resLists"] = [
     "res/btn_tichupaizhuo.png",
     "res/ui_jinbikashuliangbuzhu.png",
     "res/JinHuaTableGoodsBuyPop.json"];
+
+ModuleTable["JinHuaChatPop"] = {};
+ModuleTable["JinHuaChatPop"]["jsLists"] = [
+    "src/module/chatpop/profile/ProfileJinHuaChatPop.js",
+    "src/module/chatpop/logic/JinHuaChatPopLogic.js",
+    "src/module/chatpop/controller/JinHuaChatPopController.js"];
+ModuleTable["JinHuaChatPop"]["Layer"] = Layer.Second_Layer;
+ModuleTable["JinHuaChatPop"]["resLists"] = [
+    "res/co_desk.plist",
+    "res/co_desk.png",
+    "res/chat_popup.plist",
+    "res/chat_popup.png",
+    "res/JinHuaChatPop.json"];

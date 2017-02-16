@@ -92,7 +92,7 @@ var JinHuaTableGoodsBuyPopLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            alert("目前还没有实现该功能！");
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 

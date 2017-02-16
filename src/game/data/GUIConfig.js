@@ -87,3 +87,6 @@ GUI_NETERREXITDIALOG= "NetErrExitDialog";
 
 //牌桌-购买禁比卡
 GUI_JINHUATABLEGOODSBUYPOP= "JinHuaTableGoodsBuyPop";
+
+//牌桌-聊天
+GUI_JINHUACHATPOP= "JinHuaChatPop";
