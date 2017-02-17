@@ -786,5 +786,30 @@ function read80070079(nMBaseMessage){
     return dataTable;
 }
 
+//3.15.97扎金花发送大喇叭(OPERID_MGR_SEND_BUGLE）
+function read80610061(nMBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + OPERID_MGR_SEND_BUGLE;
+    dataTable["messageName"] = "OPERID_MGR_SEND_BUGLE";
+    //Result	Byte	1成功2失败
+    dataTable["Result"] = nMBaseMessage.readByte();
+    //Message	Text	提示文字
+    dataTable["Message"] = nMBaseMessage.readString();
+
+    return dataTable;
+}
+
+//3.15.98推送大喇叭消息(OPERID_SEND_ALL_BUGLE)
+function read80610062(nMBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + OPERID_SEND_ALL_BUGLE;
+    dataTable["messageName"] = "OPERID_SEND_ALL_BUGLE";
+    //NickName	Text	发话人昵称
+    dataTable["NickName"] = nMBaseMessage.readString();
+    //Message	Text	提示文字
+    dataTable["Message"] = nMBaseMessage.readString();
+
+    return dataTable;
+}
 
 //Todo:领取工资之后，GAMEID_IMAGE_TOAST

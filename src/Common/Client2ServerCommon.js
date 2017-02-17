@@ -667,3 +667,24 @@ function sendMANAGERID_HINT_BIND_WECHAT(){
 
     delete nMBaseMessage;
 }
+
+//3.15.97扎金花发送大喇叭(OPERID_MGR_SEND_BUGLE）
+function sendOPERID_MGR_SEND_BUGLE(Message){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + OPERID_MGR_SEND_BUGLE);
+
+    nmBaseMessage.writeStart();
+    //GameID	byte	ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+    //Message	Text	发送文字
+    nmBaseMessage.writeString(Message);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}

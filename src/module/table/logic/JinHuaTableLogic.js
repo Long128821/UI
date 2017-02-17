@@ -219,6 +219,9 @@ var JinHuaTableLogic= {
 	AtlasLabel_myMatchRank:null,
 
     /********自定义**********/
+    panelBugle:null,//大喇叭Panel
+    imageBugle:null,//大喇叭图
+    labelBugle:null,//大喇叭文字
     labelNotice:null,//公告
     updateTimer:null,//更新系统时间-定时器
     sitButtonGroup:{},//坐下按钮table
@@ -1318,6 +1321,8 @@ var JinHuaTableLogic= {
         Frameworks.addSlot2Signal(JHID_SHOW_CARDS, ProfileJinHuaTable.slot_JHID_SHOW_CARDS);//展示牌
         Frameworks.addSlot2Signal(JHID_CHANGE_TABLE, ProfileJinHuaTable.slot_JHID_CHANGE_TABLE);//换桌
         Frameworks.addSlot2Signal(JHID_NO_COMPARE, ProfileJinHuaTable.slot_JHID_NO_COMPARE);//禁比
+        Frameworks.addSlot2Signal(OPERID_MGR_SEND_BUGLE, ProfileJinHuaTable.slot_OPERID_MGR_SEND_BUGLE);//使用大喇叭
+        Frameworks.addSlot2Signal(OPERID_SEND_ALL_BUGLE, ProfileJinHuaTable.slot_OPERID_SEND_ALL_BUGLE);//接收大喇叭
 },
     //移除信号
     removeSlot:function(){
@@ -1341,6 +1346,8 @@ var JinHuaTableLogic= {
     	Frameworks.removeSlotFromSignal(JHID_SHOW_CARDS, ProfileJinHuaTable.slot_JHID_SHOW_CARDS);
     	Frameworks.removeSlotFromSignal(JHID_CHANGE_TABLE, ProfileJinHuaTable.slot_JHID_CHANGE_TABLE);
     	Frameworks.removeSlotFromSignal(JHID_NO_COMPARE, ProfileJinHuaTable.slot_JHID_NO_COMPARE);
+    	Frameworks.removeSlotFromSignal(OPERID_MGR_SEND_BUGLE, ProfileJinHuaTable.slot_OPERID_MGR_SEND_BUGLE);//大喇叭
+    	Frameworks.removeSlotFromSignal(OPERID_SEND_ALL_BUGLE, ProfileJinHuaTable.slot_OPERID_SEND_ALL_BUGLE);//接收大喇叭
     },
     
     //释放界面的私有数据
@@ -1573,6 +1580,21 @@ var JinHuaTableLogic= {
         var noPKData= Profile_JinHuaGameData.getNoPKData();
         JinHuaTablePlayer.updateTableAfterJinbiByServer(noPKData);
     },
+    //使用大喇叭
+    updateOPERID_MGR_SEND_BUGLE:function(){
+        var SendBugleTable= Profile_GameCommon.getSendBugleTable();
+        if(Common.getTableSize(SendBugleTable)< 1) return;//判定是否有效
+        //有效数据
+        //发送成功:服务器返回(发送成功)
+        //发送失败:服务器返回(您还没有大喇叭，请到商城中购买O(∩_∩)O~)
+        if(SendBugleTable["Message"].length!=0){
+            Common.showToast(SendBugleTable["Message"],3);
+        }
+    },
+    //接收大喇叭消息
+    updateOPERID_SEND_ALL_BUGLE:function(){
+        this.showBugle();
+    },
     //初始化界面
     initTableData:function(){
         this.clear();
@@ -1595,6 +1617,7 @@ var JinHuaTableLogic= {
         }
         //初始化牌桌背景
         this.initBg();
+        this.showBugle();
 
         this.Panel_buttonGroup_right.setVisible(true);
         this.btn_renwu.setVisible(true);
@@ -1890,14 +1913,21 @@ var JinHuaTableLogic= {
     //显示系统公告
     showNotice:function(){
         //利用文本是否为空，判断是否进行中
-        if(this.labelNotice!= null) return;
+        if(Common.judgeValueIsEffect(this.labelNotice)) return;
+        if(Common.judgeValueIsEffect(this.panelBugle)) return;
+
+        //获取系统公告
+        var bugleTable= Profile_GameCommon.getOneBugle();
+        //有效大喇叭
+        if(Common.judgeValueIsEffect(bugleTable)){
+            this.showNotice();
+            return;
+        }
 
         //获取系统公告
         var noticeTable= Profile_JinHuaNotice.getOneNotice();
-        if(noticeTable== null||noticeTable== undefined||noticeTable==""){
-            //重新获取公告
-            return;
-        }
+        //非有效系统公告
+        if(!Common.judgeValueIsEffect(noticeTable)||noticeTable.trim().length==0)return;
 
         var ImageNoticeSize= this.ImageView_Notice.getContentSize();
         var chatPanelSize= this.panel_chat.getContentSize();
@@ -1907,16 +1937,16 @@ var JinHuaTableLogic= {
         //创建系统公告文本
         this.createSystemNoticeLabel(textNotice, cc.color(noticeTable.colorR, noticeTable.colorG, noticeTable.colorB));
 
-        if(this.labelNotice== null) return;
+        if(!Common.judgeValueIsEffect(this.labelNotice)) return;
         //设置初始位置
         this.labelNotice.setPosition(cc.p(chatPanelSize.width + chatPanelPoint.x + ImageNoticeSize.width / 2,0));
         //播放系统公告
-        var moveBy =  cc.MoveBy.create(GameConfig.NOTICE_MOVE_TIME*(this.labelNotice.width + chatPanelSize.width), cc.p(-chatPanelPoint.x -this.labelNotice.width -chatPanelSize.width*2,0));
+        var moveBy =  cc.moveBy(GameConfig.NOTICE_MOVE_TIME*(this.labelNotice.width + chatPanelSize.width), cc.p(-chatPanelPoint.x -this.labelNotice.width -chatPanelSize.width*2,0));
         var self= this;
-        var seq = cc.Sequence.create(moveBy,cc.callFunc(function(){
+        var seq = cc.sequence(moveBy,cc.callFunc(function(){
             self.hideNotice();
         }));
-        this.labelNotice.runAction(cc.RepeatForever.create(seq));
+        this.labelNotice.runAction(cc.repeatForever(seq));
     },
     //隐藏系统公告
     hideNotice:function(){
@@ -1926,6 +1956,48 @@ var JinHuaTableLogic= {
             this.labelNotice= null;
         }
         this.showNotice();
+    },
+    //显示系统大喇叭
+    showBugle:function(){
+        //利用文本是否为空，判断是否进行中
+        if(Common.judgeValueIsEffect(this.panelBugle)) return;
+
+        //获取系统公告
+        var bugleTable= Profile_GameCommon.getOneBugle();
+        //非有效大喇叭
+        if(!Common.judgeValueIsEffect(bugleTable)){
+            this.showNotice();
+            return;
+        }
+        //隐藏系统公告
+        if(Common.judgeValueIsEffect(this.labelNotice)){
+            this.hideNotice();
+        }
+
+        var ImageNoticeSize= this.ImageView_Notice.getContentSize();
+        var chatPanelSize= this.panel_chat.getContentSize();
+        var chatPanelPoint= this.panel_chat.getPosition();
+        var imageBugle =  cc.Sprite.create(Common.getJinHuaResourcePath("ic_hall_zoumadengdalaba.png"));
+        imageBugle.setAnchorPoint(cc.p(0, 0));
+        imageBugle.setPosition(cc.p(0, 0));
+        imageBugle.setScale(0.5);
+
+        var textBugle = bugleTable.NickName+":"+bugleTable.Message;
+        this.panelBugle = cc.Node.create();
+        this.panelBugle.addChild(imageBugle);
+        //创建系统公告文本
+        this.createBugleLabel(textBugle, imageBugle);
+
+        if(!Common.judgeValueIsEffect(this.labelBugle)) return;
+        //设置初始位置
+        this.panelBugle.setPosition(cc.p(chatPanelSize.width + chatPanelPoint.x + ImageNoticeSize.width* 0.5, 0));
+        //播放系统公告
+        var moveBy =  cc.moveBy(GameConfig.NOTICE_MOVE_TIME*(this.labelBugle.width + chatPanelSize.width), cc.p(-chatPanelPoint.x -this.labelBugle.width -chatPanelSize.width*2,0));
+        var self= this;
+        var seq = cc.sequence(moveBy,cc.callFunc(function(){
+            self.showBugle();
+        }));
+        this.panelBugle.runAction(cc.repeatForever(seq));
     },
     //系统公告文本
     createSystemNoticeLabel:function(systemNotice,color) {
@@ -1938,6 +2010,17 @@ var JinHuaTableLogic= {
         this.labelNotice.setPosition(cc.p(chatPanelSize.width + chatPanelPoint.x + ImageNoticeSize.width / 2, 0));
         this.labelNotice.setColor(color);
         this.panel_chat.addChild(this.labelNotice);
+    },
+    //系统公告文本
+    createBugleLabel:function(systemNotice, imageBugle) {
+        this.labelBugle= cc.LabelTTF.create(systemNotice.toString(), "微软雅黑", 20);
+        this.labelBugle.setAnchorPoint(cc.p(0, 0));
+        //缩放了0.5倍
+        this.labelBugle.setPosition(cc.p(imageBugle.getContentSize().width* 0.5, 0));
+        this.labelBugle.setColor(cc.color(255, 255, 255));
+
+        this.panelBugle.addChild(this.labelBugle);
+        this.panel_chat.addChild(this.panelBugle);
     },
     //启动计时器
     startUpdateTimeAndBatteryScheduler:function(){
@@ -2174,7 +2257,6 @@ var JinHuaTableLogic= {
         //隐藏所有下排操作按钮极其点击效果
         this.hideAllBotButton();
         this.lastStatus= type;
-        //console.log("下排操作按钮类型:"+ type);
         switch (type){
             case STATUS_BUTTON_WAIT://等待
                 //Todo:JinHuaTableCheckButton.setSpriteVisible(false)
@@ -2454,7 +2536,7 @@ var JinHuaTableLogic= {
     },
     //震动提醒
     callback_vibrate:function(){
-        //console.log("震动提醒");
+
     },
     //更新我的操作按钮
     updateMyOperationBtns:function(currentPlayer){

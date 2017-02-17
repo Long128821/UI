@@ -37,6 +37,7 @@
         "src/Game/Mvc/module/profile/Profile_JinHuaRoomData.js",
         "src/Game/Mvc/module/profile_common/profile_user.js",
         "src/Game/Mvc/module/profile_common/Profile_DoubleButtonConfirm.js",
+        "src/Game/Mvc/module/profile_common/Profile_GameCommon.js",
         "src/Game/Mvc/module/profile_common/Profile_Message.js",
         "src/Game/Mvc/module/profile_common/Profile_ServerMsg.js",
         "src/Game/Mvc/module/profile_common/Profile_SystemPromptDialog.js",

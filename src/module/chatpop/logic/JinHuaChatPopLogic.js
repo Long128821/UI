@@ -484,8 +484,8 @@ var JinHuaChatPopLogic= {
         var msg= this.et_msg_log.getString();
         msg= msg.trim();
         if(msg.length>0){
-//            sendOPERID_MGR_SEND_BUGLE(sendChat);
-//            this.close();
+            sendOPERID_MGR_SEND_BUGLE(msg);
+            this.close();
         }else{
             Common.showToast("请输入内容",1);
         }

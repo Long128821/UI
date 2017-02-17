@@ -10,6 +10,7 @@ var Profile_JinHuaNotice= {
     },
     //获取一条公告
     getOneNotice:function(){
+        if(!Common.judgeValueIsEffect(this.NoticeTable)) return;
         var notice= "";
         var tableSize= Common.getTableSize(this.NoticeTable["RecordList"]);
         if(this.NoticeTable["RecordList"]!= null&& tableSize> 0){

@@ -106,5 +106,15 @@ var ProfileJinHuaTable= {
     slot_JHID_NO_COMPARE:function(dataTable){
         Profile_JinHuaGameData.readJHID_NO_COMPARE(dataTable);
         JinHuaTableLogic.updateJHID_NO_COMPARE();
+    },
+    //使用大喇叭
+    slot_OPERID_MGR_SEND_BUGLE:function(dataTable){
+        Profile_GameCommon.readOPERID_MGR_SEND_BUGLE(dataTable);
+        JinHuaTableLogic.updateOPERID_MGR_SEND_BUGLE();
+    },
+    //接受大喇叭信息
+    slot_OPERID_SEND_ALL_BUGLE:function(dataTable){
+        Profile_GameCommon.readOPERID_SEND_ALL_BUGLE(dataTable);
+        JinHuaTableLogic.updateOPERID_SEND_ALL_BUGLE();
     }
 };
