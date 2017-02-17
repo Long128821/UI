@@ -25,9 +25,6 @@ var LoginLogic= {
 
 	m_bLoginVisible:false,//登陆框是否显示
     createView:function(){
-//        if(Network.getWebSocketConnecting()){
-//            sendMANAGERID_USERLIST_FROM_IMIE();
-//        }
     	this.initLayer();
         
         this.view.setTag(ModuleTable["Login"]["Layer"]);

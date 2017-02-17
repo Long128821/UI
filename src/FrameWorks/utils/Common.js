@@ -257,6 +257,26 @@ var Common= {
         }));
         toast.runAction(seq);
     },
+    //显示图文Toast
+    showImageToast:function(){
+        var toastTable= Profile_ImageToast.getImageToastTable();
+        if(!Common.judgeValueIsEffect(toastTable)) return;
+        if(GameConfig.getCurBaseLayer()== GUI_JINHUATABLE){
+            var delay= cc.delayTime(2);
+            var seq= cc.sequence(delay, cc.callFunc(this.showImageToast));
+            if(Common.judgeValueIsEffect(JinHuaTableLogic.view)){
+                JinHuaTableLogic.view.runAction(seq);
+            }else{
+                this.showToastByImage();
+            }
+        }else{
+            this.showToastByImage();
+        }
+    },
+    showToastByImage:function(){
+        var toastTable= Profile_ImageToast.getImageToastTable();
+        ImageToast.createView(toastTable["ImageUrl"], null, "", toastTable["ToastMsg"], 2);
+    },
     /**
      * Func:获得应用版本号(不带渠道号)
      * 16进制
@@ -282,6 +302,24 @@ var Common= {
     //得到版本编号
     getScriptVerCode:function(sVersionCode){
         return this.getVersionCode(sVersionCode);
+    },
+    //移除table中的第一个元素
+    removeFirstElement:function(table){
+        for(var key in table){
+            if(Common.judgeValueIsEffect(table[key])){
+                delete table[key];
+                return table;
+            }
+        }
+        return {};
+    },
+    getFirstElement:function(table){
+        for(var key in table){
+            if(Common.judgeValueIsEffect(table[key])){
+                return table[key];
+            }
+        }
+        return {};
     }
 };
 
