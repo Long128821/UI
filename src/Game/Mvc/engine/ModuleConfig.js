@@ -575,3 +575,14 @@ ModuleTable["JinHuaChatPop"]["resLists"] = [
     "res/chat_popup.plist",
     "res/chat_popup.png",
     "res/JinHuaChatPop.json"];
+
+ModuleTable["JinHuaTableChatAt"] = {};
+ModuleTable["JinHuaTableChatAt"]["jsLists"] = [
+    "src/module/deskchat/profile/ProfileJinHuaTableChatAt.js",
+    "src/module/deskchat/logic/JinHuaTableChatAtLogic.js",
+    "src/module/deskchat/controller/JinHuaTableChatAtController.js"];
+ModuleTable["JinHuaTableChatAt"]["Layer"] = Layer.Third_Layer;
+ModuleTable["JinHuaTableChatAt"]["resLists"] = [
+    "res/bg_qihuanzhanghu_01.png",
+    "res/bg_qihuanzhanghu_02.png",
+    "res/JinHuaTableChatAt.json"];

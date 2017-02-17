@@ -90,3 +90,6 @@ GUI_JINHUATABLEGOODSBUYPOP= "JinHuaTableGoodsBuyPop";
 
 //牌桌-聊天
 GUI_JINHUACHATPOP= "JinHuaChatPop";
+
+//牌桌@功能
+GUI_JINHUATABLECHATAT= "JinHuaTableChatAt";

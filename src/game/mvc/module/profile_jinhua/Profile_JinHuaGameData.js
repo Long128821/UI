@@ -130,6 +130,31 @@ var Profile_JinHuaGameData= {
         }
         return bHas;
     },
+    //判断某个玩家是否在牌桌上
+    isSitDown:function(userID){
+        if(!Common.judgeValueIsEffect(this.GameData)) return false;
+        var players= this.getPlayers();
+        if(!Common.judgeValueIsEffect(players)) return false;
+        for(var key in players){
+            var player= players[key];
+            if(!Common.judgeValueIsEffect(player)) continue;
+            if(player.userId== userID) return true;
+        }
+        return false;
+    },
+    //判断作为上是否有其他玩家(排除玩家本身)
+    hasOtherPlayer:function(){
+        if(!Common.judgeValueIsEffect(this.GameData)) return false;
+        var players= this.getPlayers();
+        if(!Common.judgeValueIsEffect(players)) return false;
+
+        for(var key in players){
+            var player= players[key];
+            if(!Common.judgeValueIsEffect(player)) continue;
+            if(player.userId!= profile_user.getSelfUserID()) return true;
+        }
+        return false;
+    },
     //自己站起更新
     updatePlayerInfo_SelfStand:function(){
         if((this.GameData&&

@@ -401,7 +401,7 @@ var JinHuaChatPopLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            JinHuaChatPopLogic.onAt();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -480,6 +480,7 @@ var JinHuaChatPopLogic= {
             Common.showToast("请输入内容",1);
         }
     },
+    //大喇叭-发送
     onBugle:function(){
         var msg= this.et_msg_log.getString();
         msg= msg.trim();
@@ -489,5 +490,22 @@ var JinHuaChatPopLogic= {
         }else{
             Common.showToast("请输入内容",1);
         }
+    },
+    //@功能
+    onAt:function(){
+        //我在座位上&&牌桌上有其他玩家
+        //Todo:简介方法-如果自己在牌桌上，那么CSID一定为0，只要查看其他CSID是否有值即可
+        if(Profile_JinHuaGameData.isSitDown(profile_user.getSelfUserID())&&Profile_JinHuaGameData.hasOtherPlayer()){
+            MvcEngine.createModule(GUI_JINHUATABLECHATAT);
+        }else{
+            Common.showToast("该牌桌上没有别人！");
+        }
+    },
+    //设置at玩家名字
+    setAtNickname:function(nickname){
+        var msg= this.et_msg_log.getString();
+        msg= msg.trim();
+        msg= "@"+ nickname+" "+ msg;
+        this.et_msg_log.setString(msg);
     }
 };
