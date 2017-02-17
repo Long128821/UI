@@ -31,6 +31,7 @@
         "src/FrameWorks/Frameworks.js",
         "src/FrameWorks/Load.js",
         "src/FrameWorks/CocoStudio.js",
+        "src/Game/Mvc/module/profile/Profile_Task.js",
         "src/Game/Mvc/module/profile/Profile_DailySalary.js",
         "src/Game/Mvc/module/profile/Profile_Gift.js",
         "src/Game/Mvc/module/profile/Profile_JinHuaRevive.js",

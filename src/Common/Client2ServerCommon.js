@@ -688,3 +688,25 @@ function sendOPERID_MGR_SEND_BUGLE(Message){
 
     delete nmBaseMessage;
 }
+
+//领取成就任务奖励（COMMONS_GET_LIFETIME_TASKPRIZE）
+function sendCOMMONS_GET_LIFETIME_TASKPRIZE(TimeStamp,taskId){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + COMMONS_GET_LIFETIME_TASKPRIZE);
+
+    nmBaseMessage.writeStart();
+    //GameID	byte	ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+    nmBaseMessage.writeInt(Common.getVersionCode());
+    nmBaseMessage.writeLong(TimeStamp);
+    nmBaseMessage.writeInt(taskId);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}

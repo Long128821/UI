@@ -90,7 +90,7 @@ var Network= {
             if(((Object.prototype.toString.call(data) == "[object ArrayBuffer]"))){
                 this.webSocket.send(data);
             }else{//Text文本格式传输
-                alert("Send失败:数据不是ArrayBuffer类型！");
+                Common.showToast("Send失败:数据不是ArrayBuffer类型！", 2);
             }
         }else{
             console.log('network WebSocket readState:'+this.webSocket.readyState);

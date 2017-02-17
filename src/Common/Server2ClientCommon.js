@@ -812,4 +812,31 @@ function read80610062(nMBaseMessage){
     return dataTable;
 }
 
+//3.16.31 领取成就任务奖励（COMMONS_GET_LIFETIME_TASKPRIZE）
+function read8065001f(nMBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + COMMONS_GET_LIFETIME_TASKPRIZE;
+    dataTable["messageName"] = "COMMONS_GET_LIFETIME_TASKPRIZE";
+    
+    //是否成功
+    dataTable["IsSuccess"] = nMBaseMessage.readByte();
+    //提示语
+    dataTable["Msg"] = nMBaseMessage.readString();
+    //奖品列表
+    dataTable["Loop"] = nMBaseMessage.readInt();
+
+    dataTable["PrizesLoop"] = {};
+    for(var i = 0;i< dataTable["Loop"]; ++i) {
+        dataTable["PrizesLoop"][i] = {};
+        nMBaseMessage.startReadLoop();
+        //奖品图片
+        dataTable["PrizesLoop"][i]["PicUrl"] = nMBaseMessage.readString();
+        //奖品描述
+        dataTable["PrizesLoop"][i]["PrizeMsg"] = nMBaseMessage.readString();
+    }
+    dataTable["Timestamp"] = nMBaseMessage.readInt();
+
+    return dataTable;
+}
+
 //Todo:领取工资之后，GAMEID_IMAGE_TOAST

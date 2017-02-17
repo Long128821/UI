@@ -123,8 +123,7 @@ var ProfileLogin= {
             ProfileLogin.saveUserData();
             MvcEngine.preCreateModule(GUI_HALL);
         }else{
-            //Todo:Toast:登录失败提示
-            alert(resultText);
+            Common.showToast(resultText, 2);
         }
     },
     //根据IMEI获得绑定该设备的用户列表

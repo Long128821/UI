@@ -116,12 +116,14 @@ var RenWuLogic= {
     	Frameworks.addSlot2Signal(COMMONS_DAILYTASK, ProfileRenWu.slot_COMMONS_DAILYTASK);//每日任务列表
     	Frameworks.addSlot2Signal(COMMONS_LIFETIME_TASKLIST, ProfileRenWu.slot_COMMONS_LIFETIME_TASKLIST);//成就任务
     	Frameworks.addSlot2Signal(COMMONS_GET_DAILYTASK_PRIZE, ProfileRenWu.slot_COMMONS_GET_DAILYTASK_PRIZE);//领取任务奖励
+    	Frameworks.addSlot2Signal(COMMONS_GET_LIFETIME_TASKPRIZE, ProfileRenWu.slot_COMMONS_GET_LIFETIME_TASKPRIZE);//领取成就任务奖励;
     },
     //移除信号
     removeSlot:function(){
     	Frameworks.removeSlotFromSignal(COMMONS_DAILYTASK, ProfileRenWu.slot_COMMONS_DAILYTASK);
     	Frameworks.removeSlotFromSignal(COMMONS_LIFETIME_TASKLIST, ProfileRenWu.slot_COMMONS_LIFETIME_TASKLIST);
     	Frameworks.removeSlotFromSignal(COMMONS_GET_DAILYTASK_PRIZE, ProfileRenWu.slot_COMMONS_GET_DAILYTASK_PRIZE);
+    	Frameworks.removeSlotFromSignal(COMMONS_GET_LIFETIME_TASKPRIZE, ProfileRenWu.slot_COMMONS_GET_LIFETIME_TASKPRIZE);//领取成就任务奖励;
     },
     
     //释放界面的私有数据
@@ -268,7 +270,7 @@ var RenWuLogic= {
         var buttonName = "btn_qianwang_wancheng.png";
         var buttonWord = "ui_task_qianwang.png";
 
-        if(TaskListLoop[idx]["Status"]!= 0){//按钮状态
+        if(TaskListLoop[idx]["Status"]!= 0){//按钮状态 0-前往 1-领取
             buttonName = "btn_qianwang_lingjiang.png";
             buttonWord = "ui_wancheng.png";
         }
@@ -277,7 +279,7 @@ var RenWuLogic= {
             bgSprite,
             null, this.onClick, this);
         button.setPosition(spriteSize.width* 0.85, spriteSize.height* 0.5);
-        button.setTag(idx);
+        button.setTag(idx+"#"+TaskListLoop[idx]["Status"]);
         menu.addChild(button);
 
         var wordSprite= cc.Sprite.create(Common.getJinHuaResourcePath(buttonWord));
@@ -293,12 +295,50 @@ var RenWuLogic= {
     //按钮的回调哈数，利用Tag来区分是列表中的第几个
     onClick:function(pSender){
         var taskListTable= ProfileRenWu.getActiveTaskListTable()["TaskListLoop"];
-        var taskID= taskListTable[pSender.getTag()]["ID"];
-        sendCOMMONS_GET_DAILYTASK_PRIZE(taskID);
+        var arrTag= pSender.getTag().split("#");
+        var taskID= taskListTable[arrTag[0]]["ID"];
+        if(arrTag[1]== 1){//领取
+            switch (ProfileRenWu.getCurPageID()){
+                case 0:{//每日任务
+                    sendCOMMONS_GET_DAILYTASK_PRIZE(taskID);
+                    break;
+                }case 1:{//成就任务
+                Profile_Task.sendGetAchievementAward(taskID);
+                break;
+                }
+            }
+        }else{
+            Common.showToast("目前该功能还没有开发！", 2);
+        }
+    },
+    //更新成就任务列表
+    updateCOMMONS_GET_LIFETIME_TASKPRIZE:function(){
+        var awardTable= Profile_Task.getAchievementTaskList();
+        if(awardTable["IsSuccess"] == 1){//成功
+            var PrizesLoop= awardTable["PrizesLoop"];
+            for(var key in PrizesLoop){
+                var prize= PrizesLoop[key];
+                if(!Common.judgeValueIsEffect(prize)) continue;
+                //ImageToast.createView(prize.PicUrl,null,prize.PrizeMsg,"您已领取奖励！",2);
+            }
+        }else{//失败
+            Common.showToast(awardTable["Msg"],2)
+        }
+        sendCOMMONS_LIFETIME_TASKLIST();//刷新列表
+    },
+    //更新每日任务列表
+    updateCOMMONS_GET_DAILYTASK_PRIZE:function(){
+        var awardTable= Profile_Task.getGetEveryDayPrize();
+        if(awardTable["IsSuccess"] == 1){//成功
+            var PrizesLoop= awardTable["PrizesLoop"];
+            for(var key in PrizesLoop){
+                var prize= PrizesLoop[key];
+                if(!Common.judgeValueIsEffect(prize)) continue;
+                //ImageToast.createView(prize.PicUrl,null,prize.PrizeMsg,"您已领取奖励！",2);
+            }
+        }else{//失败
+            Common.showToast(awardTable["Msg"],2)
+        }
+        sendCOMMONS_DAILYTASK();//刷新列表
     }
 };
-
-
-//Todo:强制退出GAMEID_SERVER_MSG
-//Todo:Cell的上下列表颠倒一下
-//Todo:联调——领奖，显示已经领取过
