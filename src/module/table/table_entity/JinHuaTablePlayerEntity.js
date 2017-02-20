@@ -221,8 +221,46 @@ JinHuaTablePlayerEntity.prototype.createPortrait= function(){
             var size= self.mPlayerSprite.getContentSize();
             clipper.setPosition(cc.p(size.width* 0.5, size.height* 0.5));
             self.mPlayerSprite.addChild(clipper);
+            self.spritePic.setTag(self.player.userId);
+            self.addTouchListener(self.spritePic);
         });
     });
+};
+
+/**
+ * Func:添加触摸监听机制(点击、滑动)
+ */
+JinHuaTablePlayerEntity.prototype.addTouchListener= function(target){
+    var self= this;
+    self.listener= cc.EventListener.create({
+        event:cc.EventListener.TOUCH_ONE_BY_ONE,//点对点触摸
+        swallowTouches:true,//是否吞噬其他监听事件
+        onTouchBegan:self.onTouchBegan,
+        onTouchEnded:self.onTouchEnded
+    });
+    cc.eventManager.addListener(self.listener, target);
+};
+
+/**
+ * Func:开始触摸
+ */
+JinHuaTablePlayerEntity.prototype.onTouchBegan= function(touch, event){
+    //获取对象
+    var target= event.getCurrentTarget();
+    var size= target.getContentSize();
+    var locationPos= touch.getLocation();
+    var leftBottomPos= target.getParent().convertToWorldSpace(target.getPosition());
+    var rect= cc.rect(leftBottomPos.x- size.width* 0.5, leftBottomPos.y- size.height* 0.5, size.width, size.height);
+    //判断是否在对象的范围点击
+    return cc.rectContainsPoint(rect, locationPos);
+};
+
+/**
+ * 结束监听
+ */
+JinHuaTablePlayerEntity.prototype.onTouchEnded= function(touch, event){
+    var target= event.getCurrentTarget();
+    console.log(target.getTag());
 };
 
 /**
