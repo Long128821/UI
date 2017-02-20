@@ -223,12 +223,19 @@ if(typeof g_DataType== "undefined"){
                 return -1
             }
             var end = 0;
+            var bNegative= false;//是否为负数
             for (var i = 0; i < 8; i++) {
                 var value= this.pool[this.readPos];
+                if(i== 0&&value>= 128){
+                    bNegative= true;
+                }
+                if(bNegative){
+                    value= ((i==7)?(256-value):(255-value));
+                }
                 end+= value* Math.pow(256, 7-i);
                 this.readPos++;
             }
-            return end;
+            return bNegative?end* (-1):end;
         },
         /**
          * 从缓冲区读取1个字节,position往后移1位

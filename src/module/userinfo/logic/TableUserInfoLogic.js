@@ -117,6 +117,13 @@ var TableUserInfoLogic= {
 	Image_zhuizong:null,
 	
     createView:function(){
+        if(cc.spriteFrameCache.getSpriteFrame("bg_toumingditu.png")== null){
+            cc.spriteFrameCache.addSpriteFrames(Common.getJinHuaResourcePath("co_desk.plist"), Common.getJinHuaResourcePath("co_desk.png"));
+        }
+        if(cc.spriteFrameCache.getSpriteFrame("ui_jindutiaodi.png")== null){
+            cc.spriteFrameCache.addSpriteFrames(Common.getJinHuaResourcePath("userinfo_mine.plist"), Common.getJinHuaResourcePath("userinfo_mine.png"));
+        }
+        //进入牌桌时，就已经添加了table_elements.plist,所以不需要再添加。
     	this.initLayer();
         
         this.view.setTag(ModuleTable["TableUserInfo"]["Layer"]);
@@ -243,16 +250,19 @@ var TableUserInfoLogic= {
 	},
 
     initLayer:function(){
-		var gui = GUI_TABLEUSERINFO; 
-		if(GameConfig.RealProportion > GameConfig.SCREEN_PROPORTION_SMALL){
-			//适配方案 1136x640  
-			this.view = CocoStudio.createView("res/TableUserInfo.json"); 
-			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.EXACT_FIT); 
-		}else if(GameConfig.RealProportion <= GameConfig.SCREEN_PROPORTION_SMALL){
-			//适配方案 Pad加黑边  
-			this.view = CocoStudio.createView("res/TableUserInfo.json"); 
-			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL); 
-		}
+		var gui = GUI_TABLEUSERINFO;
+        //适配方案 Pad加黑边
+        this.view = CocoStudio.createView("res/TableUserInfo.json");
+        GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL);
+//		if(GameConfig.RealProportion > GameConfig.SCREEN_PROPORTION_SMALL){
+//			//适配方案 1136x640
+//			this.view = CocoStudio.createView("res/TableUserInfo.json");
+//			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.EXACT_FIT);
+//		}else if(GameConfig.RealProportion <= GameConfig.SCREEN_PROPORTION_SMALL){
+//			//适配方案 Pad加黑边
+//			this.view = CocoStudio.createView("res/TableUserInfo.json");
+//			GameConfig.setCurrentScreenResolution(this.view, gui, 1136, 640, cc.ResolutionPolicy.SHOW_ALL);
+//		}
 	},
     
 	callback_Panel_shang:function(pSender, event){
@@ -534,7 +544,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            MvcEngine.destroyModule(GUI_TABLEUSERINFO);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -619,6 +629,148 @@ var TableUserInfoLogic= {
     },
     //初始化界面
     initData:function(){
+        ProfileTableUserInfo.setUserInfoTable(Profile_JinHuaOtherUserInfo.getUserInfoTable());
+        var userInfoTable= ProfileTableUserInfo.getUserInfoTable();
+        ProfileTableUserInfo.setBMySelf((userInfoTable.targetUserId== profile_user.getSelfUserID()));
+        //显示对应的按钮信息
+        this.showButtonsByUserID();
+        //显示对应玩家的账户信息
+        this.setUserInfo();
+        //更新动画表情
+        this.setInteractionInfo();
+    },
+    //根据UserID,显示不同的按钮
+    showButtonsByUserID:function(){
+        if(ProfileTableUserInfo.getBMySelf()){//如果为玩家自己
+            this.Button_zhuizong.setVisible(false);
+            this.Button_zhuizong.setTouchEnabled(false);
+            this.Button_safety.setTouchEnabled(true);
+            this.Button_safety.setVisible(true);
+            this.Button_shoudaoliwu.setTouchEnabled(false);
+            this.Button_shoudaoliwu.setVisible(false);
+            this.popSelfTableInfo();
+        }else{
+            this.Button_safety.setTouchEnabled(false);
+            this.Button_safety.setVisible(false);
+            this.Button_shoudaoliwu.setTouchEnabled(true);
+            this.Button_shoudaoliwu.setVisible(true);
+        }
+    },
+    setUserInfo:function(){
+        var userInfoTable= ProfileTableUserInfo.getUserInfoTable();
+        //设置玩家昵称
+        this.Label_name.setString(userInfoTable["nickName"]);
+        //[称谓-等级]
+        Profile_JinHuaSetting.setUserTitleOnImageView(userInfoTable["Coin"], this.Image_chengwei);
+        //加载网络头像
+        var resLists= [userInfoTable["PhotoUrl"],"res/ui_hall_yonghu_touxiangdikuang.png"];
+        Common.setPortraitByType(resLists, cc.rect(0,0,135,135), this.Image_toux);
+
+        //金币数
+        this.AtlasLabel_jinbi.setString(userInfoTable["Coin"]);
+        //等级
+        this.AtlasLabel_level.setString(":"+ userInfoTable["Level"]);
+        //魅力值
+        this.AtlasLabel_meilizhi.setString(userInfoTable["Charm"]);
+
+        //从plist中加载性别图片
+        switch(userInfoTable["Sex"]){
+            case 0://保密
+                this.Image_sex_bg.loadTexture("ic_weizhixingbie.png", 1);
+                break;
+            case 1://男
+                this.Image_sex_bg.loadTexture("ic_sex_boy.png", 1);
+                break;
+            case 2://女
+                this.Image_sex_bg.loadTexture("ic_sex_gril.png", 1);
+                break;
+        }
+        //设置魅力值等级
+        var userCharmLevel= userInfoTable["CharmLv"];
+        if(userCharmLevel>= 5){
+            userCharmLevel= 5
+        }else if(userCharmLevel< 0){
+            userCharmLevel= 0;
+        }
+        //显示魅力值等级
+        for(var i=0; i< userCharmLevel; ++i){
+            var image= CocoStudio.getComponent(this.view, "Image_liang"+ (i+ 1));
+            image.setVisible(true);
+        }
+        //当前经验
+        this.Label_exp.setString(userInfoTable["LevelExp"] + "/" + userInfoTable["LevelExpMax"]);
+        //当前进度
+        if(userInfoTable["LevelExp"]== 0||userInfoTable["LevelExpMax"]== 0){
+            this.Image_jindu.setScaleX(0);
+        }else{
+            this.Image_jindu.setScaleX(userInfoTable["LevelExp"]/userInfoTable["LevelExpMax"]);
+        }
+        //是否真人认证
+        if(Common.judgeValueIsEffect(userInfoTable["isCert"])&&(userInfoTable["isCert"]== 1)){
+            if(userInfoTable["Sex"]== Profile_JinHuaGameData.MALE){//男
+                this.Image_biaoqian.loadTexture("pic_rznan.png",1);
+            }else if(userInfoTable["Sex"]== Profile_JinHuaGameData.FEMALE){//女
+                this.Image_biaoqian.loadTexture("pic_renvdi.png",1);
+            }else{
+                this.Image_biaoqian.loadTexture("pic_rengzhengdi.png",1)
+            }
+        }else{
+            this.Image_biaoqian.setVisible(false);
+            this.Image_biaoqian.setTouchEnabled(false);
+        }
+
+        if(userInfoTable["luckyIcon"]== 1){
+            this.Image_lucky_icon.setVisible(true);
+        }
+        //Vip等级
+        var userVipLevel = userInfoTable["VipLevel"];
+        if(userVipLevel >= 0){
+            var texture = VipElementsUtils.getVipBgFromVipLevel(userVipLevel);
+            if(texture != null){
+                this.Image_vip_bg.loadTexture(texture,1)
+            }else{
+                this.Image_vip_bg.loadTexture("ic_vip_0.png",1)
+            }
+
+            if(userVipLevel == 0){
+                this.AtlasLabel_vip_level.setVisible(false);
+                this.Image_vip_highsign.setVisible(false);
+                this.Image_vip_lowsignbg.setVisible(false);
+                this.AtlasLabel_lowsign.setVisible(false);
+            }else if(userVipLevel > 0 && userVipLevel < 10){
+                this.AtlasLabel_vip_level.setVisible(true);
+                this.Image_vip_highsign.setVisible(false);
+                this.Image_vip_lowsignbg.setVisible(true);
+                this.AtlasLabel_lowsign.setVisible(true);
+                this.AtlasLabel_vip_level.setString(":"+userVipLevel);
+                this.AtlasLabel_lowsign.setString(userVipLevel);
+            }else if(userVipLevel >= 10){
+                this.AtlasLabel_vip_level.setVisible(true);
+                this.Image_vip_highsign.setVisible(true);
+                this.Image_vip_lowsignbg.setVisible(false);
+                this.AtlasLabel_lowsign.setVisible(false);
+                this.AtlasLabel_vip_level.setString(":"+userVipLevel);
+                var signTexture = VipElementsUtils.getVipHighSignFromVipLevel(userVipLevel);
+                if(signTexture == null){
+                    this.Image_vip_highsign.setVisible(false);
+                }else{
+                    this.Image_vip_highsign.loadTexture(signTexture,1);
+                }
+            }
+        }
+    },
+    popSelfTableInfo:function(){
+        this.Button_tichupaizhuo.setTouchEnabled(false);
+        this.Button_zengsongliwu.setTouchEnabled(false);
+        this.Button_jiaweihaoyou.setTouchEnabled(false);
+        this.Button_tichupaizhuo.setVisible(false);
+        this.Button_zengsongliwu.setVisible(false);
+        this.Button_jiaweihaoyou.setVisible(false);
+    },
+    //设置互动表情信息
+    setInteractionInfo:function(){
+        var InteractionList= Profile_JinHuaSetting.getInteractionList();
+        if(Common.getTableSize(InteractionList)== 0) return;
 
     }
 };

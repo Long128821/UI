@@ -586,3 +586,27 @@ ModuleTable["JinHuaTableChatAt"]["resLists"] = [
     "res/bg_qihuanzhanghu_01.png",
     "res/bg_qihuanzhanghu_02.png",
     "res/JinHuaTableChatAt.json"];
+
+ModuleTable["TableUserInfo"] = {};
+ModuleTable["TableUserInfo"]["jsLists"] = [
+    "src/module/userinfo/profile/ProfileTableUserInfo.js",
+    "src/module/userinfo/logic/TableUserInfoLogic.js",
+    "src/module/userinfo/controller/TableUserInfoController.js"];
+ModuleTable["TableUserInfo"]["Layer"] = Layer.Second_Layer;
+ModuleTable["TableUserInfo"]["resLists"] = [
+    "res/co_desk.plist",
+    "res/co_desk.png",
+    "res/ic_vip_shuzi.png",
+    "res/num_vip_level.png",
+    "res/table_elements.plist",
+    "res/table_elements.png",
+    "res/ui_jinbishu.png",
+    "res/ui_meilizhishu.png",
+    "res/ui_meilushu.png",
+    "res/ui_meilushu_daifuhao.png",
+    "res/ui_paihang_shuzi2.png",
+    "res/ui_vip_jiaobiaoshuzi.png",
+    "res/ui_vip_lvshuzi_gaoji.png",
+    "res/userinfo_mine.plist",
+    "res/userinfo_mine.png",
+    "res/TableUserInfo.json"];

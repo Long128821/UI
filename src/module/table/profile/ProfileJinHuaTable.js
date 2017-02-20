@@ -116,5 +116,10 @@ var ProfileJinHuaTable= {
     slot_OPERID_SEND_ALL_BUGLE:function(dataTable){
         Profile_GameCommon.readOPERID_SEND_ALL_BUGLE(dataTable);
         JinHuaTableLogic.updateOPERID_SEND_ALL_BUGLE();
+    },
+    //获取玩家本身数据
+    slot_JINHUA_MGR_USER_INFO:function(dataTable){
+        Profile_JinHuaOtherUserInfo.readJINHUA_MGR_USER_INFO(dataTable);
+        MvcEngine.createModule(GUI_TABLEUSERINFO);
     }
 };

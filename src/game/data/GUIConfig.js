@@ -93,3 +93,6 @@ GUI_JINHUACHATPOP= "JinHuaChatPop";
 
 //牌桌@功能
 GUI_JINHUATABLECHATAT= "JinHuaTableChatAt";
+
+//牌桌-个人资料
+GUI_TABLEUSERINFO= "TableUserInfo";

@@ -260,7 +260,7 @@ JinHuaTablePlayerEntity.prototype.onTouchBegan= function(touch, event){
  */
 JinHuaTablePlayerEntity.prototype.onTouchEnded= function(touch, event){
     var target= event.getCurrentTarget();
-    console.log(target.getTag());
+    sendJINHUA_MGR_USER_INFO(target.getTag());
 };
 
 /**

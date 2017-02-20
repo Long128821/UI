@@ -93,5 +93,13 @@ var Profile_JinHuaSetting= {
         //在图集中，没有对应的资源
         if(cc.spriteFrameCache.getSpriteFrame(url)== undefined) return;
         target._imageRenderer.setSpriteFrame(url);
+    },
+    //获取互动表情数据
+    getInteractionList:function(){
+        var InteractionList= this.JinHuaSettingTable["InteractionList"];
+        if(Common.getTableSize(InteractionList)== 0){
+            InteractionList= {};
+        }
+        return InteractionList;
     }
 };

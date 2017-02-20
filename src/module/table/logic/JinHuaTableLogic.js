@@ -1323,6 +1323,7 @@ var JinHuaTableLogic= {
         Frameworks.addSlot2Signal(JHID_NO_COMPARE, ProfileJinHuaTable.slot_JHID_NO_COMPARE);//禁比
         Frameworks.addSlot2Signal(OPERID_MGR_SEND_BUGLE, ProfileJinHuaTable.slot_OPERID_MGR_SEND_BUGLE);//使用大喇叭
         Frameworks.addSlot2Signal(OPERID_SEND_ALL_BUGLE, ProfileJinHuaTable.slot_OPERID_SEND_ALL_BUGLE);//接收大喇叭
+        Frameworks.addSlot2Signal(JINHUA_MGR_USER_INFO, ProfileJinHuaTable.slot_JINHUA_MGR_USER_INFO);//个人资料
 },
     //移除信号
     removeSlot:function(){
@@ -1348,6 +1349,7 @@ var JinHuaTableLogic= {
     	Frameworks.removeSlotFromSignal(JHID_NO_COMPARE, ProfileJinHuaTable.slot_JHID_NO_COMPARE);
     	Frameworks.removeSlotFromSignal(OPERID_MGR_SEND_BUGLE, ProfileJinHuaTable.slot_OPERID_MGR_SEND_BUGLE);//大喇叭
     	Frameworks.removeSlotFromSignal(OPERID_SEND_ALL_BUGLE, ProfileJinHuaTable.slot_OPERID_SEND_ALL_BUGLE);//接收大喇叭
+    	Frameworks.removeSlotFromSignal(JINHUA_MGR_USER_INFO, ProfileJinHuaTable.slot_JINHUA_MGR_USER_INFO);//个人资料
     },
     
     //释放界面的私有数据
@@ -2522,8 +2524,8 @@ var JinHuaTableLogic= {
     //下注、跟注
     onCall:function(){
         if(!Common.judgeValueIsEffect(this.betData)) return;
-        //后台传过来的是64位1
-        if(this.betData.callCoin== 18446744073709552000){//如果跟注按钮== 18446744073709552000，则All In
+        //后台传过来的是-1
+        if(this.betData.callCoin== -1){//如果跟注按钮== -1，则All In
             this.onAllIn();
             return;
         }

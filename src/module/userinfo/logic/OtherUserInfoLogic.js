@@ -457,7 +457,7 @@ var OtherUserInfoLogic= {
             return;
         }
 
-        //设置头像
+        //设置玩家昵称
         this.Label_name.setString(userInfoTable["nickName"]);
         //[称谓-等级]
         Profile_JinHuaSetting.setUserTitleOnImageView(userInfoTable["Coin"], this.Image_chengwei);
