@@ -121,5 +121,10 @@ var ProfileJinHuaTable= {
     slot_JINHUA_MGR_USER_INFO:function(dataTable){
         Profile_JinHuaOtherUserInfo.readJINHUA_MGR_USER_INFO(dataTable);
         MvcEngine.createModule(GUI_TABLEUSERINFO);
+    },
+    //牌桌飞礼物
+    slot_JHID_FLY_GIFT:function(dataTable){
+        Profile_JinHuaFlyGift.readJHID_FLY_GIFT(dataTable);
+        JinHuaTableLogic.updateJHID_FLY_GIFT();
     }
 };

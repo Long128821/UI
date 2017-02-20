@@ -1324,6 +1324,7 @@ var JinHuaTableLogic= {
         Frameworks.addSlot2Signal(OPERID_MGR_SEND_BUGLE, ProfileJinHuaTable.slot_OPERID_MGR_SEND_BUGLE);//使用大喇叭
         Frameworks.addSlot2Signal(OPERID_SEND_ALL_BUGLE, ProfileJinHuaTable.slot_OPERID_SEND_ALL_BUGLE);//接收大喇叭
         Frameworks.addSlot2Signal(JINHUA_MGR_USER_INFO, ProfileJinHuaTable.slot_JINHUA_MGR_USER_INFO);//个人资料
+        Frameworks.addSlot2Signal(JHID_FLY_GIFT, ProfileJinHuaTable.slot_JHID_FLY_GIFT);//牌桌飞礼物
 },
     //移除信号
     removeSlot:function(){
@@ -1350,6 +1351,7 @@ var JinHuaTableLogic= {
     	Frameworks.removeSlotFromSignal(OPERID_MGR_SEND_BUGLE, ProfileJinHuaTable.slot_OPERID_MGR_SEND_BUGLE);//大喇叭
     	Frameworks.removeSlotFromSignal(OPERID_SEND_ALL_BUGLE, ProfileJinHuaTable.slot_OPERID_SEND_ALL_BUGLE);//接收大喇叭
     	Frameworks.removeSlotFromSignal(JINHUA_MGR_USER_INFO, ProfileJinHuaTable.slot_JINHUA_MGR_USER_INFO);//个人资料
+    	Frameworks.removeSlotFromSignal(JHID_FLY_GIFT, ProfileJinHuaTable.slot_JHID_FLY_GIFT);//牌桌飞礼物
     },
     
     //释放界面的私有数据
@@ -1596,6 +1598,10 @@ var JinHuaTableLogic= {
     //接收大喇叭消息
     updateOPERID_SEND_ALL_BUGLE:function(){
         this.showBugle();
+    },
+    //牌桌飞礼物
+    updateJHID_FLY_GIFT:function(){
+
     },
     //初始化界面
     initTableData:function(){

@@ -722,3 +722,27 @@ function sendJHID_NO_COMPARE(){
 
     delete nmBaseMessage;
 }
+
+//3.24扎金花互动表情 (JINHUA_MGR_INTERACTION）
+function sendJINHUA_MGR_INTERACTION(userId,type){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JINHUA_MGR_INTERACTION);
+    nmBaseMessage.setExtData(3);
+
+    nmBaseMessage.writeStart();
+    //GameID  游戏ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+    //userId 互动表情目标方ID
+    nmBaseMessage.writeInt(userId);
+    //GiftType	Byte	礼物类型	牌桌互动（1鲜花2西红柿3扔炸弹4吻）
+    nmBaseMessage.writeByte(type);
+
+    nmBaseMessage.writeOver();
+
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}

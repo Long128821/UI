@@ -115,7 +115,14 @@ var TableUserInfoLogic= {
 	Image_jiaweihaoyou1:null,
 	Button_zhuizong:null,
 	Image_zhuizong:null,
-	
+
+    //UI工具没有自动导出的部分控件
+    Label_121_0:null,
+    Label_121_1:null,
+    Label_121_2:null,
+    Label_121_3:null,
+    Label_121_4:null,
+    Label_121_5:null,
     createView:function(){
         if(cc.spriteFrameCache.getSpriteFrame("bg_toumingditu.png")== null){
             cc.spriteFrameCache.addSpriteFrames(Common.getJinHuaResourcePath("co_desk.plist"), Common.getJinHuaResourcePath("co_desk.png"));
@@ -247,6 +254,13 @@ var TableUserInfoLogic= {
 		this.Image_jiaweihaoyou1 = CocoStudio.getComponent(this.view, "Image_jiaweihaoyou1");//ImageView
 		this.Button_zhuizong = CocoStudio.getComponent(this.view, "Button_zhuizong");//Button
 		this.Image_zhuizong = CocoStudio.getComponent(this.view, "Image_zhuizong");//ImageView
+
+        this.Label_121_0= CocoStudio.getComponent(this.view, "Label_121_0");
+        this.Label_121_1= CocoStudio.getComponent(this.view, "Label_121_1");
+        this.Label_121_2= CocoStudio.getComponent(this.view, "Label_121_2");
+        this.Label_121_3= CocoStudio.getComponent(this.view, "Label_121_3");
+        this.Label_121_4= CocoStudio.getComponent(this.view, "Label_121_4");
+        this.Label_121_5= CocoStudio.getComponent(this.view, "Label_121_5");
 	},
 
     initLayer:function(){
@@ -336,7 +350,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            TableUserInfoLogic.onSendInteraction(Profile_JinHuaSocial.Tpye_Flower);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -349,7 +363,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            TableUserInfoLogic.onSendInteraction(Profile_JinHuaSocial.Tpye_Tomato);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -362,7 +376,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            TableUserInfoLogic.onSendInteraction(Profile_JinHuaSocial.Tpye_Bomb);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -375,7 +389,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            TableUserInfoLogic.onSendInteraction(Profile_JinHuaSocial.Tpye_Kiss);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -388,7 +402,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            TableUserInfoLogic.onSendInteraction(Profile_JinHuaSocial.Tpye_Shit);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -401,7 +415,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            TableUserInfoLogic.onSendInteraction(Profile_JinHuaSocial.Tpye_Gun);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -492,7 +506,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            TableUserInfoLogic.changeTab(TabTag.Tab_mofa);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -505,7 +519,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            TableUserInfoLogic.changeTab(TabTag.Tab_gift);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -518,7 +532,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            TableUserInfoLogic.changeTab(TabTag.Tab_shenglv);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -531,7 +545,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            TableUserInfoLogic.changeTab(TabTag.Tab_safety);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -638,6 +652,8 @@ var TableUserInfoLogic= {
         this.setUserInfo();
         //更新动画表情
         this.setInteractionInfo();
+        //更新按钮状态
+        this.updateButtonStatus();
     },
     //根据UserID,显示不同的按钮
     showButtonsByUserID:function(){
@@ -758,6 +774,13 @@ var TableUserInfoLogic= {
                 }
             }
         }
+        //牌局数，胜率、单局最高收入
+        this.Label_jushu.setString(userInfoTable["Innings"]);//总局数
+        this.Label_shenglvshu.setString(userInfoTable["winPer"]+"%");//胜率
+
+        this.Label_eachzuigao.setString(userInfoTable["winMaxCoins"]);//单局最高收入
+        this.Label_shenglichang.setString(userInfoTable["winInnings"]);//胜利场数
+        this.Label_liansheng.setString(userInfoTable["winningStreak"]);//连胜
     },
     popSelfTableInfo:function(){
         this.Button_tichupaizhuo.setTouchEnabled(false);
@@ -771,6 +794,153 @@ var TableUserInfoLogic= {
     setInteractionInfo:function(){
         var InteractionList= Profile_JinHuaSetting.getInteractionList();
         if(Common.getTableSize(InteractionList)== 0) return;
+        for(var key in InteractionList){
+            var table= {};
+            table.coin= this.convertCoins(parseInt(InteractionList[key].coin));
+            table.meili= this.convertMeiLi(parseInt(InteractionList[key].meili));
+            table.type= InteractionList[key].type;
+            this.setToolsInfoByType(table);
+        }
+    },
+    //转换金币数
+    convertCoins:function(coin){
+        var strCoin= "";
+        if(coin> 10000||coin< -10000){
+            strCoin= Math.floor(coin/10000)+"万金币";
+        }else{
+            strCoin= coin+"金币";
+        }
+        return strCoin;
+    },
+    //转换魅力
+    convertMeiLi:function(meili){
+        var strMeiLi= "魅力";
+        if(meili>= 10000||meili<= -10000){
+            meili= Math.floor(meili/10000)+"万";
+        }
+        strMeiLi+= (meili>0?"+":"")+ meili;
+        return strMeiLi;
+    },
+    //设置道具信息,根据种类
+    setToolsInfoByType:function(table){
+        switch(table.type){
+            case 1://鲜花
+                this.Label_121_0.setString(table.meili);
+                this.Label_huaCoin.setString(table.coin);
+                break;
+            case 2://西红柿
+                this.Label_121_1.setString(table.meili);
+                this.Label_xihongshiCoin.setString(table.coin);
+                break;
+            case 3://嘴唇
+                this.Label_121_2.setString(table.meili);
+                this.Label_zuichunCoin.setString(table.coin);
+                break;
+            case 4://炸弹
+                this.Label_121_3.setString(table.meili);
+                this.Label_zhadanCoin.setString(table.coin);
+                break;
+            case 5://大便
+                this.Label_121_4.setString(table.meili);
+                this.Label_dabianCoin.setString(table.coin);
+                break;
+            case 6://机枪
+                this.Label_121_5.setString(table.meili);
+                this.Label_gunCoin.setString(table.coin);
+                break;
+        }
+    },
+    //切换Tab
+    changeTab:function(tag){
+        ProfileTableUserInfo.setCurTabTag(tag);
+        this.updateButtonStatus();
+    },
+    //更新安妮
+    updateButtonStatus:function(){
+        switch (ProfileTableUserInfo.getCurTabTag()){
+            case TabTag.Tab_gift:
+                this.Button_mofa.loadTextures(Common.getJinHuaResourcePath("btn_mofabiaoqing_2.png"),Common.getJinHuaResourcePath("btn_mofabiaoqing_2.png"),"");
+                this.Button_shoudaoliwu.loadTextures(Common.getJinHuaResourcePath("btn_shoudaoliwu_1.png"),Common.getJinHuaResourcePath("btn_shoudaoliwu_1.png"),"");
+                this.Button_paiju.loadTextures(Common.getJinHuaResourcePath("btn_paijushenglv_2.png"),Common.getJinHuaResourcePath("btn_paijushenglv_2.png"),"");
+                this.Button_safety.loadTextures("btn_zhuizongliebiao_mweixuanzhong.png","btn_zhuizongliebiao_mweixuanzhong.png","",1);
 
+                this.Panel_mofa.setVisible(false);
+                this.Panel_shoudaoliwu.setVisible(true);
+                this.Panel_paiju.setVisible(false);
+                this.Panel_baoxianxiang.setVisible(false);
+                this.Image_save.setTouchEnabled(false);
+                this.Image_draw.setTouchEnabled(false);
+                this.Button_comfirm.setTouchEnabled(false);
+                this.Button_add1000w.setTouchEnabled(false);
+                this.Button_addMax.setTouchEnabled(false);
+                this.Button_add5000w.setTouchEnabled(false);
+                break;
+            case TabTag.Tab_mofa://魔法表情
+                this.Button_mofa.loadTextures(Common.getJinHuaResourcePath("btn_mofabiaoqing_1.png"),Common.getJinHuaResourcePath("btn_mofabiaoqing_1.png"),"");
+                this.Button_shoudaoliwu.loadTextures(Common.getJinHuaResourcePath("btn_shoudaoliwu_2.png"),Common.getJinHuaResourcePath("btn_shoudaoliwu_2.png"),"");
+                this.Button_paiju.loadTextures(Common.getJinHuaResourcePath("btn_paijushenglv_2.png"),Common.getJinHuaResourcePath("btn_paijushenglv_2.png"),"");
+                this.Button_safety.loadTextures("btn_zhuizongliebiao_mweixuanzhong.png","btn_zhuizongliebiao_mweixuanzhong.png","",1);
+                
+                this.Panel_mofa.setVisible(true);
+                this.Panel_shoudaoliwu.setVisible(false);
+                this.Panel_paiju.setVisible(false);
+                this.Panel_baoxianxiang.setVisible(false);
+                this.Image_save.setTouchEnabled(false);
+                this.Image_draw.setTouchEnabled(false);
+                this.Button_comfirm.setTouchEnabled(false);
+                this.Button_add1000w.setTouchEnabled(false);
+                this.Button_addMax.setTouchEnabled(false);
+                this.Button_add5000w.setTouchEnabled(false);
+                break;
+            case TabTag.Tab_safety:
+                this.Button_mofa.loadTextures(Common.getJinHuaResourcePath("btn_mofabiaoqing_2.png"),Common.getJinHuaResourcePath("btn_mofabiaoqing_2.png"),"");
+                this.Button_shoudaoliwu.loadTextures(Common.getJinHuaResourcePath("btn_shoudaoliwu_2.png"),Common.getJinHuaResourcePath("btn_shoudaoliwu_2.png"),"");
+                this.Button_paiju.loadTextures(Common.getJinHuaResourcePath("btn_paijushenglv_2.png"),Common.getJinHuaResourcePath("btn_paijushenglv_2.png"),"");
+                this.Button_safety.loadTextures("btn_zhuizongliebiao_mxuanzhong.png","btn_zhuizongliebiao_mxuanzhong.png","",1);
+                //                setInteractionTouchEnabled(false);
+                this.Panel_mofa.setVisible(false);
+                this.Panel_shoudaoliwu.setVisible(false);
+                this.Panel_paiju.setVisible(false);
+                this.Panel_baoxianxiang.setVisible(true);
+                this.Image_save.setTouchEnabled(true);
+                this.Image_draw.setTouchEnabled(true);
+                this.Button_comfirm.setTouchEnabled(true);
+                this.Button_add1000w.setTouchEnabled(true);
+                this.Button_addMax.setTouchEnabled(true);
+                this.Button_add5000w.setTouchEnabled(true);
+//                sendJHID_STRONG_BOX_INFO()
+//                createEditBox()
+                break;
+            case TabTag.Tab_shenglv:
+                this.Button_mofa.loadTextures(Common.getJinHuaResourcePath("btn_mofabiaoqing_2.png"),Common.getJinHuaResourcePath("btn_mofabiaoqing_2.png"),"");
+                this.Button_shoudaoliwu.loadTextures(Common.getJinHuaResourcePath("btn_shoudaoliwu_2.png"),Common.getJinHuaResourcePath("btn_shoudaoliwu_2.png"),"");
+                this.Button_paiju.loadTextures(Common.getJinHuaResourcePath("btn_paijushenglv_1.png"),Common.getJinHuaResourcePath("btn_paijushenglv_1.png"),"");
+                this.Button_safety.loadTextures("btn_zhuizongliebiao_mweixuanzhong.png","btn_zhuizongliebiao_mweixuanzhong.png","",1);
+
+                this.Panel_mofa.setVisible(false);
+                this.Panel_shoudaoliwu.setVisible(false);
+                this.Panel_paiju.setVisible(true);
+                this.Panel_baoxianxiang.setVisible(false);
+                this.Image_save.setTouchEnabled(false);
+                this.Image_draw.setTouchEnabled(false);
+                this.Button_comfirm.setTouchEnabled(false);
+                this.Button_add1000w.setTouchEnabled(false);
+                this.Button_addMax.setTouchEnabled(false);
+                this.Button_add5000w.setTouchEnabled(false);
+                break;
+        }
+    },
+    onSendInteraction:function(type){
+        if(window.localStorage){
+            var preTimeStamp= window.localStorage.getItem("interaction");
+            var  timeStamp= new Date().getTime();
+            if(Common.judgeValueIsEffect(timeStamp)&&(timeStamp- preTimeStamp< 1000)){
+                Common.showToast("您发的太快了，请稍后再试！", 2);
+                return;
+            }
+            window.localStorage.setItem("interaction", timeStamp);
+        }
+        sendJINHUA_MGR_INTERACTION(ProfileTableUserInfo.getUserInfoTable().targetUserId, type);
+        MvcEngine.destroyModule(GUI_TABLEUSERINFO);
     }
 };

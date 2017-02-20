@@ -1441,3 +1441,23 @@ function read8020000c(nMBaseMessage){
 
     return dataTable;
 }
+
+//牌桌飞物品
+function read82200017(nMBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JHID_FLY_GIFT;
+    dataTable["messageName"] = "JHID_FLY_GIFT";
+
+    //TypeId	Int	类别ID	1送礼物
+    dataTable["TypeId"] = nMBaseMessage.readInt();
+    //SourceUserId	Int	礼物来源玩家ID
+    dataTable["SourceUserId"] = nMBaseMessage.readInt();
+    //TargetUserId	Int	接收礼物玩家ID
+    dataTable["TargetUserId"] = nMBaseMessage.readInt();
+    //ItemId	Int	物品ID	礼物（1鲜花）
+    dataTable["ItemId"] = nMBaseMessage.readInt();
+    //sourceUserCoin	Int	来源玩家当前金币	只支持送礼物和牌桌互动，不支持踢人功能
+    dataTable["sourceUserCoin"] = nMBaseMessage.readLong();
+
+    return dataTable;
+}
