@@ -746,3 +746,43 @@ function sendJINHUA_MGR_INTERACTION(userId,type){
 
     delete nmBaseMessage;
 }
+
+//3.29扎金花添加追踪 (JINHUA_MGR_ADD_TRACE）
+function sendJINHUA_MGR_ADD_TRACE(targetID){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JINHUA_MGR_ADD_TRACE);
+    nmBaseMessage.writeStart();
+
+    //targerId	Int	被追踪的玩家
+    nmBaseMessage.writeInt(targetID);
+    //GameID  游戏ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+
+    nmBaseMessage.writeOver();
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//3.29扎金花取消追踪 (JINHUA_MGR_ADD_TRACE）
+function sendJINHUA_MGR_DEL_TRACE(targetID){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JINHUA_MGR_DEL_TRACE);
+    nmBaseMessage.writeStart();
+
+    //targerId	Int	被追踪的玩家
+    nmBaseMessage.writeInt(targetID);
+    //GameID  游戏ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+
+    nmBaseMessage.writeOver();
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}

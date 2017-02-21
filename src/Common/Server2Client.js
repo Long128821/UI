@@ -1461,3 +1461,31 @@ function read82200017(nMBaseMessage){
 
     return dataTable;
 }
+
+//3.29扎金花添加追踪 (JINHUA_MGR_ADD_TRACE）
+function read8068001d(nMBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JINHUA_MGR_ADD_TRACE;
+    dataTable["messageName"] = "JINHUA_MGR_ADD_TRACE";
+
+    //Result	Byte	1成功，2失败
+    dataTable["Result"] = nMBaseMessage.readByte();
+    //Msg	Text	提示文字
+    dataTable["Msg"] = nMBaseMessage.readString();
+
+    return dataTable;
+}
+
+//3.29扎金花添加追踪 (JINHUA_MGR_DEL_TRACE）
+function read8068001e(nMBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JINHUA_MGR_DEL_TRACE;
+    dataTable["messageName"] = "JINHUA_MGR_DEL_TRACE";
+
+    //Result	Byte	1成功，2失败
+    dataTable["Result"] = nMBaseMessage.readByte();
+    //Msg	Text	提示文字
+    dataTable["Msg"] = nMBaseMessage.readString();
+
+    return dataTable;
+}

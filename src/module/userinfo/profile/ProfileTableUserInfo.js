@@ -9,6 +9,8 @@ var ProfileTableUserInfo= {
     m_userInfoTable:{},
     m_bMySelf:false,//是否为玩家自己
     m_curTabTag:TabTag.Tab_mofa,//魔法
+    m_bFriend:false,//是否为我的好友
+    m_bTrack:false,//是否已追踪
     getUserInfoTable:function(){
         return this.m_userInfoTable;
     },
@@ -29,5 +31,27 @@ var ProfileTableUserInfo= {
     },
     setCurTabTag:function(tabTag){
         this.m_curTabTag= tabTag==undefined?false:tabTag;
+    },
+    setBFriend:function(bFriend){
+        this.m_bFriend= bFriend;
+    },
+    getBFriend:function(){
+        return this.m_bFriend;
+    },
+    setBTrack:function(bTrack){
+        this.m_bTrack= bTrack;
+    },
+    getBTrack:function(){
+        return this.m_bTrack;
+    },
+    //添加追踪
+    slot_JINHUA_MGR_ADD_TRACE:function(dataTable){
+        Profile_JinHuaTrace.readJINHUA_MGR_ADD_TRACE(dataTable);
+        TableUserInfoLogic.updateJINHUA_MGR_ADD_TRACE();
+    },
+    //取消追踪
+    slot_JINHUA_MGR_DEL_TRACE:function(dataTable){
+        Profile_JinHuaTrace.readJINHUA_MGR_DEL_TRACE(dataTable);
+        TableUserInfoLogic.updateJINHUA_MGR_DEL_TRACE();
     }
 };

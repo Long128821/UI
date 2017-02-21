@@ -610,7 +610,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            TableUserInfoLogic.onTrack();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -626,11 +626,13 @@ var TableUserInfoLogic= {
     },
     //添加信号
     addSlot:function(){
-    	
+    	Frameworks.addSlot2Signal(JINHUA_MGR_ADD_TRACE, ProfileTableUserInfo.slot_JINHUA_MGR_ADD_TRACE);//添加追踪
+    	Frameworks.addSlot2Signal(JINHUA_MGR_DEL_TRACE, ProfileTableUserInfo.slot_JINHUA_MGR_DEL_TRACE);//取消追踪
     },
     //移除信号
     removeSlot:function(){
-    	
+        Frameworks.removeSlotFromSignal(JINHUA_MGR_ADD_TRACE, ProfileTableUserInfo.slot_JINHUA_MGR_ADD_TRACE);//添加追踪
+        Frameworks.removeSlotFromSignal(JINHUA_MGR_DEL_TRACE, ProfileTableUserInfo.slot_JINHUA_MGR_DEL_TRACE);//取消追踪
     },
     
     //释放界面的私有数据
@@ -781,6 +783,26 @@ var TableUserInfoLogic= {
         this.Label_eachzuigao.setString(userInfoTable["winMaxCoins"]);//单局最高收入
         this.Label_shenglichang.setString(userInfoTable["winInnings"]);//胜利场数
         this.Label_liansheng.setString(userInfoTable["winningStreak"]);//连胜
+
+        //不是牌桌界面  屏蔽踢人按钮 送礼按钮居中
+        if(GameConfig.getCurBaseLayer()!= GUI_JINHUATABLE){
+            this.Button_tichupaizhuo.setVisible(false);
+            this.Button_tichupaizhuo.setEnable(false);
+            this.Button_zengsongliwu.setPositionX((this.Button_tichupaizhuo.getPositionX()+this.Button_zengsongliwu.getPositionX())/2);
+        }
+
+        //是否为好友
+        ProfileTableUserInfo.setBFriend(Profile_JinHuaOtherUserInfo.getIsFriend());
+        if(ProfileTableUserInfo.getBFriend()){
+            this.Image_jiaweihaoyou1.loadTexture(Common.getJinHuaResourcePath("ui_shanchuhaoyou.png"));
+        }
+        //是否已追踪
+        ProfileTableUserInfo.setBTrack(Profile_JinHuaOtherUserInfo.getIsTrack());
+        if(ProfileTableUserInfo.getBTrack()){
+            this.Image_zhuizong.loadTexture(Common.getJinHuaResourcePath("ic_wanjiaxinxi_quxiaozhuizong.png"));
+        }else{
+            this.Image_zhuizong.loadTexture(Common.getJinHuaResourcePath("ic_wanjiaxinxi_zhuizong.png"));
+        }
     },
     popSelfTableInfo:function(){
         this.Button_tichupaizhuo.setTouchEnabled(false);
@@ -942,5 +964,42 @@ var TableUserInfoLogic= {
         }
         sendJINHUA_MGR_INTERACTION(ProfileTableUserInfo.getUserInfoTable().targetUserId, type);
         MvcEngine.destroyModule(GUI_TABLEUSERINFO);
-    }
+    },
+    //添加追踪，还是删除追踪
+    onTrack:function(){
+        if(ProfileTableUserInfo.getBTrack()){//删除追踪
+            sendJINHUA_MGR_DEL_TRACE(ProfileTableUserInfo.getUserInfoTable().targetUserId);
+        }else{//追踪好友
+            sendJINHUA_MGR_ADD_TRACE(ProfileTableUserInfo.getUserInfoTable().targetUserId);
+        }
+    },
+    //更新添加追踪好友结果
+    updateJINHUA_MGR_ADD_TRACE:function(){
+        var AddTraceTable= Profile_JinHuaTrace.getAddTraceTable();
+        if((!Common.judgeValueIsEffect(AddTraceTable))||(!Common.judgeValueIsEffect(AddTraceTable["Result"]))){
+            Common.showToast("添加追踪错误,请重试!",3);
+            return;
+        }
+        if(AddTraceTable["Result"]== 1){
+            ProfileTableUserInfo.setBTrack(true);
+            this.Image_zhuizong.loadTexture(Common.getJinHuaResourcePath("ic_wanjiaxinxi_quxiaozhuizong.png"));
+        }
+
+        Common.showToast(AddTraceTable["Msg"],3)
+    },
+    //更新取消追踪好友结果
+    updateJINHUA_MGR_DEL_TRACE:function(){
+        var DelTraceTable= Profile_JinHuaTrace.getDelTraceTable();
+        if((!Common.judgeValueIsEffect(DelTraceTable))||(!Common.judgeValueIsEffect(DelTraceTable["Result"]))){
+            Common.showToast("添加追踪错误,请重试!",3);
+            return;
+        }
+        if(DelTraceTable["Result"]== 1){
+            ProfileTableUserInfo.setBTrack(false);
+            this.Image_zhuizong.loadTexture(Common.getJinHuaResourcePath("ic_wanjiaxinxi_zhuizong.png"));
+        }
+
+        Common.showToast(DelTraceTable["Msg"],3)
+    },
+    //
 };
