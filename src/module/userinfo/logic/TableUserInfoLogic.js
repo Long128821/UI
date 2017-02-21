@@ -807,6 +807,12 @@ var TableUserInfoLogic= {
         }else{
             this.Image_zhuizong.loadTexture(Common.getJinHuaResourcePath("ic_wanjiaxinxi_zhuizong.png"));
         }
+
+        //收到的礼物
+        this.Label_gift1_havevalue.setString("x"+ userInfoTable["Gifts"][0]["cnt"]);
+        this.Label_gift2_havevalue.setString("x"+ userInfoTable["Gifts"][1]["cnt"]);
+        this.Label_gift3_havevalue.setString("x"+ userInfoTable["Gifts"][2]["cnt"]);
+        this.Label_gift4_havevalue.setString("x"+ userInfoTable["Gifts"][3]["cnt"]);
     },
     popSelfTableInfo:function(){
         this.Button_tichupaizhuo.setTouchEnabled(false);
