@@ -1601,7 +1601,7 @@ var JinHuaTableLogic= {
     },
     //牌桌飞礼物
     updateJHID_FLY_GIFT:function(){
-
+        JinHuaSendGiftAnim.showSendGiftAnimation();
     },
     //初始化界面
     initTableData:function(){
@@ -1612,6 +1612,7 @@ var JinHuaTableLogic= {
         JinHuaTableTips.clear();
         JinHuaPKAnim.clear();
         JinHuaTablePlayer.clear();//清空看牌标记
+        JinHuaSendGiftAnim.clear();//清空互动表情标记
 
         //更新背包道具数量
         this.updateBACKPACK_GOODS_COUNT();
@@ -1683,9 +1684,11 @@ var JinHuaTableLogic= {
 
         //坐下提示模块
         this.view.addChild(JinHuaTableTips.getTableTipsLayer(), 101);
-
-        //比赛动画
+        //互动表情
+        this.view.addChild(JinHuaSendGiftAnim.getSendGiftLayer(), 101);
+        //比牌动画
         this.view.addChild(JinHuaPKAnim.create(), 102);
+
 
         //设置牌桌数据
         this.createLayerFarm();

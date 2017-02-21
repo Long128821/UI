@@ -350,7 +350,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            TableUserInfoLogic.onSendInteraction(Profile_JinHuaSocial.Tpye_Flower);
+            TableUserInfoLogic.onSendInteraction(Profile_JinHuaSocial.Type_Flower);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -363,7 +363,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            TableUserInfoLogic.onSendInteraction(Profile_JinHuaSocial.Tpye_Tomato);
+            TableUserInfoLogic.onSendInteraction(Profile_JinHuaSocial.Type_Tomato);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -376,7 +376,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            TableUserInfoLogic.onSendInteraction(Profile_JinHuaSocial.Tpye_Bomb);
+            TableUserInfoLogic.onSendInteraction(Profile_JinHuaSocial.Type_Bomb);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -389,7 +389,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            TableUserInfoLogic.onSendInteraction(Profile_JinHuaSocial.Tpye_Kiss);
+            TableUserInfoLogic.onSendInteraction(Profile_JinHuaSocial.Type_Kiss);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -402,7 +402,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            TableUserInfoLogic.onSendInteraction(Profile_JinHuaSocial.Tpye_Shit);
+            TableUserInfoLogic.onSendInteraction(Profile_JinHuaSocial.Type_Shit);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -415,7 +415,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            TableUserInfoLogic.onSendInteraction(Profile_JinHuaSocial.Tpye_Gun);
+            TableUserInfoLogic.onSendInteraction(Profile_JinHuaSocial.Type_Gun);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -938,7 +938,7 @@ var TableUserInfoLogic= {
                 Common.showToast("您发的太快了，请稍后再试！", 2);
                 return;
             }
-            window.localStorage.setItem("interaction", timeStamp);
+
         }
         sendJINHUA_MGR_INTERACTION(ProfileTableUserInfo.getUserInfoTable().targetUserId, type);
         MvcEngine.destroyModule(GUI_TABLEUSERINFO);
