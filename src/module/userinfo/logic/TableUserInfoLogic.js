@@ -597,7 +597,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            TableUserInfoLogic.onFriend();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -628,11 +628,15 @@ var TableUserInfoLogic= {
     addSlot:function(){
     	Frameworks.addSlot2Signal(JINHUA_MGR_ADD_TRACE, ProfileTableUserInfo.slot_JINHUA_MGR_ADD_TRACE);//添加追踪
     	Frameworks.addSlot2Signal(JINHUA_MGR_DEL_TRACE, ProfileTableUserInfo.slot_JINHUA_MGR_DEL_TRACE);//取消追踪
+    	Frameworks.addSlot2Signal(JINHUA_MGR_ADD_FRIEND, ProfileTableUserInfo.slot_JINHUA_MGR_ADD_FRIEND);//添加好友
+    	Frameworks.addSlot2Signal(JINHUA_MGR_DEL_FRIEND, ProfileTableUserInfo.slot_JINHUA_MGR_DEL_FRIEND);//删除好友
     },
     //移除信号
     removeSlot:function(){
         Frameworks.removeSlotFromSignal(JINHUA_MGR_ADD_TRACE, ProfileTableUserInfo.slot_JINHUA_MGR_ADD_TRACE);//添加追踪
         Frameworks.removeSlotFromSignal(JINHUA_MGR_DEL_TRACE, ProfileTableUserInfo.slot_JINHUA_MGR_DEL_TRACE);//取消追踪
+        Frameworks.removeSlotFromSignal(JINHUA_MGR_ADD_FRIEND, ProfileTableUserInfo.slot_JINHUA_MGR_ADD_FRIEND);//添加好友
+        Frameworks.removeSlotFromSignal(JINHUA_MGR_DEL_FRIEND, ProfileTableUserInfo.slot_JINHUA_MGR_DEL_FRIEND);//删除好友
     },
     
     //释放界面的私有数据
@@ -962,15 +966,15 @@ var TableUserInfoLogic= {
             }
 
         }
-        sendJINHUA_MGR_INTERACTION(ProfileTableUserInfo.getUserInfoTable().targetUserId, type);
+        sendJINHUA_MGR_INTERACTION(ProfileTableUserInfo.getTargetUserID(), type);
         MvcEngine.destroyModule(GUI_TABLEUSERINFO);
     },
     //添加追踪，还是删除追踪
     onTrack:function(){
         if(ProfileTableUserInfo.getBTrack()){//删除追踪
-            sendJINHUA_MGR_DEL_TRACE(ProfileTableUserInfo.getUserInfoTable().targetUserId);
+            sendJINHUA_MGR_DEL_TRACE(ProfileTableUserInfo.getTargetUserID());
         }else{//追踪好友
-            sendJINHUA_MGR_ADD_TRACE(ProfileTableUserInfo.getUserInfoTable().targetUserId);
+            sendJINHUA_MGR_ADD_TRACE(ProfileTableUserInfo.getTargetUserID());
         }
     },
     //更新添加追踪好友结果
@@ -1001,5 +1005,32 @@ var TableUserInfoLogic= {
 
         Common.showToast(DelTraceTable["Msg"],3)
     },
-    //
+    //加为好友
+    onFriend:function(){
+        if(ProfileTableUserInfo.getBFriend()){
+            MvcEngine.createModule(GUI_DOUBLEBUTTONCONFIRM,function(){
+                ProfileDoubleButtonConfirm.setMessageByType(ProfileDoubleButtonConfirm.typeTable.Delete_Friend);
+            });
+        }else{
+            sendJINHUA_MGR_ADD_FRIEND(ProfileTableUserInfo.getTargetUserID());
+        }
+    },
+    updateJINHUA_MGR_ADD_FRIEND:function(){
+        var addResult= Profile_JinHuaFriends.getAddFriendResult();
+        if(!Common.judgeValueIsEffect(addResult.msg)) return;
+        Common.showToast(addResult.msg, 3);
+        if(addResult.tag){
+            ProfileTableUserInfo.setBFriend(true);
+            this.Image_jiaweihaoyou1.loadTexture(Common.getJinHuaResourcePath("ui_shanchuhaoyou.png"));
+        }
+    },
+    updateJINHUA_MGR_DEL_FRIEND:function(){
+        var delResult= Profile_JinHuaFriends.getDelFriendResult();
+        if(!Common.judgeValueIsEffect(delResult.msg)) return;
+        Common.showToast(delResult.msg, 3);
+        if(delResult.tag){
+            ProfileTableUserInfo.setBFriend(false);
+            this.Image_jiaweihaoyou1.loadTexture(Common.getJinHuaResourcePath("btn_jiaweihaoyou_1.png"));
+        }
+    }
 };

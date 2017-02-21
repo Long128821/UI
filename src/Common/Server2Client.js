@@ -1489,3 +1489,26 @@ function read8068001e(nMBaseMessage){
 
     return dataTable;
 }
+
+//3.06扎金花添加好友 (JINHUA_MGR_ADD_FRIEND）
+function read80680006(nMBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JINHUA_MGR_ADD_FRIEND;
+    dataTable["messageName"] = "JINHUA_MGR_ADD_FRIEND";
+
+    //Result	Byte	结果	0失败，1成功，2好友达到上限,3已经是好友
+    dataTable["Result"] = nMBaseMessage.readByte();
+
+    return dataTable;
+}
+
+//3.07扎金花删除好友 (JINHUA_MGR_DEL_FRIEND）
+function read80680007(nMBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JINHUA_MGR_DEL_FRIEND;
+    dataTable["messageName"] = "JINHUA_MGR_DEL_FRIEND";
+
+    //Result	Byte	结果	0失败，1成功
+    dataTable["Result"] = nMBaseMessage.readByte();
+    return dataTable;
+}

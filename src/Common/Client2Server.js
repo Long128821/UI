@@ -786,3 +786,43 @@ function sendJINHUA_MGR_DEL_TRACE(targetID){
 
     delete nmBaseMessage;
 }
+
+//3.06扎金花添加好友 (JINHUA_MGR_ADD_FRIEND）
+function sendJINHUA_MGR_ADD_FRIEND(userID){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JINHUA_MGR_ADD_FRIEND);
+    nmBaseMessage.writeStart();
+
+    //GameID  游戏ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+    //targerId	Int	被添加的玩家
+    nmBaseMessage.writeInt(userID);
+
+    nmBaseMessage.writeOver();
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//3.06扎金花添加好友 (JINHUA_MGR_ADD_FRIEND）
+function sendJINHUA_MGR_DEL_FRIEND(userID){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JINHUA_MGR_DEL_FRIEND);
+    nmBaseMessage.writeStart();
+
+    //GameID  游戏ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+    //targerId	Int	被添加的玩家
+    nmBaseMessage.writeInt(userID);
+
+    nmBaseMessage.writeOver();
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}

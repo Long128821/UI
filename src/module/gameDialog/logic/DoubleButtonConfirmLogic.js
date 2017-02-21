@@ -70,8 +70,8 @@ var DoubleButtonConfirmLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            MvcEngine.destroyModule(GUI_DOUBLEBUTTONCONFIRM);
-            sendJHID_SAVE_TAKE_STRONG_BOX_COIN(1000, 1);
+            DoubleButtonConfirmLogic.onConfirm();
+            //sendJHID_SAVE_TAKE_STRONG_BOX_COIN(1000, 1);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -100,11 +100,11 @@ var DoubleButtonConfirmLogic= {
     },
     //添加信号
     addSlot:function(){
-    	Frameworks.addSlot2Signal(JHID_SAVE_TAKE_STRONG_BOX_COIN, ProfileDoubleButtonConfirm.slot_JHID_SAVE_TAKE_STRONG_BOX_COIN);
+    	//Frameworks.addSlot2Signal(JHID_SAVE_TAKE_STRONG_BOX_COIN, ProfileDoubleButtonConfirm.slot_JHID_SAVE_TAKE_STRONG_BOX_COIN);
     },
     //移除信号
     removeSlot:function(){
-    	Frameworks.removeSlotFromSignal(JHID_SAVE_TAKE_STRONG_BOX_COIN, ProfileDoubleButtonConfirm.slot_JHID_SAVE_TAKE_STRONG_BOX_COIN);
+    	//Frameworks.removeSlotFromSignal(JHID_SAVE_TAKE_STRONG_BOX_COIN, ProfileDoubleButtonConfirm.slot_JHID_SAVE_TAKE_STRONG_BOX_COIN);
     },
     
     //释放界面的私有数据
@@ -117,10 +117,19 @@ var DoubleButtonConfirmLogic= {
     },
     //初始化界面
     initData:function(){
-        var message= Profile_DoubleButtonConfirm.getMessage();
+        var message= ProfileDoubleButtonConfirm.getMessage();
         //设置二次说明确认
         if(Common.judgeValueIsEffect(message)){
             this.Label_shuoming.setString(message);
         }
+    },
+    //确定
+    onConfirm:function(){
+        switch (ProfileDoubleButtonConfirm.m_curType){
+            case ProfileDoubleButtonConfirm.typeTable.Delete_Friend:
+                sendJINHUA_MGR_DEL_FRIEND(ProfileTableUserInfo.getTargetUserID());
+                break;
+        }
+        MvcEngine.destroyModule(GUI_DOUBLEBUTTONCONFIRM);
     }
 };

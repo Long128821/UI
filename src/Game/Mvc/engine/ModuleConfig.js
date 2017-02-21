@@ -612,6 +612,10 @@ ModuleTable["TableUserInfo"]["resLists"] = [
     "res/ui_paihang_shuzi2.png",
     "res/ui_vip_jiaobiaoshuzi.png",
     "res/ui_vip_lvshuzi_gaoji.png",
+    "res/ui_shanchuhaoyou.png",
+    "res/btn_jiaweihaoyou_1.png",
+    "res/ic_wanjiaxinxi_zhuizong.png",
+    "res/ic_wanjiaxinxi_quxiaozhuizong.png",
     "res/userinfo_mine.plist",
     "res/userinfo_mine.png",
     "res/TableUserInfo.json"];

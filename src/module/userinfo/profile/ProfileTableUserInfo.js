@@ -44,6 +44,9 @@ var ProfileTableUserInfo= {
     getBTrack:function(){
         return this.m_bTrack;
     },
+    getTargetUserID:function(){
+        return this.m_userInfoTable.targetUserId;
+    },
     //添加追踪
     slot_JINHUA_MGR_ADD_TRACE:function(dataTable){
         Profile_JinHuaTrace.readJINHUA_MGR_ADD_TRACE(dataTable);
@@ -53,5 +56,15 @@ var ProfileTableUserInfo= {
     slot_JINHUA_MGR_DEL_TRACE:function(dataTable){
         Profile_JinHuaTrace.readJINHUA_MGR_DEL_TRACE(dataTable);
         TableUserInfoLogic.updateJINHUA_MGR_DEL_TRACE();
+    },
+    //添加好友
+    slot_JINHUA_MGR_ADD_FRIEND:function(dataTable){
+        Profile_JinHuaFriends.readJINHUA_MGR_ADD_FRIEND(dataTable);
+        TableUserInfoLogic.updateJINHUA_MGR_ADD_FRIEND();
+    },
+    //删除好友
+    slot_JINHUA_MGR_DEL_FRIEND:function(dataTable){
+        Profile_JinHuaFriends.readJINHUA_MGR_DEL_FRIEND(dataTable);
+        TableUserInfoLogic.updateJINHUA_MGR_DEL_FRIEND();
     }
 };
