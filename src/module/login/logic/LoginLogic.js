@@ -145,7 +145,7 @@ var LoginLogic= {
 			//按下
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
-            LoginLogic.edit_username.setVisible(false);
+            LoginLogic.edit_changeCoin.setVisible(false);
             LoginLogic.edit_password.setVisible(false);
 			//抬起
             MvcEngine.createModule(GUI_USERAGREEMENT);
@@ -310,23 +310,23 @@ var LoginLogic= {
     createUsernameEditor:function(){
         var editBoxSize = cc.size(356, 53);
         /*****************账户名************************/
-        this.edit_username= cc.EditBox.create(editBoxSize, cc.Scale9Sprite.create("#ui_opacity_1-1.png"));
+        this.edit_changeCoin= cc.EditBox.create(editBoxSize, cc.Scale9Sprite.create("#ui_opacity_1-1.png"));
         var panelLoginSize= this.Panel_login.getContentSize();
-        this.edit_username.setAnchorPoint(cc.p(0, 0.5));
-        this.edit_username.setPosition(panelLoginSize.width* 0.2, panelLoginSize.height* 0.63);
+        this.edit_changeCoin.setAnchorPoint(cc.p(0, 0.5));
+        this.edit_changeCoin.setPosition(panelLoginSize.width* 0.2, panelLoginSize.height* 0.63);
 
-        this.edit_username.setPlaceHolder("输入账户");
-        this.edit_username.setPlaceholderFont("微软雅黑", 40);
+        this.edit_changeCoin.setPlaceHolder("输入账户");
+        this.edit_changeCoin.setPlaceholderFont("微软雅黑", 40);
 
-        this.edit_username.setFont("微软雅黑", 40);
-        this.edit_username.setFontColor(cc.color(0, 0, 0));
-        this.edit_username.setMaxLength(32);//设置输入框长度32
-        this.edit_username.setReturnType(cc.KEYBOARD_RETURNTYPE_DONE);//
-        this.edit_username.setInputMode(cc.EDITBOX_INPUT_MODE_SINGLELINE);//用户可输入除换行符外的任何文本
+        this.edit_changeCoin.setFont("微软雅黑", 40);
+        this.edit_changeCoin.setFontColor(cc.color(0, 0, 0));
+        this.edit_changeCoin.setMaxLength(32);//设置输入框长度32
+        this.edit_changeCoin.setReturnType(cc.KEYBOARD_RETURNTYPE_DONE);//
+        this.edit_changeCoin.setInputMode(cc.EDITBOX_INPUT_MODE_SINGLELINE);//用户可输入除换行符外的任何文本
 
-        this.Panel_login.addChild(this.edit_username);
+        this.Panel_login.addChild(this.edit_changeCoin);
 
-        this.edit_username.setVisible(false);
+        this.edit_changeCoin.setVisible(false);
 
         /*****************密码************************/
         this.edit_password= cc.EditBox.create(editBoxSize, cc.Scale9Sprite.create("#ui_opacity_1-1.png"));
@@ -365,17 +365,17 @@ var LoginLogic= {
         this.edit_ip.setVisible(true);
 
         //设置不能已有账户登录
-        this.edit_username.setString(ProfileLogin.getLoginUserName());
+        this.edit_changeCoin.setString(ProfileLogin.getLoginUserName());
         this.edit_password.setString(ProfileLogin.getLoginPassword());
     },
     //休眠时输入框不可使用
     setEditorVisible:function(bEnabled, type) {
         this.edit_ip.setVisible(bEnabled);
         if(type== 0){//休眠
-            this.edit_username.setVisible(false);
+            this.edit_changeCoin.setVisible(false);
             this.edit_password.setVisible(false);
         }else{
-            this.edit_username.setVisible(this.m_bLoginVisible);
+            this.edit_changeCoin.setVisible(this.m_bLoginVisible);
             this.edit_password.setVisible(this.m_bLoginVisible);
         }
     },
@@ -389,7 +389,7 @@ var LoginLogic= {
     //控制《登录》界面的显示或者隐藏
     setPanelLoginVisible:function(isVisible){
         this.Panel_login.setVisible(isVisible);
-        this.edit_username.setVisible(isVisible);
+        this.edit_changeCoin.setVisible(isVisible);
         this.edit_password.setVisible(isVisible);
         this.Button_login_close.setVisible(isVisible);
         this.m_bLoginVisible= isVisible;
@@ -406,7 +406,7 @@ var LoginLogic= {
     },
     //登录
     onLogin:function(){
-        ProfileLogin.setLoginUserName(Common.deleteAllSpace(this.edit_username.getString()));
+        ProfileLogin.setLoginUserName(Common.deleteAllSpace(this.edit_changeCoin.getString()));
         ProfileLogin.setLoginPassword(Common.deleteAllSpace(this.edit_password.getString()));
 
         if(this.check_agree.getSelectedState()){

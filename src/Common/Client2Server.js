@@ -105,7 +105,6 @@ function sendJHID_STRONG_BOX_INFO(){
     nmBaseMessage.writeOver();
 
     Network.getInstance().sendMessage(nmBaseMessage);
-
     delete nmBaseMessage;
 }
 
@@ -819,6 +818,24 @@ function sendJINHUA_MGR_DEL_FRIEND(userID){
     //GameID  游戏ID
     nmBaseMessage.writeByte(GameConfig.GAME_ID);
     //targerId	Int	被添加的玩家
+    nmBaseMessage.writeInt(userID);
+
+    nmBaseMessage.writeOver();
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}
+
+//3.21金花踢人消息 (JHGAMEID_KICK_OUT）
+function sendJHGAMEID_KICK_OUT(userID){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JHGAMEID_KICK_OUT);
+    nmBaseMessage.writeStart();
+
+    //KickAimUserID	int	踢人目标用户
     nmBaseMessage.writeInt(userID);
 
     nmBaseMessage.writeOver();

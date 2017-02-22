@@ -1512,3 +1512,17 @@ function read80680007(nMBaseMessage){
     dataTable["Result"] = nMBaseMessage.readByte();
     return dataTable;
 }
+
+//踢人(JHGAMEID_KICK_OUT）
+function read80200015(nMBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JHGAMEID_KICK_OUT;
+    dataTable["messageName"] = "JHGAMEID_KICK_OUT";
+
+    //ErrorCode	byte	踢人失败原因代码	0成功 1vip等级不足
+    dataTable["ErrorCode"] = nMBaseMessage.readByte();
+    //ErrorStr	Text	提示语
+    dataTable["ErrorStr"] = nMBaseMessage.readUTF8();
+    console.log("接受踢人消息");
+    return dataTable;
+}

@@ -744,6 +744,7 @@ var JinHuaTablePlayer= {
         //Todo:可能存在的问题:牌局没散
         JinHuaTableCheckButton.setLookedCard(true);
         var player= this.tablePlayerEntitys[standUpData.CSID];
+        if(!Common.judgeValueIsEffect(player)||!Common.judgeValueIsEffect(player.player)) return;
         if(standUpData.result == 1){//成功站起
             //比牌失败
             if((mySelf.SSID!= null&& mySelf.SSID == standUpData.SSID)||(mySelf.SSID== null&&player.player.status== STATUS_PLAYER_PK_FAILURE)){//自己主动站起，或者被强制站起

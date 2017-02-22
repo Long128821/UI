@@ -5,12 +5,18 @@ var TabTag= {
     Tab_shenglv:2,//胜率
     Tab_safety:3//保险箱
 };
+
+var SaveTag= {
+    SAVE_TAG_SAVE:1,//存款
+    SAVE_TAG_DRAW:2//取款
+};
 var ProfileTableUserInfo= {
     m_userInfoTable:{},
     m_bMySelf:false,//是否为玩家自己
     m_curTabTag:TabTag.Tab_mofa,//魔法
     m_bFriend:false,//是否为我的好友
     m_bTrack:false,//是否已追踪
+    m_curSaveTag:SaveTag.SAVE_TAG_DRAW,//当前存取款状态
     getUserInfoTable:function(){
         return this.m_userInfoTable;
     },
@@ -66,5 +72,15 @@ var ProfileTableUserInfo= {
     slot_JINHUA_MGR_DEL_FRIEND:function(dataTable){
         Profile_JinHuaFriends.readJINHUA_MGR_DEL_FRIEND(dataTable);
         TableUserInfoLogic.updateJINHUA_MGR_DEL_FRIEND();
+    },
+    //踢人
+    slot_JHGAMEID_KICK_OUT:function(dataTable){
+        Profile_JinHuaKickOut.readJHGAMEID_KICK_OUT(dataTable);
+        TableUserInfoLogic.updateJHGAMEID_KICK_OUT();
+    },
+    //保险箱信息
+    slot_JHID_STRONG_BOX_INFO:function(dataTable){
+        Profile_JinHuaStrongBox.readJHID_STRONG_BOX_INFO(dataTable);
+        TableUserInfoLogic.updateJHID_STRONG_BOX_INFO();
     }
 };

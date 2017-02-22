@@ -345,7 +345,6 @@ var MvcEngine= {
     },
     //要打开的界面
     preCreateModule:function(moduleName, callback){
-        if(this.activeModuleTable.hasOwnProperty(moduleName)&&Common.judgeValueIsEffect(this.activeModuleTable[moduleName])) return;
         this.createLoadingModule(moduleName, callback);
     },
     createLoadingModule:function(moduleName, callback){
@@ -363,7 +362,6 @@ var MvcEngine= {
         });
     },
     createModule:function(moduleName, callback){
-        if(this.activeModuleTable.hasOwnProperty(moduleName)&&Common.judgeValueIsEffect(this.activeModuleTable[moduleName])) return;
         Frameworks.releaseClick();//释放当前按钮
 
         var self= this;

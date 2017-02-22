@@ -422,18 +422,20 @@ var TableUserInfoLogic= {
 		}
 	},
 
-	callback_Image_save:function(pSender, event){
-		if(event == ccui.Widget.TOUCH_BEGAN){
-			//按下
+    callback_Image_saveText:function(pSender, event){
+        if(event == ccui.Widget.TOUCH_BEGAN){
+            //按下
 
-		}else if(event == ccui.Widget.TOUCH_ENDED){
-			//抬起
+        }else if(event == ccui.Widget.TOUCH_ENDED){
+            //抬起
+            if(MvcEngine.logicModuleIsShow(GUI_JINHUATABLE)){
+                Common.showToast("牌局中禁止存款.",2);
+            }
+        }else if(event == ccui.Widget.TOUCH_CANCELED){
+            //取消
 
-		}else if(event == ccui.Widget.TOUCH_CANCELED){
-			//取消
-
-		}
-	},
+        }
+    },
 
 	callback_Image_draw:function(pSender, event){
 		if(event == ccui.Widget.TOUCH_BEGAN){
@@ -441,7 +443,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            TableUserInfoLogic.showSaveOrDrawTab(SaveTag.SAVE_TAG_DRAW);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -558,7 +560,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-            MvcEngine.destroyModule(GUI_TABLEUSERINFO);
+            TableUserInfoLogic.close();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -571,7 +573,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            TableUserInfoLogic.onKickOut();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -630,6 +632,8 @@ var TableUserInfoLogic= {
     	Frameworks.addSlot2Signal(JINHUA_MGR_DEL_TRACE, ProfileTableUserInfo.slot_JINHUA_MGR_DEL_TRACE);//取消追踪
     	Frameworks.addSlot2Signal(JINHUA_MGR_ADD_FRIEND, ProfileTableUserInfo.slot_JINHUA_MGR_ADD_FRIEND);//添加好友
     	Frameworks.addSlot2Signal(JINHUA_MGR_DEL_FRIEND, ProfileTableUserInfo.slot_JINHUA_MGR_DEL_FRIEND);//删除好友
+        Frameworks.addSlot2Signal(JHGAMEID_KICK_OUT, ProfileTableUserInfo.slot_JHGAMEID_KICK_OUT);//踢人
+        Frameworks.addSlot2Signal(JHID_STRONG_BOX_INFO, ProfileTableUserInfo.slot_JHID_STRONG_BOX_INFO);//获取保险箱信息
     },
     //移除信号
     removeSlot:function(){
@@ -637,6 +641,8 @@ var TableUserInfoLogic= {
         Frameworks.removeSlotFromSignal(JINHUA_MGR_DEL_TRACE, ProfileTableUserInfo.slot_JINHUA_MGR_DEL_TRACE);//取消追踪
         Frameworks.removeSlotFromSignal(JINHUA_MGR_ADD_FRIEND, ProfileTableUserInfo.slot_JINHUA_MGR_ADD_FRIEND);//添加好友
         Frameworks.removeSlotFromSignal(JINHUA_MGR_DEL_FRIEND, ProfileTableUserInfo.slot_JINHUA_MGR_DEL_FRIEND);//删除好友
+        Frameworks.removeSlotFromSignal(JHGAMEID_KICK_OUT, ProfileTableUserInfo.slot_JHGAMEID_KICK_OUT);//踢人
+        Frameworks.removeSlotFromSignal(JHID_STRONG_BOX_INFO, ProfileTableUserInfo.slot_JHID_STRONG_BOX_INFO);//获取保险箱信息
     },
     
     //释放界面的私有数据
@@ -652,6 +658,8 @@ var TableUserInfoLogic= {
         ProfileTableUserInfo.setUserInfoTable(Profile_JinHuaOtherUserInfo.getUserInfoTable());
         var userInfoTable= ProfileTableUserInfo.getUserInfoTable();
         ProfileTableUserInfo.setBMySelf((userInfoTable.targetUserId== profile_user.getSelfUserID()));
+        //初始时，一定为魔法表情
+        ProfileTableUserInfo.setCurTabTag(TabTag.Tab_mofa);
         //显示对应的按钮信息
         this.showButtonsByUserID();
         //显示对应玩家的账户信息
@@ -940,8 +948,9 @@ var TableUserInfoLogic= {
                 this.Button_add1000w.setTouchEnabled(true);
                 this.Button_addMax.setTouchEnabled(true);
                 this.Button_add5000w.setTouchEnabled(true);
-//                sendJHID_STRONG_BOX_INFO()
-//                createEditBox()
+                this.showSaveOrDrawTab(SaveTag.SAVE_TAG_DRAW);
+                this.createMoneyEditor();
+                sendJHID_STRONG_BOX_INFO();
                 break;
             case TabTag.Tab_shenglv:
                 this.Button_mofa.loadTextures(Common.getJinHuaResourcePath("btn_mofabiaoqing_2.png"),Common.getJinHuaResourcePath("btn_mofabiaoqing_2.png"),"");
@@ -973,7 +982,7 @@ var TableUserInfoLogic= {
 
         }
         sendJINHUA_MGR_INTERACTION(ProfileTableUserInfo.getTargetUserID(), type);
-        MvcEngine.destroyModule(GUI_TABLEUSERINFO);
+        this.close();
     },
     //添加追踪，还是删除追踪
     onTrack:function(){
@@ -1030,6 +1039,7 @@ var TableUserInfoLogic= {
             this.Image_jiaweihaoyou1.loadTexture(Common.getJinHuaResourcePath("ui_shanchuhaoyou.png"));
         }
     },
+    //删除好友
     updateJINHUA_MGR_DEL_FRIEND:function(){
         var delResult= Profile_JinHuaFriends.getDelFriendResult();
         if(!Common.judgeValueIsEffect(delResult.msg)) return;
@@ -1038,5 +1048,58 @@ var TableUserInfoLogic= {
             ProfileTableUserInfo.setBFriend(false);
             this.Image_jiaweihaoyou1.loadTexture(Common.getJinHuaResourcePath("btn_jiaweihaoyou_1.png"));
         }
+    },
+    //踢人
+    updateJHGAMEID_KICK_OUT:function(){
+        var KickResultTable= Profile_JinHuaKickOut.getKickResultTable();
+        if(Common.judgeValueIsEffect(KickResultTable)&&Common.getTableSize(KickResultTable)> 0){
+            Common.showToast(KickResultTable["ErrorStr"],3);
+            if(KickResultTable["ErrorCode"] == 0){
+                this.close();
+            }
+        }else{
+            Common.showToast("网络异常,请重试",3);
+        }
+    },
+    //保险箱Info
+    updateJHID_STRONG_BOX_INFO:function(){
+        var StrongBoxInfoTable= Profile_JinHuaStrongBox.getStrongBoxInfoTable();
+        if((!Common.judgeValueIsEffect(StrongBoxInfoTable))&&(!Common.judgeValueIsEffect(StrongBoxInfoTable["strongBoxCoin"]))) return;
+        this.Label_haveMoney.setString(StrongBoxInfoTable["strongBoxCoin"]);
+    },
+    close:function(){
+        MvcEngine.destroyModule(GUI_TABLEUSERINFO);
+        sendDBID_USER_INFO(ProfileTableUserInfo.getTargetUserID());
+    },
+    //踢出牌桌
+    onKickOut:function(pSender){
+        if(GameConfig.getCurBaseLayer() == GUI_JINHUATABLE){
+            sendJHGAMEID_KICK_OUT(ProfileTableUserInfo.getTargetUserID());
+        }
+    },
+    //显示存款还是取款Tab
+    showSaveOrDrawTab:function(tag){
+        ProfileTableUserInfo.m_curSaveTag= tag== undefined?SaveTag.SAVE_TAG_DRAW:tag;
+        this.Label_changeMoney.setVisible(false);
+    },
+    //确定
+    onConfirm:function(){
+
+    },
+    //创建要存钱的输入框
+    createMoneyEditor:function(){
+        var editBoxSize = cc.size(447 * 0.8, 65 * 0.8);
+        /*****************要存入的金额************************/
+        this.edit_changeCoin= cc.EditBox.create(editBoxSize, cc.Scale9Sprite.create("#ui_opacity_1-1.png"));
+        this.edit_changeCoin.setPosition(cc.p(176+476, 3+187));
+        this.edit_changeCoin.setPlaceHolder("请输入金币");
+        this.edit_changeCoin.setPlaceholderFont("微软雅黑", 40);
+
+        this.edit_changeCoin.setFont("微软雅黑", 40);
+        this.edit_changeCoin.setFontColor(cc.color(0, 0, 0));
+        this.edit_changeCoin.setMaxLength(32);//设置输入框长度32
+        this.edit_changeCoin.setReturnType(cc.KEYBOARD_RETURNTYPE_DONE);
+        this.edit_changeCoin.setInputMode(cc.EDITBOX_INPUT_MODE_NUMERIC);//输入数字
+        this.view.addChild(this.edit_changeCoin);
     }
 };
