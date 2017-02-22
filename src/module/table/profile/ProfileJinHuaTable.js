@@ -120,7 +120,7 @@ var ProfileJinHuaTable= {
     //获取玩家本身数据
     slot_JINHUA_MGR_USER_INFO:function(dataTable){
         Profile_JinHuaOtherUserInfo.readJINHUA_MGR_USER_INFO(dataTable);
-        MvcEngine.createModule(GUI_TABLEUSERINFO);
+        MvcEngine.preCreateModule(GUI_TABLEUSERINFO);
     },
     //牌桌飞礼物
     slot_JHID_FLY_GIFT:function(dataTable){

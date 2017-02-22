@@ -15,7 +15,7 @@ InteractionTable[Profile_JinHuaSocial.Type_Flower]= {
 InteractionTable[Profile_JinHuaSocial.Type_Gun]= {
     AnimationName:"GunAnimation",
     Start:"GunStart",
-    End:"GunEnd"
+    End:"GunToEnd"
 };
 //亲吻
 InteractionTable[Profile_JinHuaSocial.Type_Kiss]= {
@@ -53,11 +53,11 @@ var JinHuaInteractionAnim= {
     //加载牌桌动画文件
     loadTableAnim:function(){
         //互动道具动画
-//        this.loadArmatureData(this.getInteraction("TomatoAnimation0.png"), this.getInteraction("TomatoAnimation0.plist"), this.getInteraction("TomatoAnimation.ExportJson"));//西红柿
-//        this.loadArmatureData(this.getInteraction("FlowerAnimation0.png"), this.getInteraction("FlowerAnimation0.plist"), this.getInteraction("FlowerAnimation.ExportJson"));//鲜花
-//        this.loadArmatureData(this.getInteraction("BombAnimation0.png"), this.getInteraction("BombAnimation0.plist"), this.getInteraction("BombAnimation.ExportJson"));//炸弹
-//        this.loadArmatureData(this.getInteraction("BombAnimation1.png"), this.getInteraction("BombAnimation1.plist"), this.getInteraction("BombAnimation.ExportJson"));
-//        this.loadArmatureData(this.getInteraction("KissAnimation0.png"), this.getInteraction("KissAnimation0.plist"), this.getInteraction("KissAnimation.ExportJson"));//亲吻
+        this.loadArmatureData(this.getInteraction("TomatoAnimation0.png"), this.getInteraction("TomatoAnimation0.plist"), this.getInteraction("TomatoAnimation.ExportJson"));//西红柿
+        this.loadArmatureData(this.getInteraction("FlowerAnimation0.png"), this.getInteraction("FlowerAnimation0.plist"), this.getInteraction("FlowerAnimation.ExportJson"));//鲜花
+        this.loadArmatureData(this.getInteraction("BombAnimation0.png"), this.getInteraction("BombAnimation0.plist"), this.getInteraction("BombAnimation.ExportJson"));//炸弹
+        this.loadArmatureData(this.getInteraction("BombAnimation1.png"), this.getInteraction("BombAnimation1.plist"), this.getInteraction("BombAnimation.ExportJson"));
+        this.loadArmatureData(this.getInteraction("KissAnimation0.png"), this.getInteraction("KissAnimation0.plist"), this.getInteraction("KissAnimation.ExportJson"));//亲吻
         this.loadArmatureData(this.getInteraction("ShitAnimation0.png"), this.getInteraction("ShitAnimation0.plist"), this.getInteraction("ShitAnimation.ExportJson"));//大便
         this.loadArmatureData(this.getInteraction("ShitAnimation1.png"), this.getInteraction("ShitAnimation1.plist"), this.getInteraction("ShitAnimation.ExportJson"));
         this.loadArmatureData(this.getInteraction("GunAnimation0.png"), this.getInteraction("GunAnimation0.plist"), this.getInteraction("GunAnimation.ExportJson"));//机枪
@@ -75,34 +75,96 @@ var JinHuaInteractionAnim= {
         var self= this;
         switch (type){
             case Profile_JinHuaSocial.Type_Bomb://炸弹
+            {
+                //比牌胜利动画
+                Common.createArmature(self.getInteraction("BombAnimation.ExportJson"), "BombAnimation", function(armature){
+                    armature.animation.play(InteractionTable[type].Start);
+                    armature.animation.setMovementEventCallFunc(self.startCallBack);
+                    armature.setScaleX(isMoveToRight?1:(-1));
+                    JinHuaInteractionAnim.setArmatureDataOfStart(armature, fromPos);
+                });
                 break;
+            }
             case Profile_JinHuaSocial.Type_Flower://鲜花
+            {
+                //比牌胜利动画
+                Common.createArmature(self.getInteraction("FlowerAnimation.ExportJson"), "FlowerAnimation", function(armature){
+                    armature.animation.play(InteractionTable[type].Start);
+                    armature.animation.setMovementEventCallFunc(self.startCallBack);
+                    armature.setScaleX(isMoveToRight?1:(-1));
+                    JinHuaInteractionAnim.setArmatureDataOfStart(armature, fromPos);
+                });
                 break;
+            }
             case Profile_JinHuaSocial.Type_Gun://机关枪
             {
                 //比牌胜利动画
-                Common.createArmature(self.getInteraction("GunAnimation.ExportJson"), "GunAnimation", function(armature){
-                    armature.animation.playWithIndex(0, 0.1,false);
-                    armature.animation.setMovementEventCallFunc(self.startCallBack);
-                    armature.setScaleX(isMoveToRight?1:(-1));
-                    JinHuaInteractionAnim.setArmatureData(armature, fromPos, toPos);
+                Common.createArmature(self.getInteraction("GunAnimation.ExportJson"), "GunAnimation", function(armature1){
+                    var animation1= armature1.getAnimation();
+                    animation1.play(InteractionTable[type].End);
+                    animation1.setMovementEventCallFunc(self.endCallBack);
+                    armature1.setScaleX(isMoveToRight?1:(-1));
+                    JinHuaInteractionAnim.setArmatureDataOfStart(armature1, toPos);
+                    //比牌胜利动画
+                    Common.createArmature(self.getInteraction("GunAnimation.ExportJson"), "GunAnimation", function(armature){
+                        var animation= armature.getAnimation();
+                        animation.play(InteractionTable[type].Start);
+                        animation.setMovementEventCallFunc(self.startCallBack);
+                        armature.setScaleX(isMoveToRight?1:(-1));
+                        JinHuaInteractionAnim.setArmatureDataOfStart(armature, fromPos);
+                    });
                 });
                 break;
             }
             case Profile_JinHuaSocial.Type_Kiss://亲吻
+            {
+                //比牌胜利动画
+                Common.createArmature(self.getInteraction("KissAnimation.ExportJson"), "KissAnimation", function(armature){
+                    armature.animation.play(InteractionTable[type].Start);
+                    armature.animation.setMovementEventCallFunc(self.startCallBack);
+                    armature.setScaleX(isMoveToRight?1:(-1));
+                    JinHuaInteractionAnim.setArmatureDataOfStart(armature, fromPos);
+                });
                 break;
+            }
             case Profile_JinHuaSocial.Type_Shit://大便
+            {
+                //比牌胜利动画
+                Common.createArmature(self.getInteraction("ShitAnimation.ExportJson"), "ShitAnimation", function(armature){
+                    armature.animation.play(InteractionTable[type].Start);
+                    armature.animation.setMovementEventCallFunc(self.startCallBack);
+                    armature.setScaleX(isMoveToRight?1:(-1));
+                    JinHuaInteractionAnim.setArmatureDataOfStart(armature, fromPos);
+                });
                 break;
+            }
             case Profile_JinHuaSocial.Type_Tomato://西红柿
+            {
+                //比牌胜利动画
+                Common.createArmature(self.getInteraction("TomatoAnimation.ExportJson"), "TomatoAnimation", function(armature){
+                    armature.animation.play(InteractionTable[type].Start);
+                    armature.animation.setMovementEventCallFunc(self.startCallBack);
+                    armature.setScaleX(isMoveToRight?1:(-1));
+                    JinHuaInteractionAnim.setArmatureDataOfStart(armature, fromPos);
+                });
                 break;
+            }
             default :return;
         }
     },
     //设置动画数据
-    setArmatureData:function(armature, fromPos, toPos){
+    setArmatureDataOfStart:function(armature, fromPos){
         if(!Common.judgeValueIsEffect(armature)) return;
         this.m_armature= armature;
         armature.setPosition(fromPos);
+        armature.setLocalZOrder(99);
+        JinHuaSendGiftAnim.getSendGiftLayer().addChild(armature, 1);
+    },
+    //设置动画数据
+    setArmatureDataOfEnd:function(armature, toPos){
+        if(!Common.judgeValueIsEffect(armature)) return;
+        this.m_armature= armature;
+        armature.setPosition(toPos);
         armature.setLocalZOrder(99);
         JinHuaSendGiftAnim.getSendGiftLayer().addChild(armature, 1);
     },
@@ -122,7 +184,6 @@ var JinHuaInteractionAnim= {
                 case InteractionTable[Profile_JinHuaSocial.Type_Gun].Start:
                     armatureBack.removeFromParent(true);
                     JinHuaInteractionAnim.m_armature= null;
-                    JinHuaInteractionAnim.showInteractionAnimEnd();
                     break;
             }
         }
@@ -135,33 +196,68 @@ var JinHuaInteractionAnim= {
     },
     moveEndCallback:function(pSender){
         pSender.removeFromParent(true);
-        this.m_armature= null;
-        this.showInteractionAnimStart();
+        JinHuaInteractionAnim.m_armature= null;
+        JinHuaInteractionAnim.showInteractionAnimEnd();
     },
     showInteractionAnimEnd:function(){
         var self= this;
         switch (JinHuaInteractionAnim.m_type){
             case Profile_JinHuaSocial.Type_Bomb://炸弹
-                break;
-            case Profile_JinHuaSocial.Type_Flower://鲜花
-                break;
-            case Profile_JinHuaSocial.Type_Gun://机关枪
             {
                 //比牌胜利动画
-                Common.createArmature(self.getInteraction("GunAnimation.ExportJson"), "GunAnimation", function(armature){
-                    armature.animation.playWithIndex(0, 0.1,false);
-                    armature.animation.setMovementEventCallFunc(self.startCallBack);
+                Common.createArmature(self.getInteraction("BombAnimation.ExportJson"), "BombAnimation", function(armature){
+                    armature.animation.play(InteractionTable[JinHuaInteractionAnim.m_type].End);
+                    armature.animation.setMovementEventCallFunc(self.endCallBack);
                     armature.setScaleX(JinHuaInteractionAnim.m_isMoveRight?1:(-1));
-                    JinHuaInteractionAnim.setArmatureData(armature, JinHuaInteractionAnim.m_fromPos, JinHuaInteractionAnim.m_toPos);
+                    JinHuaInteractionAnim.setArmatureDataOfEnd(armature, JinHuaInteractionAnim.m_toPos);
+                });
+                break;
+            }
+            case Profile_JinHuaSocial.Type_Flower://鲜花
+            {
+                //比牌胜利动画
+                Common.createArmature(self.getInteraction("FlowerAnimation.ExportJson"), "FlowerAnimation", function(armature){
+                    armature.animation.play(InteractionTable[JinHuaInteractionAnim.m_type].End);
+                    armature.animation.setMovementEventCallFunc(self.endCallBack);
+                    armature.setScaleX(JinHuaInteractionAnim.m_isMoveRight?1:(-1));
+                    JinHuaInteractionAnim.setArmatureDataOfEnd(armature, JinHuaInteractionAnim.m_toPos);
                 });
                 break;
             }
             case Profile_JinHuaSocial.Type_Kiss://亲吻
+            {
+                //比牌胜利动画
+                Common.createArmature(self.getInteraction("KissAnimation.ExportJson"), "KissAnimation", function(armature){
+                    armature.animation.play(InteractionTable[JinHuaInteractionAnim.m_type].End);
+                    armature.animation.setMovementEventCallFunc(self.endCallBack);
+                    armature.setScaleX(JinHuaInteractionAnim.m_isMoveRight?1:(-1));
+                    JinHuaInteractionAnim.setArmatureDataOfEnd(armature, JinHuaInteractionAnim.m_toPos);
+                });
                 break;
+            }
             case Profile_JinHuaSocial.Type_Shit://大便
+            {
+                //比牌胜利动画
+                Common.createArmature(self.getInteraction("ShitAnimation.ExportJson"), "ShitAnimation", function(armature){
+                    armature.animation.play(InteractionTable[JinHuaInteractionAnim.m_type].End);
+                    armature.animation.setMovementEventCallFunc(self.endCallBack);
+                    armature.setScaleX(JinHuaInteractionAnim.m_isMoveRight?1:(-1));
+                    JinHuaInteractionAnim.setArmatureDataOfEnd(armature, JinHuaInteractionAnim.m_toPos);
+                });
                 break;
+            }
             case Profile_JinHuaSocial.Type_Tomato://西红柿
+            {
+                //比牌胜利动画
+                Common.createArmature(self.getInteraction("TomatoAnimation.ExportJson"), "TomatoAnimation", function(armature){
+                    armature.animation.play(InteractionTable[JinHuaInteractionAnim.m_type].End);
+                    armature.animation.setMovementEventCallFunc(self.endCallBack);
+                    armature.setScaleX(JinHuaInteractionAnim.m_isMoveRight?1:(-1));
+                    JinHuaInteractionAnim.setArmatureDataOfEnd(armature, JinHuaInteractionAnim.m_toPos);
+                });
                 break;
+            }
+            case Profile_JinHuaSocial.Type_Gun://机关枪
             default :return;
         }
     },
