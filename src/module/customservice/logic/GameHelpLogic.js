@@ -85,20 +85,8 @@ var GameHelpLogic= {
     },
     //初始化界面
     initData:function(){
-        this.showWebView();
-    },
-    //显示WebView
-    showWebView:function(){
-        var webView = new ccui.WebView(GameConfig.URL_TABLE_CUSTOMSERVICE_HELP);
-        var size= this.Panel_1.getContentSize();
-        webView.setContentSize(size);
-        webView.setPosition(cc.p(cc.winSize.width* 0.5, cc.winSize.height* 0.5));
-        //移除原有的webView
-        //获取bgColor(this.Panel_webview._color)
-        //设置背景色
-        webView._renderCmd._div.style["background"]= "rgb(56, 0, 38)";
-
-        this.view.addChild(webView);
+        var panelSize= this.Panel_Help.getContentSize();
+        Common.showWebView(GameConfig.URL_TABLE_CUSTOMSERVICE_HELP, cc.p(0,0), panelSize, this.Panel_Help);
     }
 };
 
