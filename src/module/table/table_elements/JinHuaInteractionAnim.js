@@ -1,39 +1,46 @@
-var InteractionTable= {};
+var AnimationTable= {};
 //炸弹
-InteractionTable[Profile_JinHuaSocial.Type_Bomb]= {
+AnimationTable[Profile_JinHuaSocial.Type_Bomb]= {
     AnimationName:"BombAnimation",
     Start:"BombStart",
     End:"BombEnd"
 };
 //鲜花
-InteractionTable[Profile_JinHuaSocial.Type_Flower]= {
+AnimationTable[Profile_JinHuaSocial.Type_Flower]= {
     AnimationName:"FlowerAnimation",
     Start:"FlowerStart",
     End:"FlowerEnd"
 };
 //机枪
-InteractionTable[Profile_JinHuaSocial.Type_Gun]= {
+AnimationTable[Profile_JinHuaSocial.Type_Gun]= {
     AnimationName:"GunAnimation",
     Start:"GunStart",
     End:"GunToEnd"
 };
 //亲吻
-InteractionTable[Profile_JinHuaSocial.Type_Kiss]= {
+AnimationTable[Profile_JinHuaSocial.Type_Kiss]= {
     AnimationName:"KissAnimation",
     Start:"KissStart",
     End:"KissEnd"
 };
 //大便
-InteractionTable[Profile_JinHuaSocial.Type_Shit]= {
+AnimationTable[Profile_JinHuaSocial.Type_Shit]= {
     AnimationName:"ShitAnimation",
     Start:"ShitStart",
     End:"ShitEnd"
 };
 //西红柿
-InteractionTable[Profile_JinHuaSocial.Type_Tomato]= {
+AnimationTable[Profile_JinHuaSocial.Type_Tomato]= {
     AnimationName:"TomatoAnimation",
     Start:"TomatoStart",
     End:"TomatoEnd"
+};
+
+//踢人
+AnimationTable[Profile_JinHuaSocial.Type_KickOut]= {
+    AnimationName:"TirenAnimation",
+    Start:"TirenStart",
+    End:"TirenEnd"
 };
 
 var JinHuaInteractionAnim= {
@@ -45,8 +52,15 @@ var JinHuaInteractionAnim= {
      * Func:获取互动表情动画的路径
      * @param resName 动画文件名(*.ExportJson格式)
      */
-    getInteraction:function(resName){
+    getInteractionPath:function(resName){
         return Common.getJinHuaResourcePath("interaction_anim/"+ resName);
+    },
+    /**
+     * Func:获取踢人动画的路径
+     * @param resName 动画文件名(*.ExportJson格式)
+     */
+    getKickPath:function(resName){
+        return Common.getJinHuaResourcePath("kick_anim/"+ resName);
     },
     /**
      * Func:创建动画
@@ -54,8 +68,9 @@ var JinHuaInteractionAnim= {
      */
     createArmature:function(bStart){
         var self= this;
-        var interactionTable= InteractionTable[self.m_type];
-        Common.createArmature(self.getInteraction(interactionTable.AnimationName+ ".ExportJson"), interactionTable.AnimationName, function(armature){
+        var interactionTable= AnimationTable[self.m_type];
+        var exportJsonPath= self.m_type== Profile_JinHuaSocial.Type_KickOut?self.getKickPath(interactionTable.AnimationName+ ".ExportJson"):self.getInteractionPath(interactionTable.AnimationName+ ".ExportJson");
+        Common.createArmature(exportJsonPath, interactionTable.AnimationName, function(armature){
             //确保机枪在弹孔的上面(机枪和弹孔同时出现)
             if(self.m_type== Profile_JinHuaSocial.Type_Gun){//机枪
                 var armature1= ccs.Armature.create(interactionTable.AnimationName);
@@ -72,7 +87,7 @@ var JinHuaInteractionAnim= {
     addChildToLayer:function(bStart, armature){
         var self= this;
         var animation= armature.getAnimation();
-        var interactionTable= InteractionTable[self.m_type];
+        var interactionTable= AnimationTable[self.m_type];
         animation.play(bStart?interactionTable.Start:interactionTable.End);//要执行的动画名
         animation.setMovementEventCallFunc(bStart?self.startCallBack:self.endCallBack);//设置回调
         JinHuaInteractionAnim.setArmatureData(armature, bStart?self.m_fromPos:self.m_toPos);
@@ -80,8 +95,8 @@ var JinHuaInteractionAnim= {
     /**
      * Func:显示互动道具开始阶段
      * @param type 动画类型
-     * @param fromPos 动画类型
-     * @param toPos 动画类型
+     * @param fromPos 发起者位置
+     * @param toPos 目标者位置
      * @param isMoveToRight 目标位置是否在右边(送礼物为参照物)
      */
     showInteractionAnimStart:function(type, fromPos, toPos, isMoveToRight){
@@ -136,7 +151,7 @@ var JinHuaInteractionAnim= {
     startCallBack:function(armatureBack, movementType, movementID){
         if(movementType== ccs.MovementEventType.complete){//循环动画结束一次
             armatureBack.stopAllActions();
-            if(movementID== InteractionTable[Profile_JinHuaSocial.Type_Gun].Start){
+            if(movementID== AnimationTable[Profile_JinHuaSocial.Type_Gun].Start){
                 armatureBack.removeFromParent(true);
             }else{
                 JinHuaInteractionAnim.moveAnimation(armatureBack);
@@ -149,5 +164,18 @@ var JinHuaInteractionAnim= {
             armatureBack.stopAllActions();
             armatureBack.removeFromParent(true);
         }
+    },
+    /**
+     * Func:显示踢人道具开始阶段
+     * @param fromPos 发起者位置
+     * @param toPos 目标者位置
+     * @param isMoveToRight 目标位置是否在右边(送礼物为参照物)
+     */
+    showKickOutAnimStart:function(fromPos, toPos, isMoveToRight){
+        this.m_type= Profile_JinHuaSocial.Type_KickOut;
+        this.m_fromPos= fromPos;
+        this.m_toPos= toPos;
+        this.m_isMoveRight= isMoveToRight;
+        this.createArmature(true);//创建对应的初始动画
     }
 };

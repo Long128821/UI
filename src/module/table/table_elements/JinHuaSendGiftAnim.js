@@ -52,6 +52,7 @@ var JinHuaSendGiftAnim= {
                     this.showInteractionAnimation(ItemId, fromPlayer, toPlayer, SourceCoin);
                     break;
                 case Profile_JinHuaFlyGift.KICK_OUT://踢人
+                    this.showKickOutAnimation(fromPlayer, toPlayer);
                     break;
             }
         }
@@ -134,5 +135,15 @@ var JinHuaSendGiftAnim= {
                 animation.play("yacht");
                 break;
         }
+    },
+    //显示踢人动画
+    showKickOutAnimation:function(fromPlayer, toPlayer){
+        var isMoveRight= (fromPlayer.getCenterPos().x< toPlayer.getCenterPos().x);
+        //如果送礼是自己
+        if(fromPlayer.userId== profile_user.getSelfUserID()&&window.localStorage){
+            window.localStorage.setItem("interaction", new Date().getTime());
+        }
+        //显示踢出游戏玩家动画
+        JinHuaInteractionAnim.showKickOutAnimStart(fromPlayer.getCenterPos(), toPlayer.getCenterPos(), isMoveRight);
     }
 };
