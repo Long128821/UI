@@ -608,7 +608,7 @@ JinHuaTablePlayerEntity.prototype.showJinbiAnim= function(){
 //金币变更 设置金币
 JinHuaTablePlayerEntity.prototype.setCoin= function(){
     //更新玩家的金币数、已下注金币数
-    this.changeCoinNumOnView(this.player.remainCoins)
+    this.changeCoinNumOnView(this.player.remainCoins);
 };
 
 //获取头像框的中心点坐标

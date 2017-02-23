@@ -2,6 +2,7 @@ var Profile_JinHuaFriends= {
     FriendListTable:{},
     AddFriendTable:{},
     DelFriendTable:{},
+    GiftResultTable:{},
     getFriendListTable:function(){
         return this.FriendListTable;
     },
@@ -60,5 +61,12 @@ var Profile_JinHuaFriends= {
             }
         }
         return result;
+    },
+    //发送礼物
+    readJINHUA_MGR_SEND_GIFT:function(dataTable){
+        this.GiftResultTable= dataTable;
+    },
+    getGiftResultTable:function(){
+        return this.GiftResultTable;
     }
 };

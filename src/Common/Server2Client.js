@@ -1526,3 +1526,16 @@ function read80200015(nMBaseMessage){
     console.log("接受踢人消息");
     return dataTable;
 }
+
+//踢人(JINHUA_MGR_SEND_GIFT）
+function read80680009(nMBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JINHUA_MGR_SEND_GIFT;
+    dataTable["messageName"] = "JINHUA_MGR_SEND_GIFT";
+
+    //Result String	结果提示
+    dataTable["Result"] = nMBaseMessage.readString();
+    //ResultType	Byte	结果类型	1.成功2.等级不足，不够10级不能赠送3.金币不足4.其他原因
+    dataTable["ResultType"] = nMBaseMessage.readByte();
+    return dataTable;
+}

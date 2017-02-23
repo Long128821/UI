@@ -5,6 +5,7 @@ var ProfileDoubleButtonConfirm= {
     m_changeCoin:0,//要取款、存款的金额
     typeTable:{
         Delete_Friend:1,//删除好友
+        Send_Gift_Buy_Vip:3,//送礼时，等级不足，购买Vip
         Save_Coin:5,//存款
         Draw_Coin:6//取款
     },
@@ -16,6 +17,10 @@ var ProfileDoubleButtonConfirm= {
         switch(this.m_curType){
             case this.typeTable.Delete_Friend:{
                 this.m_message= "确定删除好友吗?";
+                break;
+            }
+            case this.typeTable.Send_Gift_Buy_Vip:{
+                this.m_message= "赠送失败,等级不足10级,开通VIP,等级快人一步";
                 break;
             }
             case this.typeTable.Save_Coin:{//存款

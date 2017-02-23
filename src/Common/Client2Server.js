@@ -843,3 +843,25 @@ function sendJHGAMEID_KICK_OUT(userID){
 
     delete nmBaseMessage;
 }
+
+//3.09扎金花送礼物 (JINHUA_MGR_SEND_GIFT)
+function sendJINHUA_MGR_SEND_GIFT(userId,type){
+    //断网状态
+    if(!Network.getInstance().getWebSocketConnecting()) return;
+
+    var nmBaseMessage = new NMBaseMessage();
+    nmBaseMessage.setMessageType(REQ + JINHUA_MGR_SEND_GIFT);
+    nmBaseMessage.writeStart();
+
+    //GameID	byte	ID
+    nmBaseMessage.writeByte(GameConfig.GAME_ID);
+    //UserID	int	目标用户
+    nmBaseMessage.writeInt(userId);
+    //GiftType	Byte	礼物类型
+    nmBaseMessage.writeByte(type);
+
+    nmBaseMessage.writeOver();
+    Network.getInstance().sendMessage(nmBaseMessage);
+
+    delete nmBaseMessage;
+}

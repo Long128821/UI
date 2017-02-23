@@ -96,3 +96,6 @@ GUI_JINHUATABLECHATAT= "JinHuaTableChatAt";
 
 //牌桌-个人资料
 GUI_TABLEUSERINFO= "TableUserInfo";
+
+//牌桌-赠送礼物
+GUI_PRESENTGIFT= "PresentGift";

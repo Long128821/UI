@@ -586,7 +586,8 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            MvcEngine.destroyModule(GUI_TABLEUSERINFO);
+            MvcEngine.createModule(GUI_PRESENTGIFT);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -697,7 +698,6 @@ var TableUserInfoLogic= {
         //加载网络头像
         var resLists= [userInfoTable["PhotoUrl"],"res/ui_hall_yonghu_touxiangdikuang.png"];
         Common.setPortraitByType(resLists, cc.rect(0,0,135,135), this.Image_toux);
-
         //金币数
         this.AtlasLabel_jinbi.setString(userInfoTable["Coin"]);
         //等级

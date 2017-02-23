@@ -649,3 +649,23 @@ ModuleTable["TableUserInfo"]["resLists"] = [
     "res/userinfo_mine.plist",
     "res/userinfo_mine.png",
     "res/TableUserInfo.json"];
+
+
+ModuleTable["PresentGift"] = {};
+ModuleTable["PresentGift"]["jsLists"] = [
+    "src/module/userinfo/profile/ProfilePresentGift.js",
+    "src/module/userinfo/logic/PresentGiftLogic.js",
+    "src/module/userinfo/controller/PresentGiftController.js"];
+ModuleTable["PresentGift"]["Layer"] = Layer.Third_Layer;
+ModuleTable["PresentGift"]["resLists"] = [
+    "res/co_desk.plist",
+    "res/co_desk.png",
+    "res/chat_popup.plist",
+    "res/chat_popup.png",
+    "res/table_elements.plist",
+    "res/table_elements.png",
+    "res/userinfo_mine.plist",
+    "res/userinfo_mine.png",
+    "res/ui_jinbishu.png",
+    "res/ui_songli_num.png",
+    "res/PresentGift.json"];
