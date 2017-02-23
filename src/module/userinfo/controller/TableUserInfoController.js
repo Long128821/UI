@@ -94,6 +94,7 @@ var TableUserInfoController = BaseController.extend({
     sleepModule:function(){
 		//Frameworks.releaseOnKeypadEventListener(TableUserInfoLogic.view);
 		TableUserInfoLogic.view.setTouchEnabled(false);
+        TableUserInfoLogic.setEditorVisible(false);
 		this.removeCallback();
 		Frameworks.emit(SignalCommon.Signal_SleepModule_Done);
     },
@@ -101,11 +102,13 @@ var TableUserInfoController = BaseController.extend({
     wakeModule:function(){
     	//Frameworks.setOnKeypadEventListener(TableUserInfoLogic.view, TableUserInfoLogic.onKeypad);
         TableUserInfoLogic.view.setTouchEnabled(true);
+        TableUserInfoLogic.setEditorVisible(true);
         this.addCallback();
     },
     //销毁
     destroyModule:function(destroyType){
         //Frameworks.releaseOnKeypadEventListener(TableUserInfoLogic.view);
+        TableUserInfoLogic.setEditorVisible(false);
 		this.destroy();
 
 		if(destroyType == DESTROY_TYPE_EFFECT){

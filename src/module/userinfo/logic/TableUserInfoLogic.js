@@ -456,7 +456,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            TableUserInfoLogic.onAddChangeCoin(10000000);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -469,7 +469,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            TableUserInfoLogic.onAddChangeCoin(50000000);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -482,7 +482,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            TableUserInfoLogic.onAddChangeCoin(-1);
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -495,7 +495,7 @@ var TableUserInfoLogic= {
 
 		}else if(event == ccui.Widget.TOUCH_ENDED){
 			//抬起
-
+            TableUserInfoLogic.onConfirm();
 		}else if(event == ccui.Widget.TOUCH_CANCELED){
 			//取消
 
@@ -634,6 +634,7 @@ var TableUserInfoLogic= {
     	Frameworks.addSlot2Signal(JINHUA_MGR_DEL_FRIEND, ProfileTableUserInfo.slot_JINHUA_MGR_DEL_FRIEND);//删除好友
         Frameworks.addSlot2Signal(JHGAMEID_KICK_OUT, ProfileTableUserInfo.slot_JHGAMEID_KICK_OUT);//踢人
         Frameworks.addSlot2Signal(JHID_STRONG_BOX_INFO, ProfileTableUserInfo.slot_JHID_STRONG_BOX_INFO);//获取保险箱信息
+        Frameworks.addSlot2Signal(JHID_SAVE_TAKE_STRONG_BOX_COIN, ProfileTableUserInfo.slot_JHID_SAVE_TAKE_STRONG_BOX_COIN);//存取款
     },
     //移除信号
     removeSlot:function(){
@@ -643,6 +644,7 @@ var TableUserInfoLogic= {
         Frameworks.removeSlotFromSignal(JINHUA_MGR_DEL_FRIEND, ProfileTableUserInfo.slot_JINHUA_MGR_DEL_FRIEND);//删除好友
         Frameworks.removeSlotFromSignal(JHGAMEID_KICK_OUT, ProfileTableUserInfo.slot_JHGAMEID_KICK_OUT);//踢人
         Frameworks.removeSlotFromSignal(JHID_STRONG_BOX_INFO, ProfileTableUserInfo.slot_JHID_STRONG_BOX_INFO);//获取保险箱信息
+        Frameworks.removeSlotFromSignal(JHID_SAVE_TAKE_STRONG_BOX_COIN, ProfileTableUserInfo.slot_JHID_SAVE_TAKE_STRONG_BOX_COIN);//存取款
     },
     
     //释放界面的私有数据
@@ -914,6 +916,7 @@ var TableUserInfoLogic= {
                 this.Button_add1000w.setTouchEnabled(false);
                 this.Button_addMax.setTouchEnabled(false);
                 this.Button_add5000w.setTouchEnabled(false);
+                this.setEditorVisible(false);
                 break;
             case TabTag.Tab_mofa://魔法表情
                 this.Button_mofa.loadTextures(Common.getJinHuaResourcePath("btn_mofabiaoqing_1.png"),Common.getJinHuaResourcePath("btn_mofabiaoqing_1.png"),"");
@@ -931,6 +934,7 @@ var TableUserInfoLogic= {
                 this.Button_add1000w.setTouchEnabled(false);
                 this.Button_addMax.setTouchEnabled(false);
                 this.Button_add5000w.setTouchEnabled(false);
+                this.setEditorVisible(false);
                 break;
             case TabTag.Tab_safety:
                 this.Button_mofa.loadTextures(Common.getJinHuaResourcePath("btn_mofabiaoqing_2.png"),Common.getJinHuaResourcePath("btn_mofabiaoqing_2.png"),"");
@@ -968,6 +972,7 @@ var TableUserInfoLogic= {
                 this.Button_add1000w.setTouchEnabled(false);
                 this.Button_addMax.setTouchEnabled(false);
                 this.Button_add5000w.setTouchEnabled(false);
+                this.setEditorVisible(false);
                 break;
         }
     },
@@ -1067,6 +1072,18 @@ var TableUserInfoLogic= {
         if((!Common.judgeValueIsEffect(StrongBoxInfoTable))&&(!Common.judgeValueIsEffect(StrongBoxInfoTable["strongBoxCoin"]))) return;
         this.Label_haveMoney.setString(StrongBoxInfoTable["strongBoxCoin"]);
     },
+    //存取款
+    updateJHID_SAVE_TAKE_STRONG_BOX_COIN:function(){
+        var SaveCoinTable= Profile_JinHuaStrongBox.getSaveCoinTable();
+        if((!Common.judgeValueIsEffect(SaveCoinTable))&&(!Common.judgeValueIsEffect(SaveCoinTable["Result"]))) return;
+        Common.showToast(SaveCoinTable["Message"],3);
+        if(SaveCoinTable["Result"]!= 1) return;
+        //操作成功
+        this.edit_changeCoin.setString("0");
+        this.Label_haveMoney.setString(SaveCoinTable["strongBoxCoin"]);
+        this.AtlasLabel_jinbi.setString(SaveCoinTable["coin"]);
+        this.AtlasLabel_meilizhi.setString(SaveCoinTable["Charam"]);
+    },
     close:function(){
         MvcEngine.destroyModule(GUI_TABLEUSERINFO);
         sendDBID_USER_INFO(ProfileTableUserInfo.getTargetUserID());
@@ -1082,12 +1099,12 @@ var TableUserInfoLogic= {
         ProfileTableUserInfo.m_curSaveTag= tag== undefined?SaveTag.SAVE_TAG_DRAW:tag;
         this.Label_changeMoney.setVisible(false);
     },
-    //确定
-    onConfirm:function(){
-
-    },
     //创建要存钱的输入框
     createMoneyEditor:function(){
+        if(Common.judgeValueIsEffect(this.edit_changeCoin)){
+            this.edit_changeCoin.setVisible(true);
+            return;
+        }
         var editBoxSize = cc.size(447 * 0.8, 65 * 0.8);
         /*****************要存入的金额************************/
         this.edit_changeCoin= cc.EditBox.create(editBoxSize, cc.Scale9Sprite.create("#ui_opacity_1-1.png"));
@@ -1101,5 +1118,57 @@ var TableUserInfoLogic= {
         this.edit_changeCoin.setReturnType(cc.KEYBOARD_RETURNTYPE_DONE);
         this.edit_changeCoin.setInputMode(cc.EDITBOX_INPUT_MODE_NUMERIC);//输入数字
         this.view.addChild(this.edit_changeCoin);
+    },
+    //修改要存款或者要取款的钱数
+    onAddChangeCoin:function(coin){
+        var StrongBoxInfoTable= Profile_JinHuaStrongBox.getStrongBoxInfoTable();
+        //是否为有效数据
+        var bEffectValue= (Common.judgeValueIsEffect(StrongBoxInfoTable)&&Common.getTableSize(StrongBoxInfoTable)> 0);
+        if(!bEffectValue){
+            Common.showToast("数据请求中,请稍后.",3);
+            return;
+        }
+        //还没有创建输入框
+        if(!Common.judgeValueIsEffect(this.edit_changeCoin)) return;
+
+        var strCoin= this.edit_changeCoin.getString();
+        var changeCoin= ((strCoin.length>0)?parseInt(strCoin):0);
+        var hasCoin= ((ProfileTableUserInfo.m_curSaveTag== SaveTag.SAVE_TAG_SAVE)?this.AtlasLabel_jinbi.getString():this.Label_haveMoney.getString());
+        hasCoin= parseInt(hasCoin);
+        if(coin== -1){//Max
+            this.edit_changeCoin.setString(hasCoin);
+        }else if(changeCoin+ coin>= hasCoin){
+            this.edit_changeCoin.setString(hasCoin);
+        }else{
+            this.edit_changeCoin.setString(changeCoin+ coin);
+        }
+    },
+    //保险箱--确定
+    onConfirm:function(){
+        var changeCoin= this.edit_changeCoin.getString();
+        if(Common.judgeValueIsEffect(changeCoin)&&changeCoin== 0){
+            Common.showToast("请输入金额",3);
+            return;
+        }
+        this.edit_changeCoin.setVisible(false);
+
+        MvcEngine.createModule(GUI_DOUBLEBUTTONCONFIRM, function(){
+            var type= ProfileTableUserInfo.m_curSaveTag== SaveTag.SAVE_TAG_SAVE?ProfileDoubleButtonConfirm.typeTable.Save_Coin:ProfileDoubleButtonConfirm.typeTable.Draw_Coin;
+            ProfileDoubleButtonConfirm.setMessageByType(type, changeCoin);
+        });
+    },
+    setEditorVisible:function(bVisible){
+        if(!Common.judgeValueIsEffect(this.edit_changeCoin)) return;
+        if(ProfileTableUserInfo.getCurTabTag()== TabTag.Tab_safety){
+            this.edit_changeCoin.setVisible(bVisible);
+        }else{
+            this.edit_changeCoin.setVisible(false);
+        }
     }
 };
+
+
+//Todo:ServerConfig.js元宝金币转换系数
+//Todo:仅可以输入数值
+//Todo:颜色
+//Todo:监听完成回调和change

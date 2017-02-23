@@ -839,4 +839,24 @@ function read8065001f(nMBaseMessage){
     return dataTable;
 }
 
+//2.46保险箱存钱(JHID_SAVE_TAKE_STRONG_BOX_COIN)
+function read8020002e(nMBaseMessage){
+    var dataTable = {};
+    dataTable["messageType"] = ACK + JHID_SAVE_TAKE_STRONG_BOX_COIN;
+    dataTable["messageName"] = "JHID_SAVE_TAKE_STRONG_BOX_COIN";
+    //Result	Byte	操作结果	1成功，0失败
+    dataTable["Result"] = nMBaseMessage.readByte();
+    
+    //Message	Text	操作结果提示
+    dataTable["Message"] = nMBaseMessage.readString();
+    //coin	Long	玩家手头金币数
+    dataTable["coin"] = nMBaseMessage.readLong();
+    //strongBoxCoin	long	玩家保险箱内金币数
+    dataTable["strongBoxCoin"] = nMBaseMessage.readLong();
+    //Charam	Int	当前魅力值
+    dataTable["Charam"] = nMBaseMessage.readInt();
+
+    return dataTable;
+}
+
 //Todo:领取工资之后，GAMEID_IMAGE_TOAST

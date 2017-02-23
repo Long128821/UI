@@ -129,6 +129,12 @@ var DoubleButtonConfirmLogic= {
             case ProfileDoubleButtonConfirm.typeTable.Delete_Friend:
                 sendJINHUA_MGR_DEL_FRIEND(ProfileTableUserInfo.getTargetUserID());
                 break;
+            case ProfileDoubleButtonConfirm.typeTable.Save_Coin:
+                sendJHID_SAVE_TAKE_STRONG_BOX_COIN(ProfileDoubleButtonConfirm.m_changeCoin,1);
+                break;
+            case ProfileDoubleButtonConfirm.typeTable.Draw_Coin:
+                sendJHID_SAVE_TAKE_STRONG_BOX_COIN(ProfileDoubleButtonConfirm.m_changeCoin,2);
+                break;
         }
         MvcEngine.destroyModule(GUI_DOUBLEBUTTONCONFIRM);
     }

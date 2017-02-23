@@ -82,5 +82,10 @@ var ProfileTableUserInfo= {
     slot_JHID_STRONG_BOX_INFO:function(dataTable){
         Profile_JinHuaStrongBox.readJHID_STRONG_BOX_INFO(dataTable);
         TableUserInfoLogic.updateJHID_STRONG_BOX_INFO();
+    },
+    //保险箱-存取款
+    slot_JHID_SAVE_TAKE_STRONG_BOX_COIN:function(dataTable){
+        Profile_JinHuaStrongBox.readJHID_SAVE_TAKE_STRONG_BOX_COIN(dataTable);
+        TableUserInfoLogic.updateJHID_SAVE_TAKE_STRONG_BOX_COIN();
     }
 };
