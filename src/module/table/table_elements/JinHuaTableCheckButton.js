@@ -95,6 +95,7 @@ var JinHuaTableCheckButton= {
     onTouchMoved:function(touch, event){
         var curPos= touch.getLocation();
         var step= curPos.x- JinHuaTableCheckButton.startTouchPosX;
+        if(touch.getDelta().x< 0) return;//仅可以从左向右滑动
         JinHuaTableCheckButton.eyeMoving(touch.getDelta().x);
         if(step> 50){//滑动超过50个像素，可以开牌
             JinHuaTableCheckButton.onLookCard();
