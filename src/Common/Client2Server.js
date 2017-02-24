@@ -481,7 +481,7 @@ function sendJHID_SIT_DOWN(roomId,tableId,seatId){
     if(!Network.getInstance().getWebSocketConnecting()) return;
 
     var nmBaseMessage = new NMBaseMessage();
-    nmBaseMessage.setMessageType(REQ + JHID_SIT_DOWN);
+    nmBaseMessage.setMessageType(REQ + JHID_SIT_DOWN_V4);
     nmBaseMessage.setExtData(3);
     nmBaseMessage.writeStart();
     nmBaseMessage.writeInt(roomId);

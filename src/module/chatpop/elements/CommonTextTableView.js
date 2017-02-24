@@ -11,6 +11,7 @@ var CommonTextTableView= {
         tableView.setDirection(cc.SCROLLVIEW_DIRECTION_VERTICAL);//竖直滑动
         tableView.setDelegate(this);//设置回调函数的路径(this.tableCellTouched)
         tableView.setPosition(cc.p(textureSize.width* 0.1,textureSize.height* 0.25));
+        tableView.setTouchEnabled(true);
         JinHuaChatPopLogic.panel_common.addChild(tableView, 2);
         //重新加载数据
         tableView.reloadData();

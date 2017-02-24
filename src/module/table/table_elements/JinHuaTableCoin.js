@@ -299,7 +299,7 @@ var JinHuaTableCoin= {
 
         //筹码数量
         var chipCount= Common.getTableSize(this.coinArray);
-        this.flyOneCoinEndAddCoinNum = Math.floor((player.remainCoins - player.getCurrentShowingCoinNum())/chipCount);
+        this.flyOneCoinEndAddCoinNum = Math.floor((player.player.remainCoins - player.getCurrentShowingCoinNum())/chipCount);
 
         for(var key in JinHuaTableCoin.coinArray){
            if(JinHuaTableCoin.coinArray[key]== null|| JinHuaTableCoin.coinArray[key]== undefined) continue;

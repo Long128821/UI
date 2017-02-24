@@ -1305,7 +1305,7 @@ var JinHuaTableLogic= {
     	Frameworks.addSlot2Signal(JHID_QUIT_TABLE_V4, ProfileJinHuaTable.slot_JHID_QUIT_TABLE_V4);//退出牌桌
     	Frameworks.addSlot2Signal(JINHUA_MGR_NOTICE, ProfileJinHuaTable.slot_JINHUA_MGR_NOTICE);//更新公告信息
     	Frameworks.addSlot2Signal(JHID_STAND_UP_V4, ProfileJinHuaTable.slot_JHID_STAND_UP_V4);//站起
-    	Frameworks.addSlot2Signal(JHID_SIT_DOWN, ProfileJinHuaTable.slot_JHID_SIT_DOWN);//坐下
+    	Frameworks.addSlot2Signal(JHID_SIT_DOWN_V4, ProfileJinHuaTable.slot_JHID_SIT_DOWN);//坐下
     	Frameworks.addSlot2Signal(JHID_READY_V4, ProfileJinHuaTable.slot_JHID_READY_V4);//准备
     	Frameworks.addSlot2Signal(JHID_GET_BAOHE_STEP_INFO, ProfileJinHuaTable.slot_JHID_GET_BAOHE_STEP_INFO);//获取在线奖励
     	Frameworks.addSlot2Signal(JHID_GET_ONLINE_REWARD, ProfileJinHuaTable.slot_JHID_GET_ONLINE_REWARD);//获取在线奖励
@@ -1332,7 +1332,7 @@ var JinHuaTableLogic= {
     	Frameworks.removeSlotFromSignal(JHID_QUIT_TABLE_V4, ProfileJinHuaTable.slot_JHID_QUIT_TABLE_V4);
     	Frameworks.removeSlotFromSignal(JINHUA_MGR_NOTICE, ProfileJinHuaTable.slot_JINHUA_MGR_NOTICE);
     	Frameworks.removeSlotFromSignal(JHID_STAND_UP_V4, ProfileJinHuaTable.slot_JHID_STAND_UP_V4);
-    	Frameworks.removeSlotFromSignal(JHID_SIT_DOWN, ProfileJinHuaTable.slot_JHID_SIT_DOWN);
+    	Frameworks.removeSlotFromSignal(JHID_SIT_DOWN_V4, ProfileJinHuaTable.slot_JHID_SIT_DOWN);
     	Frameworks.removeSlotFromSignal(JHID_READY_V4, ProfileJinHuaTable.slot_JHID_READY_V4);
     	Frameworks.removeSlotFromSignal(JHID_GET_BAOHE_STEP_INFO, ProfileJinHuaTable.slot_JHID_GET_BAOHE_STEP_INFO);
     	Frameworks.removeSlotFromSignal(JHID_GET_ONLINE_REWARD, ProfileJinHuaTable.slot_JHID_GET_ONLINE_REWARD);

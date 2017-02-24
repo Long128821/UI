@@ -890,8 +890,8 @@ function read82210005(nMBaseMessage){
 //坐下
 function read82210003(nMBaseMessage){
     var dataTable = {};
-    dataTable["messageType"] = ACK + JHID_SIT_DOWN;
-    dataTable["messageName"] = "JHID_SIT_DOWN";
+    dataTable["messageType"] = ACK + JHID_SIT_DOWN_V4;
+    dataTable["messageName"] = "JHID_SIT_DOWN_V4";
     //解析 结果 0 失败 1 成功
     dataTable["result"] = nMBaseMessage.readByte();
     //解析 返回结果
