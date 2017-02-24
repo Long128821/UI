@@ -6,7 +6,7 @@ var ProfileRoomList= {
         RoomListLogic.initRoomListView();
     },
     //进入房间
-    slot_JHID_ENTER_ROOM:function(dataTable){
+    slot_JHID_ENTER_ROOM_V4:function(dataTable){
         console.log(dataTable);
     },
     //创建房间

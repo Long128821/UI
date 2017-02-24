@@ -1302,11 +1302,11 @@ var JinHuaTableLogic= {
     //添加信号
     addSlot:function(){
     	Frameworks.addSlot2Signal(DBID_BACKPACK_GOODS_COUNT, ProfileJinHuaTable.slot_DBID_BACKPACK_GOODS_COUNT);//更新背包数量
-    	Frameworks.addSlot2Signal(JHID_QUIT_TABLE, ProfileJinHuaTable.slot_JHID_QUIT_TABLE);//退出牌桌
+    	Frameworks.addSlot2Signal(JHID_QUIT_TABLE_V4, ProfileJinHuaTable.slot_JHID_QUIT_TABLE_V4);//退出牌桌
     	Frameworks.addSlot2Signal(JINHUA_MGR_NOTICE, ProfileJinHuaTable.slot_JINHUA_MGR_NOTICE);//更新公告信息
-    	Frameworks.addSlot2Signal(JHID_STAND_UP, ProfileJinHuaTable.slot_JHID_STAND_UP);//站起
+    	Frameworks.addSlot2Signal(JHID_STAND_UP_V4, ProfileJinHuaTable.slot_JHID_STAND_UP_V4);//站起
     	Frameworks.addSlot2Signal(JHID_SIT_DOWN, ProfileJinHuaTable.slot_JHID_SIT_DOWN);//坐下
-    	Frameworks.addSlot2Signal(JHID_READY, ProfileJinHuaTable.slot_JHID_READY);//准备
+    	Frameworks.addSlot2Signal(JHID_READY_V4, ProfileJinHuaTable.slot_JHID_READY_V4);//准备
     	Frameworks.addSlot2Signal(JHID_GET_BAOHE_STEP_INFO, ProfileJinHuaTable.slot_JHID_GET_BAOHE_STEP_INFO);//获取在线奖励
     	Frameworks.addSlot2Signal(JHID_GET_ONLINE_REWARD, ProfileJinHuaTable.slot_JHID_GET_ONLINE_REWARD);//获取在线奖励
     	Frameworks.addSlot2Signal(JHID_BET, ProfileJinHuaTable.slot_JHID_BET);//下注押注
@@ -1319,8 +1319,8 @@ var JinHuaTableLogic= {
         Frameworks.addSlot2Signal(JHID_PK, ProfileJinHuaTable.slot_JHID_PK);//比牌
         Frameworks.addSlot2Signal(JHID_LOOK_CARDS, ProfileJinHuaTable.slot_JHID_LOOK_CARDS);//看牌
         Frameworks.addSlot2Signal(JHID_SHOW_CARDS, ProfileJinHuaTable.slot_JHID_SHOW_CARDS);//展示牌
-        Frameworks.addSlot2Signal(JHID_CHANGE_TABLE, ProfileJinHuaTable.slot_JHID_CHANGE_TABLE);//换桌
-        Frameworks.addSlot2Signal(JHID_NO_COMPARE, ProfileJinHuaTable.slot_JHID_NO_COMPARE);//禁比
+        Frameworks.addSlot2Signal(JHID_CHANGE_TABLE_V4, ProfileJinHuaTable.slot_JHID_CHANGE_TABLE_V4);//换桌
+        Frameworks.addSlot2Signal(JHID_NO_COMPARE_V4, ProfileJinHuaTable.slot_JHID_NO_COMPARE_V4);//禁比
         Frameworks.addSlot2Signal(OPERID_MGR_SEND_BUGLE, ProfileJinHuaTable.slot_OPERID_MGR_SEND_BUGLE);//使用大喇叭
         Frameworks.addSlot2Signal(OPERID_SEND_ALL_BUGLE, ProfileJinHuaTable.slot_OPERID_SEND_ALL_BUGLE);//接收大喇叭
         Frameworks.addSlot2Signal(JINHUA_MGR_USER_INFO, ProfileJinHuaTable.slot_JINHUA_MGR_USER_INFO);//个人资料
@@ -1329,11 +1329,11 @@ var JinHuaTableLogic= {
     //移除信号
     removeSlot:function(){
     	Frameworks.removeSlotFromSignal(DBID_BACKPACK_GOODS_COUNT, ProfileJinHuaTable.slot_DBID_BACKPACK_GOODS_COUNT);
-    	Frameworks.removeSlotFromSignal(JHID_QUIT_TABLE, ProfileJinHuaTable.slot_JHID_QUIT_TABLE);
+    	Frameworks.removeSlotFromSignal(JHID_QUIT_TABLE_V4, ProfileJinHuaTable.slot_JHID_QUIT_TABLE_V4);
     	Frameworks.removeSlotFromSignal(JINHUA_MGR_NOTICE, ProfileJinHuaTable.slot_JINHUA_MGR_NOTICE);
-    	Frameworks.removeSlotFromSignal(JHID_STAND_UP, ProfileJinHuaTable.slot_JHID_STAND_UP);
+    	Frameworks.removeSlotFromSignal(JHID_STAND_UP_V4, ProfileJinHuaTable.slot_JHID_STAND_UP_V4);
     	Frameworks.removeSlotFromSignal(JHID_SIT_DOWN, ProfileJinHuaTable.slot_JHID_SIT_DOWN);
-    	Frameworks.removeSlotFromSignal(JHID_READY, ProfileJinHuaTable.slot_JHID_READY);
+    	Frameworks.removeSlotFromSignal(JHID_READY_V4, ProfileJinHuaTable.slot_JHID_READY_V4);
     	Frameworks.removeSlotFromSignal(JHID_GET_BAOHE_STEP_INFO, ProfileJinHuaTable.slot_JHID_GET_BAOHE_STEP_INFO);
     	Frameworks.removeSlotFromSignal(JHID_GET_ONLINE_REWARD, ProfileJinHuaTable.slot_JHID_GET_ONLINE_REWARD);
     	Frameworks.removeSlotFromSignal(JHID_BET, ProfileJinHuaTable.slot_JHID_BET);
@@ -1346,8 +1346,8 @@ var JinHuaTableLogic= {
     	Frameworks.removeSlotFromSignal(JHID_PK, ProfileJinHuaTable.slot_JHID_PK);
     	Frameworks.removeSlotFromSignal(JHID_LOOK_CARDS, ProfileJinHuaTable.slot_JHID_LOOK_CARDS);
     	Frameworks.removeSlotFromSignal(JHID_SHOW_CARDS, ProfileJinHuaTable.slot_JHID_SHOW_CARDS);
-    	Frameworks.removeSlotFromSignal(JHID_CHANGE_TABLE, ProfileJinHuaTable.slot_JHID_CHANGE_TABLE);
-    	Frameworks.removeSlotFromSignal(JHID_NO_COMPARE, ProfileJinHuaTable.slot_JHID_NO_COMPARE);
+    	Frameworks.removeSlotFromSignal(JHID_CHANGE_TABLE_V4, ProfileJinHuaTable.slot_JHID_CHANGE_TABLE_V4);
+    	Frameworks.removeSlotFromSignal(JHID_NO_COMPARE_V4, ProfileJinHuaTable.slot_JHID_NO_COMPARE_V4);
     	Frameworks.removeSlotFromSignal(OPERID_MGR_SEND_BUGLE, ProfileJinHuaTable.slot_OPERID_MGR_SEND_BUGLE);//大喇叭
     	Frameworks.removeSlotFromSignal(OPERID_SEND_ALL_BUGLE, ProfileJinHuaTable.slot_OPERID_SEND_ALL_BUGLE);//接收大喇叭
     	Frameworks.removeSlotFromSignal(JINHUA_MGR_USER_INFO, ProfileJinHuaTable.slot_JINHUA_MGR_USER_INFO);//个人资料

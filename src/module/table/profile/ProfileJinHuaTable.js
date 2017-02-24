@@ -7,7 +7,7 @@ var ProfileJinHuaTable= {
         JinHuaTableLogic.updateDBID_BACKPACK_GOODS_COUNT();//更新背包物品
     },
     //退出房间
-    slot_JHID_QUIT_TABLE:function(dataTable){
+    slot_JHID_QUIT_TABLE_V4:function(dataTable){
         Profile_JinHuaGameData.readJHID_QUIT_TABLE(dataTable);
     },
     //更新系统公告
@@ -17,7 +17,7 @@ var ProfileJinHuaTable= {
         JinHuaTableLogic.showNotice();
     },
     //站起(超时站起、旁观)
-    slot_JHID_STAND_UP:function(dataTable){
+    slot_JHID_STAND_UP_V4:function(dataTable){
         Profile_JinHuaGameData.readJHID_STAND_UP(dataTable);
         //更新<站起>操作
         JinHuaTableLogic.updateJHID_STAND_UP();
@@ -28,7 +28,7 @@ var ProfileJinHuaTable= {
         JinHuaTableLogic.updateJHID_SIT_DOWN();
     },
     //准备(玩家进入牌桌时、别人准备时)
-    slot_JHID_READY:function(dataTable){
+    slot_JHID_READY_V4:function(dataTable){
         Profile_JinHuaGameData.readJHID_READY(dataTable);
         //服务器收到准备消息,更新牌桌
         JinHuaTableLogic.updateJHID_READY();
@@ -98,12 +98,12 @@ var ProfileJinHuaTable= {
         JinHuaTableLogic.updateJHID_SHOW_CARDS();
     },
     //换桌
-    slot_JHID_CHANGE_TABLE:function(dataTable){
+    slot_JHID_CHANGE_TABLE_V4:function(dataTable){
         Profile_JinHuaGameData.readJHID_CHANGE_TABLE(dataTable);
         JinHuaTableLogic.updateJHID_CHANGE_TABLE();
     },
     //禁比
-    slot_JHID_NO_COMPARE:function(dataTable){
+    slot_JHID_NO_COMPARE_V4:function(dataTable){
         Profile_JinHuaGameData.readJHID_NO_COMPARE(dataTable);
         JinHuaTableLogic.updateJHID_NO_COMPARE();
     },

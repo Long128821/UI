@@ -119,13 +119,13 @@ var RoomListLogic= {
     //添加信号
     addSlot:function(){
     	Frameworks.addSlot2Signal(JINHUA_ROOMID_ROOM_LIST, ProfileRoomList.slot_JINHUA_ROOMID_ROOM_LIST);
-    	Frameworks.addSlot2Signal(JHID_ENTER_ROOM, ProfileRoomList.slot_JHID_ENTER_ROOM);
+    	Frameworks.addSlot2Signal(JHID_ENTER_ROOM_V4, ProfileRoomList.slot_JHID_ENTER_ROOM_V4);
     	Frameworks.addSlot2Signal(JINHUA_MGR_BUILD_TABLE_INFO, ProfileRoomList.slot_JINHUA_MGR_BUILD_TABLE_INFO);
     },
     //移除信号
     removeSlot:function(){
     	Frameworks.removeSlotFromSignal(JINHUA_ROOMID_ROOM_LIST, ProfileRoomList.slot_JINHUA_ROOMID_ROOM_LIST);
-    	Frameworks.removeSlotFromSignal(JHID_ENTER_ROOM, ProfileRoomList.slot_JHID_ENTER_ROOM);
+    	Frameworks.removeSlotFromSignal(JHID_ENTER_ROOM_V4, ProfileRoomList.slot_JHID_ENTER_ROOM_V4);
     	Frameworks.removeSlotFromSignal(JINHUA_MGR_BUILD_TABLE_INFO, ProfileRoomList.slot_JINHUA_MGR_BUILD_TABLE_INFO);
     },
     

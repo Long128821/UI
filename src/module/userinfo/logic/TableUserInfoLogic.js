@@ -633,7 +633,7 @@ var TableUserInfoLogic= {
     	Frameworks.addSlot2Signal(JINHUA_MGR_DEL_TRACE, ProfileTableUserInfo.slot_JINHUA_MGR_DEL_TRACE);//取消追踪
     	Frameworks.addSlot2Signal(JINHUA_MGR_ADD_FRIEND, ProfileTableUserInfo.slot_JINHUA_MGR_ADD_FRIEND);//添加好友
     	Frameworks.addSlot2Signal(JINHUA_MGR_DEL_FRIEND, ProfileTableUserInfo.slot_JINHUA_MGR_DEL_FRIEND);//删除好友
-        Frameworks.addSlot2Signal(JHGAMEID_KICK_OUT, ProfileTableUserInfo.slot_JHGAMEID_KICK_OUT);//踢人
+        Frameworks.addSlot2Signal(JHGAMEID_KICK_OUT_V4, ProfileTableUserInfo.slot_JHGAMEID_KICK_OUT_V4);//踢人
         Frameworks.addSlot2Signal(JHID_STRONG_BOX_INFO, ProfileTableUserInfo.slot_JHID_STRONG_BOX_INFO);//获取保险箱信息
         Frameworks.addSlot2Signal(JHID_SAVE_TAKE_STRONG_BOX_COIN, ProfileTableUserInfo.slot_JHID_SAVE_TAKE_STRONG_BOX_COIN);//存取款
     },
@@ -643,7 +643,7 @@ var TableUserInfoLogic= {
         Frameworks.removeSlotFromSignal(JINHUA_MGR_DEL_TRACE, ProfileTableUserInfo.slot_JINHUA_MGR_DEL_TRACE);//取消追踪
         Frameworks.removeSlotFromSignal(JINHUA_MGR_ADD_FRIEND, ProfileTableUserInfo.slot_JINHUA_MGR_ADD_FRIEND);//添加好友
         Frameworks.removeSlotFromSignal(JINHUA_MGR_DEL_FRIEND, ProfileTableUserInfo.slot_JINHUA_MGR_DEL_FRIEND);//删除好友
-        Frameworks.removeSlotFromSignal(JHGAMEID_KICK_OUT, ProfileTableUserInfo.slot_JHGAMEID_KICK_OUT);//踢人
+        Frameworks.removeSlotFromSignal(JHGAMEID_KICK_OUT_V4, ProfileTableUserInfo.slot_JHGAMEID_KICK_OUT_V4);//踢人
         Frameworks.removeSlotFromSignal(JHID_STRONG_BOX_INFO, ProfileTableUserInfo.slot_JHID_STRONG_BOX_INFO);//获取保险箱信息
         Frameworks.removeSlotFromSignal(JHID_SAVE_TAKE_STRONG_BOX_COIN, ProfileTableUserInfo.slot_JHID_SAVE_TAKE_STRONG_BOX_COIN);//存取款
     },

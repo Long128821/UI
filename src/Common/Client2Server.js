@@ -365,7 +365,7 @@ function sendJHID_QUICK_START(){
     if(!Network.getInstance().getWebSocketConnecting()) return;
 
     var nmBaseMessage = new NMBaseMessage();
-    nmBaseMessage.setMessageType(REQ + JHID_QUICK_START);
+    nmBaseMessage.setMessageType(REQ + JHID_QUICK_START_V4);
     nmBaseMessage.setExtData(3);
     nmBaseMessage.writeStart();
 
@@ -387,14 +387,13 @@ function sendJHID_ENTER_ROOM(roomID){
     if(!Network.getInstance().getWebSocketConnecting()) return;
 
     var nmBaseMessage = new NMBaseMessage();
-    nmBaseMessage.setMessageType(REQ + JHID_ENTER_ROOM);
+    nmBaseMessage.setMessageType(REQ + JHID_ENTER_ROOM_V4);
     nmBaseMessage.setExtData(3);
     nmBaseMessage.writeStart();
     //房间ID
     nmBaseMessage.writeInt(roomID);
     nmBaseMessage.writeInt(-1);
     nmBaseMessage.writeByte(GameConfig.GAME_ID);
-    nmBaseMessage.writeByte(0);
     //ScriptVerCode	Int	脚本版本号	(游戏版本号+渠道号)
     nmBaseMessage.writeInt(Common.getScriptVerCode(Profile_JinHuaTableConfig.JinHuaGameVersion) + Common.getChannelID());
 
@@ -446,7 +445,7 @@ function sendJHID_QUIT_TABLE(roomId,tableId){
     if(!Network.getInstance().getWebSocketConnecting()) return;
 
     var nmBaseMessage = new NMBaseMessage();
-    nmBaseMessage.setMessageType(REQ + JHID_QUIT_TABLE);
+    nmBaseMessage.setMessageType(REQ + JHID_QUIT_TABLE_V4);
     nmBaseMessage.setExtData(3);
     nmBaseMessage.writeStart();
     nmBaseMessage.writeInt(roomId);
@@ -465,7 +464,7 @@ function sendJHID_STAND_UP(){
     if(!Network.getInstance().getWebSocketConnecting()) return;
 
     var nmBaseMessage = new NMBaseMessage();
-    nmBaseMessage.setMessageType(REQ + JHID_STAND_UP);
+    nmBaseMessage.setMessageType(REQ + JHID_STAND_UP_V4);
     nmBaseMessage.setExtData(3);
     nmBaseMessage.writeStart();
 
@@ -501,7 +500,7 @@ function sendJHID_READY(){
     if(!Network.getInstance().getWebSocketConnecting()) return;
 
     var nmBaseMessage = new NMBaseMessage();
-    nmBaseMessage.setMessageType(REQ + JHID_READY);
+    nmBaseMessage.setMessageType(REQ + JHID_READY_V4);
     nmBaseMessage.setExtData(3);
     nmBaseMessage.writeStart();
     nmBaseMessage.writeOver();
@@ -668,7 +667,7 @@ function sendJHID_CHANGE_TABLE(){
     if(!Network.getInstance().getWebSocketConnecting()) return;
 
     var nmBaseMessage = new NMBaseMessage();
-    nmBaseMessage.setMessageType(REQ + JHID_CHANGE_TABLE);
+    nmBaseMessage.setMessageType(REQ + JHID_CHANGE_TABLE_V4);
     nmBaseMessage.setExtData(3);
 
     nmBaseMessage.writeStart();
@@ -712,7 +711,7 @@ function sendJHID_NO_COMPARE(){
     if(!Network.getInstance().getWebSocketConnecting()) return;
 
     var nmBaseMessage = new NMBaseMessage();
-    nmBaseMessage.setMessageType(REQ + JHID_NO_COMPARE);
+    nmBaseMessage.setMessageType(REQ + JHID_NO_COMPARE_V4);
     nmBaseMessage.setExtData(3);
     nmBaseMessage.writeStart();
     nmBaseMessage.writeOver();
@@ -826,13 +825,13 @@ function sendJINHUA_MGR_DEL_FRIEND(userID){
     delete nmBaseMessage;
 }
 
-//3.21金花踢人消息 (JHGAMEID_KICK_OUT）
+//3.21金花踢人消息 (JHGAMEID_KICK_OUT_V4）
 function sendJHGAMEID_KICK_OUT(userID){
     //断网状态
     if(!Network.getInstance().getWebSocketConnecting()) return;
 
     var nmBaseMessage = new NMBaseMessage();
-    nmBaseMessage.setMessageType(REQ + JHGAMEID_KICK_OUT);
+    nmBaseMessage.setMessageType(REQ + JHGAMEID_KICK_OUT_V4);
     nmBaseMessage.writeStart();
 
     //KickAimUserID	int	踢人目标用户

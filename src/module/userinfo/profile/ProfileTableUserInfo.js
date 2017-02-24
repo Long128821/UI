@@ -74,7 +74,7 @@ var ProfileTableUserInfo= {
         TableUserInfoLogic.updateJINHUA_MGR_DEL_FRIEND();
     },
     //踢人
-    slot_JHGAMEID_KICK_OUT:function(dataTable){
+    slot_JHGAMEID_KICK_OUT_V4:function(dataTable){
         Profile_JinHuaKickOut.readJHGAMEID_KICK_OUT(dataTable);
         TableUserInfoLogic.updateJHGAMEID_KICK_OUT();
     },

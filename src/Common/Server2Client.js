@@ -535,15 +535,16 @@ function read8068001c(nMBaseMessage){
 }
 
 //快速开始
-function read80210007(nMBaseMessage){
+function read82210007(nMBaseMessage){
     var dataTable = {};
-    dataTable["messageType"] = ACK + JHID_QUICK_START;
-    dataTable["messageName"] = "JHID_QUICK_START";
+    dataTable["messageType"] = ACK + JHID_QUICK_START_V4;
+    dataTable["messageName"] = "JHID_QUICK_START_V4";
 
     //Result  byte  是否成功  1成功 0失败
     dataTable["Result"] = nMBaseMessage.readByte();
     //ResultTxt text  提示语内容
-    dataTable["ResultTxt"] = nMBaseMessage.readUTF8();
+    dataTable["ResultTxt"] = nMBaseMessage.readString();
+    console.log(dataTable);
     return dataTable;
 }
 
@@ -792,16 +793,16 @@ function read82210001(nMBaseMessage){
 }
 
 //解析EnterRoomRespBean
-function read80210002(nMBaseMessage){
+function read82210002(nMBaseMessage){
     var dataTable = {};
-    dataTable["messageType"] = ACK + JHID_ENTER_ROOM;
+    dataTable["messageType"] = ACK + JHID_ENTER_ROOM_V4;
     dataTable["messageName"] = "EnterRoomRespBean";
 
     //解析 是否成功 0 失败，1 成功
     dataTable["result"] = nMBaseMessage.readByte();
     //解析 回复消息
-    dataTable["message"] = nMBaseMessage.readUTF8();
-
+    dataTable["message"] = nMBaseMessage.readString();
+    console.log(dataTable);
     return dataTable;
 }
 
@@ -874,15 +875,15 @@ function read80060049(nMBaseMessage){
 }
 
 //退出牌桌
-function read80210005(nMBaseMessage){
+function read82210005(nMBaseMessage){
     var  dataTable = {};
-    dataTable["messageType"] = ACK + JHID_QUIT_TABLE;
-    dataTable["messageName"] = "JHID_QUIT_TABLE";
+    dataTable["messageType"] = ACK + JHID_QUIT_TABLE_V4;
+    dataTable["messageName"] = "JHID_QUIT_TABLE_V4";
 
     //解析 请求结果，0 失败 1成功
     dataTable["result"] = nMBaseMessage.readByte();
     //解析 返回消息
-    dataTable["message"] = nMBaseMessage.readUTF8();
+    dataTable["message"] = nMBaseMessage.readString();
     return dataTable
 }
 
@@ -954,31 +955,30 @@ function read82210003(nMBaseMessage){
 }
 
 //站起
-function read80210004(nMBaseMessage){
+function read82210004(nMBaseMessage){
     var dataTable = {};
-    dataTable["messageType"] = ACK + JHID_STAND_UP;
-    dataTable["messageName"] = "JHID_STAND_UP";
+    dataTable["messageType"] = ACK + JHID_STAND_UP_V4;
+    dataTable["messageName"] = "JHID_STAND_UP_V4";
     //解析 座位号
     dataTable["SSID"] = nMBaseMessage.readInt();
     //解析 结果 0失败 1成功
     dataTable["result"] = nMBaseMessage.readByte();
     //解析 结果信息
-    dataTable["message"] = nMBaseMessage.readUTF8();
+    dataTable["message"] = nMBaseMessage.readString();
     return dataTable
 }
 
 //准备
-function read80200002(nMBaseMessage){
+function read82200002(nMBaseMessage){
     var  dataTable = {};
-    dataTable["messageType"] = ACK + JHID_READY;
-    dataTable["messageName"] = "JHID_READY";
+    dataTable["messageType"] = ACK + JHID_READY_V4;
+    dataTable["messageName"] = "JHID_READY_V4";
     //服务端座位号
     dataTable["SSID"] = nMBaseMessage.readInt();
     //Result  byte  准备是否成功  1成功 0失败
     dataTable["result"] = nMBaseMessage.readByte();
-
     //ResultTxt text  提示语内容
-    dataTable["message"] = nMBaseMessage.readUTF8();
+    dataTable["message"] = nMBaseMessage.readString();
     return dataTable;
 }
 
@@ -1413,27 +1413,27 @@ function read82200008(nMBaseMessage){
     return dataTable;
 }
 //换桌
-function read80210008(nMBaseMessage){
+function read82210008(nMBaseMessage){
     var dataTable = {};
-    dataTable["messageType"] = ACK + JHID_CHANGE_TABLE;
-    dataTable["messageName"] = "JHID_CHANGE_TABLE";
+    dataTable["messageType"] = ACK + JHID_CHANGE_TABLE_V4;
+    dataTable["messageName"] = "JHID_CHANGE_TABLE_V4";
 
     //Result  换桌结果 0失败 1成功
     dataTable["Result"] = nMBaseMessage.readByte();
-    dataTable["ResultTxt"] = nMBaseMessage.readUTF8();
+    dataTable["ResultTxt"] = nMBaseMessage.readString();
     return dataTable;
 }
 
 //禁比
-function read8020000c(nMBaseMessage){
+function read8220000c(nMBaseMessage){
     var dataTable = {};
-    dataTable["messageType"] = ACK + JHID_NO_COMPARE;
-    dataTable["messageName"] = "JHID_NO_COMPARE";
+    dataTable["messageType"] = ACK + JHID_NO_COMPARE_V4;
+    dataTable["messageName"] = "JHID_NO_COMPARE_V4";
 
     //result 发送结果 0失败 1成功
     dataTable["Result"] = nMBaseMessage.readByte();
     //msg
-    dataTable["message"] = nMBaseMessage.readUTF8();
+    dataTable["message"] = nMBaseMessage.readString();
     //座位号
     dataTable["SSID"] = nMBaseMessage.readInt();
     //禁比道具剩余数量
@@ -1513,17 +1513,16 @@ function read80680007(nMBaseMessage){
     return dataTable;
 }
 
-//踢人(JHGAMEID_KICK_OUT）
-function read80200015(nMBaseMessage){
+//踢人(JHGAMEID_KICK_OUT_V4）
+function read82200015(nMBaseMessage){
     var dataTable = {};
-    dataTable["messageType"] = ACK + JHGAMEID_KICK_OUT;
-    dataTable["messageName"] = "JHGAMEID_KICK_OUT";
+    dataTable["messageType"] = ACK + JHGAMEID_KICK_OUT_V4;
+    dataTable["messageName"] = "JHGAMEID_KICK_OUT_V4";
 
     //ErrorCode	byte	踢人失败原因代码	0成功 1vip等级不足
     dataTable["ErrorCode"] = nMBaseMessage.readByte();
     //ErrorStr	Text	提示语
-    dataTable["ErrorStr"] = nMBaseMessage.readUTF8();
-    console.log("接受踢人消息");
+    dataTable["ErrorStr"] = nMBaseMessage.readString();
     return dataTable;
 }
 
