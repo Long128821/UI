@@ -471,6 +471,7 @@ var OtherUserInfoLogic= {
         //等级
         this.AtlasLabel_level.setString(":"+ userInfoTable["Level"]);
         //魅力值
+
         this.AtlasLabel_meilizhi.setString(profile_user.getSelfCharm());
 
         //从plist中加载性别图片

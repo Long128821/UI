@@ -169,12 +169,21 @@ if(typeof g_DataType== "undefined"){
                 return -1
             }
             var end = 0;
+            var str= "";
+            var bNegative= false;//是否为负数
             for (var i = 0; i < 4; i++) {
                 var value= this.pool[this.readPos];
+                str+= value;
+                if(i== 0&&value>= 128){
+                    bNegative= true;
+                }
+                if(bNegative){
+                    value= ((i==3)?(256-value):(255-value));
+                }
                 end+= value* Math.pow(256, 3-i);
                 this.readPos++;
             }
-            return end;
+            return bNegative?end* (-1):end;
         },
         /**
          * 从缓冲区读取4个字节的长度并转换为int值,position往后移4位【仅限于读取消息ID】
