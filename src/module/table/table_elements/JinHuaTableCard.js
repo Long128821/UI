@@ -187,41 +187,39 @@ var JinHuaTableCard= {
             var cardSprite= players[index].cardSprites[key];
             if(!Common.judgeValueIsEffect(cardSprite)) continue;
             cardSprite.setCardValue(players[index].player.cardValues[key]);
-            if(!players[index].isMe()){
+            if(players[index].isMe()){
+                for(var key in players[index].cardSprites){
+                    var cardSprite= players[index].cardSprites[key];
+                    if(!Common.judgeValueIsEffect(cardSprite)) continue;
+                    this.sendMyCardEnd(cardSprite.getCardSprite());
+                }
+            }else{
                 cardSprite.getCardSprite().setRotation(0);
-                cardSprite.getCardSprite().setScale(0.8);
-            }
-        }
-        if(players[index].isMe()){
-            for(var key in players[index].cardSprites){
-                var cardSprite= players[index].cardSprites[key];
-                if(!Common.judgeValueIsEffect(cardSprite)) continue;
-                //if(!Common.judgeValueIsEffect(cardSprite.getCardSprite())) continue;
-                this.sendMyCardEnd(cardSprite.getCardSprite());
+                cardSprite.getCardSprite().setScale(Profile_JinHuaTableConfig.cardScale);
             }
         }
     },
     //设置牌的位置，并翻开牌
-    setCardPositionAndOpenCard:function(index){
+    setCardPositionAndOpenCard:function(CSID){
         var GameData= Profile_JinHuaGameData.getGameData();
         var players = JinHuaTablePlayer.getPlayers();
-        var player= players[index];
+        var player= players[CSID];
         var CSID= player.player.CSID;
-        for(var key in players[index].cardSprites){
-            var cardSprite= players[index].cardSprites[key];
+        for(var key in players[CSID].cardSprites){
+            var cardSprite= players[CSID].cardSprites[key];
             var spritePlayers= Profile_JinHuaTableConfig.getSpritePlayers();
             var spritePlayer= spritePlayers[CSID];
-            if(index> 2){
-                cardSprite.getCardSprite().setPosition(spritePlayer.cards[2].locX- Profile_JinHuaTableConfig.cardWidth+(key-1)*Profile_JinHuaTableConfig.cardWidth/2, spritePlayer.cards[key].locY);
-            }else if(index> 0){
-                cardSprite.getCardSprite().setPosition(spritePlayer.cards[0].locX- Profile_JinHuaTableConfig.cardWidth+(key-1)*Profile_JinHuaTableConfig.cardWidth/2, spritePlayer.cards[key].locY);
-            }else if(index== 0){
+            if(CSID> 2){
+                cardSprite.getCardSprite().setPosition(spritePlayer.cards[0].locX+ Profile_JinHuaTableConfig.cardWidth* 0.5+(key-1)*Profile_JinHuaTableConfig.cardWidth/2, spritePlayer.cards[key].locY);
+            }else if(CSID> 0){
+                cardSprite.getCardSprite().setPosition(spritePlayer.cards[0].locX+ Profile_JinHuaTableConfig.cardWidth*0.5+(key-1)*Profile_JinHuaTableConfig.cardWidth/2, spritePlayer.cards[key].locY);
+            }else if(CSID== 0){
                 if(Common.judgeValueIsEffect(GameData.mySSID)){
                     cardSprite.getCardSprite().setPosition(580 + 26 * key, 125);
                 }
             }
             //开牌动画
-            this.openCard(players[index].cardSprites[key]);
+            this.openCard(players[CSID].cardSprites[key]);
         }
     },
     //胜利动画
@@ -251,10 +249,7 @@ var JinHuaTableCard= {
                 if(!Common.judgeValueIsEffect(cardSprite)) continue;
                 cardSprite.clear();
             }
-            //是否为玩家本身,隐藏牌型提示
-            if(player.isMe()){
-                JinHuaTableCard.hideCardType(player);
-            }
+            JinHuaTableCard.hideCardType(player);
             //移除禁比图标
             player.dismissJinBiIcon();
         }
@@ -276,10 +271,10 @@ var JinHuaTableCard= {
             //更新我的按钮
             JinHuaTableLogic.updateMyOperationBtns(checkCardData.currentPlayer);
         }else{//别人看牌
-            var player= Profile_JinHuaTableConfig.spritePlayers[checkCardData.CSID];
-            this.rotateCard(player.cards[1].locX,player.cards[1].locY,players[checkCardData.CSID].cardSprites[0].getCardSprite(),-32);
-            this.rotateCard(player.cards[1].locX,player.cards[1].locY,players[checkCardData.CSID].cardSprites[1].getCardSprite(),0);
-            this.rotateCard(player.cards[1].locX,player.cards[1].locY,players[checkCardData.CSID].cardSprites[2].getCardSprite(),23);
+            var playerSprite= Profile_JinHuaTableConfig.spritePlayers[checkCardData.CSID];
+            this.rotateCard(playerSprite.cards[1].locX,playerSprite.cards[1].locY,player.cardSprites[0].getCardSprite(),-32);
+            this.rotateCard(playerSprite.cards[1].locX,playerSprite.cards[1].locY,player.cardSprites[1].getCardSprite(),0);
+            this.rotateCard(playerSprite.cards[1].locX,playerSprite.cards[1].locY,player.cardSprites[2].getCardSprite(),23);
         }
     },
     //翻开牌
@@ -322,7 +317,7 @@ var JinHuaTableCard= {
         var players = JinHuaTablePlayer.getPlayers();
         var player= players[CSID];
         if(!Common.judgeValueIsEffect(player)) return false;
-        if(JinHuaTableCheckButton.getLookedCard()) return false;
+        if(player.player.userId== profile_user.getSelfUserID()&&JinHuaTableCheckButton.getLookedCard()) return false;
         return Common.judgeValueIsEffect(player.player.cardValues)&&(Common.getTableSize(player.player.cardValues)== 3);
     }
 };

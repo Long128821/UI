@@ -575,11 +575,7 @@ JinHuaTablePlayerEntity.prototype.createNotBeLookedCard= function(){
         cardTypePosY = 110;
     }else{
         var player= Profile_JinHuaTableConfig.getSpritePlayers()[this.player.CSID];
-        if(player.CSID< 3){//屏幕右边
-            cardTypePosX = player.cards[1].locX+this.cardSprites[0].getCardSprite().getContentSize().width/4;
-        }else{
-            cardTypePosX = player.cards[1].locX-this.cardSprites[0].getCardSprite().getContentSize().width/4;
-        }
+        cardTypePosX = player.cards[1].locX;
         cardTypePosY = player.cards[1].locY- 10* Profile_JinHuaTableConfig.TableScaleY;
     }
 

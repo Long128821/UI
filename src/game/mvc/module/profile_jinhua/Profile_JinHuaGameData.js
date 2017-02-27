@@ -393,30 +393,26 @@ var Profile_JinHuaGameData= {
         this.GameData["levelUpExp"] = this.gameResultData["levelUpExp"];
         this.GameData["level"] = this.gameResultData["level"];
         this.gameResultData.CSID = this.getUserCSID(this.gameResultData.winnerSeat);
-        var selfInfo;
         for(var key in this.gameResultData.users){
             var user= this.gameResultData.users[key];
-            if(user.userID== profile_user.getSelfUserID()){
-                selfInfo= user;
+            if(!Common.judgeValueIsEffect(user)) continue;
+            for(var i in this.GameData["players"]){
+                var player= this.GameData["players"][i];
+                if(!Common.judgeValueIsEffect(player)) continue;
+                if(player.userId!= user.userID) continue;
+                player.betCoins = user.betCoins;
+                player.remainCoins = user.remainCoins;
+                player.shtatus = user.status;
+                player.cardValues = user.cardValues;
+                player.cardType = user.cardType;
+                player.exp = user.exp;
+                player.level = user.level;
+                player.expText = user.expText;
+                player.isCert = user.isCert;
+                JinHuaTablePlayer.setPlayerInfoByUserID(user, player.userId);
             }
         }
 
-        if(!Common.judgeValueIsEffect(selfInfo)) return;
-        for(var i in this.GameData["players"]){
-            var player= this.GameData["players"][i];
-            if(profile_user.getSelfUserID()== player.userId){
-                player.betCoins = selfInfo.betCoins;
-                player.remainCoins = selfInfo.remainCoins;
-                player.shtatus = selfInfo.status;
-                player.cardValues = selfInfo.cardValues;
-                player.cardType = selfInfo.cardType;
-                player.exp = selfInfo.exp;
-                player.level = selfInfo.level;
-                player.expText = selfInfo.expText;
-                player.isCert = selfInfo.isCert;
-            }
-        }
-        JinHuaTablePlayer.setPlayerInfoByUserID(selfInfo, profile_user.getSelfUserID());
         //本局结束后，禁比失效
         this.mySelf.noPK= false;
     },

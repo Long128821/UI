@@ -1253,7 +1253,6 @@ function read82200009(nMBaseMessage){
     dataTable["level"] = nMBaseMessage.readInt();
     // luckyPoint	Int	幸运点
     dataTable["luckyPoint"] = nMBaseMessage.readLong();
-
     return dataTable;
 }
 

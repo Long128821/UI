@@ -534,7 +534,7 @@ var JinHuaTablePlayer= {
                 if(this.tablePlayerEntitys[key].isMe()){
                     //如果是玩家本身,此时已经坐下,移除所有的坐下Tips
                     JinHuaTableTips.removeAllSitTips();
-                    //设置不可点击(不可换桌)
+                    //设置不可点击(不可换位)
                     JinHuaTableLogic.setSitButtonEnabled(false);
                 }
             }

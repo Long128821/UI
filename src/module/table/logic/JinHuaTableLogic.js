@@ -1536,6 +1536,8 @@ var JinHuaTableLogic= {
         }
         //显示本局经验加成
         this.showAddExpAnimation();
+        //暂停站起
+        MessageCenter.pauseMessage(JHID_STAND_UP_V4);
     },
     //更新比牌动画
     updateJHID_PK:function(){
@@ -1707,7 +1709,6 @@ var JinHuaTableLogic= {
         this.view.addChild(JinHuaSendGiftAnim.getSendGiftLayer(), 101);
         //比牌动画
         this.view.addChild(JinHuaPKAnim.create(), 102);
-
 
         //设置牌桌数据
         this.createLayerFarm();
@@ -2244,7 +2245,6 @@ var JinHuaTableLogic= {
             this.Panel_EXP.setVisible(true);
             this.Label_level.setString("Lv."+ GameData["level"]);
             this.Label_exp.setString("经验:"+ GameData["Exp"] + "/" + GameData["levelUpExp"]);
-            //Todo:App和H5的差别
             this.ProgressBar_exp.setPercent(GameData["Exp"]/GameData["levelUpExp"]* 100);
             this.Label_level.setColor(cc.color(255, 255, 255));
             this.Label_exp.setColor(cc.color(255, 255, 255));
@@ -2265,9 +2265,17 @@ var JinHuaTableLogic= {
         if(GameData.status!=  STATUS_TABLE_WAITTING&&GameData.status!= STATUS_TABLE_READY){
             //没有在打牌
             if(!Profile_JinHuaGameData.isMePlayingThisRound()){
+                //如果是玩家本身,此时已经坐下,移除所有的坐下Tips
+                JinHuaTableTips.removeAllSitTips();
+                //设置不可点击(不可换位)
+                JinHuaTableLogic.setSitButtonEnabled(false);
                 this.showBotButton(STATUS_BUTTON_WAIT);
             }
         }else{
+            //如果是玩家本身,此时已经坐下,移除所有的坐下Tips
+            JinHuaTableTips.removeAllSitTips();
+            //设置不可点击(不可换位)
+            JinHuaTableLogic.setSitButtonEnabled(false);
             this.showBotButton(STATUS_BUTTON_WAIT);
             this.onReady();
         }
@@ -2781,6 +2789,9 @@ var JinHuaTableLogic= {
     },
     //本局结束后操作
     gameResultOperation:function(){
+        //暂停站起
+        MessageCenter.resumeMessage(JHID_STAND_UP_V4);
+
         var GameData= Profile_JinHuaGameData.getGameData();
         var players= JinHuaTablePlayer.getPlayers();
         for(var key in players){

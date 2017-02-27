@@ -24,7 +24,7 @@ var VipInfoController = BaseController.extend({
 	removeSlot:function(){
 		VipInfoLogic.removeSlot();
 	},
-//添加监听
+    //添加监听
     addCallback:function(){
         Frameworks.bindEventCallback("VipInfoLogic#", CocoStudio.getComponent(VipInfoLogic.view,"Button_left"), VipInfoLogic.callback_Button_left, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
         Frameworks.bindEventCallback("VipInfoLogic#", CocoStudio.getComponent(VipInfoLogic.view,"Button_right"), VipInfoLogic.callback_Button_right, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);

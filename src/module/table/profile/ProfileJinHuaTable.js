@@ -84,6 +84,8 @@ var ProfileJinHuaTable= {
     },
     //比牌
     slot_JHID_PK:function(dataTable){
+        //暂停游戏结束
+        MessageCenter.pauseMessage(JHID_STAND_UP_V4);
         Profile_JinHuaGameData.readJHID_PK(dataTable);
         JinHuaTableLogic.updateJHID_PK();
     },
