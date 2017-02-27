@@ -115,8 +115,8 @@ var JinHuaTableConfirmPopLogic= {
             case TableConfirmPopTag.TAG_FOLD_TIPS://弃牌
                 JinHuaTableLogic.afterOnClickBtnFold();
                 break;
-            case TableConfirmPopTag.TAG_CHANGE_TABLE_TIPS:
-
+            case TableConfirmPopTag.TAG_CHANGE_TABLE_TIPS://换桌
+                sendJHID_CHANGE_TABLE();
                 break;
         }
     },

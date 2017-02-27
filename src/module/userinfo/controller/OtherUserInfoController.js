@@ -44,6 +44,7 @@ var OtherUserInfoController = BaseController.extend({
         Frameworks.bindEventCallback("OtherUserInfoLogic#", CocoStudio.getComponent(OtherUserInfoLogic.view,"Button_add5000w"), OtherUserInfoLogic.callback_Button_add5000w, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
         Frameworks.bindEventCallback("OtherUserInfoLogic#", CocoStudio.getComponent(OtherUserInfoLogic.view,"Button_close"), OtherUserInfoLogic.callback_Button_close, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
         Frameworks.bindEventCallback("OtherUserInfoLogic#", CocoStudio.getComponent(OtherUserInfoLogic.view,"Button_closeweb"), OtherUserInfoLogic.callback_Button_closeweb, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.bindEventCallback("OtherUserInfoLogic#", CocoStudio.getComponent(OtherUserInfoLogic.view,"Image_86"), OtherUserInfoLogic.callback_Image_86, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
     },
     //移除监听
     removeCallback:function(){
@@ -65,6 +66,7 @@ var OtherUserInfoController = BaseController.extend({
         Frameworks.unbindEventCallback(CocoStudio.getComponent(OtherUserInfoLogic.view,"OtherUserInfoLogic#Button_add5000w"), OtherUserInfoLogic.callback_Button_add5000w, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
         Frameworks.unbindEventCallback(CocoStudio.getComponent(OtherUserInfoLogic.view,"OtherUserInfoLogic#Button_close"), OtherUserInfoLogic.callback_Button_close, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
         Frameworks.unbindEventCallback(CocoStudio.getComponent(OtherUserInfoLogic.view,"OtherUserInfoLogic#Button_closeweb"), OtherUserInfoLogic.callback_Button_closeweb, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+        Frameworks.unbindEventCallback(CocoStudio.getComponent(OtherUserInfoLogic.view,"OtherUserInfoLogic#Image_86"), OtherUserInfoLogic.callback_Image_86, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
     },
     
     setModuleLayer:function(moduleLayer){

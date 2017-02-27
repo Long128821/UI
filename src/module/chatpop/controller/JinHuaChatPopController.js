@@ -46,6 +46,7 @@ var JinHuaChatPopController = BaseController.extend({
 		Frameworks.bindEventCallback("JinHuaChatPopLogic#", CocoStudio.getComponent(JinHuaChatPopLogic.view,"Button_bugle"), JinHuaChatPopLogic.callback_Button_bugle, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.bindEventCallback("JinHuaChatPopLogic#", CocoStudio.getComponent(JinHuaChatPopLogic.view,"Button_At"), JinHuaChatPopLogic.callback_Button_At, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.bindEventCallback("JinHuaChatPopLogic#", CocoStudio.getComponent(JinHuaChatPopLogic.view,"btn_close"), JinHuaChatPopLogic.callback_btn_close, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+		Frameworks.bindEventCallback("JinHuaChatPopLogic#", CocoStudio.getComponent(JinHuaChatPopLogic.view,"et_msg_log"), JinHuaChatPopLogic.callback_et_msg_log, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
     },
     //移除监听
     removeCallback:function(){
@@ -69,6 +70,7 @@ var JinHuaChatPopController = BaseController.extend({
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(JinHuaChatPopLogic.view,"JinHuaChatPopLogic#Button_bugle"), JinHuaChatPopLogic.callback_Button_bugle, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(JinHuaChatPopLogic.view,"JinHuaChatPopLogic#Button_At"), JinHuaChatPopLogic.callback_Button_At, BUTTON_CLICK, BUTTON_SOUND_CLICK + BUTTON_ANIMATION_ZOOM_OUT);
 		Frameworks.unbindEventCallback(CocoStudio.getComponent(JinHuaChatPopLogic.view,"JinHuaChatPopLogic#btn_close"), JinHuaChatPopLogic.callback_btn_close, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
+		Frameworks.unbindEventCallback(CocoStudio.getComponent(JinHuaChatPopLogic.view,"JinHuaChatPopLogic#et_msg_log"), JinHuaChatPopLogic.callback_et_msg_log, BUTTON_CLICK, BUTTON_SOUND_BACK + BUTTON_ANIMATION_ZOOM_OUT);
     },
     
     setModuleLayer:function(moduleLayer){

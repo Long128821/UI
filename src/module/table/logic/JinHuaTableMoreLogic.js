@@ -240,7 +240,10 @@ var JinHuaTableMoreLogic= {
     //换桌
     onChangeTable:function(){
         MvcEngine.destroyModule(GUI_JINHUATABLEMORE);
-        sendJHID_CHANGE_TABLE();
+        MvcEngine.createModule(GUI_JINHUATABLECONFIRMPOP, function(){
+            //站起
+            ProfileJinHuaTableConfirmPop.setMsg(TableConfirmPopTag.TAG_CHANGE_TABLE_TIPS);
+        });
     },
     //旁观
     look:function(){

@@ -398,7 +398,7 @@ JinHuaTablePlayerEntity.prototype.setVipInfo= function (vipLevel){
 
         var AtlasLabel_lowsign = cc.LabelAtlas.create("0", Common.getJinHuaResourcePath("ui_vip_jiaobiaoshuzi.png"), 12, 14, "0");
         AtlasLabel_lowsign.setString(vipLevel);
-        AtlasLabel_lowsign.setPosition(vipPicSize.width, vipPicSize.height);
+        AtlasLabel_lowsign.setPosition(vipPicSize.width* 0.92, vipPicSize.height* 0.86);
         this.vipLevelPic.addChild(AtlasLabel_lowsign);
     }else{
         var highSignTexture = VipElementsUtils.getVipHighSignFromVipLevel(vipLevel);

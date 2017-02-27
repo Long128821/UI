@@ -423,6 +423,19 @@ var OtherUserInfoLogic= {
 
 		}
 	},
+
+    callback_Image_86:function(pSender, event){
+        if(event == ccui.Widget.TOUCH_BEGAN){
+            //按下
+
+        }else if(event == ccui.Widget.TOUCH_ENDED){
+            //抬起
+            MvcEngine.createModule(GUI_CHANGEINFOPOP);
+        }else if(event == ccui.Widget.TOUCH_CANCELED){
+            //取消
+
+        }
+    },
     //安卓手机的返回键的监听事件
     onKeypad:function(event){
     	if(event == "backClicked"){//返回键
