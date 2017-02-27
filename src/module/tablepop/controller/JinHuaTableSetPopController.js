@@ -49,6 +49,7 @@ var JinHuaTableSetPopController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_JINHUATABLESETPOP);
     	//Frameworks.setOnKeypadEventListener(JinHuaTableSetPopLogic.view, JinHuaTableSetPopLogic.onKeypad);
         JinHuaTableSetPopLogic.view.setTouchEnabled(true);
         this.addCallback();

@@ -53,6 +53,7 @@ var DoubleButtonConfirmController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_DOUBLEBUTTONCONFIRM);
     	//Frameworks.setOnKeypadEventListener(DoubleButtonConfirmLogic.view, DoubleButtonConfirmLogic.onKeypad);
         DoubleButtonConfirmLogic.view.setTouchEnabled(true);
         this.addCallback();

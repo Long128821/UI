@@ -13,6 +13,13 @@ var MvcEngine= {
     //wakeModuleTable : {},//需要唤醒的层
     //delayTime : 0.2,//延时添加界面
     m_rootNode:null,//根节点，用户存放用户
+    m_curActionModuleName:null,//当前唤醒的界面名
+    /**
+     * Func:设置当前唤醒的界面名
+     */
+    setCurActiveModuleName:function(name){
+        this.m_curActionModuleName= name;
+    },
     /**
      * Func:初始化UI管理器
      * 1、重置数据;
@@ -362,6 +369,7 @@ var MvcEngine= {
         });
     },
     createModule:function(moduleName, callback){
+        this.m_curActionModuleName= moduleName;
         Frameworks.releaseClick();//释放当前按钮
 
         var self= this;
@@ -470,6 +478,9 @@ var MvcEngine= {
                 }
             }
         }
+    },
+    getCurActionModuleName:function(){
+        return this.m_curActionModuleName;
     }
 };
 

@@ -53,6 +53,7 @@ var RenWuController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_RENWU);
     	//Frameworks.setOnKeypadEventListener(RenWuLogic.view, RenWuLogic.onKeypad);
         RenWuLogic.view.setTouchEnabled(true);
         this.addCallback();

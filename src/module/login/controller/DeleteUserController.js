@@ -51,6 +51,7 @@ var DeleteUserController = BaseController.extend({
     },
 
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_DELETEUSER);
     	//Frameworks.setOnKeypadEventListener(DeleteUserLogic.view, DeleteUserLogic.onKeypad);
         DeleteUserLogic.view.setTouchEnabled(true);
         this.addCallback();

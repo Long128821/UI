@@ -53,6 +53,7 @@ var JinHuaTableGoodsBuyPopController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_JINHUATABLEGOODSBUYPOP);
     	//Frameworks.setOnKeypadEventListener(JinHuaTableGoodsBuyPopLogic.view, JinHuaTableGoodsBuyPopLogic.onKeypad);
         JinHuaTableGoodsBuyPopLogic.view.setTouchEnabled(true);
         this.addCallback();

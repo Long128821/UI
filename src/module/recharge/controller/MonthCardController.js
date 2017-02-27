@@ -55,6 +55,7 @@ var MonthCardController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_MONTHCARD);
     	//Frameworks.setOnKeypadEventListener(MonthCardLogic.view, MonthCardLogic.onKeypad);
         MonthCardLogic.view.setTouchEnabled(true);
         this.addCallback();

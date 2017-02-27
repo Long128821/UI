@@ -53,6 +53,7 @@ var JinHuaTableExitController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_JINHUATABLEEXIT);
     	//Frameworks.setOnKeypadEventListener(JinHuaTableExitLogic.view, JinHuaTableExitLogic.onKeypad);
         JinHuaTableExitLogic.view.setTouchEnabled(true);
         this.addCallback();

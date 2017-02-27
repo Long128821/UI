@@ -45,6 +45,7 @@ var LoadingController = BaseController.extend({
     },
 
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_LOADING);
         this.addCallback();
     },
 

@@ -55,6 +55,7 @@ var RoomListController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_ROOMLIST);
     	//Frameworks.setOnKeypadEventListener(RoomListLogic.view, RoomListLogic.onKeypad);
         RoomListLogic.view.setTouchEnabled(true);
         this.addCallback();

@@ -10,9 +10,15 @@ var ProfileHall= {
     slot_JINHUA_MGR_USER_INFO:function(dataTable){
         //获取玩家本身数据
         Profile_JinHuaOtherUserInfo.readJINHUA_MGR_USER_INFO(dataTable);
-        profile_user.readJINHUA_MGR_USER_INFO(dataTable);
+        if(dataTable["targetUserId"]== profile_user.getSelfUserID()||(!Common.judgeValueIsEffect(profile_user.getSelfUserID()))){
+            profile_user.readJINHUA_MGR_USER_INFO(dataTable);
+        }
+        //更新大厅数据
+        HallLogic.updateHallData();
 
-        MvcEngine.createModule(GUI_OTHERUSERINFO);
+        if(MvcEngine.getCurActionModuleName()== GUI_HALL){//领取任务奖励之后,及时更新牌桌上的数据
+            MvcEngine.createModule(GUI_OTHERUSERINFO);
+        }
     },
     //更新玩家用户信息(DBID_USER_INFO)
     slot_DBID_USER_INFO:function(dataTable){

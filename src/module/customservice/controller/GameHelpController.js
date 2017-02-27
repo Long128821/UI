@@ -42,7 +42,6 @@ var GameHelpController = BaseController.extend({
 	},
     //休眠
     sleepModule:function(){
-        console.log("休眠");
 		//Frameworks.releaseOnKeypadEventListener(GameHelpLogic.view);
 		GameHelpLogic.view.setTouchEnabled(false);
 		this.removeCallback();
@@ -50,7 +49,7 @@ var GameHelpController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
-        console.log("唤醒");
+        MvcEngine.setCurActiveModuleName(GUI_SETTING);
     	//Frameworks.setOnKeypadEventListener(GameHelpLogic.view, GameHelpLogic.onKeypad);
         GameHelpLogic.view.setTouchEnabled(true);
         this.addCallback();

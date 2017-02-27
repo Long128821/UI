@@ -49,6 +49,7 @@ var JinHuaTableCardTypePopController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_JINHUATABLECARDTYPEPOP);
     	//Frameworks.setOnKeypadEventListener(JinHuaTableCardTypePopLogic.view, JinHuaTableCardTypePopLogic.onKeypad);
         JinHuaTableCardTypePopLogic.view.setTouchEnabled(true);
         this.addCallback();

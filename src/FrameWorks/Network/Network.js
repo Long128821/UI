@@ -4,9 +4,13 @@
  */
 var Network= {
     webSocket:null,//WebSocket连接单例
-    m_bCloseBySelf:false,//是否为玩家自己主动关闭网络(设置IP时)
+    m_bCloseBySelf:false,//是否为玩家自己主动关闭网络(切换IP地址时)
     getInstance:function(){
         return this;
+    },
+    //设置玩家关闭标记
+    setCloseTag:function(tag){
+        this.m_bCloseBySelf= ((tag== undefined)?false:tag);
     },
     //初始化网络配置
     initNetwork:function(){
@@ -71,7 +75,6 @@ var Network= {
     },
     //关闭连接
     closeWebSocket:function(){
-        this.m_bCloseBySelf= true;
         (this.webSocket!=null)&&this.webSocket.close();
         this.clearData();
     },

@@ -57,6 +57,7 @@ var JinHuaTableChatAtController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_JINHUATABLECHATAT);
     	//Frameworks.setOnKeypadEventListener(JinHuaTableChatAtLogic.view, JinHuaTableChatAtLogic.onKeypad);
         JinHuaTableChatAtLogic.view.setTouchEnabled(true);
         this.addCallback();

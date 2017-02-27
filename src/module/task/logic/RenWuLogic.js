@@ -319,8 +319,9 @@ var RenWuLogic= {
             for(var key in PrizesLoop){
                 var prize= PrizesLoop[key];
                 if(!Common.judgeValueIsEffect(prize)) continue;
-                //ImageToast.createView(prize.PicUrl,null,prize.PrizeMsg,"您已领取奖励！",2);
+                ImageToast.createView(prize.PicUrl,null,prize.PrizeMsg,"您已领取奖励！",2);
             }
+            sendJINHUA_MGR_USER_INFO(profile_user.getSelfUserID());//刷新用户数据
         }else{//失败
             Common.showToast(awardTable["Msg"],2)
         }
@@ -334,8 +335,9 @@ var RenWuLogic= {
             for(var key in PrizesLoop){
                 var prize= PrizesLoop[key];
                 if(!Common.judgeValueIsEffect(prize)) continue;
-                //ImageToast.createView(prize.PicUrl,null,prize.PrizeMsg,"您已领取奖励！",2);
+                ImageToast.createView(prize.PicUrl,null,prize.PrizeMsg,"您已领取奖励！",2);
             }
+            sendJINHUA_MGR_USER_INFO(profile_user.getSelfUserID());//刷新用户数据
         }else{//失败
             Common.showToast(awardTable["Msg"],2)
         }

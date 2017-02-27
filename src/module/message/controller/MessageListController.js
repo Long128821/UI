@@ -54,6 +54,7 @@ var MessageListController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_MESSAGELIST);
     	//Frameworks.setOnKeypadEventListener(MessageListLogic.view, MessageListLogic.onKeypad);
         MessageListLogic.setTouchEnabled(true);
         MessageListLogic.view.setTouchEnabled(true);

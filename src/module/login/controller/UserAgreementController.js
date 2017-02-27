@@ -49,6 +49,7 @@ var UserAgreementController = BaseController.extend({
     },
 
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_USERAGREEMENT);
     	//Frameworks.setOnKeypadEventListener(UserAgreementLogic.view, UserAgreementLogic.onKeypad);
         UserAgreementLogic.view.setTouchEnabled(true);
         this.addCallback();

@@ -288,6 +288,7 @@ var LoginLogic= {
         if(3== length){
             NetworkConfig.setCurIP(ip);
         }
+        Network.getInstance().setCloseTag(true);
         MessageCenter.reConnect();
     },
     //获取某个字符串的数量

@@ -59,6 +59,7 @@ var PresentGiftController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_PRESENTGIFT);
     	//Frameworks.setOnKeypadEventListener(PresentGiftLogic.view, PresentGiftLogic.onKeypad);
         PresentGiftLogic.view.setTouchEnabled(true);
         this.addCallback();

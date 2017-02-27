@@ -55,6 +55,7 @@ var VipInfoController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_VIPINFO);
     	//Frameworks.setOnKeypadEventListener(VipInfoLogic.view, VipInfoLogic.onKeypad);
         VipInfoLogic.view.setTouchEnabled(true);
         this.addCallback();

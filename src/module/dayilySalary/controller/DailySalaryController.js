@@ -59,6 +59,7 @@ var DailySalaryController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_DAILYSALARY);
     	//Frameworks.setOnKeypadEventListener(DailySalaryLogic.view, DailySalaryLogic.onKeypad);
         DailySalaryLogic.view.setTouchEnabled(true);
         this.addCallback();

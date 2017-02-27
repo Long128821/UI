@@ -72,6 +72,7 @@ var FriendListController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_FRIENDLIST);
     	//Frameworks.setOnKeypadEventListener(FriendListLogic.view, FriendListLogic.onKeypad);
         FriendListLogic.view.setTouchEnabled(true);
         this.addCallback();

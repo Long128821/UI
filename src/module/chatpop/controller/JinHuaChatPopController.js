@@ -89,6 +89,7 @@ var JinHuaChatPopController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_JINHUACHATPOP);
     	//Frameworks.setOnKeypadEventListener(JinHuaChatPopLogic.view, JinHuaChatPopLogic.onKeypad);
         JinHuaChatPopLogic.view.setTouchEnabled(true);
         this.addCallback();

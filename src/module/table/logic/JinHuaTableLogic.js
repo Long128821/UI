@@ -1463,12 +1463,12 @@ var JinHuaTableLogic= {
                 this.btn_onlinebonus.setTouchEnabled(false);
             }
             //设置我当前的金币
-            var playerTable = Profile_JinHuaGameData.getPlayers();
+            var playerTable = JinHuaTablePlayer.getPlayers();
             var GameData= Profile_JinHuaGameData.getGameData();
             for(var key in playerTable){
                 if(playerTable[key]!= null
-                    &&playerTable[key].userId!= null
-                    &&playerTable[key].userId == GameData["players"][key].userId == profile_user.getSelfUserID()
+                    &&playerTable[key].player.userId!= null
+                    &&playerTable[key].player.userId == GameData["players"][key].userId == profile_user.getSelfUserID()
                     &&GameData.mySSID!= null){
                     playerTable[key].changeCoinNumOnView(JinGetOnlineRewardTable["nowCoin"]);
                 }
@@ -1477,6 +1477,12 @@ var JinHuaTableLogic= {
             //领取在线时长奖励失败
             Common.showToast(JinGetOnlineRewardTable["message"], 3)
         }
+    },
+    /**
+     * Func:如果玩家自己在牌桌上，更新玩家自己的金币数
+     */
+    updateMySelfCoin:function(){
+
     },
     /**
      * Func:下注应答
@@ -1602,6 +1608,19 @@ var JinHuaTableLogic= {
     //牌桌飞礼物
     updateJHID_FLY_GIFT:function(){
         JinHuaSendGiftAnim.showSendGiftAnimation();
+    },
+    //更新玩家本身数据
+    updateJINHUA_MGR_USER_INFO:function(){
+        var UserInfoTable= Profile_JinHuaOtherUserInfo.getUserInfoTable();
+        //设置金币
+        var playerTable = JinHuaTablePlayer.getPlayers();
+        for(var key in playerTable){
+            if(playerTable[key]!= null
+                &&playerTable[key].player.userId!= null
+                &&playerTable[key].player.userId == UserInfoTable.targetUserId){
+                playerTable[key].changeCoinNumOnView(UserInfoTable["Coin"]);
+            }
+        }
     },
     //初始化界面
     initTableData:function(){

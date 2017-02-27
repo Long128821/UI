@@ -53,6 +53,7 @@ var MessageServerController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_MESSAGESERVER);
     	//Frameworks.setOnKeypadEventListener(MessageServerLogic.view, MessageServerLogic.onKeypad);
         MessageServerLogic.view.setTouchEnabled(true);
         this.addCallback();

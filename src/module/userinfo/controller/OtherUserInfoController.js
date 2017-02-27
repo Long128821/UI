@@ -85,6 +85,7 @@ var OtherUserInfoController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_OTHERUSERINFO);
     	//Frameworks.setOnKeypadEventListener(OtherUserInfoLogic.view, OtherUserInfoLogic.onKeypad);
         OtherUserInfoLogic.view.setTouchEnabled(true);
         this.addCallback();

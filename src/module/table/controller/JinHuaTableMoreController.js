@@ -61,6 +61,7 @@ var JinHuaTableMoreController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_JINHUATABLEMORE);
     	//Frameworks.setOnKeypadEventListener(JinHuaTableMoreLogic.view, JinHuaTableMoreLogic.onKeypad);
         JinHuaTableMoreLogic.view.setTouchEnabled(true);
         this.addCallback();

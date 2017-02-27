@@ -60,6 +60,7 @@ var ChangeInfoPopController = BaseController.extend({
 	},
     //休眠
     sleepModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_CHANGEINFOPOP);
 		//Frameworks.releaseOnKeypadEventListener(ChangeInfoPopLogic.view);
 		ChangeInfoPopLogic.view.setTouchEnabled(false);
 		this.removeCallback();

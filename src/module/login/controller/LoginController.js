@@ -69,6 +69,7 @@ var LoginController = BaseController.extend({
     },
 
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_LOGIN);
     	//Frameworks.setOnKeypadEventListener(LoginLogic.view, LoginLogic.onKeypad);
         LoginLogic.view.setTouchEnabled(true);
         LoginLogic.setEditorVisible(true, 1);

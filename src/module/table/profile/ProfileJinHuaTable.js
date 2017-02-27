@@ -120,7 +120,14 @@ var ProfileJinHuaTable= {
     //获取玩家本身数据
     slot_JINHUA_MGR_USER_INFO:function(dataTable){
         Profile_JinHuaOtherUserInfo.readJINHUA_MGR_USER_INFO(dataTable);
-        MvcEngine.createModule(GUI_TABLEUSERINFO);
+        if(dataTable["targetUserId"]== profile_user.getSelfUserID()||(!Common.judgeValueIsEffect(profile_user.getSelfUserID()))){
+            profile_user.readJINHUA_MGR_USER_INFO(dataTable);
+        }
+        JinHuaTableLogic.updateJINHUA_MGR_USER_INFO();//更新玩家本身数据
+
+        if(MvcEngine.getCurActionModuleName()== GUI_JINHUATABLE){//领取任务奖励之后,及时更新牌桌上的数据
+            MvcEngine.createModule(GUI_TABLEUSERINFO);
+        }
     },
     //牌桌飞礼物
     slot_JHID_FLY_GIFT:function(dataTable){

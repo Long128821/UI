@@ -51,6 +51,7 @@ var XiaoMeiInfoController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_XIAOMEIINFO);
     	//Frameworks.setOnKeypadEventListener(XiaoMeiInfoLogic.view, XiaoMeiInfoLogic.onKeypad);
         XiaoMeiInfoLogic.view.setTouchEnabled(true);
         this.addCallback();

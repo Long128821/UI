@@ -53,6 +53,7 @@ var ResetPasswordController = BaseController.extend({
     },
 
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_RESETPASSWORD);
     	//Frameworks.setOnKeypadEventListener(ResetPasswordLogic.view, ResetPasswordLogic.onKeypad);
         ResetPasswordLogic.view.setTouchEnabled(true);
         this.addCallback();

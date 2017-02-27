@@ -53,6 +53,7 @@ var NetErrExitDialogController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_NETERREXITDIALOG);
     	//Frameworks.setOnKeypadEventListener(NetErrExitDialogLogic.view, NetErrExitDialogLogic.onKeypad);
         NetErrExitDialogLogic.view.setTouchEnabled(true);
         this.addCallback();

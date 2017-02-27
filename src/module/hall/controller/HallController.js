@@ -95,6 +95,7 @@ var HallController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_HALL);
     	//Frameworks.setOnKeypadEventListener(HallLogic.view, HallLogic.onKeypad);
         HallLogic.view.setTouchEnabled(true);
         HallLogic.setListenerEnabled(true);

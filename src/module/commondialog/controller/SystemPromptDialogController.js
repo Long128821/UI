@@ -49,6 +49,7 @@ var SystemPromptDialogController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_SYSTEMPROMPTDIALOG);
     	//Frameworks.setOnKeypadEventListener(SystemPromptDialogLogic.view, SystemPromptDialogLogic.onKeypad);
         SystemPromptDialogLogic.view.setTouchEnabled(true);
         this.addCallback();

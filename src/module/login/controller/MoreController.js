@@ -51,6 +51,7 @@ var MoreController = BaseController.extend({
     },
 
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_MORE);
     	//Frameworks.setOnKeypadEventListener(MoreLogic.view, MoreLogic.onKeypad);
         MoreLogic.view.setTouchEnabled(true);
         this.addCallback();

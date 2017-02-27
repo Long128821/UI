@@ -51,6 +51,7 @@ var JinHuaTableConfirmPopController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_JINHUATABLECONFIRMPOP);
     	//Frameworks.setOnKeypadEventListener(JinHuaTableConfirmPopLogic.view, JinHuaTableConfirmPopLogic.onKeypad);
         JinHuaTableConfirmPopLogic.view.setTouchEnabled(true);
         this.addCallback();

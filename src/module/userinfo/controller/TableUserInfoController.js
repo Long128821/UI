@@ -100,6 +100,7 @@ var TableUserInfoController = BaseController.extend({
     },
     //唤醒
     wakeModule:function(){
+        MvcEngine.setCurActiveModuleName(GUI_TABLEUSERINFO);
     	//Frameworks.setOnKeypadEventListener(TableUserInfoLogic.view, TableUserInfoLogic.onKeypad);
         TableUserInfoLogic.view.setTouchEnabled(true);
         TableUserInfoLogic.setEditorVisible(true);
