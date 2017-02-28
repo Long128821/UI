@@ -224,7 +224,11 @@ var JinHuaPKAnim= {
         JinHuaPKAnim.PKLayer.setVisible(false);
         JinHuaTablePlayer.addPlayerStateIcon(JinHuaTablePlayer.TYPE_ICON_WIN, JinHuaPKAnim.pkData.winCSID);
         JinHuaTablePlayer.addPlayerStateIcon(JinHuaTablePlayer.TYPE_ICON_FAILED, JinHuaPKAnim.pkData.lossCSID);
-
+        //比牌失败的玩家，显示遮蔽层
+        var player= JinHuaTablePlayer.getPlayers()[JinHuaPKAnim.pkData.lossCSID];
+        if(Common.judgeValueIsEffect(player)){
+            player.setPlayerDarkCoverVisible();
+        }
         var GameData= Profile_JinHuaGameData.getGameData();
         if(JinHuaPKAnim.pkData.lossCSID== Profile_JinHuaGameData.getUserCSID(GameData.mySSID)){//玩家本身失败
             JinHuaTableLogic.showBotButton(STATUS_BUTTON_WAIT);

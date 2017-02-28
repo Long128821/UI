@@ -69,7 +69,8 @@ var JinHuaTableChat= {
             "res/Animation/putongbiaoqing.ExportJson",//动画Json路径
             "putongbiaoqing",//要执行的动画名
             function(armature){
-                armature.getAnimation().playWithIndex(emotionIndex - 1);
+                //虽然使用同一个plist和png文件,但是在使用playWithIndex和play播放动画时,有的动画不能省略时间(参数2)(原因:没有找到)
+                armature.getAnimation().playWithIndex(emotionIndex - 1, 0.0001);
                 if(players[CSID] && players[CSID].isMe()){
                     armature.setPosition(players[CSID].getCenterPos());
                 }else{

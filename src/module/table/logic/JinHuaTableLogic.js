@@ -1520,6 +1520,8 @@ var JinHuaTableLogic= {
     },
     //本局结算
     updateJHID_GAME_RESULT:function(){
+        //暂停站起
+        MessageCenter.pauseMessage(JHID_STAND_UP_V4);
         //清空所有的定时器
         JinHuaTablePlayer.clearAllTimer();
         //本局结算后，操作一些数据
@@ -1536,11 +1538,14 @@ var JinHuaTableLogic= {
         }
         //显示本局经验加成
         this.showAddExpAnimation();
-        //暂停站起
-        MessageCenter.pauseMessage(JHID_STAND_UP_V4);
     },
     //更新比牌动画
     updateJHID_PK:function(){
+        //暂停-本局计算
+        MessageCenter.pauseMessage(JHID_GAME_RESULT);
+        //暂停-站起
+        //虽然在本局计算时,也暂停了站起消息的分发，但此处是为了预防这个case【踢人后，被踢玩家座位比牌的某一方】
+        MessageCenter.pauseMessage(JHID_STAND_UP_V4);
         var PKData= Profile_JinHuaGameData.getPKData();
         if(PKData.result== 0){//比牌失败
             Common.showToast(PKData["message"], 1);
@@ -1548,12 +1553,7 @@ var JinHuaTableLogic= {
         }
         //比牌时，隐藏看牌提示
         JinHuaTableCheckButton.setCheckVisible(false);
-
-        //暂停游戏结束
-        MessageCenter.pauseMessage(JHID_GAME_RESULT);
-
         JinHuaPKAnim.startPK(PKData);
-
         //更新牌桌上的牌桌信息
         this.updateTableTitle();
         this.updateIsCanChangeCardState()

@@ -1,5 +1,6 @@
 /**
  * Func:图文Toast
+ *      使用UI工程，来创建图文Toast
  */
 var ImageToast= {
     m_toastTable:{},
@@ -9,6 +10,22 @@ var ImageToast= {
         this.m_toastTable= {};
         (Common.judgeValueIsEffect(this.m_view))&&this.m_view.removeFromParent(true);
     },
+    //预加载资源
+    preLoad:function(params){
+        var arrRes= [
+            Common.getJinHuaResourcePath("menghei2_hall_gengduo_ic.png"),
+            Common.getJinHuaResourcePath("px1.png"),
+            Common.getJinHuaResourcePath("ui_liangdian.png"),
+            Common.getJinHuaResourcePath("ReceiveItem.json"),
+            params.Imageurl
+        ];
+        (Common.judgeValueIsEffect(params.ImagePath))&&arrRes.push(params.ImagePath);
+
+        var self= this;
+        Load.LoadJsonOrPic(arrRes, function(){
+            self.initData(params);//初始化数据
+        })
+    },
     createView:function(Imageurl, ImagePath, strTitle, strDetails, time){
         var params = {};
         params.Imageurl = Imageurl;
@@ -17,40 +34,40 @@ var ImageToast= {
         params.strDetails = strDetails;
         params.time = time * 3;
 
-        this.initData(params);//初始化数据
-        if(Common.getTableSize(this.m_toastTable)== 1){
-            this.showToast(params);//显示toast
-        }
+        this.preLoad(params);//预加载资源
     },
     //初始化数据
     initData:function(params){
         this.m_toastTable[Common.getTableSize(this.m_toastTable)]= params;
+
+        if(Common.getTableSize(this.m_toastTable)== 1){
+            this.showToast(params);//显示toast
+        }
     },
-    //创建toast背景
-    createLayerColor:function(){
-        var scene= cc.director.getRunningScene();
-        this.m_view= cc.LayerColor.create(cc.color(0,0,0, 100));
-        scene.addChild(this.m_view);
+    //创建View
+    create:function(){
+        this.m_view= CocoStudio.createView(Common.getJinHuaResourcePath("ReceiveItem.json"));
+        MvcEngine.getRootNode().addChild(this.m_view);
     },
     //显示Toast
     showToast:function(params){
         var self= this;
-        self.createLayerColor();//创建toast背景
+        self.create();//创建toast背景
+
+        var ImageWindow = CocoStudio.getComponent(this.m_view,"ImageView_35");
+        var ImageView = CocoStudio.getComponent(this.m_view, "ImageView_TuPian");
 
         Load.LoadJsonOrPic(params.Imageurl,function(){
-            var prizePic= cc.Sprite.create(params.Imageurl);
-            prizePic.setPosition(cc.p(cc.winSize.width* 0.5, cc.winSize.height* 0.4));
-            self.m_view.addChild(prizePic);
+            ImageView.loadTexture(params.Imageurl);
         });
 
-        var titleLabel= cc.LabelTTF.create(params.strTitle,"微软雅黑",24);
-        titleLabel.setPosition(cc.p(cc.winSize.width* 0.5, cc.winSize.height* 0.45));
+        ImageWindow.setScale(0);
 
-        var destailsLabel= cc.LabelTTF.create(params.strDetails,"微软雅黑",24);
-        destailsLabel.setPosition(cc.p(cc.winSize.width* 0.5, cc.winSize.height* 0.35));
+        var titleLabel= CocoStudio.getComponent(this.m_view, "Label_ShuZhi");
+        titleLabel.setString(params.strTitle);
 
-        self.m_view.addChild(titleLabel);
-        self.m_view.addChild(destailsLabel);
+        var destailsLabel= CocoStudio.getComponent(this.m_view, "Label_24");
+        destailsLabel.setString(params.strDetails);
 
         this.runAnimation(params);
     },
@@ -60,7 +77,9 @@ var ImageToast= {
         var delay= cc.delayTime(params.time/8);
         var spawn= cc.spawn(cc.moveBy(0, 50), cc.fadeOut(params.time/8));
         var seq= cc.sequence(scaleBig, scaleSmall, delay, spawn, cc.callFunc(this.removeMySelf));
-        this.m_view.runAction(seq);
+
+        var ImageWindow = CocoStudio.getComponent(this.m_view,"ImageView_35");
+        ImageWindow.runAction(seq);
     },
     removeMySelf:function(){
         (Common.judgeValueIsEffect(ImageToast.m_view))&&ImageToast.m_view.removeFromParent(true);

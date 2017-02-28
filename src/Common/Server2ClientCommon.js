@@ -722,7 +722,6 @@ function read82680030(nMBaseMessage)
         // ...imgURL	Text	图片
         dataTable["ActivityList"][i].imgURL = nMBaseMessage.readString();
     }
-
     return dataTable;
 }
 

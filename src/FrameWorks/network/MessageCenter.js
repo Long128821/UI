@@ -149,10 +149,10 @@ var MessageCenter= {
     //暂停分发某个消息
     pauseMessage:function(msgID){
         var id= this.getMessageIndex(msgID);
-        if(id== -1){
+        if(id== -1){//没有，追加
             this.arrPauseMessage.push(msgID);
-        }else{
-            this.arrPauseMessage[msgID]= msgID;
+        }else{//已存在，覆盖原来的
+            this.arrPauseMessage[id]= msgID;
         }
     },
     //恢复分发某个消息

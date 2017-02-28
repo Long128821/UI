@@ -43,7 +43,7 @@ var JinHuaTablePlayer= {
         this.CardBatchNode= null;
     },
     //设置玩家状态icon
-    addPlayerStateIcon:function(iconType, pos){
+    addPlayerStateIcon:function(iconType,CSID){
         var iconPath= "";
         switch (iconType){
             case this.TYPE_ICON_CHECK:
@@ -60,21 +60,21 @@ var JinHuaTablePlayer= {
                 break;
         }
 
-        if(this.iconTable[pos]!= null){
-            this.JinHuaTablePlayerLayer.removeChild(this.iconTable[pos], true);
+        if(this.iconTable[CSID]!= null){
+            this.JinHuaTablePlayerLayer.removeChild(this.iconTable[CSID], true);
         }
         var iconSprite= cc.Sprite.create("#"+ iconPath);
-        this.iconTable[pos]= iconSprite;
+        this.iconTable[CSID]= iconSprite;
 
-        if(this.tablePlayerEntitys[pos]!= null&&!this.tablePlayerEntitys[pos].isMe()){
-            iconSprite.setPosition(Profile_JinHuaTableConfig.getSpritePlayers()[pos].iconX,Profile_JinHuaTableConfig.getSpritePlayers()[pos].iconY);
+        if(this.tablePlayerEntitys[CSID]!= null&&!this.tablePlayerEntitys[CSID].isMe()){
+            iconSprite.setPosition(Profile_JinHuaTableConfig.getSpritePlayers()[CSID].iconX,Profile_JinHuaTableConfig.getSpritePlayers()[CSID].iconY);
         }else{
             iconSprite.setPosition(412, 110);
             iconSprite.setVisible(false);
         }
 
         iconSprite.setLocalZOrder(10);
-        this.JinHuaTablePlayerLayer.addChild(this.iconTable[pos]);
+        this.JinHuaTablePlayerLayer.addChild(this.iconTable[CSID]);
         this.iconArray[Common.getTableSize(this.iconArray)]= iconSprite;
     },
     //牌桌玩家

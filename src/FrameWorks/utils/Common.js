@@ -263,7 +263,7 @@ var Common= {
         if(!Common.judgeValueIsEffect(toastTable)) return;
         if(GameConfig.getCurBaseLayer()== GUI_JINHUATABLE){
             var delay= cc.delayTime(2);
-            var seq= cc.sequence(delay, cc.callFunc(this.showImageToast));
+            var seq= cc.sequence(delay, cc.callFunc(this.showToastByImage));
             if(Common.judgeValueIsEffect(JinHuaTableLogic.view)){
                 JinHuaTableLogic.view.runAction(seq);
             }else{
