@@ -230,32 +230,7 @@ var Common= {
         return length;
     },
     showToast:function(txt, toastSecond){
-        var scene= cc.director.getRunningScene();
-
-        var self= this;
-        Load.LoadJsonOrPic("res/toast_bg.png", function(){
-            var msg= cc.LabelTTF.create(txt, "微软雅黑",20);
-            //根据要显示的文案的宽度和高度，设置点九图的尺寸
-            var toastSp= GamePub.createPointNineSpriteForPlist("res/toast_bg.png", 20, 90, msg.width+ 50, msg.height+ 20);
-            scene.addChild(toastSp);
-            toastSp.setPosition(cc.winSize.width* 0.5, cc.winSize.height* 0.35);
-
-            msg.setPosition(toastSp.getContentSize().width* 0.5, toastSp.getContentSize().height* 0.5);
-            toastSp.addChild(msg);
-
-            self.toastMoveUp(toastSp, toastSecond== undefined?2:toastSecond);
-        });
-    },
-    //上移&&不透明度逐渐降低
-    toastMoveUp:function(toast, toastSecond){
-        var moveTo= cc.moveTo(1, cc.winSize.width* 0.5, cc.winSize.height* 0.65);
-        var delay= cc.delayTime(toastSecond);
-        var fadeOut= cc.fadeOut(1, 128);
-        var spawn= cc.spawn(moveTo, fadeOut);
-        var seq= cc.sequence(delay, spawn, cc.callFunc(function(pSender){
-            toast.removeFromParent(true);
-        }));
-        toast.runAction(seq);
+        ToastView.showToast(txt, toastSecond);
     },
     //显示图文Toast
     showImageToast:function(){
@@ -320,6 +295,12 @@ var Common= {
             }
         }
         return {};
+    },
+    //获取服务器时间
+    //时间戳（秒）
+    getServerTime:function(){
+        var curTime= new Date().getTime();
+        return curTime- Profile_ServerMsg.getTimeDifference();
     }
 };
 

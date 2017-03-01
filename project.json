@@ -59,6 +59,7 @@
         "src/Game/Mvc/engine/MvcEngine.js",
         "src/Game/Mvc/view/ButtonEffectEvent.js",
         "src/FrameWorks/utils/Common.js",
+        "src/FrameWorks/utils/ToastView.js",
         "src/FrameWorks/utils/ImageToast.js",
         "src/FrameWorks/utils/ManageConfig.js",
         "src/FrameWorks/utils/SignalConfig.js",

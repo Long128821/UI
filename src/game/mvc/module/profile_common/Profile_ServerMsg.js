@@ -20,7 +20,7 @@ var Profile_ServerMsg= {
         return this.ServerMsgTable;
     },
     getTimeDifference:function(){
-        if(this.ServerTime== null){
+        if((!Common.judgeValueIsEffect(this.ServerTime))||(!Common.judgeValueIsEffect(this.ServerTime["TimeDifference"]))){
             return 0;
         }else{
             return this.ServerTime["TimeDifference"];
